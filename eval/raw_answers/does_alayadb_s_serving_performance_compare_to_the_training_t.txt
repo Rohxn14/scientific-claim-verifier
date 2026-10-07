@@ -1,0 +1,9 @@
+Provider: groq (openai/gpt-oss-120b)
+
+AlayaDB’s reported serving performance is expressed as a per‑token latency bound (TPOT ≤ 0.24 s) measured on a server equipped with one NVIDIA L20 GPU and two Xeon Gold 6542Y CPUs [Source 1].  
+
+FlashAttention‑2, in contrast, reports **training‑phase throughput** in TFLOPs per GPU (up to 225 TFLOPs/s on an A100 GPU, corresponding to ≈73 % of the theoretical peak) and speedup factors relative to other attention implementations [Source 2, Source 5].  
+
+Because the two works use different performance metrics (latency vs. TFLOPs/s), different hardware (L20 GPU vs. A100 GPU), and different workloads (LLM serving vs. end‑to‑end model training), the sources do not provide a direct quantitative comparison between AlayaDB’s serving speed and FlashAttention‑2’s training throughput [Source 1, Source 2, Source 5].  
+
+**Thus, based on the available sources, a direct comparison cannot be made; the papers present unrelated performance figures.**

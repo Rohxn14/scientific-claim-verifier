@@ -1,0 +1,17 @@
+name: arc_agi
+display_name: "ARC-AGI & General Intelligence"
+description: "The ARC-AGI benchmarks and research on measuring progress toward general intelligence"
+source: arxiv
+arxiv_queries:
+- ARC AGI benchmark
+- Artificial Reasoning Corpus
+- AI intelligence measurement
+- General intelligence metrics
+- ARC dataset evaluation
+max_per_query: 6
+topic_text: ARC AGI benchmark
+example_questions:
+  - "What is new in ARC-AGI-3 compared with earlier versions?"
+  - "How do recent approaches search for solutions to ARC-AGI-2 tasks?"
+  - "How do the Levels of AGI define progress toward general intelligence?"
+  - "Why are ARC tasks hard for current AI systems?"

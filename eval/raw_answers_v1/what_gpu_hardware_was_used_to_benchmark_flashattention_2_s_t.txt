@@ -1,0 +1,3 @@
+Provider: groq
+
+The training‑throughput numbers for FlashAttention‑2 were measured on NVIDIA **A100 GPUs**. In the end‑to‑end experiments the authors run the models on an 8‑GPU system of **A100 80 GB SXM** cards (e.g., “8×A100 80 GB SXM” in the performance table) and report per‑GPU throughput (e.g., “up to 225 TFLOPs/s per A100 GPU”) [Source 3] and also note the same hardware in the other sections [Source 1][Source 2][Source 4].  All cited sources agree that the benchmark used A100 GPUs (the 80 GB SXM variant in the multi‑GPU setup).

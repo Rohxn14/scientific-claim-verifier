@@ -1,0 +1,14 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Efficient‑attention papers typically evaluate their methods with two complementary kinds of benchmarks:
+
+| Benchmark type | Typical purpose | Example(s) used in the literature |
+|----------------|----------------|-----------------------------------|
+| **Synthetic runtime / memory tests** – measure raw speed and GPU memory consumption of a single attention block (e.g., 8 heads, 64‑ or 512‑dimensional embeddings, batch = 16) while varying the sequence length. | Quantify the computational‑efficiency gains of a new kernel or algorithm. | FlashAttention reports full benchmarking on an A100 GPU with random Q/K/V inputs and reports average runtime over 100 runs [Source 1]; EVA compares against FlashAttention on a RTX 3090, measuring both forward and backward pass memory and time for the same block configuration [Source 3]. |
+| **Task‑oriented long‑context benchmarks** – evaluate the trade‑off between accuracy (e.g., classification, retrieval, generation) and efficiency on realistic long‑sequence workloads. | Demonstrate that the efficiency improvements do not sacrifice downstream performance. | **LongBench** (Bai et al., 2024) is used to compare UltraLLaDA, Sparse‑dLLM and Focus‑dLLM on accuracy vs. efficiency [Source 4]; **RULER** probes retrieval and reasoning at context lengths up to 128 K tokens, showing that Gated Sparse Attention (GSA) maintains strong scores where standard attention collapses [Source 5]; **∞‑Bench** measures generation quality across eight tasks for full‑attention, InfLLM, StreamingLLM, TOP‑query, DIPRS, etc., reporting average quality scores [Source 6]. |
+
+### Summary
+- **Synthetic benchmarks** (random‑tensor runtimes on A100/RTX 3090) are the most common baseline for raw speed and memory, as seen in FlashAttention and EVA studies.
+- **Long‑context task benchmarks** such as **LongBench**, **RULER**, and **∞‑Bench** are frequently adopted to assess how efficiency gains affect real‑world performance on retrieval, reasoning, and generation tasks.  
+
+These benchmarks together provide a comprehensive picture of both computational savings and downstream effectiveness for efficient attention mechanisms.

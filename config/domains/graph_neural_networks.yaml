@@ -1,0 +1,13 @@
+name: graph_neural_networks
+display_name: "Graph Neural Networks"
+description: "A small starter set on graph neural networks, message passing and transfer learning"
+source: arxiv
+arxiv_queries:
+- graph neural network
+- message passing neural network
+max_per_query: 3
+example_questions:
+  - "How does transfer learning help graph neural network embeddings?"
+  - "How is message passing used for combinatorial optimization?"
+  - "How are random neural networks trained for supervised learning?"
+  - "What limitations do the authors acknowledge?"

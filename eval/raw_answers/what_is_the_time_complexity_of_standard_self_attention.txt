@@ -1,0 +1,10 @@
+Provider: groq (openai/gpt-oss-120b)
+
+The time (and space) cost of the vanilla self‑attention operation grows **quadratically with the sequence length** $n$:
+
+* The original Transformer formulation notes that “the time and space complexity of self‑attention grows quadratically in the sequence length” [Source 1].  
+* A more explicit derivation shows that for each position $i\le n$ the model computes attention weights over its whole preceding context, yielding a total of $\sum_{i=1}^{n} i = n(n-1)/2 = \Theta(n^{2})$ operations [Source 2].  
+* Subsequent work also refers to “their quadratic time complexity” when discussing the need to restrict attention span [Source 3].  
+* Implementations of standard attention materialize the full attention matrix, leading to “HBM accesses quadratic in the sequence length” [Source 5].
+
+Hence, the standard (dense) self‑attention has a time complexity of **$O(n^{2})$**.

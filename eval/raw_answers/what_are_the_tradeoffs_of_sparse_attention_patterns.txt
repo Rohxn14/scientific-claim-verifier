@@ -1,0 +1,23 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Sparse attention patterns trade off **computational and memory savings** against **potential loss of modeling capacity** and **implementation complexity**. The main dimensions of these trade‑offs are:
+
+| Aspect | What the trade‑off entails | Evidence |
+|--------|----------------------------|----------|
+| **Avoiding full attention matrices** | By restricting each query to a limited set of keys, the $n\times n$ matrix never needs to be materialized, which is crucial for long sequences. | [Source 1] |
+| **Pattern definition (position‑based vs content‑based)** | Traditional sparse models use fixed positional rules (e.g., causal or local windows) that are simple to implement but ignore the actual similarity of query–key vectors. Content‑dependent sparsity can be more expressive but requires extra machinery to select keys without building the full matrix. | [Source 4] |
+| **Fixed vs learnable sparsity** | Fixed patterns are cheap (no extra parameters, no training) but cannot adapt to data distribution. Learnable patterns can capture data‑dependent relevance but need additional parameters, training, and may increase inference latency. | [Source 3] |
+| **Quality preservation vs speed** | Methods such as SparseD keep full attention for the early denoising steps (where quality is most sensitive) and switch to pre‑computed sparse patterns later, sacrificing some speed early on to maintain generation quality. | [Source 2] |
+| **Content‑aware selection after scoring** | Approaches that decide sparsity after computing attention scores (e.g., H2O) can prune low‑scoring keys, but once a token is evicted it cannot be recovered, risking degradation if the token later becomes important. | [Source 5] |
+| **Training‑free calibration** | Some recent methods calibrate sparsity thresholds offline on a small dataset, avoiding any model weight updates. This yields a training‑free pipeline but may be less optimal than fully learned sparsity. | [Source 5] |
+| **Architectural changes** | Low‑rank or kernel‑based approximations replace softmax attention and require model redesign, whereas selection‑based sparsity can remain training‑free but may need extra runtime logic for key selection. | [Source 5] |
+| **Complexity guarantees** | Learned sparsity methods (e.g., SparseK) claim provable linear complexity, but the added scoring network and differentiable top‑$k$ operation introduce extra compute and memory overhead during inference. | [Source 5] |
+
+**Summary of trade‑offs**
+
+- **Speed & memory**: Sparse patterns dramatically reduce $O(n^2)$ cost, especially for long sequences, but the degree of reduction depends on how aggressively keys are pruned.  
+- **Model fidelity**: Early full‑attention phases or content‑aware selection help retain quality; overly aggressive or irreversible pruning can hurt performance.  
+- **Implementation burden**: Fixed patterns are simplest; learnable or content‑based patterns require extra parameters, training, or offline calibration.  
+- **Flexibility**: Content‑dependent sparsity adapts to input but adds complexity; fixed positional sparsity is predictable but may miss important long‑range dependencies.  
+
+These considerations must be balanced based on the target application’s latency constraints, memory budget, and tolerance for potential quality loss.

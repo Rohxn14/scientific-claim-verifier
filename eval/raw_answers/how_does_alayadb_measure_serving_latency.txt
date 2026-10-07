@@ -1,0 +1,3 @@
+Provider: groq (openai/gpt-oss-120b)
+
+AlayaDB’s serving latency is measured as the **time‑per‑output‑token (TPOT)** – i.e., the elapsed time for generating each individual token after the input‑context index has already been built. In the empirical evaluation the authors report that they “only measure the latency of each token generation (TPOT)” and use a service‑level objective of TPOT ≤ 0.24 s, which corresponds to the typical human reading speed [Source 1].

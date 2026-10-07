@@ -1,0 +1,21 @@
+query,category,expected_hit,top1_similarity,n_claims,claims_supported,claims_partial,claims_unsupported,support_score,n_citations,n_weak_citations,faithfulness_rate,uncited_sentences,declined,provider,model,total_ms
+how does FlashAttention reduce memory usage,factual,True,0.815,5,4,1,0,0.9,5,0,1.0,3,False,groq,openai/gpt-oss-120b,18664
+how does dilated neighborhood attention differ from standard attention,factual,True,0.764,6,3,2,1,0.667,7,1,0.86,2,False,groq,openai/gpt-oss-120b,3284
+what dataset or benchmark does DiNAT evaluate image classification on,factual,True,0.802,1,1,0,0,1.0,1,0,1.0,0,False,groq,openai/gpt-oss-120b,1193
+what GPU hardware was used to benchmark FlashAttention-2's training throughput,factual,True,0.834,1,1,0,0,1.0,3,2,0.33,1,False,groq,openai/gpt-oss-120b,2100
+what is the time complexity of standard self-attention,factual,,0.778,4,4,0,0,1.0,4,0,1.0,1,False,groq,openai/gpt-oss-120b,11171
+how does AlayaDB measure serving latency,factual,True,0.765,1,1,0,0,1.0,1,0,1.0,1,False,groq,openai/gpt-oss-120b,14463
+what is the SLO target used in AlayaDB's evaluation,factual,True,0.724,2,2,0,0,1.0,2,0,1.0,3,False,groq,openai/gpt-oss-120b,13198
+how do linear attention methods approximate softmax attention,comparison,,0.847,4,3,0,1,0.75,6,2,0.67,5,False,groq,openai/gpt-oss-120b,3606
+what are the tradeoffs of sparse attention patterns,comparison,,0.832,8,5,3,0,0.812,8,1,0.88,6,False,groq,openai/gpt-oss-120b,5927
+how does FlashAttention-2 improve on FlashAttention,comparison,,0.853,5,5,0,0,1.0,5,0,1.0,2,False,groq,openai/gpt-oss-120b,11773
+how do random features approximate the exponential kernel in linear attention,factual,True,0.883,1,0,1,0,0.5,1,1,0.0,8,False,groq,openai/gpt-oss-120b,18354
+how does sparse attention compare to linear attention as an efficiency strategy,comparison,,0.807,1,0,1,0,0.5,4,4,0.0,2,False,groq,openai/gpt-oss-120b,2086
+what evaluation benchmarks are commonly used to compare efficient attention methods,comparison,,0.787,2,2,0,0,1.0,5,0,1.0,7,False,groq,openai/gpt-oss-120b,5136
+how does dilated neighborhood attention's receptive field growth compare to standard local attention,comparison,True,0.799,4,3,1,0,0.875,4,0,1.0,2,False,groq,openai/gpt-oss-120b,2880
+does AlayaDB report different performance numbers than the original FlashAttention paper,contradiction,,0.753,3,2,0,1,0.667,3,2,0.33,2,True,groq,openai/gpt-oss-120b,2730
+does AlayaDB's serving performance compare to the training throughput numbers reported for FlashAttention-2,contradiction,,0.787,3,2,1,0,0.833,6,0,1.0,1,False,groq,openai/gpt-oss-120b,2488
+do FlashAttention-2's own reported TFLOPs numbers stay consistent across the paper,contradiction,True,0.788,3,2,0,1,0.667,3,1,0.67,2,False,groq,openai/gpt-oss-120b,2063
+how does SystolicAttention's hardware approach relate to the original FlashAttention algorithm,contradiction,,0.832,7,6,1,0,0.929,10,0,1.0,3,False,groq,openai/gpt-oss-120b,4910
+what is the current state-of-the-art accuracy on ImageNet as of 2026,out_of_scope,,0.721,2,1,0,1,0.5,5,4,0.2,3,True,groq,openai/gpt-oss-120b,2486
+how much does it cost to train a GPT-4 scale model,out_of_scope,,0.671,1,1,0,0,1.0,2,0,1.0,3,True,groq,openai/gpt-oss-120b,2127

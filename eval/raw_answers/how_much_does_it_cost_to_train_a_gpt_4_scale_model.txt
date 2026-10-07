@@ -1,0 +1,9 @@
+Provider: groq (openai/gpt-oss-120b)
+
+The sources you provided do not contain any information about the monetary cost of training a GPT‑4‑scale model.  
+
+* The only cost‑related details are training‑time measurements for much smaller models (e.g., ~20 h on 8 × Quadro RTX 5000 GPUs for a medical‑image transformer [Source 1] and minutes of training for GPT‑2 with FlashAttention [Source 5]), but no financial estimates for a model of GPT‑4 size are reported.  
+
+* No source mentions the hardware configuration, compute budget, or cloud‑service pricing that would allow one to infer the total expense of training a GPT‑4‑scale system.  
+
+Therefore, based on the supplied excerpts, the cost to train a GPT‑4‑scale model cannot be determined.

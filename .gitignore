@@ -1,0 +1,23 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets
+.env
+
+# Generated data - rebuild with `python build_collection.py <id>` (see README)
+data/raw_pdfs/
+data/parsed/
+data/chroma/
+data/jobs.json
+data/jobs.json.tmp
+src/data/
+
+# Local artifacts
+debug_output.txt
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,56 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Random‑feature‑based attention (RFA) replaces the softmax’s exponential kernel  
+
+\[
+\exp (q_n^\top k_m)
+\]
+
+by an inner product of low‑dimensional random feature vectors.  
+
+* A random feature map is built as  
+
+\[
+\phi(x,\omega)=\frac{1}{\sqrt{S}}\bigl[\,\xi(x,\omega_1),\dots ,\xi(x,\omega_S)\bigr],
+\qquad 
+\omega_1,\dots ,\omega_S\sim\mathcal N(0,I),
+\]
+
+where the scalar mapping \(\xi\) is chosen such that  
+
+\[
+\exp (q_n^\top k_m)=\mathbb{E}_{\omega\sim\mathcal N(0,I)}\bigl[\xi(q_n,\omega)\,\xi(k_m,\omega)\bigr] .
+\]  
+
+[Source 1]  
+
+* By drawing \(S\) Monte‑Carlo samples \(\{\omega_s\}\) and forming \(\phi\), the expectation above is approximated with  
+
+\[
+\exp (q_n^\top k_m)\;\approx\; \phi(q_n)^{\!\top}\phi(k_m)
+    =\frac{1}{S}\sum_{s=1}^{S}\xi(q_n,\omega_s)\,\xi(k_m,\omega_s) .
+\]  
+
+Thus the quadratic softmax term is turned into a **linear** inner product between the random‑feature embeddings of queries and keys.
+
+* The same approximation can be interpreted as **self‑normalized importance sampling** (SNIS): the true distribution for \(\omega\) is the Gaussian \(p_n(\omega)=\mathcal N(\omega;0,I)\); using the same Gaussian as proposal \(q(\omega)=\mathcal N(\omega;0,I)\) yields the SNIS estimator  
+
+\[
+\mathbb{E}_{p_n}[f_n(\omega)]
+\;\approx\;
+\frac{\sum_{s=1}^{S} p_n(\omega_s)f_n(\omega_s)}
+     {\sum_{s=1}^{S} p_n(\omega_s)},
+\]  
+
+which reduces to the Monte‑Carlo average above when the proposal equals the target. In RFA the function \(f_n(\omega)=\xi(q_n,\omega)\xi(k_m,\omega)\) and the normalizer cancels, giving the inner‑product form.  
+
+[Source 5]  
+
+Consequently, linear attention computes  
+
+\[
+\text{Attention}(Q,K,V) \;\approx\;
+\bigl(\phi(Q)\bigr)\bigl(\phi(K)^{\!\top}V\bigr),
+\]  
+
+where the costly \(O(N^2)\) softmax matrix is replaced by two linear‑time matrix multiplications, thanks to the random‑feature approximation of the exponential kernel.  

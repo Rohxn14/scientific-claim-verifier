@@ -1,0 +1,23 @@
+# Web API
+fastapi~=0.141.1
+uvicorn[standard]~=0.53.0
+python-multipart~=0.0.32
+pydantic~=2.13
+python-dotenv~=1.2
+
+# Retrieval and indexing
+chromadb~=1.5
+sentence-transformers~=6.0
+numpy~=2.4
+pandas~=3.0
+
+# Paper ingestion (PDF parsing itself runs in the GROBID container)
+arxiv~=4.0
+lxml~=6.1
+rapidfuzz~=3.14
+requests~=2.34
+pyyaml~=6.0
+
+# LLM providers
+openai~=3.19
+google-genai~=2.24

@@ -1,0 +1,9 @@
+name: sports_science_test
+source: upload
+display_name: "Sports Science - Football"
+description: "Expected goals (xG) and its importance in football, plus match prediction and player tracking"
+example_questions:
+  - "How is an expected goals (xG) model built?"
+  - "How can xG be adjusted for the player and their position?"
+  - "How do machine learning and human experts compare at predicting match outcomes?"
+  - "How are players tracked in low-quality video?"

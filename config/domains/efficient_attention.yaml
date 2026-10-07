@@ -1,0 +1,16 @@
+name: efficient_attention
+display_name: "Efficient Attention Mechanisms"
+description: "Transformer efficiency research: FlashAttention, linear attention, sparse attention"
+source: arxiv
+arxiv_queries:
+  - "efficient attention mechanism transformer"
+  - "linear attention transformer"
+  - "sparse attention transformer"
+  - "FlashAttention"
+  - "long context transformer efficiency"
+max_per_query: 6
+example_questions:
+  - "How does FlashAttention reduce memory usage?"
+  - "How does FlashAttention-2 improve on FlashAttention?"
+  - "What are the tradeoffs of sparse attention patterns?"
+  - "How do linear attention methods approximate softmax attention?"

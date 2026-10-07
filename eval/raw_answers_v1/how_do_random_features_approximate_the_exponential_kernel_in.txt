@@ -1,0 +1,46 @@
+Provider: groq
+
+Random‑feature‑based (linear) attention replaces the exact soft‑max kernel  
+
+\[
+\exp (q_n^\top k_m)
+\]
+
+by a Monte‑Carlo estimate of an expectation over Gaussian random vectors.  
+Specifically, each random feature is defined as  
+
+\[
+\phi(x,\omega)=\frac{1}{\sqrt{S}}\bigl[\,\xi(x,\omega_{1}),\dots ,\xi(x,\omega_{S})\bigr],
+\qquad 
+\omega_{s}\sim\mathcal N(0,I),
+\]
+
+where the scalar mapping \(\xi\) is chosen so that  
+
+\[
+\exp (q_n^\top k_m)=\mathbb E_{\omega\sim\mathcal N(0,I)}\bigl[\xi(q_n,\omega)\,\xi(k_m,\omega)\bigr].
+\]
+
+In the papers cited, \(\xi\) is taken as  
+
+\[
+\xi(x,\omega)=\exp\!\bigl(\omega^{\!\top}x-\tfrac{1}{2}\|x\|^{2}\bigr)
+\]  
+
+(see Source 5). By drawing \(S\) independent samples \(\omega_{1},\dots ,\omega_{S}\) and forming the inner product of the corresponding feature vectors, we obtain the Monte‑Carlo estimator  
+
+\[
+\exp (q_n^\top k_m)\;\approx\; \phi(q_n,\omega)^{\!\top}\phi(k_m,\omega)
+   = \frac{1}{S}\sum_{s=1}^{S}\xi(q_n,\omega_{s})\;\xi(k_m,\omega_{s}).
+\]
+
+Thus the soft‑max attention term, which is quadratic in sequence length, is replaced by a product of two linear‑time feature maps. This linearization enables the attention computation to be performed with only linear (rather than quadratic) time and memory, because the aggregation can be written as a matrix‑vector multiplication of the form  
+
+\[
+\text{Attention}(Q,K,V)\;\approx\;
+\bigl(\phi(Q)\bigr)\,\bigl(\phi(K)^{\!\top}V\bigr),
+\]
+
+where \(\phi(Q)\) and \(\phi(K)\) are the matrices of random‑feature embeddings for queries and keys.  
+
+The approximation is formally a self‑normalized importance‑sampling estimator of the exponential kernel (Source 5) and is the basis of “vanilla” random‑feature attention methods such as Performer (Source 1, Source 2).

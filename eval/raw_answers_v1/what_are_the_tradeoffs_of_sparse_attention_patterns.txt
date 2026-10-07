@@ -1,0 +1,21 @@
+Provider: groq
+
+Sparse‑attention mechanisms are introduced mainly to cut the \(O(n^{2})\) memory and compute cost of the full attention matrix, but they bring a set of practical compromises that depend on how the sparsity pattern is obtained and applied.
+
+| Aspect | Benefit (why sparse) | Cost / Limitation |
+|--------|----------------------|-------------------|
+| **Avoiding full matrix instantiation** | A natively sparse scheme can keep the attention matrix never materialised, saving both memory and time for long sequences【Source 1†L1-L4】. | Some earlier content‑based methods still build the dense matrix first and only prune it afterwards (e.g., Correia et al., 2019), which defeats the purpose【Source 1†L4-L5】. |
+| **Fixed vs. content‑based patterns** | Fixed positional patterns (e.g., causal, local) are simple, training‑free and can be applied uniformly across all layers【Source 4†L7-L12】. | Because they ignore the actual query/key vectors, they may attend to irrelevant tokens and miss important context, reducing model quality. |
+| **Pre‑computed head‑specific patterns** (SparseD) | Pre‑computing a sparse layout per head and reusing it across denoising steps removes the need for per‑step pattern search, speeding inference【Source 2†L1-L3】. | The pattern is static for the whole inference run; to keep generation quality SparseD falls back to full attention in the early steps before switching to the sparse pattern【Source 2†L3-L5】, indicating a trade‑off between speed and fidelity. |
+| **Learned/adaptive sparsity** | Learnable scoring networks (e.g., SparseK) can select keys in a content‑aware way, giving linear‑time complexity while preserving relevance【Source 5†L9-L12】. | This requires architectural changes, extra parameters and fine‑tuning, which may be undesirable for models that must stay unchanged【Source 5†L9-L12】. |
+| **Post‑score sparsity decisions** | Methods such as H2O decide which keys to keep after computing scores, allowing dynamic pruning【Source 5†L1-L3】. | Once a token is evicted it cannot be recovered later, which can hurt quality if the token becomes important; also the technique mainly reduces decode‑time memory, not the cost of the initial (prefill) computation【Source 5†L1-L4】. |
+| **Training‑free threshold calibration** (Block Sparse Flash Attention) | Calibrating sparsity thresholds offline avoids any weight updates and keeps the original model intact【Source 5†L13-L15】. | Because the thresholds are fixed after a small calibration set, the sparsity may be sub‑optimal for inputs that differ from that set, unlike fully learned approaches. |
+| **Exact‑softmax online computation** | Recent work computes exact softmax attention online without ever materialising the full matrix, preserving full‑attention quality while still being memory‑efficient【Source 3†L13-L15】. | Such online algorithms can be more complex to implement and may have higher constant‑factor overhead compared with simpler sparse‑pattern tricks. |
+
+**Overall trade‑off**: Sparse attention patterns dramatically lower the quadratic memory/compute burden of transformers, making long‑sequence processing feasible. However, designers must balance **efficiency** against **model quality** and **implementation complexity**:
+
+* Static, position‑based sparsity is cheap but less expressive.  
+* Content‑based or learned sparsity is more expressive but may need extra parameters, training, or risk token loss (e.g., evicted tokens in H2O).  
+* Hybrid schemes (full attention early, sparse later) attempt to keep quality while gaining speed, but they still incur the cost of the early dense passes.  
+
+These are the main trade‑offs reported in the cited literature.

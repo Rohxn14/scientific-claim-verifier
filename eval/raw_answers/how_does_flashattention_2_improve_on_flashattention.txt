@@ -1,0 +1,11 @@
+Provider: groq (openai/gpt-oss-120b)
+
+FlashAttention‑2 builds on the original FlashAttention kernel by changing the parallelism and work‑partitioning strategy, which yields several measurable gains:
+
+- **Higher raw speed** – Benchmarks across a range of sequence lengths show FlashAttention‑2 is **1.7–3.0 × faster than FlashAttention** (and 1.3–2.5 × faster than the Triton implementation) [Source 2].  
+- **Around 2× forward‑pass speedup** – In the forward pass FlashAttention‑2 achieves roughly a **2× speedup** over FlashAttention, reaching **up to 73 % of the theoretical max throughput** on an A100 GPU [Source 3].  
+- **Improved TFLOPs utilisation** – The kernel attains **up to 230 TFLOPs s⁻¹** (73 % of the A100’s theoretical peak), whereas FlashAttention operates at a lower fraction of the peak [Source 2].  
+- **End‑to‑end training acceleration** – When training GPT‑style models (1.3 B and 2.7 B parameters) at 2 k or 8 k token lengths, FlashAttention‑2 gives **up to 1.3× speedup vs. FlashAttention** and **2.8× vs. a baseline without FlashAttention** [Source 2].  
+- **Longer context for the same cost** – Because of the speed gain, a model can be trained with a **16 k token context for the same price as an 8 k‑token model using the original FlashAttention** [Source 1].  
+
+These improvements stem from the redesign of the attention kernel’s dataflow, which processes multiple query vectors in parallel and partitions work more efficiently across GPU resources, enabling higher arithmetic intensity and better memory reuse. Consequently, FlashAttention‑2 delivers both higher raw throughput and practical training speedups compared with the original FlashAttention.

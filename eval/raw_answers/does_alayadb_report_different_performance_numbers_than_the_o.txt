@@ -1,0 +1,9 @@
+Provider: groq (openai/gpt-oss-120b)
+
+The sources do not provide any quantitative performance results for AlayaDB that can be directly compared with the numbers reported in the original FlashAttention paper.
+
+* **FlashAttention (original)** – The original FlashAttention work reports that its algorithm is **2–4 × faster than standard attention** and that it achieves substantial memory savings compared with both standard attention and the Rabe‑and‑Staats method [Source 4]. It also gives a theoretical bound on memory‑access reductions [Source 5].
+
+* **AlayaDB** – The AlayaDB paper describes an experimental setup (hardware configuration, model used, latency target TPOT ≤ 0.24 s) and states that it evaluates “Full Attention” as a baseline [Source 7], but it **does not present any concrete speedup factors, latency measurements, or memory‑access figures** for AlayaDB itself, nor does it report results for the FlashAttention algorithm.
+
+Because the AlayaDB source lacks the necessary performance numbers, we cannot determine whether AlayaDB reports different (e.g., higher or lower) speedup or latency figures than those reported for FlashAttention in the original paper. The required comparative data are missing.

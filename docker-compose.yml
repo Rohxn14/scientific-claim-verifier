@@ -1,0 +1,25 @@
+# docker compose up --build   ->  http://localhost:8000
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      GROBID_URL: http://grobid:8070
+    ports:
+      - "8000:8000"
+    volumes:
+      # Collections (indexes, PDFs, parsed text) and their configs live on
+      # the host, so they survive rebuilds.
+      - ./data:/app/data
+      - ./config:/app/config
+    depends_on:
+      - grobid
+
+  grobid:
+    # PDF -> structured TEI XML. The "-crf" image is the lighter CPU variant;
+    # swap in grobid/grobid:0.8.2-full for slightly better parsing (larger, slower).
+    image: grobid/grobid:0.8.2-crf
+    restart: unless-stopped
+    ports:
+      - "8070:8070"

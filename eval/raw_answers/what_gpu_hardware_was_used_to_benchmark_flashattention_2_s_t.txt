@@ -1,0 +1,3 @@
+Provider: groq (openai/gpt-oss-120b)
+
+FlashAttention‑2’s training‑throughput benchmarks were run on NVIDIA A100 GPUs.  The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards [Source 1, Source 2, Source 3].

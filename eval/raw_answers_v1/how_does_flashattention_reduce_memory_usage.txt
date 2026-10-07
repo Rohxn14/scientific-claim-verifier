@@ -1,0 +1,15 @@
+Provider: groq
+
+FlashAttention cuts the memory needed for the attention step by **never materialising the full \(N\times N\) attention matrix** and by **computing the soft‑max “on‑the‑fly” inside a tiled schedule**.
+
+* **Tiling + online soft‑max** – The algorithm rewrites the standard softmax‑based attention as a series of small tiles and performs the softmax incrementally (online) while scanning those tiles, rather than first forming the whole attention matrix and then normalising it.  This tiling‑plus‑online‑softmax reformulation is explicitly described as the mechanism that “reduces memory usage, enabling the process of much longer sequences on hardware accelerators with limited on‑chip storage”【Source 4】.  
+
+* **Quadratic‑to‑linear memory scaling** – By reordering the computation, tiling the matrix, and recomputing intermediate quantities instead of storing them, FlashAttention changes the memory complexity from \(O(N^{2})\) to \(O(N)\) in the sequence length \(N\)【Source 3】.  
+
+* **Avoiding storage of the attention matrix** – Both FlashAttention and the earlier method of Rabe & Staats “avoid storing the large attention matrix in the forward pass and recompute it in the backward pass”【Source 5】.  Because the matrix is never kept in GPU memory, the peak memory footprint drops dramatically.  
+
+* **Optimised memory accesses** – FlashAttention also targets the *number* of memory reads/writes, not just the size of data held.  By reducing memory accesses (the dominant factor for runtime) it automatically lowers the total memory required, since any operation that incurs accesses cannot require more memory than the amount it touches【Source 5】.  
+
+* **Empirical evidence** – In the efficiency comparison of EVA and other baselines, FlashAttention “achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths”【Source 1】, confirming that the above algorithmic tricks translate into practical memory savings.
+
+**In short**, FlashAttention’s memory‑saving strategy combines (1) tiling the attention computation, (2) performing an online softmax within each tile, (3) recomputing intermediate values instead of storing the full attention matrix, and (4) minimizing memory accesses.  Together these changes collapse the quadratic memory demand of vanilla softmax attention to linear (or even sub‑linear) memory usage, allowing much longer sequences to be processed on the same hardware.

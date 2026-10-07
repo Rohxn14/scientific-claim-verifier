@@ -1,0 +1,15 @@
+venv/
+.venv/
+.git/
+data/
+eval/
+docs/
+tests/
+scripts/
+notebooks/
+**/__pycache__/
+*.pyc
+.env
+.pytest_cache/
+debug_output.txt
+src/data/

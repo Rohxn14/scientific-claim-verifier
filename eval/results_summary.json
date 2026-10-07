@@ -1,0 +1,15 @@
+{
+  "questions": 20,
+  "retrieval_hit_rate": 1.0,
+  "retrieval_hits": "9/9",
+  "claims": 64,
+  "claims_supported_pct": 0.75,
+  "claims_partial_pct": 0.172,
+  "claims_unsupported_pct": 0.078,
+  "mean_support_score": 0.839,
+  "mean_faithfulness_rate": 0.763,
+  "mean_uncited_sentences": 2.833,
+  "out_of_scope_declined": "2/2",
+  "in_scope_declined": "1/18",
+  "median_latency_ms": 3606.0
+}

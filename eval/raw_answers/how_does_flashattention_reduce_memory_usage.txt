@@ -1,0 +1,15 @@
+Provider: groq (openai/gpt-oss-120b)
+
+FlashAttention cuts the memory needed for self‑attention by changing **what** is stored during the forward pass and **how** the computation is tiled.
+
+* **Tiling + online soft‑max** – The algorithm rewrites the attention calculation as a series of small tiles and computes the soft‑max “on‑the‑fly” (online) inside each tile, so the $N\times N$ attention matrix never has to be materialised. This removes the quadratic memory term and leaves only a linear‑in‑$N$ footprint for the intermediate tiles【Source 4】.  
+
+* **No full attention matrix in backward** – Like the method of Rabe & Staats, FlashAttention recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement【Source 5】.  
+
+* **Fewer memory accesses** – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also shrinks the total memory that must be resident, because each access implicitly needs storage for the data being moved【Source 5】.  
+
+* **Empirical memory savings** – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths【Source 1】.  
+
+* **Quadratic‑to‑linear scaling** – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention kernels【Source 3】.  
+
+Together, these design choices let FlashAttention run exact soft‑max attention with far lower memory consumption, enabling much longer sequences on hardware with limited on‑chip storage.

@@ -1,0 +1,21 @@
+query,expected_hit,top1_similarity,n_claims,n_citations,n_weak_citations,faithfulness_rate,provider
+how does dilated neighborhood attention differ from standard attention,True,0.764,6,9,6,0.33,groq
+what dataset or benchmark does DiNAT evaluate image classification on,True,0.802,2,2,0,1.0,groq
+what is the time complexity of standard self-attention,,0.778,4,4,0,1.0,groq
+how does AlayaDB measure serving latency,True,0.765,1,1,0,1.0,groq
+what is the SLO target used in AlayaDB's evaluation,True,0.724,1,2,2,0.0,groq
+how do linear attention methods approximate softmax attention,,0.847,3,4,0,1.0,groq
+how does FlashAttention-2 improve on FlashAttention,,0.853,6,7,3,0.57,groq
+how does sparse attention compare to linear attention as an efficiency strategy,,0.807,1,1,0,1.0,groq
+how does dilated neighborhood attention's receptive field growth compare to standard local attention,True,0.799,2,3,1,0.67,groq
+does AlayaDB report different performance numbers than the original FlashAttention paper,,0.753,2,2,0,1.0,groq
+does AlayaDB's serving performance compare to the training throughput numbers reported for FlashAttention-2,,0.787,2,3,0,1.0,groq
+do FlashAttention-2's own reported TFLOPs numbers stay consistent across the paper,True,0.788,2,2,0,1.0,groq
+how does SystolicAttention's hardware approach relate to the original FlashAttention algorithm,,0.832,8,8,0,1.0,groq
+what is the current state-of-the-art accuracy on ImageNet as of 2026,,0.721,0,0,0,,groq
+how much does it cost to train a GPT-4 scale model,,0.671,0,0,0,,groq
+how does FlashAttention reduce memory usage,True,0.815,5,5,0,1.0,groq
+what GPU hardware was used to benchmark FlashAttention-2's training throughput,True,0.834,1,1,0,1.0,groq
+how do random features approximate the exponential kernel in linear attention,True,0.883,0,0,0,,groq
+what are the tradeoffs of sparse attention patterns,,0.832,11,32,22,0.31,groq
+what evaluation benchmarks are commonly used to compare efficient attention methods,,0.787,4,4,0,1.0,groq

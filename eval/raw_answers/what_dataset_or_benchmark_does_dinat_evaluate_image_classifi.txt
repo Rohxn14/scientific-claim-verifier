@@ -1,0 +1,3 @@
+Provider: groq (openai/gpt-oss-120b)
+
+DiNAT’s image‑classification performance is measured on the ImageNet benchmark, using both the standard ImageNet‑1K dataset and the larger ImageNet‑22K dataset for pre‑training [Source 1].

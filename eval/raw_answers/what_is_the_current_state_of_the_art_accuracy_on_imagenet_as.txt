@@ -1,0 +1,8 @@
+Provider: groq (openai/gpt-oss-120b)
+
+The provided excerpts do not contain any explicit numerical results for ImageNet classification accuracy (e.g., top‑1 or top‑5 percentages) that would allow us to state the current state‑of‑the‑art performance as of 2026.  
+
+- The Dilated Neighborhood Attention Transformer (DiNAT) paper reports that its large variant “outperforms Swin‑Large and matches ConvNeXt‑Large’s accuracy at 224² resolution” and “exceeds its Swin counterpart’s reported accuracy at 384² resolution” [Source 4], but it does not give the actual accuracy values.  
+- Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide ImageNet classification accuracy numbers [Source 1, Source 2, Source 3, Source 5].
+
+Therefore, based on the supplied sources, the exact current state‑of‑the‑art ImageNet accuracy in 2026 cannot be determined. Additional sources that report concrete top‑1/top‑5 accuracy figures would be needed.

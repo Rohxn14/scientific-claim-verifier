@@ -1,0 +1,35 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Linear‑attention methods replace the exact softmax kernel  
+\[
+\exp(q_i^\top k_j)
+\]
+by a **linearized kernel** that can be written as a dot product of feature‑mapped vectors.  
+The most common construction uses **random features** (RF) \(\phi(\cdot)\) derived from the kernel‑linearization trick of Rahimi & Recht (2008) [Source 2]. Specifically, for each query \(q\) and key \(k\)
+
+\[
+\exp(q^\top k)\;\approx\;\phi(q)^{\!\top}\phi(k),
+\qquad
+\phi(x)=\frac{1}{\sqrt{S}}\bigl[\xi(x,\omega_1),\dots,\xi(x,\omega_S)\bigr],
+\]
+
+where the random vectors \(\omega_s\sim\mathcal N(0,I)\) and the scalar mapping \(\xi\) is chosen so that  
+
+\[
+\exp(q^\top k)=\mathbb E_{\omega\sim\mathcal N(0,I)}\bigl[\xi(q,\omega)\,\xi(k,\omega)\bigr].
+\]
+
+By drawing \(S\) Monte‑Carlo samples and forming the empirical average, the exponential kernel is approximated, and the attention weights become
+
+\[
+\alpha_i \;\propto\; \phi(q_i)^{\!\top}\!\Bigl(\sum_{j}\phi(k_j)v_j\Bigr),
+\]
+
+which is a **linear** operation in the sequence length because the inner sum can be computed once and reused for every query [Source 2, Source 4].  
+
+The resulting **linear attention** has:
+
+* **Linear runtime and memory** ( \(O(NS)\) instead of the quadratic \(O(N^2)\) of exact softmax) [Source 5].  
+* An approximation gap that can be analyzed via control‑variate estimators; the gap shrinks when the same coefficient is used for all control variates, or when more sophisticated control‑variate forms are introduced [Source 3, Source 5].
+
+Thus, linear‑attention methods approximate softmax attention by **random‑feature‑based kernel linearization**, turning the softmax exponential into a dot product of low‑dimensional random feature vectors, which enables linear‑time computation of the attention matrix.

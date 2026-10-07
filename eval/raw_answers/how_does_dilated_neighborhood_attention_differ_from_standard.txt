@@ -1,0 +1,12 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Dilated Neighborhood Attention (DiNA) changes the way a transformer decides which tokens to attend to compared with standard (regular) self‑attention:
+
+* **Scope of attention** – Regular self‑attention computes a dense similarity between every query and **all** keys, i.e., it is a global operation over the whole sequence [Source 2].  
+* **Local restriction** – Neighborhood Attention (NA) limits each query to its *k* nearest neighbours, reducing the attention to a local window [Source 3].  
+* **Dilated sparsity** – DiNA further modifies NA by selecting neighbours that satisfy a dilation condition (`j mod δ = i mod δ`). This picks tokens that are spaced apart, creating a **sparse global** pattern that still respects a regular neighborhood structure [Source 3].  
+* **Receptive‑field growth** – Because the dilation expands the distance between attended tokens, the receptive field grows **exponentially** with depth rather than linearly, allowing the model to capture longer‑range dependencies [Source 4].  
+* **Computational cost** – The dilated pattern does **not increase** the amount of computation or memory relative to NA; it keeps the same linear‑complexity cost while providing a broader context [Source 4].  
+* **Inductive properties** – DiNA preserves locality, translational equivariance, and symmetry of neighborhoods, unlike the unrestricted global attention of standard transformers [Source 1, Source 4].
+
+In summary, unlike standard attention which attends to every token, Dilated Neighborhood Attention restricts attention to a dilated set of nearby tokens, yielding a sparse global pattern with an exponentially larger receptive field but without extra computational burden.

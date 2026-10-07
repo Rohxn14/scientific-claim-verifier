@@ -1,0 +1,8 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Yes. The two places in the FlashAttention‑2 paper that give a TFLOPs‑based training speed quote the same value.
+
+- In the results table the authors state that FlashAttention‑2 reaches **up to 225 TFLOPs · s⁻¹** on GPT‑style models running on 8 × A100 GPUs, with 72 % model FLOPs utilization【Source 1】.  
+- In the introduction the same figure is repeated for end‑to‑end training: “we reach training speed of **up to 225 TFLOPs · s⁻¹ per A100 GPU**”【Source 5】.
+
+Both citations report the identical upper‑bound number (225 TFLOPs/s) and no other TFLOPs figures appear elsewhere in the paper (the discussion of a 2× speedup in [Source 3] does not give a separate TFLOPs measurement). Therefore the reported TFLOPs numbers are consistent across the document.

@@ -1,0 +1,8 @@
+Provider: groq (openai/gpt-oss-120b)
+
+The excerpts do not specify a concrete numerical SLO (Service‑Level Objective) target for AlayaDB’s evaluation. The papers only refer to **meeting the SLOs** of various workloads in a general sense, without providing exact latency, throughput, or resource‑usage thresholds.
+
+- The conclusion notes that AlayaDB “guarantee[s] the SLOs for various LLM workloads” but does not define those SLOs [Source 1].  
+- The introduction describes the core challenge as “meet[ing] the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously” without giving quantitative targets [Source 3].
+
+Because the provided sources lack explicit SLO values (e.g., latency limits, memory caps, or quality metrics), the specific SLO target used in the evaluation cannot be determined from the available information.

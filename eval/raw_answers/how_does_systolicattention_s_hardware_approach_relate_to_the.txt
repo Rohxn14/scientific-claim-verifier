@@ -1,0 +1,19 @@
+Provider: groq (openai/gpt-oss-120b)
+
+SystolicAttention’s hardware design is a **fusion of the original FlashAttention algorithm into a single systolic array**.
+
+* **Original FlashAttention**  
+  – Reformulates attention with tiling and an online‑softmax to cut the quadratic memory cost of standard attention [Source 3].  
+  – Consists of two matrix‑multiplication stages separated by reductions and element‑wise soft‑max operations (row‑max, exponent, row‑sum) that are off‑loaded to external vector or scalar units, forcing intermediate results to move through local SRAM and destroying overlap between the two multiplications [Source 3].
+
+* **SystolicAttention’s hardware approach**  
+  – Introduces the **FSA (Flash‑Systolic Array)** architecture, which can execute *all* FlashAttention steps—both matrix multiplications **and** the non‑matrix‑multiplication operations (row‑max, exp₂, row‑sum)—inside the same systolic array [Source 1, Source 2].  
+  – By streaming the last column of the tile first and carefully scheduling the operations, the kernel overlaps the two matrix multiplications with the soft‑max reductions, eliminating the costly data transfers to external units and the associated SRAM‑port contention [Source 1, Source 3].  
+  – The fused schedule processes an $m\times n$ FlashAttention tile in **5 + 10 cycles**, compared with up to $8m\!-\!2$ cycles on a naïve systolic array that treats the two multiplications independently [Source 1].  
+  – This overlap is achieved while preserving the algorithmic primitives of FlashAttention (tiling, online‑softmax, exp₂ implementation) within the hardware pipeline [Source 1, Source 3].
+
+* **Overall relationship**  
+  – SystolicAttention does **not modify the mathematical formulation** of FlashAttention; instead, it **maps the same sequence of operations onto a single systolic array**, turning the algorithm’s separate stages into a tightly coupled hardware pipeline.  
+  – The result is higher FLOPs/s utilization and reduced memory traffic, directly addressing the inefficiencies highlighted for FlashAttention on conventional systolic arrays [Source 4].
+
+In summary, SystolicAttention takes the memory‑efficient FlashAttention algorithm and **hardware‑fuses** its two matrix multiplications and intervening soft‑max computations into one systolic array, achieving overlap, data‑reuse, and lower latency compared with the original, loosely coupled implementation.

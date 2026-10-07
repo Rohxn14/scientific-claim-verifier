@@ -1,0 +1,18 @@
+Provider: groq
+
+Efficient‑attention papers usually evaluate their methods on a handful of public long‑context or “large‑sequence” benchmarks, together with low‑level runtime‑and‑memory measurements.
+
+| Benchmark | What it tests | Source |
+|-----------|--------------|--------|
+| **LongBench** (Bai et al., 2024) | A suite of long‑context language‑model tasks that measures the trade‑off between accuracy and inference speed. It is used to compare the proposed Focus‑dLLM against prior acceleration methods. | 【Source 4】 |
+| **RULER** | A retrieval‑and‑reasoning benchmark that probes performance at increasing context lengths (e.g., up to 128 K tokens). It is used to show that Gated Sparse Attention (GSA) maintains strong scores where standard attention collapses. | 【Source 5】 |
+| **∞‑Bench** | An 8‑task benchmark for “infinite‑context” generation quality; the paper reports generation‑quality scores for several sparse‑attention and retrieval‑based baselines, including their own DIPRS method. | 【Source 8】 |
+| **Custom runtime / memory sweeps** | Many works (e.g., FlashAttention and EVA) report raw runtime and GPU‑memory usage while varying the sequence length (often on a single A100 or RTX 3090) to illustrate scalability. These are not named “benchmarks” but serve as standard efficiency baselines. | 【Source 1】, 【Source 3】 |
+
+**Comparison of the sources**
+
+* **LongBench** (Source 4) and **RULER** (Source 5) both target long‑context reasoning, but they are distinct suites: LongBench is a general accuracy‑efficiency benchmark for LLM inference, whereas RULER focuses specifically on retrieval‑and‑reasoning tasks across very large context windows.
+* **∞‑Bench** (Source 8) adds a generation‑quality perspective, measuring how well different sparse‑attention schemes preserve output quality across eight tasks.
+* The runtime‑and‑memory sweeps reported in Sources 1 and 3 complement these task‑level benchmarks by providing hardware‑level efficiency numbers (e.g., memory‑linear scaling, reduced I/O).
+
+Thus, the most commonly cited evaluation benchmarks for efficient attention methods in the provided literature are **LongBench**, **RULER**, and **∞‑Bench**, often supplemented with direct runtime‑and‑memory measurements on varying sequence lengths.

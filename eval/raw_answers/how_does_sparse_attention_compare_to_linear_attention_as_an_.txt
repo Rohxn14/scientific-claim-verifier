@@ -1,0 +1,3 @@
+Provider: groq (openai/gpt-oss-120b)
+
+I’m unable to provide a comparison because none of the supplied excerpts discuss **linear attention**. The sources describe various forms of **sparse attention**—including local, hierarchical, routing‑based, and gated sparse mechanisms—and report their efficiency and performance characteristics (e.g., reduced memory use, faster throughput, lower perplexity) [Source 1, Source 2, Source 4, Source 5], but they do not contain any information about linear‑time attention methods. Consequently, a direct contrast between sparse attention and linear attention cannot be drawn from the provided material.

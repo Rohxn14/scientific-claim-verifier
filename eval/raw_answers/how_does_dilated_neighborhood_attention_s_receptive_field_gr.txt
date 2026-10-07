@@ -1,0 +1,9 @@
+Provider: groq (openai/gpt-oss-120b)
+
+Dilated Neighborhood Attention (DiNA) expands the receptive field far more rapidly than standard local (neighborhood) attention.
+
+- **Standard local attention**: The receptive field grows only slowly—essentially linearly with depth—much like the limited, gradually expanding field of convolutions [Source 3].  
+
+- **Dilated Neighborhood Attention**: By inserting a dilation step between attended tokens, DiNA can increase the receptive field **exponentially**. The first layer still covers a region of size $k$, but with a sufficiently large dilation the next DiNA layer gives a $k$‑sized field for each of the $k$ positions, resulting in a $k^{2}$ field; stacking such layers yields exponential growth with the number of layers [Source 4]. The authors explicitly contrast this exponential growth with the linear growth of ordinary neighborhoods [Source 1].  
+
+- **Implication**: DiNA captures much longer‑range context without any extra computational cost, preserving the efficiency of local attention while attaining a globally larger receptive field [Source 1].
