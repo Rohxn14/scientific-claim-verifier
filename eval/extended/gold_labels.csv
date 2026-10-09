@@ -1,0 +1,86 @@
+pair_id,label,note
+q09c01s3,supported,2x speedup and 73% forward-pass throughput both stated
+q11c00s4,partial,gated sparse speed/perplexity stated; absence of linear-attention info is not checkable here
+q00c00s4,partial,passage says FlashAttention addresses quadratic memory; linear footprint not stated
+q04c00s1,partial,quote is exact but it is Music Transformer's statement not the original Transformer's
+q16c00s1,supported,225 TFLOPs/s on 8xA100 with 72% MFU stated verbatim
+q08c03s2,supported,SparseD full attention early then precomputed sparse patterns
+q16c02s3,partial,passage backs the discussion lacking TFLOPs; 225 figure and whole-paper claim not here
+q06c01s3,supported,quote verbatim
+q00c01s5,supported,recompute in backward like Rabe and Staats to reduce footprint
+q08c04s5,supported,H2O eviction cannot be recovered
+q17c03s3,partial,passage describes the transfer/SRAM contention problem not the streaming solution
+q08c00s1,partial,passage says sparse attention must be carefully implemented to avoid full matrices; not automatic
+q19c00s5,partial,minutes figure in passage is the BERT MLPerf result not GPT-2
+q07c03s5,unsupported,reverses the paper: shared coefficient is RFA's limitation not what shrinks the gap
+q12c01s4,supported,LongBench comparison of UltraLLaDA Sparse-dLLM Focus-dLLM
+q05c00s1,supported,TPOT measured and SLO 0.24s reading speed
+q12c01s6,supported,infinity-Bench 8 tasks and compared methods
+q10c00s5,partial,xi mapping and expectation present; normaliser cancelling not stated
+q01c00s2,unsupported,passage says regular self-attention can be global or local
+q11c00s2,partial,routing perplexity result stated; rest of the meta-claim not
+q17c06s4,supported,higher FLOPs/s utilisation; whole computation in one array implies less traffic
+q15c00s1,supported,TPOT bound and L20 + Xeon 6542Y server stated
+q12c00s1,supported,A100 random QKV and average of 100 measurements stated
+q12c00s3,supported,RTX 3090 forward and backward memory and runtime of one block
+q13c00s3,partial,slowly growing receptive field like convolutions stated; linear with depth not
+q01c05s1,partial,locality and translational equivariance stated; symmetry and contrast with global not
+q07c01s2,unsupported,passage gives the random-feature estimator but nothing about linear cost or reuse
+q08c02s3,unsupported,passage only lists fixed and learnable patterns; none of the trade-offs
+q04c01s2,supported,derivation n(n-1)/2 matches the passage
+q06c00s1,supported,conclusion quote verbatim
+q15c02s2,partial,backs the FlashAttention-2 side only (TFLOPs/s on A100 training)
+q03c00s1,partial,A100 stated; 8-GPU and 80GB SXM details not in this passage
+q17c01s3,supported,two matmuls with softmax ops offloaded through SRAM destroying overlap
+q17c03s1,supported,streams last column first and overlaps the operations
+q09c02s2,supported,230 TFLOPs/s and 73% of A100 peak stated
+q07c00s2,supported,random features of Rahimi and Recht
+q18c00s4,supported,outperforms Swin-Large and matches ConvNeXt-Large without numbers
+q11c00s1,partial,backs local and hierarchical attention only
+q17c02s1,supported,rowmax exp2 rowsum inside the systolic array with FSA
+q18c01s3,partial,backs the segmentation results part only
+q16c01s5,supported,quote verbatim
+q18c01s5,unsupported,passage is about CAM heatmaps not dilation bits-per-dim or segmentation
+q19c00s1,supported,about 20 hours on eight Quadro RTX 5000
+q14c00s4,partial,2-4x faster stated; memory saving is versus standard attention for both methods not versus Rabe-Staats
+q17c05s3,partial,passage lists FlashAttention's primitives but says nothing about SystolicAttention preserving them
+q08c05s5,partial,offline training-free calibration stated; less optimal than learned sparsity not
+q18c01s2,partial,backs the bits-per-dimension image generation part only
+q07c02s5,supported,quadratic to linear runtime and space stated
+q04c02s3,supported,quadratic time complexity motivates restricting attention span
+q18c01s1,partial,backs the dilation settings part only
+q08c06s5,partial,kernel and low-rank need architectural changes and training-free selection stated; extra runtime logic not
+q00c02s5,supported,reducing memory accesses necessarily reduces total memory
+q15c01s5,partial,225 TFLOPs/s is 72% MFU in the passage; 73% belongs to the 230 TFLOPs/s kernel figure
+q14c01s5,supported,Theorem 2 bounds HBM accesses
+q07c01s4,partial,linear complexity stated; reuse of the inner sum not
+q14c02s7,partial,setup and Full Attention baseline stated; claimed absence of any results is not checkable here
+q08c07s5,partial,SparseK scoring network and linear complexity stated; inference overhead not
+q00c03s1,supported,significant memory reduction versus softmax and all approximate baselines
+q09c00s2,supported,1.7-3.0x and 1.3-2.5x stated
+q15c02s1,partial,backs the AlayaDB side only (latency on L20 for serving)
+q09c03s2,supported,1.3x and 2.8x end-to-end speedups for 1.3B and 2.7B models
+q03c00s2,partial,A100 stated; 8x80GB SXM configuration not in this passage
+q15c01s2,partial,225 TFLOPs/s stated but 73% is the forward-pass kernel figure not training
+q03c00s3,supported,8xA100 80GB SXM and per-GPU throughput stated
+q17c05s1,supported,FlashAttention inner loop with rowmax exp2 rowsum run inside the array
+q13c02s1,supported,exponential as opposed to linear growth stated
+q17c02s2,supported,FSA runs the non-matmul operations of FlashAttention
+q08c01s4,partial,position-based sparsity independent of query/key stated; the trade-offs are not
+q01c03s4,supported,exponential rather than linear receptive field growth
+q13c01s4,supported,k then k squared then exponential growth stated
+q13c03s1,supported,longer-range context at no additional computational cost
+q01c05s4,partial,backs symmetry of neighbourhoods only
+q00c04s3,supported,memory from quadratic to linear in sequence length
+q07c03s3,partial,abstract backs that richer control variates shrink the gap; nothing on a shared coefficient
+q15c02s5,partial,backs the FlashAttention-2 side only
+q01c02s3,supported,dilated nearest neighbours with j mod delta = i mod delta
+q17c04s1,supported,5+10 cycles versus up to 8m-2 on a naive array
+q11c00s5,partial,discusses sparse attention trade-offs but says it is more memory expensive
+q02c00s1,supported,ImageNet-1K and ImageNet-22K pre-training
+q17c00s3,supported,tiling and online softmax to reduce quadratic memory
+q01c04s4,supported,no additional computational cost while keeping linear complexity
+q01c01s3,supported,k nearest neighbours
+q12c01s5,supported,RULER standard attention collapses and GSA holds at 128K
+q04c03s5,supported,standard attention materialises S and P with HBM accesses quadratic in N
+q09c04s1,supported,16k context for the price of 8k

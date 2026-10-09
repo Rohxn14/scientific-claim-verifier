@@ -1,0 +1,339 @@
+{
+ "query": "how does INT-FlashAttention quantize attention to INT8",
+ "expected_arxiv_id": "2409.16997",
+ "category": "factual",
+ "set": "extra",
+ "answer": "INT‑FlashAttention quantizes the self‑attention computation by applying a **token‑level post‑training quantization** that converts the query (Q), key (K) and value (V) matrices from floating‑point to **INT8** format and then performs all matrix multiplications with **INT8‑only GEMM kernels**【Source 4】.  \n\n* **Token‑level quantization** – each token’s activation is quantized independently, preserving token‑level information and yielding higher accuracy than tensor‑level FP8 methods【Source 4】.  \n* **Fully INT8 inputs** – the prototype implements Q, K and V as INT8 tensors; the GEMM operation takes two INT8 matrices and produces an INT32 accumulator, which is later scaled back to INT8 as needed【Source 1】.  \n* **Integration with FlashAttention** – the quantized Q, K, V tensors are processed through the same FlashAttention workflow (i.e., block‑wise attention using the GPU memory hierarchy), but all linear algebra is carried out with the INT8 GEMM kernels, eliminating FP32/FP16 intermediates【Source 3】.  \n* **Compatibility with other formats** – although the presented implementation uses INT8, the token‑level framework can be adapted to other low‑precision formats such as INT4【Source 4】.  \n\nIn summary, INT‑FlashAttention replaces the floating‑point Q/K/V matrices with INT8 versions, uses INT8 GEMM (producing INT32 accumulators) within the FlashAttention algorithm, and performs post‑training, token‑wise quantization to retain accuracy while achieving large speed and memory gains【Source 2】【Source 5】.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does INT-FlashAttention quantize attention to INT8",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2409.16997v2",
+   "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+   "year": "2024",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.855,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "INT-FLASHATTENTION ATTENTION DESIGN INT-FlashAttention implements the Q, K, and V matrices in self-attention module with fully INT8 format. In Figure 1, we use green color to represent the data in INT8 format and the INT8 GEMM operations and use orange color to represent data and operations with FP32 format. The GEMM used in INT-FlashAttention takes two INT8 input matrices and produces an INT32 output matrix.",
+   "url": "https://arxiv.org/abs/2409.16997v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2409.16997v2",
+   "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+   "year": "2024",
+   "section": "Abstract",
+   "section_type": "abstract",
+   "similarity": 0.8375,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "As the foundation of large language models (LLMs), self-attention module faces the challenge of quadratic time and memory complexity with respect to sequence length. FlashAttention accelerates attention computation and reduces its memory usage by leveraging the GPU memory hierarchy. A promising research direction is to integrate FlashAttention with quantization methods. This paper introduces INT-FlashAttention, the first INT8 quantization architecture compatible with the forward workflow of FlashAttention, which significantly improves the inference speed of FlashAttention on Ampere GPUs. We implement our INT-FlashAttention prototype with fully INT8 activations and general matrix-multiplication (GEMM) kernels, making it the first attention operator with fully INT8 input. As a general token-level post-training quantization framework, INT-FlashAttention is also compatible with other data formats like INT4, etc. Experimental results show INT-FlashAttention achieves 72% faster inference speed and 82% smaller quantization error compared to standard FlashAttention with FP16 and FP8 data format.",
+   "url": "https://arxiv.org/abs/2409.16997v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2409.16997v2",
+   "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+   "year": "2024",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.8309,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We propose INT-FlashAttention, a token-level post-training quantization architecture that can be seamlessly integrated with the forward workflow of FlashAttention.• We implement the INT8 version of our INT-FlashAttention prototype, which is the first attention operator with fully INT8 input (to the best of our knowledge). • We conduct experiments evaluating the performance of INT-FlashAttention, showing that it achieves significantly faster inference speed and higher quantization accuracy than baseline solutions.",
+   "url": "https://arxiv.org/abs/2409.16997v2"
+  },
+  {
+   "index": 4,
+   "paper_id": "2409.16997v2",
+   "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+   "year": "2024",
+   "section": "INTRODUCTION",
+   "section_type": "introduction",
+   "similarity": 0.8234,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Given that the Ampere architecture provides computational support for INT8 data format, this paper aims to develop a fully INT8 version of FlashAttention, significantly improving the inference speed of FlashAttention on Ampere GPUs compared to the basic FlashAttention with FP16. Towards the above design goal, we propose INT-FlashAttention, a novel token-level post-training quantization architecture designed to align with the computation workflow of FlashAttention. We implement our INT-FlashAttention prototype with INT8-type Q, K, and V matrices. We use INT8 general matrix-multiplication (GEMM) kernels to replace all matrix multiplications during inference, thus significantly improving inference speed and saving energy. To the best of our knowledge, we are the first to develop the attention operator with fully INT8 inputs. By preserving token-level information, INT-FlashAttention offers a substantial accuracy improvement over existing tensorlevel FP8 methods Shah et al. (2024) . Last but not least, our token-level quantization method is not limited to INT8 format, which can also be adapted to other data formats like INT4, and etc. Experimental results show that the INT8 version of INT-FlashAttention achieves 72% faster inference speed compared to FlashAttention-FP16 and up to 82% smaller quantization error compared to FlashAttention-FP8. This paper makes the following contributions: 2 BACKGROUND AND RELATED WORK",
+   "url": "https://arxiv.org/abs/2409.16997v2"
+  },
+  {
+   "index": 5,
+   "paper_id": "2409.16997v2",
+   "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+   "year": "2024",
+   "section": "EMPIRICAL EVALUATION",
+   "section_type": "results",
+   "similarity": 0.8144,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We evaluate the inference speed and quantization accuracy of INT-FlashAttention, and compare it to FlashAttention with FP16 Dao (2023) and FP8 Shah et al. (2024) data format. We also compare Quantization accuracy. INT-FlashAttention achieves about 46% and 82% smaller quantization error than FlashAttention with FP8 data format under normal-distributed and uniform-distributed activations, respectively.",
+   "url": "https://arxiv.org/abs/2409.16997v2"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "INT‑FlashAttention quantizes the self‑attention computation by applying a token‑level post‑training quantization that converts the query (Q), key (K) and value (V) matrices from floating‑point to INT8 format and then performs all matrix multiplications with INT8‑only GEMM kernels.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.586,
+      "semantic": 0.922,
+      "evidence": "Towards the above design goal, we propose INT-FlashAttention, a novel token-level post-training quantization architecture designed to align with the computation workflow of FlashAttention. We implement our INT-FlashAttention prototype with INT8-type Q, K, and V matrices.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Token‑level quantization – each token’s activation is quantized independently, preserving token‑level information and yielding higher accuracy than tensor‑level FP8 methods.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.533,
+      "semantic": 0.883,
+      "evidence": "By preserving token-level information, INT-FlashAttention offers a substantial accuracy improvement over existing tensorlevel FP8 methods Shah et al. (2024) . Last but not least, our token-level quantization method is not limited to INT8 format, which can also be adapted to other data formats like INT4, and etc. Experimental results show that the INT8 version of INT-FlashAttention achieves 72% faster inference speed compared to FlashAttention-FP16 and up to 82% smaller quantization error compared to FlashAttention-FP8.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Fully INT8 inputs – the prototype implements Q, K and V as INT8 tensors; the GEMM operation takes two INT8 matrices and produces an INT32 accumulator, which is later scaled back to INT8 as needed.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.632,
+      "semantic": 0.858,
+      "evidence": "The GEMM used in INT-FlashAttention takes two INT8 input matrices and produces an INT32 output matrix.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Integration with FlashAttention – the quantized Q, K, V tensors are processed through the same FlashAttention workflow (i.e., block‑wise attention using the GPU memory hierarchy), but all linear algebra is carried out with the INT8 GEMM kernels, eliminating FP32/FP16 intermediates.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.179,
+      "semantic": 0.859,
+      "evidence": "We propose INT-FlashAttention, a token-level post-training quantization architecture that can be seamlessly integrated with the forward workflow of FlashAttention.• We implement the INT8 version of our INT-FlashAttention prototype, which is the first attention operator with fully INT8 input (to the best of our knowledge).",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Compatibility with other formats – although the presented implementation uses INT8, the token‑level framework can be adapted to other low‑precision formats such as INT4.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "partial",
+      "lexical": 0.438,
+      "semantic": 0.754,
+      "evidence": "Last but not least, our token-level quantization method is not limited to INT8 format, which can also be adapted to other data formats like INT4, and etc. Experimental results show that the INT8 version of INT-FlashAttention achieves 72% faster inference speed compared to FlashAttention-FP16 and up to 82% smaller quantization error compared to FlashAttention-FP8.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "In summary, INT‑FlashAttention replaces the floating‑point Q/K/V matrices with INT8 versions, uses INT8 GEMM (producing INT32 accumulators) within the FlashAttention algorithm, and performs post‑training, token‑wise quantization to retain accuracy while achieving large speed and memory gains.",
+    "sources": [
+     2,
+     5
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.414,
+      "semantic": 0.903,
+      "evidence": "We implement our INT-FlashAttention prototype with fully INT8 activations and general matrix-multiplication (GEMM) kernels, making it the first attention operator with fully INT8 input. As a general token-level post-training quantization framework, INT-FlashAttention is also compatible with other data formats like INT4, etc. Experimental results show INT-FlashAttention achieves 72% faster inference speed and 82% smaller quantization error compared to standard FlashAttention with FP16 and FP8 data format.",
+      "missing_numbers": []
+     },
+     {
+      "source": 5,
+      "status": "partial",
+      "lexical": 0.241,
+      "semantic": 0.84,
+      "evidence": "We also compare Quantization accuracy. INT-FlashAttention achieves about 46% and 82% smaller quantization error than FlashAttention with FP8 data format under normal-distributed and uniform-distributed activations, respectively.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 6,
+   "claims_supported": 4,
+   "claims_partial": 2,
+   "claims_unsupported": 0,
+   "citations": 7,
+   "supported": 4,
+   "partial": 3,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 0,
+   "score": 0.833,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 62,
+  "generation_ms": 1667,
+  "verification_ms": 2138,
+  "total_ms": 3868
+ },
+ "hits": [
+  {
+   "text": "INT-FLASHATTENTION ATTENTION DESIGN INT-FlashAttention implements the Q, K, and V matrices in self-attention module with fully INT8 format. In Figure 1, we use green color to represent the data in INT8 format and the INT8 GEMM operations and use orange color to represent data and operations with FP32 format. The GEMM used in INT-FlashAttention takes two INT8 input matrices and produces an INT32 output matrix.",
+   "meta": {
+    "section_type": "results",
+    "section_title": "Untitled",
+    "section_type_inherited": true,
+    "published": "2024-09-25",
+    "sentences_json": "[\"INT-FLASHATTENTION ATTENTION DESIGN INT-FlashAttention implements the Q, K, and V matrices in self-attention module with fully INT8 format.\", \"In Figure 1, we use green color to represent the data in INT8 format and the INT8 GEMM operations and use orange color to represent data and operations with FP32 format.\", \"The GEMM used in INT-FlashAttention takes two INT8 input matrices and produces an INT32 output matrix.\"]",
+    "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+    "domain": "efficient_attention",
+    "arxiv_id": "2409.16997v2",
+    "n_words": 65
+   },
+   "similarity": 0.8549767732620239,
+   "via": "semantic"
+  },
+  {
+   "text": "As the foundation of large language models (LLMs), self-attention module faces the challenge of quadratic time and memory complexity with respect to sequence length. FlashAttention accelerates attention computation and reduces its memory usage by leveraging the GPU memory hierarchy. A promising research direction is to integrate FlashAttention with quantization methods. This paper introduces INT-FlashAttention, the first INT8 quantization architecture compatible with the forward workflow of FlashAttention, which significantly improves the inference speed of FlashAttention on Ampere GPUs. We implement our INT-FlashAttention prototype with fully INT8 activations and general matrix-multiplication (GEMM) kernels, making it the first attention operator with fully INT8 input. As a general token-level post-training quantization framework, INT-FlashAttention is also compatible with other data formats like INT4, etc. Experimental results show INT-FlashAttention achieves 72% faster inference speed and 82% smaller quantization error compared to standard FlashAttention with FP16 and FP8 data format.",
+   "meta": {
+    "n_words": 143,
+    "sentences_json": "[\"As the foundation of large language models (LLMs), self-attention module faces the challenge of quadratic time and memory complexity with respect to sequence length.\", \"FlashAttention accelerates attention computation and reduces its memory usage by leveraging the GPU memory hierarchy.\", \"A promising research direction is to integrate FlashAttention with quantization methods.\", \"This paper introduces INT-FlashAttention, the first INT8 quantization architecture compatible with the forward workflow of FlashAttention, which significantly improves the inference speed of FlashAttention on Ampere GPUs.\", \"We implement our INT-FlashAttention prototype with fully INT8 activations and general matrix-multiplication (GEMM) kernels, making it the first attention operator with fully INT8 input.\", \"As a general token-level post-training quantization framework, INT-FlashAttention is also compatible with other data formats like INT4, etc. Experimental results show INT-FlashAttention achieves 72% faster inference speed and 82% smaller quantization error compared to standard FlashAttention with FP16 and FP8 data format.\"]",
+    "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+    "published": "2024-09-25",
+    "section_title": "Abstract",
+    "section_type_inherited": false,
+    "arxiv_id": "2409.16997v2",
+    "section_type": "abstract",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.8375037908554077,
+   "via": "semantic"
+  },
+  {
+   "text": "We propose INT-FlashAttention, a token-level post-training quantization architecture that can be seamlessly integrated with the forward workflow of FlashAttention.• We implement the INT8 version of our INT-FlashAttention prototype, which is the first attention operator with fully INT8 input (to the best of our knowledge). • We conduct experiments evaluating the performance of INT-FlashAttention, showing that it achieves significantly faster inference speed and higher quantization accuracy than baseline solutions.",
+   "meta": {
+    "section_title": "Untitled",
+    "section_type_inherited": true,
+    "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"We propose INT-FlashAttention, a token-level post-training quantization architecture that can be seamlessly integrated with the forward workflow of FlashAttention.•\", \"We implement the INT8 version of our INT-FlashAttention prototype, which is the first attention operator with fully INT8 input (to the best of our knowledge).\", \"• We conduct experiments evaluating the performance of INT-FlashAttention, showing that it achieves significantly faster inference speed and higher quantization accuracy than baseline solutions.\"]",
+    "arxiv_id": "2409.16997v2",
+    "n_words": 68,
+    "published": "2024-09-25"
+   },
+   "similarity": 0.8309308290481567,
+   "via": "semantic"
+  },
+  {
+   "text": "Given that the Ampere architecture provides computational support for INT8 data format, this paper aims to develop a fully INT8 version of FlashAttention, significantly improving the inference speed of FlashAttention on Ampere GPUs compared to the basic FlashAttention with FP16. Towards the above design goal, we propose INT-FlashAttention, a novel token-level post-training quantization architecture designed to align with the computation workflow of FlashAttention. We implement our INT-FlashAttention prototype with INT8-type Q, K, and V matrices. We use INT8 general matrix-multiplication (GEMM) kernels to replace all matrix multiplications during inference, thus significantly improving inference speed and saving energy. To the best of our knowledge, we are the first to develop the attention operator with fully INT8 inputs. By preserving token-level information, INT-FlashAttention offers a substantial accuracy improvement over existing tensorlevel FP8 methods Shah et al. (2024) . Last but not least, our token-level quantization method is not limited to INT8 format, which can also be adapted to other data formats like INT4, and etc. Experimental results show that the INT8 version of INT-FlashAttention achieves 72% faster inference speed compared to FlashAttention-FP16 and up to 82% smaller quantization error compared to FlashAttention-FP8. This paper makes the following contributions: 2 BACKGROUND AND RELATED WORK",
+   "meta": {
+    "n_words": 201,
+    "section_type_inherited": false,
+    "sentences_json": "[\"Given that the Ampere architecture provides computational support for INT8 data format, this paper aims to develop a fully INT8 version of FlashAttention, significantly improving the inference speed of FlashAttention on Ampere GPUs compared to the basic FlashAttention with FP16.\", \"Towards the above design goal, we propose INT-FlashAttention, a novel token-level post-training quantization architecture designed to align with the computation workflow of FlashAttention.\", \"We implement our INT-FlashAttention prototype with INT8-type Q, K, and V matrices.\", \"We use INT8 general matrix-multiplication (GEMM) kernels to replace all matrix multiplications during inference, thus significantly improving inference speed and saving energy.\", \"To the best of our knowledge, we are the first to develop the attention operator with fully INT8 inputs.\", \"By preserving token-level information, INT-FlashAttention offers a substantial accuracy improvement over existing tensorlevel FP8 methods Shah et al. (2024) .\", \"Last but not least, our token-level quantization method is not limited to INT8 format, which can also be adapted to other data formats like INT4, and etc. Experimental results show that the INT8 version of INT-FlashAttention achieves 72% faster inference speed compared to FlashAttention-FP16 and up to 82% smaller quantization error compared to FlashAttention-FP8.\", \"This paper makes the following contributions: 2 BACKGROUND AND RELATED WORK\"]",
+    "published": "2024-09-25",
+    "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+    "section_type": "introduction",
+    "section_title": "INTRODUCTION",
+    "arxiv_id": "2409.16997v2",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.82343590259552,
+   "via": "semantic"
+  },
+  {
+   "text": "We evaluate the inference speed and quantization accuracy of INT-FlashAttention, and compare it to FlashAttention with FP16 Dao (2023) and FP8 Shah et al. (2024) data format. We also compare Quantization accuracy. INT-FlashAttention achieves about 46% and 82% smaller quantization error than FlashAttention with FP8 data format under normal-distributed and uniform-distributed activations, respectively.",
+   "meta": {
+    "sentences_json": "[\"We evaluate the inference speed and quantization accuracy of INT-FlashAttention, and compare it to FlashAttention with FP16 Dao (2023) and FP8 Shah et al. (2024) data format.\", \"We also compare Quantization accuracy.\", \"INT-FlashAttention achieves about 46% and 82% smaller quantization error than FlashAttention with FP8 data format under normal-distributed and uniform-distributed activations, respectively.\"]",
+    "section_type_inherited": false,
+    "published": "2024-09-25",
+    "section_title": "EMPIRICAL EVALUATION",
+    "paper_title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization",
+    "n_words": 53,
+    "domain": "efficient_attention",
+    "arxiv_id": "2409.16997v2",
+    "section_type": "results"
+   },
+   "similarity": 0.8144056797027588,
+   "via": "semantic"
+  }
+ ]
+}

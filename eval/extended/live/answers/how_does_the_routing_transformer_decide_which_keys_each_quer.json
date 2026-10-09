@@ -1,0 +1,209 @@
+{
+ "query": "how does the Routing Transformer decide which keys each query attends to",
+ "expected_arxiv_id": "2003.05997",
+ "category": "factual",
+ "set": "extra",
+ "answer": "The Routing Transformer does not use a dense, all‑to‑all attention pattern.  \nInstead, each output token (the query) is **assigned to a cluster**, and it attends only to the keys that belong to the same cluster — the “cluster memberships” shown in the routing attention diagram [Source 3].  \n\nThus, the selection of keys for a given query is determined by the clustering step that routes tokens to one another; queries attend to the subset of keys that share their cluster label. The excerpts do not provide the exact algorithmic details of how the clustering is performed (e.g., the scoring or assignment rule), only that the routing mechanism groups tokens into clusters which define the sparse attention pattern.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does the Routing Transformer decide which keys each query attends to",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.6963,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Table 1 as well as on the PG-19 data-set in Table 7.For PG-19 we report only a comparison between the Local Transformer and the Routing Transformer, since sequence lengths are 8192 and performing full attention is infeasible.All the step time comparisons are made on a TPUv3, with the same number of cores and batch sizes to facilitate a fair comparison.As we see from Table1local attention is much faster than full attention, training at 9.023 steps per second compared to 5.608 steps per second. The Routing Transformer models on CIFAR-10 have step times that depend on the number of routing heads, with the best performing model with the same attention budget as local at-JSD(local local) JSD(local routing) JSD(routing routing) Jensen-Shannon divergence between the attention distributions of a random local attention head and a random head that routes attention as in Section 4.1 per layer on the Wikitext-103 data-set. We report means and standard deviations computed over 10 runs and use the natural logarithm so that divergences are upper-bounded by 0.6931.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 2,
+   "paper_id": "2206.03003v2",
+   "paper_title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+   "year": "2022",
+   "section": "Multimodal encoder",
+   "section_type": "method",
+   "similarity": 0.6922,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "where θ tf is the other general parameters in the Transformer. By feeding tokens into the Transformer encoder several times repeatedly, Ĥ can encode the relationship among image patches, clinical factors, and class tokens. Here each element of the self-attention map for Ĥ corresponds to the relationship between two tokens, and represents how a token is focused when the other token is given together as input data.",
+   "url": "https://arxiv.org/abs/2206.03003v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.6884,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure 1: Figures showing 2-D attention schemes for the Routing Transformer compared to local attention and strided attention of (Child et al., 2019) . The rows represent the outputs while the columns represent the inputs. For local and strided attention, the colored squares represent the elements every output row attends to. For attention routed as in Section 4.1, the different colors represent cluster memberships for the output token.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 4,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Abstract",
+   "section_type": "abstract",
+   "similarity": 0.687,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Additionally, we set a new state-of-the-art on the newly released PG-19 data-set, obtaining a test perplexity of 33.2 with a 22 layer Routing Transformer model trained on sequences of length 8192. We open-source the code for Routing Transformer in Tensorflow.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 5,
+   "paper_id": "1809.04281v3",
+   "paper_title": "Music Transformer",
+   "year": "2018",
+   "section": "EXPERIMENTS",
+   "section_type": "results",
+   "similarity": 0.683,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "This allows the model to more directly learn its absolute positional mapping. This further improves performance for both the baseline and relative transformer (Table 2 ). We compare against COCONET as it is one of the best-performing models that has also been evaluated on the 16-note grid using the canonical dataset split. To directly compare, we re-evaluated COCONET to obtain note-wise losses on the validation set 4 . For the Transformer models (abbreviated as TF), we implemented our attention mechanisms in the Tensor2Tensor framework (Vaswani et al., 2018) . We use 8 heads, and keep the query, key (att) and value hidden size (hs) fixed within a config. We tuned number of layers (L in {4,5,6}), attention hidden size (att in {256, 512}) and pointwise feedforward hidden size (ff in {512, 1024}).",
+   "url": "https://arxiv.org/abs/1809.04281v3"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Instead, each output token (the query) is assigned to a cluster, and it attends only to the keys that belong to the same cluster — the “cluster memberships” shown in the routing attention diagram.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.412,
+      "semantic": 0.78,
+      "evidence": "For attention routed as in Section 4.1, the different colors represent cluster memberships for the output token.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     3
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 0,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 1,
+   "supported": 0,
+   "partial": 1,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 0.5,
+   "declined": false,
+   "verdict": "weakly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 87,
+  "generation_ms": 1268,
+  "verification_ms": 302,
+  "total_ms": 1657
+ },
+ "hits": [
+  {
+   "text": "Table 1 as well as on the PG-19 data-set in Table 7.For PG-19 we report only a comparison between the Local Transformer and the Routing Transformer, since sequence lengths are 8192 and performing full attention is infeasible.All the step time comparisons are made on a TPUv3, with the same number of cores and batch sizes to facilitate a fair comparison.As we see from Table1local attention is much faster than full attention, training at 9.023 steps per second compared to 5.608 steps per second. The Routing Transformer models on CIFAR-10 have step times that depend on the number of routing heads, with the best performing model with the same attention budget as local at-JSD(local local) JSD(local routing) JSD(routing routing) Jensen-Shannon divergence between the attention distributions of a random local attention head and a random head that routes attention as in Section 4.1 per layer on the Wikitext-103 data-set. We report means and standard deviations computed over 10 runs and use the natural logarithm so that divergences are upper-bounded by 0.6931.",
+   "meta": {
+    "section_title": "Untitled",
+    "published": "2020-03-12",
+    "section_type_inherited": true,
+    "section_type": "conclusion",
+    "n_words": 169,
+    "arxiv_id": "2003.05997v5",
+    "sentences_json": "[\"Table 1 as well as on the PG-19 data-set in Table 7.For PG-19 we report only a comparison between the Local Transformer and the Routing Transformer, since sequence lengths are 8192 and performing full attention is infeasible.All the step time comparisons are made on a TPUv3, with the same number of cores and batch sizes to facilitate a fair comparison.As we see from Table1local attention is much faster than full attention, training at 9.023 steps per second compared to 5.608 steps per second.\", \"The Routing Transformer models on CIFAR-10 have step times that depend on the number of routing heads, with the best performing model with the same attention budget as local at-JSD(local local) JSD(local routing) JSD(routing routing) Jensen-Shannon divergence between the attention distributions of a random local attention head and a random head that routes attention as in Section 4.1 per layer on the Wikitext-103 data-set.\", \"We report means and standard deviations computed over 10 runs and use the natural logarithm so that divergences are upper-bounded by 0.6931.\"]",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.6962903738021851,
+   "via": "semantic"
+  },
+  {
+   "text": "where θ tf is the other general parameters in the Transformer. By feeding tokens into the Transformer encoder several times repeatedly, Ĥ can encode the relationship among image patches, clinical factors, and class tokens. Here each element of the self-attention map for Ĥ corresponds to the relationship between two tokens, and represents how a token is focused when the other token is given together as input data.",
+   "meta": {
+    "arxiv_id": "2206.03003v2",
+    "domain": "efficient_attention",
+    "section_title": "Multimodal encoder",
+    "section_type": "method",
+    "sentences_json": "[\"where θ tf is the other general parameters in the Transformer.\", \"By feeding tokens into the Transformer encoder several times repeatedly, Ĥ can encode the relationship among image patches, clinical factors, and class tokens.\", \"Here each element of the self-attention map for Ĥ corresponds to the relationship between two tokens, and represents how a token is focused when the other token is given together as input data.\"]",
+    "published": "2022-06-07",
+    "paper_title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+    "section_type_inherited": true,
+    "n_words": 67
+   },
+   "similarity": 0.6922096014022827,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure 1: Figures showing 2-D attention schemes for the Routing Transformer compared to local attention and strided attention of (Child et al., 2019) . The rows represent the outputs while the columns represent the inputs. For local and strided attention, the colored squares represent the elements every output row attends to. For attention routed as in Section 4.1, the different colors represent cluster memberships for the output token.",
+   "meta": {
+    "section_type": "conclusion",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "domain": "efficient_attention",
+    "published": "2020-03-12",
+    "sentences_json": "[\"Figure 1: Figures showing 2-D attention schemes for the Routing Transformer compared to local attention and strided attention of (Child et al., 2019) .\", \"The rows represent the outputs while the columns represent the inputs.\", \"For local and strided attention, the colored squares represent the elements every output row attends to.\", \"For attention routed as in Section 4.1, the different colors represent cluster memberships for the output token.\"]",
+    "arxiv_id": "2003.05997v5",
+    "section_type_inherited": true,
+    "n_words": 68,
+    "section_title": "Untitled"
+   },
+   "similarity": 0.6884257793426514,
+   "via": "semantic"
+  },
+  {
+   "text": "Additionally, we set a new state-of-the-art on the newly released PG-19 data-set, obtaining a test perplexity of 33.2 with a 22 layer Routing Transformer model trained on sequences of length 8192. We open-source the code for Routing Transformer in Tensorflow.",
+   "meta": {
+    "domain": "efficient_attention",
+    "section_type": "abstract",
+    "published": "2020-03-12",
+    "section_type_inherited": false,
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "arxiv_id": "2003.05997v5",
+    "section_title": "Abstract",
+    "sentences_json": "[\"Additionally, we set a new state-of-the-art on the newly released PG-19 data-set, obtaining a test perplexity of 33.2 with a 22 layer Routing Transformer model trained on sequences of length 8192.\", \"We open-source the code for Routing Transformer in Tensorflow.\"]",
+    "n_words": 40
+   },
+   "similarity": 0.686982274055481,
+   "via": "semantic"
+  },
+  {
+   "text": "This allows the model to more directly learn its absolute positional mapping. This further improves performance for both the baseline and relative transformer (Table 2 ). We compare against COCONET as it is one of the best-performing models that has also been evaluated on the 16-note grid using the canonical dataset split. To directly compare, we re-evaluated COCONET to obtain note-wise losses on the validation set 4 . For the Transformer models (abbreviated as TF), we implemented our attention mechanisms in the Tensor2Tensor framework (Vaswani et al., 2018) . We use 8 heads, and keep the query, key (att) and value hidden size (hs) fixed within a config. We tuned number of layers (L in {4,5,6}), attention hidden size (att in {256, 512}) and pointwise feedforward hidden size (ff in {512, 1024}).",
+   "meta": {
+    "section_type_inherited": false,
+    "n_words": 132,
+    "paper_title": "Music Transformer",
+    "domain": "efficient_attention",
+    "arxiv_id": "1809.04281v3",
+    "published": "2018-09-12",
+    "section_title": "EXPERIMENTS",
+    "section_type": "results",
+    "sentences_json": "[\"This allows the model to more directly learn its absolute positional mapping.\", \"This further improves performance for both the baseline and relative transformer (Table 2 ).\", \"We compare against COCONET as it is one of the best-performing models that has also been evaluated on the 16-note grid using the canonical dataset split.\", \"To directly compare, we re-evaluated COCONET to obtain note-wise losses on the validation set 4 .\", \"For the Transformer models (abbreviated as TF), we implemented our attention mechanisms in the Tensor2Tensor framework (Vaswani et al., 2018) .\", \"We use 8 heads, and keep the query, key (att) and value hidden size (hs) fixed within a config.\", \"We tuned number of layers (L in {4,5,6}), attention hidden size (att in {256, 512}) and pointwise feedforward hidden size (ff in {512, 1024}).\"]"
+   },
+   "similarity": 0.6829646825790405,
+   "via": "semantic"
+  }
+ ]
+}

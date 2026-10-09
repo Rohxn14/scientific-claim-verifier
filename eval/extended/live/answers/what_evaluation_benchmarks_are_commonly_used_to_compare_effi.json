@@ -1,0 +1,342 @@
+{
+ "query": "what evaluation benchmarks are commonly used to compare efficient attention methods",
+ "expected_arxiv_id": "",
+ "category": "comparison",
+ "set": "harness",
+ "answer": "Efficient‑attention research commonly evaluates methods on a few long‑context benchmarks:\n\n- **LongBench** – a suite for measuring accuracy on long‑context tasks (e.g., reading‑comprehension, reasoning) that is used to compare the trade‑off between accuracy and speed for methods such as Focus‑dLLM [Source 4].  \n- **RULER** – a benchmark that probes retrieval and reasoning performance as context length grows; it is used to show that Gated Sparse Attention (GSA) retains strong scores up to 128 K tokens while standard attention degrades [Source 5].  \n- **∞‑Bench** – an eight‑task benchmark for evaluating generation quality of long‑context LLM inference; it is used to compare full attention, InfLLM, StreamingLLM, Top‑, and the proposed DIPRS algorithm [Source 6].\n\nThese three benchmarks appear repeatedly in recent papers as the standard evaluation suites for measuring both the **quality** (e.g., retrieval, reasoning, generation) and the **efficiency** (runtime, memory) of approximate or sparse attention mechanisms.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what evaluation benchmarks are commonly used to compare efficient attention methods",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "E.6 Full Benchmarking Results",
+   "section_type": "results",
+   "similarity": 0.7869,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We report the full benchmarking results and experimental details on A100. Baselines We compare against reference implementations for exact attention from PyTorch/HuggingFace and Megatron, approximate attention, and sparse attention. For approximate attention, we compare against reference implementations of Reformer [51] , Local Attention [68] , Linformer Attention [84] , Smyrf [19] , and LongShortFormer (LSFormer) [94] . For sparse attention, we compare against reference implementations of Block-Sparse Attention form OpenAI [11] , Longformer [3] , and BigBird Attention [92] . For the approximate and sparse attention, we use a compression ratio of 1/8, or a compressed sequence length of 256, whichever is smaller. Setup We measure runtime and memory usage of the attention computation with 8 heads of dimension 64, and batch size 16 on a machine with one A100 GPU with 40 GB of GPU HBM. We vary sequence length in our experiments. We compute attention on random vectors for Q, K, and V (we do not measure the projection from the hidden layer). For dropout, we use dropout 0.1; for masking, we use a padding mask with uniformly-random mask lengths between the total sequence length and the total sequence length minus 20. To measure runtime, we take the average of 100 measurements of the attention call.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2206.03003v2",
+   "paper_title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+   "year": "2022",
+   "section": "Experimental Evaluation",
+   "section_type": "results",
+   "similarity": 0.7841,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In the experiments, we first compared the proposed PersAM MIL with several baseline methods to confirm the improvement of classification performance. Then, the effectiveness of exploratory and explanatory attentions in the proposed method was evaluated.",
+   "url": "https://arxiv.org/abs/2206.03003v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "E.4 EXPERIMENTAL SETTINGS OF EFFICIENCY COMPARISON",
+   "section_type": "results",
+   "similarity": 0.7728,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "This implies EVA can achieve a better trade-off between efficiency and quality: for short sequences, EVA is possible to achieve stronger performance competitive with softmax attention (despite in longer running time); while for long sequences, EVA can be run much faster with less memory. Comparison to Memory-efficient Attention Mechanisms. In this section, we conduct an empirical efficiency comparison between efficient approximate attention methods and FlashAttention, one of the memory-efficient attention mechanisms (Rabe & Staats, 2021; Dao et al., 2022) with optimized memory accesses. FlashAttention computes the exact softmax attention in an online manner without materializing the full attention matrix, achieving linear memory complexity with respect to sequence lengths; besides, both runtime and memory usage are further improved by minimizing IO accesses. We benchmark different attention modules on one NVIDIA GeForce RTX 3090 GPU, where we measure the memory usage and runtime of running a single attention block, consisting of 8 attention heads with 512 embedding dimension size, for both a forward and backward pass. As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths.",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "B Details of Accuracy vs. Efficiency Experiments",
+   "section_type": "results",
+   "similarity": 0.7724,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "This section provides the detailed results underpinning our accuracy vs. efficiency analysis. Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own. For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved. For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r. The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1). As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Long-Context Evaluation",
+   "section_type": "results",
+   "similarity": 0.7648,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The RULER benchmark (Table 6 ) probes retrieval and reasoning at increasing context lengths. All methods perform comparably up to 32K, but standard attention collapses beyond this point. GSA maintains strong performance even at 128K, nearly doubling the standard baseline score.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.7338,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "• Full Attention, which stores the KV cache of full context and computes the full attention on GPU. • InfLLM [63] , it is a coarse-grained algorithm which selects critical tokens in blocks and computes their attention on GPU. • StreamingLLM [65] , it is an algorithm that keeps a window of tokens in GPU memory for attention computation and simply drops the other tokens. • Top-, it is a fine-grained algorithm which processes the top- similarity search with graph-based index on CPU. We follow the RetrievalAttention [45] to use RoarGraph [28] as the index and align the window size. In particular, the parameter is set as 100 and 2000 to study the performance of difference retrieved critical tokens in our experiments. • DIPRS, our proposed DIPR query processing algorithm for sparse attention. It also uses RoarGraph as the index. The window size of DIPRS is the same as that of the top- query. Result Analysis. Table 5 shows the generation quality of different methods in all 8 tasks of ∞-Bench. The quality score is measured by ∞-Bench. First of all, our proposed DIPRS not only guarantees the SLO, but also achieves the best average generation quality among all the compared methods, as the last column in Table 5 shows.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Self-attention Optimizations",
+   "section_type": "method",
+   "similarity": 0.7179,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "In softmax, masking is applied to the attention score matrix, followed by the softmax operation. The score matrix has dimensions × , where is the sequence length, allowing efficient use of long vector lengths. We reorder the attention-head loop and apply a loop unrolling factor of 16, balancing register usage and avoiding spilling. Since tokens across heads share the same mask, loaded data can be reused effectively. For T , dimensions for the calculated attention weight matrix and Value matrix are N×N and N×D, respectively, for the prefill stage. Here, N is large enough to utilize the long VLs. We apply a loop unrolling factor of 16, chosen to balance register utilization and avoid spilling, over the score matrix rows, multiplying 16 rows of the score matrix against a single Value row to produce 16 output results simultaneously, maximizing Value reuse within the innermost loop. Increasing loop unrolling from 16 to 32 degrades performance due to register spilling.",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Ablation status.",
+   "section_type": "results",
+   "similarity": 0.6469,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "The Structured-vs-Flat comparison above is the first of the mechanism ablations we plan. Still open, each holding the rest of ContextPipe fixed: (A1) predictive vs. reactive pressure (the two signals differ by at most 1.7% of the window here, so separating them requires a knob where tier decisions sit near a threshold); (A2) SessionLatches vs. per-turn re-evaluation; (A3) TTL+dedup+cap on EmergentContext vs. appendonly; and (A4) ProviderCachePolicy vs. fixed marker placement. Limitations and threats to validity.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "LongBench – a suite for measuring accuracy on long‑context tasks (e.g., reading‑comprehension, reasoning) that is used to compare the trade‑off between accuracy and speed for methods such as Focus‑dLLM.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.556,
+      "semantic": 0.731,
+      "evidence": "This section provides the detailed results underpinning our accuracy vs. efficiency analysis. Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "RULER – a benchmark that probes retrieval and reasoning performance as context length grows; it is used to show that Gated Sparse Attention (GSA) retains strong scores up to 128 K tokens while standard attention degrades.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.762,
+      "semantic": 0.854,
+      "evidence": "The RULER benchmark (Table 6 ) probes retrieval and reasoning at increasing context lengths. All methods perform comparably up to 32K, but standard attention collapses beyond this point.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "∞‑Bench – an eight‑task benchmark for evaluating generation quality of long‑context LLM inference; it is used to compare full attention, InfLLM, StreamingLLM, Top‑, and the proposed DIPRS algorithm.",
+    "sources": [
+     6
+    ],
+    "citations": [
+     {
+      "source": 6,
+      "status": "supported",
+      "lexical": 0.85,
+      "semantic": 0.786,
+      "evidence": "In particular, the parameter is set as 100 and 2000 to study the performance of difference retrieved critical tokens in our experiments. • DIPRS, our proposed DIPR query processing algorithm for sparse attention.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     6
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 3,
+   "claims_supported": 3,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 3,
+   "supported": 3,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 1,
+   "score": 1.0,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 37,
+  "generation_ms": 1564,
+  "verification_ms": 1074,
+  "total_ms": 2677
+ },
+ "hits": [
+  {
+   "text": "We report the full benchmarking results and experimental details on A100. Baselines We compare against reference implementations for exact attention from PyTorch/HuggingFace and Megatron, approximate attention, and sparse attention. For approximate attention, we compare against reference implementations of Reformer [51] , Local Attention [68] , Linformer Attention [84] , Smyrf [19] , and LongShortFormer (LSFormer) [94] . For sparse attention, we compare against reference implementations of Block-Sparse Attention form OpenAI [11] , Longformer [3] , and BigBird Attention [92] . For the approximate and sparse attention, we use a compression ratio of 1/8, or a compressed sequence length of 256, whichever is smaller. Setup We measure runtime and memory usage of the attention computation with 8 heads of dimension 64, and batch size 16 on a machine with one A100 GPU with 40 GB of GPU HBM. We vary sequence length in our experiments. We compute attention on random vectors for Q, K, and V (we do not measure the projection from the hidden layer). For dropout, we use dropout 0.1; for masking, we use a padding mask with uniformly-random mask lengths between the total sequence length and the total sequence length minus 20. To measure runtime, we take the average of 100 measurements of the attention call.",
+   "meta": {
+    "sentences_json": "[\"We report the full benchmarking results and experimental details on A100.\", \"Baselines We compare against reference implementations for exact attention from PyTorch/HuggingFace and Megatron, approximate attention, and sparse attention.\", \"For approximate attention, we compare against reference implementations of Reformer [51] , Local Attention [68] , Linformer Attention [84] , Smyrf [19] , and LongShortFormer (LSFormer) [94] .\", \"For sparse attention, we compare against reference implementations of Block-Sparse Attention form OpenAI [11] , Longformer [3] , and BigBird Attention [92] .\", \"For the approximate and sparse attention, we use a compression ratio of 1/8, or a compressed sequence length of 256, whichever is smaller.\", \"Setup We measure runtime and memory usage of the attention computation with 8 heads of dimension 64, and batch size 16 on a machine with one A100 GPU with 40 GB of GPU HBM.\", \"We vary sequence length in our experiments.\", \"We compute attention on random vectors for Q, K, and V (we do not measure the projection from the hidden layer).\", \"For dropout, we use dropout 0.1; for masking, we use a padding mask with uniformly-random mask lengths between the total sequence length and the total sequence length minus 20.\", \"To measure runtime, we take the average of 100 measurements of the attention call.\"]",
+    "n_words": 208,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "arxiv_id": "2205.14135v2",
+    "published": "2022-05-27",
+    "section_type": "results",
+    "section_title": "E.6 Full Benchmarking Results",
+    "domain": "efficient_attention",
+    "section_type_inherited": false
+   },
+   "similarity": 0.7869173288345337,
+   "via": "semantic"
+  },
+  {
+   "text": "In the experiments, we first compared the proposed PersAM MIL with several baseline methods to confirm the improvement of classification performance. Then, the effectiveness of exploratory and explanatory attentions in the proposed method was evaluated.",
+   "meta": {
+    "sentences_json": "[\"In the experiments, we first compared the proposed PersAM MIL with several baseline methods to confirm the improvement of classification performance.\", \"Then, the effectiveness of exploratory and explanatory attentions in the proposed method was evaluated.\"]",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "section_title": "Experimental Evaluation",
+    "arxiv_id": "2206.03003v2",
+    "published": "2022-06-07",
+    "n_words": 35,
+    "paper_title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.78413987159729,
+   "via": "semantic"
+  },
+  {
+   "text": "This implies EVA can achieve a better trade-off between efficiency and quality: for short sequences, EVA is possible to achieve stronger performance competitive with softmax attention (despite in longer running time); while for long sequences, EVA can be run much faster with less memory. Comparison to Memory-efficient Attention Mechanisms. In this section, we conduct an empirical efficiency comparison between efficient approximate attention methods and FlashAttention, one of the memory-efficient attention mechanisms (Rabe & Staats, 2021; Dao et al., 2022) with optimized memory accesses. FlashAttention computes the exact softmax attention in an online manner without materializing the full attention matrix, achieving linear memory complexity with respect to sequence lengths; besides, both runtime and memory usage are further improved by minimizing IO accesses. We benchmark different attention modules on one NVIDIA GeForce RTX 3090 GPU, where we measure the memory usage and runtime of running a single attention block, consisting of 8 attention heads with 512 embedding dimension size, for both a forward and backward pass. As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths.",
+   "meta": {
+    "section_title": "E.4 EXPERIMENTAL SETTINGS OF EFFICIENCY COMPARISON",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "arxiv_id": "2302.04542v1",
+    "paper_title": "Efficient Attention via Control Variates",
+    "n_words": 198,
+    "section_type": "results",
+    "published": "2023-02-09",
+    "sentences_json": "[\"This implies EVA can achieve a better trade-off between efficiency and quality: for short sequences, EVA is possible to achieve stronger performance competitive with softmax attention (despite in longer running time); while for long sequences, EVA can be run much faster with less memory.\", \"Comparison to Memory-efficient Attention Mechanisms.\", \"In this section, we conduct an empirical efficiency comparison between efficient approximate attention methods and FlashAttention, one of the memory-efficient attention mechanisms (Rabe & Staats, 2021; Dao et al., 2022) with optimized memory accesses.\", \"FlashAttention computes the exact softmax attention in an online manner without materializing the full attention matrix, achieving linear memory complexity with respect to sequence lengths; besides, both runtime and memory usage are further improved by minimizing IO accesses.\", \"We benchmark different attention modules on one NVIDIA GeForce RTX 3090 GPU, where we measure the memory usage and runtime of running a single attention block, consisting of 8 attention heads with 512 embedding dimension size, for both a forward and backward pass.\", \"As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths.\"]"
+   },
+   "similarity": 0.7728440761566162,
+   "via": "semantic"
+  },
+  {
+   "text": "This section provides the detailed results underpinning our accuracy vs. efficiency analysis. Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own. For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved. For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r. The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1). As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods.",
+   "meta": {
+    "domain": "efficient_attention",
+    "published": "2026-02-02",
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+    "arxiv_id": "2602.02159v1",
+    "section_type_inherited": false,
+    "section_type": "results",
+    "section_title": "B Details of Accuracy vs. Efficiency Experiments",
+    "n_words": 153,
+    "sentences_json": "[\"This section provides the detailed results underpinning our accuracy vs. efficiency analysis.\", \"Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own.\", \"For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved.\", \"For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r.\", \"The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1).\", \"As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods.\"]"
+   },
+   "similarity": 0.7724180221557617,
+   "via": "semantic"
+  },
+  {
+   "text": "The RULER benchmark (Table 6 ) probes retrieval and reasoning at increasing context lengths. All methods perform comparably up to 32K, but standard attention collapses beyond this point. GSA maintains strong performance even at 128K, nearly doubling the standard baseline score.",
+   "meta": {
+    "sentences_json": "[\"The RULER benchmark (Table 6 ) probes retrieval and reasoning at increasing context lengths.\", \"All methods perform comparably up to 32K, but standard attention collapses beyond this point.\", \"GSA maintains strong performance even at 128K, nearly doubling the standard baseline score.\"]",
+    "n_words": 41,
+    "section_type_inherited": false,
+    "section_title": "Long-Context Evaluation",
+    "domain": "efficient_attention",
+    "published": "2026-01-12",
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "arxiv_id": "2601.15305v1",
+    "section_type": "results"
+   },
+   "similarity": 0.764837920665741,
+   "via": "semantic"
+  },
+  {
+   "text": "• Full Attention, which stores the KV cache of full context and computes the full attention on GPU. • InfLLM [63] , it is a coarse-grained algorithm which selects critical tokens in blocks and computes their attention on GPU. • StreamingLLM [65] , it is an algorithm that keeps a window of tokens in GPU memory for attention computation and simply drops the other tokens. • Top-, it is a fine-grained algorithm which processes the top- similarity search with graph-based index on CPU. We follow the RetrievalAttention [45] to use RoarGraph [28] as the index and align the window size. In particular, the parameter is set as 100 and 2000 to study the performance of difference retrieved critical tokens in our experiments. • DIPRS, our proposed DIPR query processing algorithm for sparse attention. It also uses RoarGraph as the index. The window size of DIPRS is the same as that of the top- query. Result Analysis. Table 5 shows the generation quality of different methods in all 8 tasks of ∞-Bench. The quality score is measured by ∞-Bench. First of all, our proposed DIPRS not only guarantees the SLO, but also achieves the best average generation quality among all the compared methods, as the last column in Table 5 shows.",
+   "meta": {
+    "n_words": 210,
+    "section_type_inherited": false,
+    "published": "2025-04-14",
+    "section_type": "results",
+    "sentences_json": "[\"• Full Attention, which stores the KV cache of full context and computes the full attention on GPU.\", \"• InfLLM [63] , it is a coarse-grained algorithm which selects critical tokens in blocks and computes their attention on GPU.\", \"• StreamingLLM [65] , it is an algorithm that keeps a window of tokens in GPU memory for attention computation and simply drops the other tokens.\", \"• Top-, it is a fine-grained algorithm which processes the top- similarity search with graph-based index on CPU.\", \"We follow the RetrievalAttention [45] to use RoarGraph [28] as the index and align the window size.\", \"In particular, the parameter is set as 100 and 2000 to study the performance of difference retrieved critical tokens in our experiments.\", \"• DIPRS, our proposed DIPR query processing algorithm for sparse attention.\", \"It also uses RoarGraph as the index.\", \"The window size of DIPRS is the same as that of the top- query.\", \"Result Analysis.\", \"Table 5 shows the generation quality of different methods in all 8 tasks of ∞-Bench.\", \"The quality score is measured by ∞-Bench.\", \"First of all, our proposed DIPRS not only guarantees the SLO, but also achieves the best average generation quality among all the compared methods, as the last column in Table 5 shows.\"]",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_title": "Empirical Evaluation",
+    "arxiv_id": "2504.10326v1",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7338454127311707,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "In softmax, masking is applied to the attention score matrix, followed by the softmax operation. The score matrix has dimensions × , where is the sequence length, allowing efficient use of long vector lengths. We reorder the attention-head loop and apply a loop unrolling factor of 16, balancing register usage and avoiding spilling. Since tokens across heads share the same mask, loaded data can be reused effectively. For T , dimensions for the calculated attention weight matrix and Value matrix are N×N and N×D, respectively, for the prefill stage. Here, N is large enough to utilize the long VLs. We apply a loop unrolling factor of 16, chosen to balance register utilization and avoid spilling, over the score matrix rows, multiplying 16 rows of the score matrix against a single Value row to produce 16 output results simultaneously, maximizing Value reuse within the innermost loop. Increasing loop unrolling from 16 to 32 degrades performance due to register spilling.",
+   "meta": {
+    "sentences_json": "[\"In softmax, masking is applied to the attention score matrix, followed by the softmax operation.\", \"The score matrix has dimensions × , where is the sequence length, allowing efficient use of long vector lengths.\", \"We reorder the attention-head loop and apply a loop unrolling factor of 16, balancing register usage and avoiding spilling.\", \"Since tokens across heads share the same mask, loaded data can be reused effectively.\", \"For T , dimensions for the calculated attention weight matrix and Value matrix are N×N and N×D, respectively, for the prefill stage.\", \"Here, N is large enough to utilize the long VLs.\", \"We apply a loop unrolling factor of 16, chosen to balance register utilization and avoid spilling, over the score matrix rows, multiplying 16 rows of the score matrix against a single Value row to produce 16 output results simultaneously, maximizing Value reuse within the innermost loop.\", \"Increasing loop unrolling from 16 to 32 degrades performance due to register spilling.\"]",
+    "section_type": "method",
+    "section_title": "Self-attention Optimizations",
+    "arxiv_id": "2608.18656v1",
+    "published": "2026-08-19",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "n_words": 158
+   },
+   "similarity": 0.7179304957389832,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "The Structured-vs-Flat comparison above is the first of the mechanism ablations we plan. Still open, each holding the rest of ContextPipe fixed: (A1) predictive vs. reactive pressure (the two signals differ by at most 1.7% of the window here, so separating them requires a knob where tier decisions sit near a threshold); (A2) SessionLatches vs. per-turn re-evaluation; (A3) TTL+dedup+cap on EmergentContext vs. appendonly; and (A4) ProviderCachePolicy vs. fixed marker placement. Limitations and threats to validity.",
+   "meta": {
+    "published": "2026-09-01",
+    "n_words": 75,
+    "section_title": "Ablation status.",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "sentences_json": "[\"The Structured-vs-Flat comparison above is the first of the mechanism ablations we plan.\", \"Still open, each holding the rest of ContextPipe fixed: (A1) predictive vs. reactive pressure (the two signals differ by at most 1.7% of the window here, so separating them requires a knob where tier decisions sit near a threshold); (A2) SessionLatches vs. per-turn re-evaluation; (A3) TTL+dedup+cap on EmergentContext vs. appendonly; and (A4) ProviderCachePolicy vs. fixed marker placement.\", \"Limitations and threats to validity.\"]",
+    "arxiv_id": "2609.00749v1"
+   },
+   "similarity": 0.6468770503997803,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

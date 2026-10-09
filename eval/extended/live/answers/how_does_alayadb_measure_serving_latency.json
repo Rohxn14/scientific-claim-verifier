@@ -1,0 +1,267 @@
+{
+ "query": "how does AlayaDB measure serving latency",
+ "expected_arxiv_id": "2504.10326",
+ "category": "factual",
+ "set": "harness",
+ "answer": "AlayaDB’s serving latency is measured as the **time‑per‑output‑token (TPOT)**, i.e., the wall‑clock time required to generate each successive token during inference. In the empirical evaluation the authors build the context index beforehand and then record only the latency of the token‑generation step, using TPOT as the latency metric and setting a service‑level objective of TPOT ≤ 0.24 s (the typical human reading speed)【Source 1】.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does AlayaDB measure serving latency",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.7645,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "System Overview of AlayaDB",
+   "section_type": "introduction",
+   "similarity": 0.7247,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure 3 depicts the overview of AlayaDB we built at AlayaDB.AI. It consists of three components: (i) user interface, (ii) query processing engine, and (iii) vector storage engine. We briefly introduce each component in AlayaDB to elaborate on the designs for the aforementioned three design goals. User Interface. The top layer of AlayaDB is the user interface component. It abstracts the complex attention computation and KV cache management to offer easy-to-use APIs. Thus, LLM developers can simply leverage efficient and effective long-context LLM inferences by invoking the abstracted APIs in AlayaDB. This is similar to how web developers can build various applications without worrying about the underlying database management system. Specifically, we use two widely-used concepts DB and Session Table 2 : AlayaDB APIs DB abstraction and provided APIs DB.create_session(prompts) -> Session, prompts DB.import(prompts, kv_cache) DB.store(session) Session abstraction and provided APIs Session.attention(q, layer) -> o Session.update(q, k, v, layer) -> k, v in database community to abstract the context and request in the LLM inference procedure. We will introduce the details in Section 5. Query Processing Engine. The middle layer of AlayaDB is the query processing engine, which is essential to achieve high quality and good efficiency goals. It consists of a native attention engine and a query optimizer.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Storage Optimization",
+   "section_type": "method",
+   "similarity": 0.7235,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Purpose-built Buffer Manager. AlayaDB has a purpose-built buffer manager built upon the underlying vector file system, which is designed to efficiently process the frequently used data in memory. It employs the eviction strategy based on the corresponding block types. For example, blocks storing the vector indices for attention heads are more likely to be kept in memory, as these vectors are frequently accessed during inference. In contrast, blocks storing the vector data are only fetched once to calculate the attention score for each token. The specific designs of it minimize redundant I/O operations by avoiding the need to retrieve them from secondary storage repeatedly. Additionally, the buffer manager supports parallel access, enabling efficient processing in a multi-threaded environment.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "User Interface",
+   "section_type": "introduction",
+   "similarity": 0.7222,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "AlayaDB provides simple and flexible abstractions and easy-to-use APIs for users to import context, reuse context and compute sparse attention result for efficient and effective long-context LLM inference. Two core abstractions in AlayaDB are DB and Session. A DB in AlayaDB manages all the contexts, including prompts, KV cache and vector indexes, e.g., an analogue of DB instance in traditional relational database systems, which include the schema, tables, and data tuples. In a traditional database system, a database session is the connection established between an application server and a database server to enable communication and data retrieval. Inspired by it, in AlayaDB, a Session connects the contexts and the running inference requests from a user. AlayaDB provides compatible APIs with HuggingFace transformers [61] and flash-attention [31, 32] library, which are the de facto standards of LLM inference and attention computation. The core APIs provided by AlayaDB are summarized in Table 2 . We briefly introduce them as follows. ... past_key_values.update(q, k, v, self.layer_idx) o = past_key_values.attention(q, self.layer_idx) ... • DB.create_session(prompts) takes a list of prompts as input and returns a Session object and the truncated prompts. Given the input prompts, it reuses the longest common prefix with the stored contexts. The reused context is in the Session object. The non-reused part of input prompts are the truncated prompts.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Design Goals of AlayaDB",
+   "section_type": "method",
+   "similarity": 0.7188,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In subsequent, we introduce the architecture and key components of AlayaDB. As the last row in Table 1 shows, AlayaDB incurs small memory consumption, low inference latency, and high generation quality simultaneously.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "B.5 Comparison with Rabe and Staats [66]",
+   "section_type": "results",
+   "similarity": 0.6148,
+   "via": "citation",
+   "linked_from": "2504.10326v1",
+   "text": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 7,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Standard Attention Implementation",
+   "section_type": "method",
+   "similarity": 0.6179,
+   "via": "citation",
+   "linked_from": "2504.10326v1",
+   "text": "The standard attention implementation (1) calls the matrix multiply (GEMM) subroutine to multiply S = QK ⊤ , writes the result to HBM, then (2) loads § from HBM to compute softmax and write the result P to HBM, and finally (3) calls GEMM to get O = PV. As most of the operations are bounded by memory bandwidth, the large number of memory accesses translates to slow wall-clock time. Moreover, the required memory is ( 2 ) due to having to materialize S and P. Moreover, one has to save P ∈ R × for the backward pass to compute the gradients.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "In the empirical evaluation the authors build the context index beforehand and then record only the latency of the token‑generation step, using TPOT as the latency metric and setting a service‑level objective of TPOT ≤ 0.24 s (the typical human reading speed).",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.44,
+      "semantic": 0.882,
+      "evidence": "The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 1,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 1,
+   "supported": 1,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 1,
+   "score": 1.0,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 93,
+  "generation_ms": 965,
+  "verification_ms": 445,
+  "total_ms": 1505
+ },
+ "hits": [
+  {
+   "text": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU.",
+   "meta": {
+    "section_title": "Empirical Evaluation",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_type": "results",
+    "published": "2025-04-14",
+    "sentences_json": "[\"In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving.\", \"In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving?\", \"(Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB?\", \"(Section 9.2)\", \"Hardware Configuration.\", \"We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total.\", \"We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference.\", \"We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference.\", \"The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT).\", \"We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] .\", \"Compared Methods.\", \"We compare the following methods:\", \"• Full Attention, which stores the KV cache of full context and computes the full attention on GPU.\"]",
+    "arxiv_id": "2504.10326v1",
+    "n_words": 201
+   },
+   "similarity": 0.7645150423049927,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure 3 depicts the overview of AlayaDB we built at AlayaDB.AI. It consists of three components: (i) user interface, (ii) query processing engine, and (iii) vector storage engine. We briefly introduce each component in AlayaDB to elaborate on the designs for the aforementioned three design goals. User Interface. The top layer of AlayaDB is the user interface component. It abstracts the complex attention computation and KV cache management to offer easy-to-use APIs. Thus, LLM developers can simply leverage efficient and effective long-context LLM inferences by invoking the abstracted APIs in AlayaDB. This is similar to how web developers can build various applications without worrying about the underlying database management system. Specifically, we use two widely-used concepts DB and Session Table 2 : AlayaDB APIs DB abstraction and provided APIs DB.create_session(prompts) -> Session, prompts DB.import(prompts, kv_cache) DB.store(session) Session abstraction and provided APIs Session.attention(q, layer) -> o Session.update(q, k, v, layer) -> k, v in database community to abstract the context and request in the LLM inference procedure. We will introduce the details in Section 5. Query Processing Engine. The middle layer of AlayaDB is the query processing engine, which is essential to achieve high quality and good efficiency goals. It consists of a native attention engine and a query optimizer.",
+   "meta": {
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "sentences_json": "[\"Figure 3 depicts the overview of AlayaDB we built at AlayaDB.AI.\", \"It consists of three components: (i) user interface, (ii) query processing engine, and (iii) vector storage engine.\", \"We briefly introduce each component in AlayaDB to elaborate on the designs for the aforementioned three design goals.\", \"User Interface.\", \"The top layer of AlayaDB is the user interface component.\", \"It abstracts the complex attention computation and KV cache management to offer easy-to-use APIs.\", \"Thus, LLM developers can simply leverage efficient and effective long-context LLM inferences by invoking the abstracted APIs in AlayaDB.\", \"This is similar to how web developers can build various applications without worrying about the underlying database management system.\", \"Specifically, we use two widely-used concepts DB and Session Table 2 : AlayaDB APIs DB abstraction and provided APIs DB.create_session(prompts) -> Session, prompts DB.import(prompts, kv_cache) DB.store(session) Session abstraction and provided APIs Session.attention(q,\", \"layer) -> o Session.update(q,\", \"k, v, layer) -> k, v in database community to abstract the context and request in the LLM inference procedure.\", \"We will introduce the details in Section 5. Query Processing Engine.\", \"The middle layer of AlayaDB is the query processing engine, which is essential to achieve high quality and good efficiency goals.\", \"It consists of a native attention engine and a query optimizer.\"]",
+    "domain": "efficient_attention",
+    "section_type": "introduction",
+    "n_words": 209,
+    "section_title": "System Overview of AlayaDB",
+    "arxiv_id": "2504.10326v1",
+    "published": "2025-04-14",
+    "section_type_inherited": false
+   },
+   "similarity": 0.7246732115745544,
+   "via": "semantic"
+  },
+  {
+   "text": "Purpose-built Buffer Manager. AlayaDB has a purpose-built buffer manager built upon the underlying vector file system, which is designed to efficiently process the frequently used data in memory. It employs the eviction strategy based on the corresponding block types. For example, blocks storing the vector indices for attention heads are more likely to be kept in memory, as these vectors are frequently accessed during inference. In contrast, blocks storing the vector data are only fetched once to calculate the attention score for each token. The specific designs of it minimize redundant I/O operations by avoiding the need to retrieve them from secondary storage repeatedly. Additionally, the buffer manager supports parallel access, enabling efficient processing in a multi-threaded environment.",
+   "meta": {
+    "domain": "efficient_attention",
+    "published": "2025-04-14",
+    "section_type": "method",
+    "sentences_json": "[\"Purpose-built Buffer Manager.\", \"AlayaDB has a purpose-built buffer manager built upon the underlying vector file system, which is designed to efficiently process the frequently used data in memory.\", \"It employs the eviction strategy based on the corresponding block types.\", \"For example, blocks storing the vector indices for attention heads are more likely to be kept in memory, as these vectors are frequently accessed during inference.\", \"In contrast, blocks storing the vector data are only fetched once to calculate the attention score for each token.\", \"The specific designs of it minimize redundant I/O operations by avoiding the need to retrieve them from secondary storage repeatedly.\", \"Additionally, the buffer manager supports parallel access, enabling efficient processing in a multi-threaded environment.\"]",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_title": "Storage Optimization",
+    "n_words": 118,
+    "section_type_inherited": true,
+    "arxiv_id": "2504.10326v1"
+   },
+   "similarity": 0.7235454320907593,
+   "via": "semantic"
+  },
+  {
+   "text": "AlayaDB provides simple and flexible abstractions and easy-to-use APIs for users to import context, reuse context and compute sparse attention result for efficient and effective long-context LLM inference. Two core abstractions in AlayaDB are DB and Session. A DB in AlayaDB manages all the contexts, including prompts, KV cache and vector indexes, e.g., an analogue of DB instance in traditional relational database systems, which include the schema, tables, and data tuples. In a traditional database system, a database session is the connection established between an application server and a database server to enable communication and data retrieval. Inspired by it, in AlayaDB, a Session connects the contexts and the running inference requests from a user. AlayaDB provides compatible APIs with HuggingFace transformers [61] and flash-attention [31, 32] library, which are the de facto standards of LLM inference and attention computation. The core APIs provided by AlayaDB are summarized in Table 2 . We briefly introduce them as follows. ... past_key_values.update(q, k, v, self.layer_idx) o = past_key_values.attention(q, self.layer_idx) ... • DB.create_session(prompts) takes a list of prompts as input and returns a Session object and the truncated prompts. Given the input prompts, it reuses the longest common prefix with the stored contexts. The reused context is in the Session object. The non-reused part of input prompts are the truncated prompts.",
+   "meta": {
+    "section_type": "introduction",
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"AlayaDB provides simple and flexible abstractions and easy-to-use APIs for users to import context, reuse context and compute sparse attention result for efficient and effective long-context LLM inference.\", \"Two core abstractions in AlayaDB are DB and Session.\", \"A DB in AlayaDB manages all the contexts, including prompts, KV cache and vector indexes, e.g., an analogue of DB instance in traditional relational database systems, which include the schema, tables, and data tuples.\", \"In a traditional database system, a database session is the connection established between an application server and a database server to enable communication and data retrieval.\", \"Inspired by it, in AlayaDB, a Session connects the contexts and the running inference requests from a user.\", \"AlayaDB provides compatible APIs with HuggingFace transformers [61] and flash-attention [31, 32] library, which are the de facto standards of LLM inference and attention computation.\", \"The core APIs provided by AlayaDB are summarized in Table 2 .\", \"We briefly introduce them as follows.\", \"... past_key_values.update(q,\", \"k, v, self.layer_idx)\", \"o = past_key_values.attention(q,\", \"self.layer_idx)\", \"... • DB.create_session(prompts) takes a list of prompts as input and returns a Session object and the truncated prompts.\", \"Given the input prompts, it reuses the longest common prefix with the stored contexts.\", \"The reused context is in the Session object.\", \"The non-reused part of input prompts are the truncated prompts.\"]",
+    "n_words": 218,
+    "published": "2025-04-14",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "arxiv_id": "2504.10326v1",
+    "section_title": "User Interface"
+   },
+   "similarity": 0.7221648693084717,
+   "via": "semantic"
+  },
+  {
+   "text": "In subsequent, we introduce the architecture and key components of AlayaDB. As the last row in Table 1 shows, AlayaDB incurs small memory consumption, low inference latency, and high generation quality simultaneously.",
+   "meta": {
+    "n_words": 32,
+    "section_title": "Design Goals of AlayaDB",
+    "section_type_inherited": false,
+    "arxiv_id": "2504.10326v1",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "sentences_json": "[\"In subsequent, we introduce the architecture and key components of AlayaDB.\", \"As the last row in Table 1 shows, AlayaDB incurs small memory consumption, low inference latency, and high generation quality simultaneously.\"]",
+    "published": "2025-04-14",
+    "domain": "efficient_attention",
+    "section_type": "method"
+   },
+   "similarity": 0.7188342809677124,
+   "via": "semantic"
+  },
+  {
+   "text": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block.",
+   "meta": {
+    "arxiv_id": "2205.14135v2",
+    "n_words": 212,
+    "sentences_json": "[\"We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] .\", \"Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] .\", \"To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass.\", \"The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes).\", \"As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime.\", \"Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ).\", \"As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention.\", \"In terms of total memory required, both methods offer substantial memory saving.\", \"The second difference between the two methods is the way information is summarized from each block to pass to the next block.\"]",
+    "section_type_inherited": false,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "section_type": "results",
+    "published": "2022-05-27",
+    "domain": "efficient_attention",
+    "section_title": "B.5 Comparison with Rabe and Staats [66]"
+   },
+   "similarity": 0.6147876977920532,
+   "via": "citation-link from 2504.10326v1"
+  },
+  {
+   "text": "The standard attention implementation (1) calls the matrix multiply (GEMM) subroutine to multiply S = QK ⊤ , writes the result to HBM, then (2) loads § from HBM to compute softmax and write the result P to HBM, and finally (3) calls GEMM to get O = PV. As most of the operations are bounded by memory bandwidth, the large number of memory accesses translates to slow wall-clock time. Moreover, the required memory is ( 2 ) due to having to materialize S and P. Moreover, one has to save P ∈ R × for the backward pass to compute the gradients.",
+   "meta": {
+    "section_title": "Standard Attention Implementation",
+    "arxiv_id": "2307.08691v1",
+    "published": "2023-07-17",
+    "domain": "efficient_attention",
+    "n_words": 103,
+    "section_type_inherited": false,
+    "sentences_json": "[\"The standard attention implementation (1) calls the matrix multiply (GEMM) subroutine to multiply S = QK ⊤ , writes the result to HBM, then (2) loads § from HBM to compute softmax and write the result P to HBM, and finally (3) calls GEMM to get O = PV.\", \"As most of the operations are bounded by memory bandwidth, the large number of memory accesses translates to slow wall-clock time.\", \"Moreover, the required memory is ( 2 ) due to having to materialize S and P.\", \"Moreover, one has to save P ∈ R × for the backward pass to compute the gradients.\"]",
+    "section_type": "method",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning"
+   },
+   "similarity": 0.6179157495498657,
+   "via": "citation-link from 2504.10326v1"
+  }
+ ]
+}

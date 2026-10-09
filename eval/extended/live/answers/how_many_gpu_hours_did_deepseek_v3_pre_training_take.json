@@ -1,0 +1,296 @@
+{
+ "query": "how many GPU hours did DeepSeek-V3 pre-training take",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "extra",
+ "answer": "The provided sources do not contain any information about the amount of GPU time (hours) used to pre‑train DeepSeek‑V3. The only mention of a DeepSeek model is DeepSeek‑V4‑Pro in [Source 8], which does not give pre‑training statistics for any DeepSeek version. Therefore, the number of GPU hours required for DeepSeek‑V3 pre‑training cannot be answered from the available excerpts.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how many GPU hours did DeepSeek-V3 pre-training take",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "BERT Implementation",
+   "section_type": "method",
+   "similarity": 0.6944,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4 GPT-2. FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations. Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM. FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition. Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves. Long-range Arena. We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark. We measure accuracy, throughput, and training time of all models. Each task has a different sequence length varying between 1024 and 4096. We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3 Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention. Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6802,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "End-to-end Performance",
+   "section_type": "results",
+   "similarity": 0.6761,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM. As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU. Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries): The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention. However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention. We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency. In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8. As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8). Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2006.16236v3",
+   "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+   "year": "2020",
+   "section": "CIFAR-10",
+   "section_type": "results",
+   "similarity": 0.6759,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The benefits of our linear formulation increase as the sequence length increases. transformers to generate CIFAR-10 images (Krizhevsky et al., 2009) . For each layer we use the same configuration as in the previous experiment. For Reformer, we use again 64 buckets and 83 chunks of 37 elements, which is approximately 32, as suggested in the paper. Since the sequence length is almost 4 times larger than for the previous experiment, the full transformer can only be used with a batch size of 1 in the largest GPU that is available to us, namely an NVidia P40 with 24GB of memory. For both the linear transformer and reformer, we use a batch size of 4. All models are trained for 7 days. We report results in terms of bits per dimension and image generation throughput in table 2. Note that although the main point of this experiment is not the final perplexity, it is evident that as the sequence length grows, the fast transformer models become increasingly more efficient per GPU hour, achieving better scores than their slower counterparts. As the memory and time to generate a single pixel scales quadratically with the number of pixels for both Reformer and softmax attention, the increase in throughput for our linear transformer is even more pronounced.",
+   "url": "https://arxiv.org/abs/2006.16236v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.6754,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) . We train all models on 128 TPUv3 cores. The setup used for PG-19 is described in Section 5.5.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.6752,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2. In particular, we set the ratio of sampled queries for each index to 40%, which means when building an index, the number of used query vectors is 40% of the key vectors. Figure 11 (a) shows the index construction time under different context lengths. The baseline method follows RetrievalAttention, which builds the index on CPU and builds one index for each query head, see the black curve. Introducing GPU to build kNN and employing CPU-GPU pipeline can gain a speedup from 3× to 15×, see the blue curve. Then, by sharing the index in the same query group, index construction time can be further reduced from 12× to 62× compared to pure CPU baseline, as the red curve shows. Moreover, index sharing also significantly reduces memory consumption by reducing the number of indexes. As depicted in Figure 11 (b), the index size can be 4× smaller than the GPU and CPU baseline without index sharing. In this experiment, we study the effect of this optimization to the generation quality and inference latency. In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.6414,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Attention implementations have been optimized for GPUs [15, 20, 32, 42] and dedicated AI accelerators [17, 18, 42] to maximize throughput for both training and inference. They have also been explored on CPUs to improve transformers inference due to the CPUs' high availability, low latency, and portability across edge devices and data centers [15, 40, 42] . Although these variants differ in how queries, keys, and values are organized, they all rely on the same underlying self-attention computation. Self-attention requires computing and storing large intermediate matrices, such as score matrix = , where and represent Queries and Keys, as well as the resulting softmax attention weights. This leads to significant memory capacity and bandwidth overhead, which becomes particularly pronounced as the sequence length grows. To address this memory bottleneck, Rabe and Staats [34] introduced a memory-efficient attention algorithm with online softmax, enabling exact self-attention without storing the full intermediate score matrix S. Building on this foundation, FlashAttention [11, 12] further optimizes execution by using tiling and fused kernels to keep intermediate data in on-chip GPU memory. While originally optimized for GPUs, recent work has explored FlashAttention on CPUs with vector units to improve transformer inference [15, 39] .",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Evaluation",
+   "section_type": "results",
+   "similarity": 0.6087,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "This section evaluates ContextPipe using the backbone model DeepSeek-V4-Pro [26] . We compare two context construction policies: Structured is the full ContextPipe pipeline, while Flat forces every optimizer gate closed (all closed): sections keep binding order that keeps a stable prefix, without pruning, compaction, or spills. Tier selection is still computed in both, due to the shared planner, so any tier that Flat reports is a label, not an action, which gives a per-call record of when the mechanism would have engaged. Workload. We choose the Qutebrowser subset of SWEbench Pro [8] , the same subset used by Tressoir [18] . SWE-bench Pro is a contamination-resistant successor to SWE-bench [13] , and the subset is long-horizon and touches multiple files, where each instance pairs a bug report with the codebase state before the fix and a test suite that validates a correct patch. We preliminarily evaluated 3 of 79 instances in the subset to stress the context window, the prompt cache, and the compaction ladder at once, and plan to run more instances as future work. Each instance runs three times. Structured acts, at the tradeoff of lower cache-hit ratio. Table 4 demonstrates token usage and other metrics between Structured and Flat.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "The only mention of a DeepSeek model is DeepSeek‑V4‑Pro in, which does not give pre‑training statistics for any DeepSeek version.",
+    "sources": [
+     8
+    ],
+    "citations": [
+     {
+      "source": 8,
+      "status": "supported",
+      "lexical": 0.5,
+      "semantic": 0.541,
+      "evidence": "This section evaluates ContextPipe using the backbone model DeepSeek-V4-Pro [26] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     8
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 1,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 1,
+   "supported": 1,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": 1.0,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 40,
+  "generation_ms": 1497,
+  "verification_ms": 603,
+  "total_ms": 2140
+ },
+ "hits": [
+  {
+   "text": "Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4 GPT-2. FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations. Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM. FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition. Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves. Long-range Arena. We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark. We measure accuracy, throughput, and training time of all models. Each task has a different sequence length varying between 1024 and 4096. We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3 Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention. Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested.",
+   "meta": {
+    "section_title": "BERT Implementation",
+    "sentences_json": "[\"Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours)\", \"17.4 ± 1.4\", \"GPT-2.\", \"FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations.\", \"Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM.\", \"FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition.\", \"Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves.\", \"Long-range Arena.\", \"We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark.\", \"We measure accuracy, throughput, and training time of all models.\", \"Each task has a different sequence length varying between 1024 and 4096.\", \"We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3\", \"Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention.\", \"Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "published": "2022-05-27",
+    "n_words": 192,
+    "section_type": "method",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "arxiv_id": "2205.14135v2"
+   },
+   "similarity": 0.6944026947021484,
+   "via": "semantic"
+  },
+  {
+   "text": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models.",
+   "meta": {
+    "n_words": 50,
+    "domain": "efficient_attention",
+    "section_type": "results",
+    "published": "2023-07-17",
+    "section_title": "Untitled",
+    "sentences_json": "[\"Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be\", \"used to understand long books and reports, high resolution images, audio and video.\", \"FlashAttention-2 will also speed up training, finetuning, and inference of existing models.\"]",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "section_type_inherited": true,
+    "arxiv_id": "2307.08691v1"
+   },
+   "similarity": 0.6801918148994446,
+   "via": "semantic"
+  },
+  {
+   "text": "We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM. As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU. Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries): The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention. However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention. We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency. In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8. As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8). Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context.",
+   "meta": {
+    "section_type": "results",
+    "section_title": "End-to-end Performance",
+    "n_words": 219,
+    "sentences_json": "[\"We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM.\", \"As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU.\", \"Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries):\", \"The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention.\", \"However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention.\", \"We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency.\", \"In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8.\", \"As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8).\", \"Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context.\"]",
+    "published": "2023-07-17",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "section_type_inherited": false,
+    "arxiv_id": "2307.08691v1",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.6761122941970825,
+   "via": "semantic"
+  },
+  {
+   "text": "The benefits of our linear formulation increase as the sequence length increases. transformers to generate CIFAR-10 images (Krizhevsky et al., 2009) . For each layer we use the same configuration as in the previous experiment. For Reformer, we use again 64 buckets and 83 chunks of 37 elements, which is approximately 32, as suggested in the paper. Since the sequence length is almost 4 times larger than for the previous experiment, the full transformer can only be used with a batch size of 1 in the largest GPU that is available to us, namely an NVidia P40 with 24GB of memory. For both the linear transformer and reformer, we use a batch size of 4. All models are trained for 7 days. We report results in terms of bits per dimension and image generation throughput in table 2. Note that although the main point of this experiment is not the final perplexity, it is evident that as the sequence length grows, the fast transformer models become increasingly more efficient per GPU hour, achieving better scores than their slower counterparts. As the memory and time to generate a single pixel scales quadratically with the number of pixels for both Reformer and softmax attention, the increase in throughput for our linear transformer is even more pronounced.",
+   "meta": {
+    "section_type_inherited": true,
+    "section_type": "results",
+    "section_title": "CIFAR-10",
+    "arxiv_id": "2006.16236v3",
+    "domain": "efficient_attention",
+    "n_words": 214,
+    "published": "2020-06-29",
+    "sentences_json": "[\"The benefits of our linear formulation increase as the sequence length increases.\", \"transformers to generate CIFAR-10 images (Krizhevsky et al., 2009) .\", \"For each layer we use the same configuration as in the previous experiment.\", \"For Reformer, we use again 64 buckets and 83 chunks of 37 elements, which is approximately 32, as suggested in the paper.\", \"Since the sequence length is almost 4 times larger than for the previous experiment, the full transformer can only be used with a batch size of 1 in the largest GPU that is available to us, namely an NVidia P40 with 24GB of memory.\", \"For both the linear transformer and reformer, we use a batch size of 4. All models are trained for 7 days.\", \"We report results in terms of bits per dimension and image generation throughput in table 2. Note that although the main point of this experiment is not the final perplexity, it is evident that as the sequence length grows, the fast transformer models become increasingly more efficient per GPU hour, achieving better scores than their slower counterparts.\", \"As the memory and time to generate a single pixel scales quadratically with the number of pixels for both Reformer and softmax attention, the increase in throughput for our linear transformer is even more pronounced.\"]",
+    "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention"
+   },
+   "similarity": 0.6758595108985901,
+   "via": "semantic"
+  },
+  {
+   "text": "For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) . We train all models on 128 TPUv3 cores. The setup used for PG-19 is described in Section 5.5.",
+   "meta": {
+    "section_title": "Experiments",
+    "domain": "efficient_attention",
+    "n_words": 63,
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "section_type_inherited": false,
+    "sentences_json": "[\"For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) .\", \"We train all models on 128 TPUv3 cores.\", \"The setup used for PG-19 is described in Section 5.5.\"]",
+    "arxiv_id": "2003.05997v5",
+    "published": "2020-03-12",
+    "section_type": "results"
+   },
+   "similarity": 0.675447940826416,
+   "via": "semantic"
+  },
+  {
+   "text": "We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2. In particular, we set the ratio of sampled queries for each index to 40%, which means when building an index, the number of used query vectors is 40% of the key vectors. Figure 11 (a) shows the index construction time under different context lengths. The baseline method follows RetrievalAttention, which builds the index on CPU and builds one index for each query head, see the black curve. Introducing GPU to build kNN and employing CPU-GPU pipeline can gain a speedup from 3× to 15×, see the blue curve. Then, by sharing the index in the same query group, index construction time can be further reduced from 12× to 62× compared to pure CPU baseline, as the red curve shows. Moreover, index sharing also significantly reduces memory consumption by reducing the number of indexes. As depicted in Figure 11 (b), the index size can be 4× smaller than the GPU and CPU baseline without index sharing. In this experiment, we study the effect of this optimization to the generation quality and inference latency. In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.",
+   "meta": {
+    "section_type_inherited": false,
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "sentences_json": "[\"We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.\", \"In particular, we set the ratio of sampled queries for each index to 40%, which means when building an index, the number of used query vectors is 40% of the key vectors.\", \"Figure 11 (a) shows the index construction time under different context lengths.\", \"The baseline method follows RetrievalAttention, which builds the index on CPU and builds one index for each query head, see the black curve.\", \"Introducing GPU to build kNN and employing CPU-GPU pipeline can gain a speedup from 3× to 15×, see the blue curve.\", \"Then, by sharing the index in the same query group, index construction time can be further reduced from 12× to 62× compared to pure CPU baseline, as the red curve shows.\", \"Moreover, index sharing also significantly reduces memory consumption by reducing the number of indexes.\", \"As depicted in Figure 11 (b), the index size can be 4× smaller than the GPU and CPU baseline without index sharing.\", \"In this experiment, we study the effect of this optimization to the generation quality and inference latency.\", \"In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.\"]",
+    "arxiv_id": "2504.10326v1",
+    "n_words": 211,
+    "section_title": "Empirical Evaluation",
+    "section_type": "results",
+    "published": "2025-04-14",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.6752480268478394,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Attention implementations have been optimized for GPUs [15, 20, 32, 42] and dedicated AI accelerators [17, 18, 42] to maximize throughput for both training and inference. They have also been explored on CPUs to improve transformers inference due to the CPUs' high availability, low latency, and portability across edge devices and data centers [15, 40, 42] . Although these variants differ in how queries, keys, and values are organized, they all rely on the same underlying self-attention computation. Self-attention requires computing and storing large intermediate matrices, such as score matrix = , where and represent Queries and Keys, as well as the resulting softmax attention weights. This leads to significant memory capacity and bandwidth overhead, which becomes particularly pronounced as the sequence length grows. To address this memory bottleneck, Rabe and Staats [34] introduced a memory-efficient attention algorithm with online softmax, enabling exact self-attention without storing the full intermediate score matrix S. Building on this foundation, FlashAttention [11, 12] further optimizes execution by using tiling and fused kernels to keep intermediate data in on-chip GPU memory. While originally optimized for GPUs, recent work has explored FlashAttention on CPUs with vector units to improve transformer inference [15, 39] .",
+   "meta": {
+    "section_title": "Introduction",
+    "domain": "efficient_attention",
+    "n_words": 198,
+    "section_type": "introduction",
+    "published": "2026-08-19",
+    "arxiv_id": "2608.18656v1",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Attention implementations have been optimized for GPUs [15, 20, 32, 42] and dedicated AI accelerators [17, 18, 42] to maximize throughput for both training and inference.\", \"They have also been explored on CPUs to improve transformers inference due to the CPUs' high availability, low latency, and portability across edge devices and data centers [15, 40, 42] .\", \"Although these variants differ in how queries, keys, and values are organized, they all rely on the same underlying self-attention computation.\", \"Self-attention requires computing and storing large intermediate matrices, such as score matrix = , where and represent Queries and Keys, as well as the resulting softmax attention weights.\", \"This leads to significant memory capacity and bandwidth overhead, which becomes particularly pronounced as the sequence length grows.\", \"To address this memory bottleneck, Rabe and Staats [34] introduced a memory-efficient attention algorithm with online softmax, enabling exact self-attention without storing the full intermediate score matrix S. Building on this foundation, FlashAttention [11, 12] further optimizes execution by using tiling and fused kernels to keep intermediate data in on-chip GPU memory.\", \"While originally optimized for GPUs, recent work has explored FlashAttention on CPUs with vector units to improve transformer inference [15, 39] .\"]",
+    "paper_title": "FlashAttention for Scalable Vector Architectures"
+   },
+   "similarity": 0.641419529914856,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "This section evaluates ContextPipe using the backbone model DeepSeek-V4-Pro [26] . We compare two context construction policies: Structured is the full ContextPipe pipeline, while Flat forces every optimizer gate closed (all closed): sections keep binding order that keeps a stable prefix, without pruning, compaction, or spills. Tier selection is still computed in both, due to the shared planner, so any tier that Flat reports is a label, not an action, which gives a per-call record of when the mechanism would have engaged. Workload. We choose the Qutebrowser subset of SWEbench Pro [8] , the same subset used by Tressoir [18] . SWE-bench Pro is a contamination-resistant successor to SWE-bench [13] , and the subset is long-horizon and touches multiple files, where each instance pairs a bug report with the codebase state before the fix and a test suite that validates a correct patch. We preliminarily evaluated 3 of 79 instances in the subset to stress the context window, the prompt cache, and the compaction ladder at once, and plan to run more instances as future work. Each instance runs three times. Structured acts, at the tradeoff of lower cache-hit ratio. Table 4 demonstrates token usage and other metrics between Structured and Flat.",
+   "meta": {
+    "section_type": "results",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "section_title": "Evaluation",
+    "arxiv_id": "2609.00749v1",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"This section evaluates ContextPipe using the backbone model DeepSeek-V4-Pro [26] .\", \"We compare two context construction policies: Structured is the full ContextPipe pipeline, while Flat forces every optimizer gate closed (all closed): sections keep binding order that keeps a stable prefix, without pruning, compaction, or spills.\", \"Tier selection is still computed in both, due to the shared planner, so any tier that Flat reports is a label, not an action, which gives a per-call record of when the mechanism would have engaged.\", \"Workload.\", \"We choose the Qutebrowser subset of SWEbench Pro [8] , the same subset used by Tressoir [18] .\", \"SWE-bench Pro is a contamination-resistant successor to SWE-bench [13] , and the subset is long-horizon and touches multiple files, where each instance pairs a bug report with the codebase state before the fix and a test suite that validates a correct patch.\", \"We preliminarily evaluated 3 of 79 instances in the subset to stress the context window, the prompt cache, and the compaction ladder at once, and plan to run more instances as future work.\", \"Each instance runs three times.\", \"Structured acts, at the tradeoff of lower cache-hit ratio.\", \"Table 4 demonstrates token usage and other metrics between Structured and Flat.\"]",
+    "published": "2026-09-01",
+    "n_words": 202
+   },
+   "similarity": 0.6086751222610474,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

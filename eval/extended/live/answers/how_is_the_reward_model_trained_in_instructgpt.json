@@ -1,0 +1,249 @@
+{
+ "query": "how is the reward model trained in InstructGPT",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "extra",
+ "answer": "The provided sources do not contain any information about how the reward model is trained in InstructGPT; none of the excerpts discuss InstructGPT, reward modeling, or related training procedures【Source 1, Source 2, Source 3, Source 4, Source 5】. Consequently, I cannot answer the question based on the given material.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how is the reward model trained in InstructGPT",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Sparse Computation beyond Attention:",
+   "section_type": "method",
+   "similarity": 0.6879,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Learning models with sparse representations/activations for saving time and computation has been addressed in the past in various context. Previous work often refers to this goal as gating for conditional computation. Gating techniques relying on sampling and straight-through gradient estimators are common (Bengio et al., 2013; Eigen et al., 2013; Cho and Bengio, 2014) . Conditional computation can also be addressed with reinforcement learning (Denoyer and Gallinari, 2014; Indurthi et al., 2019) . Memory augmented neural networks with sparse reads and writes have also been proposed in Rae et al. (2016) as a way to scale Neural Turing Machines (Graves et al., 2014) . In the domain of language modeling, a related work is the sparsely gated Mixture-of-experts (MOE) (Shazeer et al., 2017) where sparsity is induced by experts and a trainable gating network controls the routing strategy to each sub-network. Another related work is Lample et al. (2019) who use product quantization based key-value lookups to replace the feed forward network in the Transformer. Our work differs from theirs in that we make use of dynamic key-value pairs to infer sparsity patterns, while their key-value pairs are the same across examples.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 2,
+   "paper_id": "2402.04563v1",
+   "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+   "year": "2024",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.6814,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In addition, many of the gradient-based methods have been actively utilized in weakly-supervised localization (Chattopadhay et al. 2018; Qin, Kim, and Gedeon 2021; Yang et al. 2020 ). In contrast, the unique structure of ViT, such as the use of [class] token and the self-attention mechanism, makes it complicated to provide the proper explanation of the model. Therefore, compared to CNN, there have been fewer explainability methods developed, including Attention rollout (Abnar and Zuidema 2020) and Layer-wise Relevance Propagation (LRP)-based method (Chefer, Gur, and Wolf 2021) . Attention Rollout is a method developed for ViT and aims to provide a concise aggregation of the overall attention by using the resulting matrix of self-attention operation. Although it considers the core component of ViT architecture, it assumes a linear combination of attention and overlooks the influence of the MLP head, resulting in a rough and non-class-specific explanation of the classification decision. On the other hand, the LRP-based method applied to ViT provides a class-specific analysis and takes the whole model into consideration. It focuses on decomposing the model back into the level of image patches and calculates the relevancy score of each patch based on the conservation property.",
+   "url": "https://arxiv.org/abs/2402.04563v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Training Stability",
+   "section_type": "method",
+   "similarity": 0.6792,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Loss spikes plague large-scale training and often force conservative learning-rate schedules. Table 8 shows that gating dramatically reduces spike frequency, permitting a 2× higher learning rate without instability. GSA inherits these benefits while retaining the speed advantage of sparsity.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2006.16236v3",
+   "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+   "year": "2020",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6742,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure5: Training evolution of transformers for all our experiments. It can be observed that linear transformers converge consistently faster than Reformer and in the autoregressive experiments on par with softmax. For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days. In the speech recognition experiments all methods are trained to convergence. The details of the experiments can be found in § 4.2.1, § 4.2.2 and § 4.3 in the main paper.",
+   "url": "https://arxiv.org/abs/2006.16236v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2503.10589v1",
+   "paper_title": "Long Context Tuning for Video Generation",
+   "year": "2025",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.6693,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training Details. We implement LCT on a text-to-video diffusion model that adopts MMDiT [15] architecture and is trained on images and videos in their native resolutions and durations [14] . The parameters scale of the pre-trained model is 3B. We use a context window size of nine shots in maximum, and continue the model training with LCT on",
+   "url": "https://arxiv.org/abs/2503.10589v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "The provided sources do not contain any information about how the reward model is trained in InstructGPT; none of the excerpts discuss InstructGPT, reward modeling, or related training procedures.",
+    "sources": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "unsupported",
+      "lexical": 0.125,
+      "semantic": 0.467,
+      "evidence": "In the domain of language modeling, a related work is the sparsely gated Mixture-of-experts (MOE) (Shazeer et al., 2017) where sparsity is induced by experts and a trainable gating network controls the routing strategy to each sub-network. Another related work is Lample et al. (2019) who use product quantization based key-value lookups to replace the feed forward network in the Transformer.",
+      "missing_numbers": []
+     },
+     {
+      "source": 2,
+      "status": "unsupported",
+      "lexical": 0.125,
+      "semantic": 0.537,
+      "evidence": "In contrast, the unique structure of ViT, such as the use of [class] token and the self-attention mechanism, makes it complicated to provide the proper explanation of the model. Therefore, compared to CNN, there have been fewer explainability methods developed, including Attention rollout (Abnar and Zuidema 2020) and Layer-wise Relevance Propagation (LRP)-based method (Chefer, Gur, and Wolf 2021) .",
+      "missing_numbers": []
+     },
+     {
+      "source": 3,
+      "status": "unsupported",
+      "lexical": 0.125,
+      "semantic": 0.469,
+      "evidence": "Loss spikes plague large-scale training and often force conservative learning-rate schedules. Table 8 shows that gating dramatically reduces spike frequency, permitting a 2× higher learning rate without instability.",
+      "missing_numbers": []
+     },
+     {
+      "source": 4,
+      "status": "unsupported",
+      "lexical": 0.062,
+      "semantic": 0.482,
+      "evidence": "For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days. In the speech recognition experiments all methods are trained to convergence.",
+      "missing_numbers": []
+     },
+     {
+      "source": 5,
+      "status": "unsupported",
+      "lexical": 0.125,
+      "semantic": 0.474,
+      "evidence": "The parameters scale of the pre-trained model is 3B. We use a context window size of nine shots in maximum, and continue the model training with LCT on",
+      "missing_numbers": []
+     }
+    ],
+    "status": "unsupported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 0,
+   "claims_partial": 0,
+   "claims_unsupported": 1,
+   "citations": 5,
+   "supported": 0,
+   "partial": 0,
+   "unsupported": 5,
+   "invalid": 0,
+   "uncited_sentences": 1,
+   "score": 0.0,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 39,
+  "generation_ms": 1337,
+  "verification_ms": 1353,
+  "total_ms": 2730
+ },
+ "hits": [
+  {
+   "text": "Learning models with sparse representations/activations for saving time and computation has been addressed in the past in various context. Previous work often refers to this goal as gating for conditional computation. Gating techniques relying on sampling and straight-through gradient estimators are common (Bengio et al., 2013; Eigen et al., 2013; Cho and Bengio, 2014) . Conditional computation can also be addressed with reinforcement learning (Denoyer and Gallinari, 2014; Indurthi et al., 2019) . Memory augmented neural networks with sparse reads and writes have also been proposed in Rae et al. (2016) as a way to scale Neural Turing Machines (Graves et al., 2014) . In the domain of language modeling, a related work is the sparsely gated Mixture-of-experts (MOE) (Shazeer et al., 2017) where sparsity is induced by experts and a trainable gating network controls the routing strategy to each sub-network. Another related work is Lample et al. (2019) who use product quantization based key-value lookups to replace the feed forward network in the Transformer. Our work differs from theirs in that we make use of dynamic key-value pairs to infer sparsity patterns, while their key-value pairs are the same across examples.",
+   "meta": {
+    "section_type": "method",
+    "arxiv_id": "2003.05997v5",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "published": "2020-03-12",
+    "section_title": "Sparse Computation beyond Attention:",
+    "domain": "efficient_attention",
+    "n_words": 192,
+    "section_type_inherited": false,
+    "sentences_json": "[\"Learning models with sparse representations/activations for saving time and computation has been addressed in the past in various context.\", \"Previous work often refers to this goal as gating for conditional computation.\", \"Gating techniques relying on sampling and straight-through gradient estimators are common (Bengio et al., 2013; Eigen et al., 2013; Cho and Bengio, 2014) .\", \"Conditional computation can also be addressed with reinforcement learning (Denoyer and Gallinari, 2014; Indurthi et al., 2019) .\", \"Memory augmented neural networks with sparse reads and writes have also been proposed in Rae et al. (2016) as a way to scale Neural Turing Machines (Graves et al., 2014) .\", \"In the domain of language modeling, a related work is the sparsely gated Mixture-of-experts (MOE) (Shazeer et al., 2017) where sparsity is induced by experts and a trainable gating network controls the routing strategy to each sub-network.\", \"Another related work is Lample et al. (2019) who use product quantization based key-value lookups to replace the feed forward network in the Transformer.\", \"Our work differs from theirs in that we make use of dynamic key-value pairs to infer sparsity patterns, while their key-value pairs are the same across examples.\"]"
+   },
+   "similarity": 0.6878602504730225,
+   "via": "semantic"
+  },
+  {
+   "text": "In addition, many of the gradient-based methods have been actively utilized in weakly-supervised localization (Chattopadhay et al. 2018; Qin, Kim, and Gedeon 2021; Yang et al. 2020 ). In contrast, the unique structure of ViT, such as the use of [class] token and the self-attention mechanism, makes it complicated to provide the proper explanation of the model. Therefore, compared to CNN, there have been fewer explainability methods developed, including Attention rollout (Abnar and Zuidema 2020) and Layer-wise Relevance Propagation (LRP)-based method (Chefer, Gur, and Wolf 2021) . Attention Rollout is a method developed for ViT and aims to provide a concise aggregation of the overall attention by using the resulting matrix of self-attention operation. Although it considers the core component of ViT architecture, it assumes a linear combination of attention and overlooks the influence of the MLP head, resulting in a rough and non-class-specific explanation of the classification decision. On the other hand, the LRP-based method applied to ViT provides a class-specific analysis and takes the whole model into consideration. It focuses on decomposing the model back into the level of image patches and calculates the relevancy score of each patch based on the conservation property.",
+   "meta": {
+    "domain": "efficient_attention",
+    "sentences_json": "[\"In addition, many of the gradient-based methods have been actively utilized in weakly-supervised localization (Chattopadhay et al. 2018; Qin, Kim, and Gedeon 2021; Yang et al. 2020 ).\", \"In contrast, the unique structure of ViT, such as the use of [class] token and the self-attention mechanism, makes it complicated to provide the proper explanation of the model.\", \"Therefore, compared to CNN, there have been fewer explainability methods developed, including Attention rollout (Abnar and Zuidema 2020) and Layer-wise Relevance Propagation (LRP)-based method (Chefer, Gur, and Wolf 2021) .\", \"Attention Rollout is a method developed for ViT and aims to provide a concise aggregation of the overall attention by using the resulting matrix of self-attention operation.\", \"Although it considers the core component of ViT architecture, it assumes a linear combination of attention and overlooks the influence of the MLP head, resulting in a rough and non-class-specific explanation of the classification decision.\", \"On the other hand, the LRP-based method applied to ViT provides a class-specific analysis and takes the whole model into consideration.\", \"It focuses on decomposing the model back into the level of image patches and calculates the relevancy score of each patch based on the conservation property.\"]",
+    "arxiv_id": "2402.04563v1",
+    "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+    "n_words": 196,
+    "published": "2024-02-07",
+    "section_type": "introduction",
+    "section_type_inherited": false,
+    "section_title": "Introduction"
+   },
+   "similarity": 0.6813966035842896,
+   "via": "semantic"
+  },
+  {
+   "text": "Loss spikes plague large-scale training and often force conservative learning-rate schedules. Table 8 shows that gating dramatically reduces spike frequency, permitting a 2× higher learning rate without instability. GSA inherits these benefits while retaining the speed advantage of sparsity.",
+   "meta": {
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "section_type": "method",
+    "sentences_json": "[\"Loss spikes plague large-scale training and often force conservative learning-rate schedules.\", \"Table 8 shows that gating dramatically reduces spike frequency, permitting a 2× higher learning rate without instability.\", \"GSA inherits these benefits while retaining the speed advantage of sparsity.\"]",
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "section_title": "Training Stability",
+    "arxiv_id": "2601.15305v1",
+    "published": "2026-01-12",
+    "n_words": 39
+   },
+   "similarity": 0.6791545152664185,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure5: Training evolution of transformers for all our experiments. It can be observed that linear transformers converge consistently faster than Reformer and in the autoregressive experiments on par with softmax. For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days. In the speech recognition experiments all methods are trained to convergence. The details of the experiments can be found in § 4.2.1, § 4.2.2 and § 4.3 in the main paper.",
+   "meta": {
+    "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "section_title": "Untitled",
+    "n_words": 78,
+    "sentences_json": "[\"Figure5: Training evolution of transformers for all our experiments.\", \"It can be observed that linear transformers converge consistently faster than Reformer and in the autoregressive experiments on par with softmax.\", \"For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days.\", \"In the speech recognition experiments all methods are trained to convergence.\", \"The details of the experiments can be found in § 4.2.1, § 4.2.2 and § 4.3 in the main paper.\"]",
+    "arxiv_id": "2006.16236v3",
+    "published": "2020-06-29"
+   },
+   "similarity": 0.6742110252380371,
+   "via": "semantic"
+  },
+  {
+   "text": "Training Details. We implement LCT on a text-to-video diffusion model that adopts MMDiT [15] architecture and is trained on images and videos in their native resolutions and durations [14] . The parameters scale of the pre-trained model is 3B. We use a context window size of nine shots in maximum, and continue the model training with LCT on",
+   "meta": {
+    "paper_title": "Long Context Tuning for Video Generation",
+    "section_type_inherited": false,
+    "arxiv_id": "2503.10589v1",
+    "section_title": "Experiments",
+    "n_words": 58,
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Training Details.\", \"We implement LCT on a text-to-video diffusion model that adopts MMDiT [15] architecture and is trained on images and videos in their native resolutions and durations [14] .\", \"The parameters scale of the pre-trained model is 3B.\", \"We use a context window size of nine shots in maximum, and continue the model training with LCT on\"]",
+    "published": "2025-03-13"
+   },
+   "similarity": 0.6693090200424194,
+   "via": "semantic"
+  }
+ ]
+}

@@ -1,0 +1,290 @@
+{
+ "query": "what is the SLO target used in AlayaDB's evaluation",
+ "expected_arxiv_id": "2504.10326",
+ "category": "factual",
+ "set": "harness",
+ "answer": "The provided excerpts do not specify a concrete SLO (Service‑Level Objective) value that was used during AlayaDB’s evaluation.  \n\n- **Source 1** reports that AlayaDB “guarantee[s] the SLOs for various LLM workloads” but does not define what those SLOs are [Source 1].  \n- **Source 3** describes the core challenge as “meeting the SLOs of different workloads” while reducing GPU memory usage and improving generation quality, yet it also gives no quantitative target [Source 3].  \n\nBecause the papers excerpted here contain no explicit numerical or qualitative description of the SLO target (e.g., latency bound, throughput requirement, or accuracy threshold), that information is missing from the available sources.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what is the SLO target used in AlayaDB's evaluation",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.7236,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We conduct in-depth evaluation of AlayaDB. The results show that it is able to reduce resource consumption and offer better generation quality while guaranteeing the SLOs for various LLM workloads.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Storage Optimization",
+   "section_type": "method",
+   "similarity": 0.6944,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Purpose-built Buffer Manager. AlayaDB has a purpose-built buffer manager built upon the underlying vector file system, which is designed to efficiently process the frequently used data in memory. It employs the eviction strategy based on the corresponding block types. For example, blocks storing the vector indices for attention heads are more likely to be kept in memory, as these vectors are frequently accessed during inference. In contrast, blocks storing the vector data are only fetched once to calculate the attention score for each token. The specific designs of it minimize redundant I/O operations by avoiding the need to retrieve them from secondary storage repeatedly. Additionally, the buffer manager supports parallel access, enabling efficient processing in a multi-threaded environment.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.6929,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Thus, the core challenge of AlayaDB is solving a bi-objective optimization problem, i.e., meet the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously. The core idea of AlayaDB is to decouple both KV cache and attention computation and to encapsulate them into a monolithic vector database. The major benefits of the novel disaggregation level are three-fold. • Lightweight LLM Inference System. The cache management and attention computation can be separated from the LLM inference engine, which lightens its burden. • Interface Simplification. It simplifies the interface between LLM inference engine and KV cache service by only returning the attention result, instead of the KV cache content. • Co-optimization Opportunity. It sheds light on co-optimizing attention computation and KV cache management in a monolithic vector database together. At a high level, AlayaDB's role in LLM inference is comparable to the role of traditional databases [21, 30, 40, 47, 53, 57] in web applications. Specifically, the LLM application developers only need to pay attention to the logic of their applications while AlayaDB offers efficient long-context management from their developed LLM applications. This is analogous to web application developers focusing on the logic of their applications and leaving efficient data management to a traditional relational database.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Use Cases of AlayaDB",
+   "section_type": "method",
+   "similarity": 0.6779,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "AlayaDB provides easy-to-use interfaces and good performance for long context management and inference. In this section, we present two LLM applications to demonstrate the use cases of AlayaDB. Financial Document Analysis. AlayaDB can be used by financial companies to assist in their financial document analysis. These documents are long, including financial statements, audit reports, business plans, etc. Data analysts in the financial company leverage domain-specific LLMs with AlayaDB to analyze a large number of financial documents and generate summarizations for their purposes, e.g., the top-10 news of Hong Kong stock market in 2024. The cost and latency of the document analysis service are reduced. Legal Assistant for Question Answering. Law firms can utilize AlayaDB to enhance their intelligent legal assistant service. The major difference between the legal assistant and other LLM applications is that answers to users' questions must be precise and accurate, e.g., comply with the rules of the government. The legal documents can be stored as context in AlayaDB. Their domain-specific LLM answers user questions by the stored context to achieve low costs while guaranteeing result accuracy.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "System Overview of AlayaDB",
+   "section_type": "introduction",
+   "similarity": 0.664,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure 3 depicts the overview of AlayaDB we built at AlayaDB.AI. It consists of three components: (i) user interface, (ii) query processing engine, and (iii) vector storage engine. We briefly introduce each component in AlayaDB to elaborate on the designs for the aforementioned three design goals. User Interface. The top layer of AlayaDB is the user interface component. It abstracts the complex attention computation and KV cache management to offer easy-to-use APIs. Thus, LLM developers can simply leverage efficient and effective long-context LLM inferences by invoking the abstracted APIs in AlayaDB. This is similar to how web developers can build various applications without worrying about the underlying database management system. Specifically, we use two widely-used concepts DB and Session Table 2 : AlayaDB APIs DB abstraction and provided APIs DB.create_session(prompts) -> Session, prompts DB.import(prompts, kv_cache) DB.store(session) Session abstraction and provided APIs Session.attention(q, layer) -> o Session.update(q, k, v, layer) -> k, v in database community to abstract the context and request in the LLM inference procedure. We will introduce the details in Section 5. Query Processing Engine. The middle layer of AlayaDB is the query processing engine, which is essential to achieve high quality and good efficiency goals. It consists of a native attention engine and a query optimizer.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "E.3 LRA details",
+   "section_type": "method",
+   "similarity": 0.5924,
+   "via": "citation",
+   "linked_from": "2504.10326v1",
+   "text": "We follow the hyperparameters from the Long-range arena paper [80] , the Long-range arena repo (https: //github.com/google-research/long-range-arena), and the Nyströmformer reproduction [90] . To be generous to the baseline methods, if we are unable to reproduce the performance of any baseline for any of the five tasks, we report the better performance from Tay et al. [80] or Xiong et al. [90] for that baseline on that task. After hyperparameter tuning, almost all of the attention methods achieve similar accuracy on all of the five LRA tasks. We run all methods with mixed-precision training, except for Performer (not stable with mixed precision) and Local Attention (implementation does not support FP16). To calculate the overall wallclock-time speedup, we take the geometric mean of the wallclock-time speedup of each of the five tasks. Path-X For Path-X and Path-256, we follow the hyperparameters from the PathFinder-32 experiments from the long-range arena paper [80] . For both, we first pretrain a model on Path-64. We take the checkpoint after 200 epochs, upsample its positional embedding (we duplicate the positional embeddings gridwise in space), and fine-tune it on the downstream task for 200 epochs with one epoch of linear warmup, and cosine decay of the learning rate.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 7,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Standard Attention Implementation",
+   "section_type": "method",
+   "similarity": 0.5658,
+   "via": "citation",
+   "linked_from": "2504.10326v1",
+   "text": "The standard attention implementation (1) calls the matrix multiply (GEMM) subroutine to multiply S = QK ⊤ , writes the result to HBM, then (2) loads § from HBM to compute softmax and write the result P to HBM, and finally (3) calls GEMM to get O = PV. As most of the operations are bounded by memory bandwidth, the large number of memory accesses translates to slow wall-clock time. Moreover, the required memory is ( 2 ) due to having to materialize S and P. Moreover, one has to save P ∈ R × for the backward pass to compute the gradients.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Source 1 reports that AlayaDB “guarantee[s] the SLOs for various LLM workloads” but does not define what those SLOs are.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "partial",
+      "lexical": 0.462,
+      "semantic": 0.717,
+      "evidence": "We conduct in-depth evaluation of AlayaDB. The results show that it is able to reduce resource consumption and offer better generation quality while guaranteeing the SLOs for various LLM workloads.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Source 3 describes the core challenge as “meeting the SLOs of different workloads” while reducing GPU memory usage and improving generation quality, yet it also gives no quantitative target.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.526,
+      "semantic": 0.727,
+      "evidence": "Thus, the core challenge of AlayaDB is solving a bi-objective optimization problem, i.e., meet the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     3
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 2,
+   "claims_supported": 1,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 2,
+   "supported": 1,
+   "partial": 1,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": 0.75,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 48,
+  "generation_ms": 1095,
+  "verification_ms": 520,
+  "total_ms": 1665
+ },
+ "hits": [
+  {
+   "text": "We conduct in-depth evaluation of AlayaDB. The results show that it is able to reduce resource consumption and offer better generation quality while guaranteeing the SLOs for various LLM workloads.",
+   "meta": {
+    "published": "2025-04-14",
+    "arxiv_id": "2504.10326v1",
+    "section_title": "Untitled",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "domain": "efficient_attention",
+    "section_type": "conclusion",
+    "n_words": 30,
+    "section_type_inherited": true,
+    "sentences_json": "[\"We conduct in-depth evaluation of AlayaDB.\", \"The results show that it is able to reduce resource consumption and offer better generation quality while guaranteeing the SLOs for various LLM workloads.\"]"
+   },
+   "similarity": 0.7235745191574097,
+   "via": "semantic"
+  },
+  {
+   "text": "Purpose-built Buffer Manager. AlayaDB has a purpose-built buffer manager built upon the underlying vector file system, which is designed to efficiently process the frequently used data in memory. It employs the eviction strategy based on the corresponding block types. For example, blocks storing the vector indices for attention heads are more likely to be kept in memory, as these vectors are frequently accessed during inference. In contrast, blocks storing the vector data are only fetched once to calculate the attention score for each token. The specific designs of it minimize redundant I/O operations by avoiding the need to retrieve them from secondary storage repeatedly. Additionally, the buffer manager supports parallel access, enabling efficient processing in a multi-threaded environment.",
+   "meta": {
+    "section_type_inherited": true,
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "arxiv_id": "2504.10326v1",
+    "section_title": "Storage Optimization",
+    "published": "2025-04-14",
+    "sentences_json": "[\"Purpose-built Buffer Manager.\", \"AlayaDB has a purpose-built buffer manager built upon the underlying vector file system, which is designed to efficiently process the frequently used data in memory.\", \"It employs the eviction strategy based on the corresponding block types.\", \"For example, blocks storing the vector indices for attention heads are more likely to be kept in memory, as these vectors are frequently accessed during inference.\", \"In contrast, blocks storing the vector data are only fetched once to calculate the attention score for each token.\", \"The specific designs of it minimize redundant I/O operations by avoiding the need to retrieve them from secondary storage repeatedly.\", \"Additionally, the buffer manager supports parallel access, enabling efficient processing in a multi-threaded environment.\"]",
+    "section_type": "method",
+    "domain": "efficient_attention",
+    "n_words": 118
+   },
+   "similarity": 0.6944283843040466,
+   "via": "semantic"
+  },
+  {
+   "text": "Thus, the core challenge of AlayaDB is solving a bi-objective optimization problem, i.e., meet the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously. The core idea of AlayaDB is to decouple both KV cache and attention computation and to encapsulate them into a monolithic vector database. The major benefits of the novel disaggregation level are three-fold. • Lightweight LLM Inference System. The cache management and attention computation can be separated from the LLM inference engine, which lightens its burden. • Interface Simplification. It simplifies the interface between LLM inference engine and KV cache service by only returning the attention result, instead of the KV cache content. • Co-optimization Opportunity. It sheds light on co-optimizing attention computation and KV cache management in a monolithic vector database together. At a high level, AlayaDB's role in LLM inference is comparable to the role of traditional databases [21, 30, 40, 47, 53, 57] in web applications. Specifically, the LLM application developers only need to pay attention to the logic of their applications while AlayaDB offers efficient long-context management from their developed LLM applications. This is analogous to web application developers focusing on the logic of their applications and leaving efficient data management to a traditional relational database.",
+   "meta": {
+    "section_title": "Introduction",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "arxiv_id": "2504.10326v1",
+    "section_type": "introduction",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Thus, the core challenge of AlayaDB is solving a bi-objective optimization problem, i.e., meet the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously.\", \"The core idea of AlayaDB is to decouple both KV cache and attention computation and to encapsulate them into a monolithic vector database.\", \"The major benefits of the novel disaggregation level are three-fold.\", \"• Lightweight LLM Inference System.\", \"The cache management and attention computation can be separated from the LLM inference engine, which lightens its burden.\", \"• Interface Simplification.\", \"It simplifies the interface between LLM inference engine and KV cache service by only returning the attention result, instead of the KV cache content.\", \"• Co-optimization Opportunity.\", \"It sheds light on co-optimizing attention computation and KV cache management in a monolithic vector database together.\", \"At a high level, AlayaDB's role in LLM inference is comparable to the role of traditional databases [21, 30, 40, 47, 53, 57] in web applications.\", \"Specifically, the LLM application developers only need to pay attention to the logic of their applications while AlayaDB offers efficient long-context management from their developed LLM applications.\", \"This is analogous to web application developers focusing on the logic of their applications and leaving efficient data management to a traditional relational database.\"]",
+    "published": "2025-04-14",
+    "domain": "efficient_attention",
+    "n_words": 210
+   },
+   "similarity": 0.6929056644439697,
+   "via": "semantic"
+  },
+  {
+   "text": "AlayaDB provides easy-to-use interfaces and good performance for long context management and inference. In this section, we present two LLM applications to demonstrate the use cases of AlayaDB. Financial Document Analysis. AlayaDB can be used by financial companies to assist in their financial document analysis. These documents are long, including financial statements, audit reports, business plans, etc. Data analysts in the financial company leverage domain-specific LLMs with AlayaDB to analyze a large number of financial documents and generate summarizations for their purposes, e.g., the top-10 news of Hong Kong stock market in 2024. The cost and latency of the document analysis service are reduced. Legal Assistant for Question Answering. Law firms can utilize AlayaDB to enhance their intelligent legal assistant service. The major difference between the legal assistant and other LLM applications is that answers to users' questions must be precise and accurate, e.g., comply with the rules of the government. The legal documents can be stored as context in AlayaDB. Their domain-specific LLM answers user questions by the stored context to achieve low costs while guaranteeing result accuracy.",
+   "meta": {
+    "section_type_inherited": true,
+    "n_words": 179,
+    "arxiv_id": "2504.10326v1",
+    "section_type": "method",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "sentences_json": "[\"AlayaDB provides easy-to-use interfaces and good performance for long context management and inference.\", \"In this section, we present two LLM applications to demonstrate the use cases of AlayaDB.\", \"Financial Document Analysis.\", \"AlayaDB can be used by financial companies to assist in their financial document analysis.\", \"These documents are long, including financial statements, audit reports, business plans, etc.\", \"Data analysts in the financial company leverage domain-specific LLMs with AlayaDB to analyze a large number of financial documents and generate summarizations for their purposes, e.g., the top-10 news of Hong Kong stock market in 2024.\", \"The cost and latency of the document analysis service are reduced.\", \"Legal Assistant for Question Answering.\", \"Law firms can utilize AlayaDB to enhance their intelligent legal assistant service.\", \"The major difference between the legal assistant and other LLM applications is that answers to users' questions must be precise and accurate, e.g., comply with the rules of the government.\", \"The legal documents can be stored as context in AlayaDB.\", \"Their domain-specific LLM answers user questions by the stored context to achieve low costs while guaranteeing result accuracy.\"]",
+    "domain": "efficient_attention",
+    "published": "2025-04-14",
+    "section_title": "Use Cases of AlayaDB"
+   },
+   "similarity": 0.6779448390007019,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure 3 depicts the overview of AlayaDB we built at AlayaDB.AI. It consists of three components: (i) user interface, (ii) query processing engine, and (iii) vector storage engine. We briefly introduce each component in AlayaDB to elaborate on the designs for the aforementioned three design goals. User Interface. The top layer of AlayaDB is the user interface component. It abstracts the complex attention computation and KV cache management to offer easy-to-use APIs. Thus, LLM developers can simply leverage efficient and effective long-context LLM inferences by invoking the abstracted APIs in AlayaDB. This is similar to how web developers can build various applications without worrying about the underlying database management system. Specifically, we use two widely-used concepts DB and Session Table 2 : AlayaDB APIs DB abstraction and provided APIs DB.create_session(prompts) -> Session, prompts DB.import(prompts, kv_cache) DB.store(session) Session abstraction and provided APIs Session.attention(q, layer) -> o Session.update(q, k, v, layer) -> k, v in database community to abstract the context and request in the LLM inference procedure. We will introduce the details in Section 5. Query Processing Engine. The middle layer of AlayaDB is the query processing engine, which is essential to achieve high quality and good efficiency goals. It consists of a native attention engine and a query optimizer.",
+   "meta": {
+    "section_title": "System Overview of AlayaDB",
+    "arxiv_id": "2504.10326v1",
+    "published": "2025-04-14",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "n_words": 209,
+    "section_type": "introduction",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Figure 3 depicts the overview of AlayaDB we built at AlayaDB.AI.\", \"It consists of three components: (i) user interface, (ii) query processing engine, and (iii) vector storage engine.\", \"We briefly introduce each component in AlayaDB to elaborate on the designs for the aforementioned three design goals.\", \"User Interface.\", \"The top layer of AlayaDB is the user interface component.\", \"It abstracts the complex attention computation and KV cache management to offer easy-to-use APIs.\", \"Thus, LLM developers can simply leverage efficient and effective long-context LLM inferences by invoking the abstracted APIs in AlayaDB.\", \"This is similar to how web developers can build various applications without worrying about the underlying database management system.\", \"Specifically, we use two widely-used concepts DB and Session Table 2 : AlayaDB APIs DB abstraction and provided APIs DB.create_session(prompts) -> Session, prompts DB.import(prompts, kv_cache) DB.store(session) Session abstraction and provided APIs Session.attention(q,\", \"layer) -> o Session.update(q,\", \"k, v, layer) -> k, v in database community to abstract the context and request in the LLM inference procedure.\", \"We will introduce the details in Section 5. Query Processing Engine.\", \"The middle layer of AlayaDB is the query processing engine, which is essential to achieve high quality and good efficiency goals.\", \"It consists of a native attention engine and a query optimizer.\"]"
+   },
+   "similarity": 0.6639904975891113,
+   "via": "semantic"
+  },
+  {
+   "text": "We follow the hyperparameters from the Long-range arena paper [80] , the Long-range arena repo (https: //github.com/google-research/long-range-arena), and the Nyströmformer reproduction [90] . To be generous to the baseline methods, if we are unable to reproduce the performance of any baseline for any of the five tasks, we report the better performance from Tay et al. [80] or Xiong et al. [90] for that baseline on that task. After hyperparameter tuning, almost all of the attention methods achieve similar accuracy on all of the five LRA tasks. We run all methods with mixed-precision training, except for Performer (not stable with mixed precision) and Local Attention (implementation does not support FP16). To calculate the overall wallclock-time speedup, we take the geometric mean of the wallclock-time speedup of each of the five tasks. Path-X For Path-X and Path-256, we follow the hyperparameters from the PathFinder-32 experiments from the long-range arena paper [80] . For both, we first pretrain a model on Path-64. We take the checkpoint after 200 epochs, upsample its positional embedding (we duplicate the positional embeddings gridwise in space), and fine-tune it on the downstream task for 200 epochs with one epoch of linear warmup, and cosine decay of the learning rate.",
+   "meta": {
+    "section_type": "method",
+    "n_words": 202,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "sentences_json": "[\"We follow the hyperparameters from the Long-range arena paper [80] , the Long-range arena repo (https: //github.com/google-research/long-range-arena),\", \"and the Nyströmformer reproduction [90] .\", \"To be generous to the baseline methods, if we are unable to reproduce the performance of any baseline for any of the five tasks, we report the better performance from Tay et al. [80] or Xiong et al. [90] for that baseline on that task.\", \"After hyperparameter tuning, almost all of the attention methods achieve similar accuracy on all of the five LRA tasks.\", \"We run all methods with mixed-precision training, except for Performer (not stable with mixed precision) and Local Attention (implementation does not support FP16).\", \"To calculate the overall wallclock-time speedup, we take the geometric mean of the wallclock-time speedup of each of the five tasks.\", \"Path-X For Path-X and Path-256, we follow the hyperparameters from the PathFinder-32 experiments from the long-range arena paper [80] .\", \"For both, we first pretrain a model on Path-64.\", \"We take the checkpoint after 200 epochs, upsample its positional embedding (we duplicate the positional embeddings gridwise in space), and fine-tune it on the downstream task for 200 epochs with one epoch of linear warmup, and cosine decay of the learning rate.\"]",
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "published": "2022-05-27",
+    "section_title": "E.3 LRA details",
+    "arxiv_id": "2205.14135v2"
+   },
+   "similarity": 0.5924227833747864,
+   "via": "citation-link from 2504.10326v1"
+  },
+  {
+   "text": "The standard attention implementation (1) calls the matrix multiply (GEMM) subroutine to multiply S = QK ⊤ , writes the result to HBM, then (2) loads § from HBM to compute softmax and write the result P to HBM, and finally (3) calls GEMM to get O = PV. As most of the operations are bounded by memory bandwidth, the large number of memory accesses translates to slow wall-clock time. Moreover, the required memory is ( 2 ) due to having to materialize S and P. Moreover, one has to save P ∈ R × for the backward pass to compute the gradients.",
+   "meta": {
+    "section_type": "method",
+    "sentences_json": "[\"The standard attention implementation (1) calls the matrix multiply (GEMM) subroutine to multiply S = QK ⊤ , writes the result to HBM, then (2) loads § from HBM to compute softmax and write the result P to HBM, and finally (3) calls GEMM to get O = PV.\", \"As most of the operations are bounded by memory bandwidth, the large number of memory accesses translates to slow wall-clock time.\", \"Moreover, the required memory is ( 2 ) due to having to materialize S and P.\", \"Moreover, one has to save P ∈ R × for the backward pass to compute the gradients.\"]",
+    "published": "2023-07-17",
+    "section_title": "Standard Attention Implementation",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "domain": "efficient_attention",
+    "arxiv_id": "2307.08691v1",
+    "section_type_inherited": false,
+    "n_words": 103
+   },
+   "similarity": 0.5658098459243774,
+   "via": "citation-link from 2504.10326v1"
+  }
+ ]
+}

@@ -1,0 +1,334 @@
+{
+ "query": "does AlayaDB report different performance numbers than the original FlashAttention paper",
+ "expected_arxiv_id": "",
+ "category": "contradiction",
+ "set": "harness",
+ "answer": "AlayaDB does not provide any quantitative performance numbers in the excerpt that is available — it only states the experimental setup (hardware, model, latency target ≤ 0.24 s) and that it is compared against “Full Attention” (see [Source 7]). Because no measured throughput, latency, or speed‑up values are reported, we cannot directly compare AlayaDB’s performance to the numbers reported in the original FlashAttention paper.\n\nThe original FlashAttention work reports that its implementation is **2–4 × faster than standard attention** while also saving memory (see [Source 4]); later work (FlashAttention‑2) claims an additional **≈2 × speed‑up** over FlashAttention (see [Source 6]).\n\nSince the AlayaDB excerpt lacks the necessary performance figures, a definitive answer about whether AlayaDB reports different numbers from the original FlashAttention paper cannot be given with the provided sources. What is missing is a table or textual statement of AlayaDB’s measured latency or speed‑up relative to FlashAttention.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "does AlayaDB report different performance numbers than the original FlashAttention paper",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Experimental Setup",
+   "section_type": "results",
+   "similarity": 0.7532,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements. All baselines are evaluated against llama.cpp 3 .",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "B.5 Comparison with Rabe and Staats [66]",
+   "section_type": "results",
+   "similarity": 0.7316,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The second difference between the two methods is the way information is summarized from each block to pass to the next block. Rabe and Staats [66] summarizes each block with its temporary output along with the softmax normalization statistics. At the end of the forward pass, the temporary outputs of all the blocks are combined using the statistics to produce the final output. FlashAttention instead incrementally updates the output (Algorithm 1 line 12) after processing each block, so only one copy of the output is needed (instead of copies for blocks). This means that FlashAttention has smaller total memory requirement compared to Rabe and Staats [66] . The final major difference is the way the backward pass is computed. Rabe and Staats [66] uses gradient checkpointing to recompute the attention matrix and the temporary output of each block. FlashAttention instead simplifies the backward pass analytically (Appendices B.2 and B.4). It only recomputes the attention matrix and does not recompute the temporary output of each block. This reduces the memory requirement for the backward pass and yields speedup.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2505.14201v1",
+   "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+   "year": "2025",
+   "section": "A. Overall Organization",
+   "section_type": "method",
+   "similarity": 0.7235,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ). Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors. The primary differences lie in three key areas. First, the division at the output of FlashAttention2 kernel is not required in Flash-D. While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector. Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed. Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed. Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+   "url": "https://arxiv.org/abs/2505.14201v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "B.5 Comparison with Rabe and Staats [66]",
+   "section_type": "results",
+   "similarity": 0.7124,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.7093,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically improve on HBM accesses over all SRAM sizes. Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6877,
+   "via": "citation",
+   "linked_from": "2608.18656v1",
+   "text": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model. We are excited about how this can",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.6996,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Invariants and Guarantees",
+   "section_type": "introduction",
+   "similarity": 0.6155,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Proof. Steps 1-4 write to τ on both the applied and the gated-skip branch; the only unlogged steps (the initial sort key, the identity mask) are deterministic functions of the inputs. □ Property 2 (Replay determinism). Given the same Con-textSources snapshot, the same PipelineStats snapshot, the same OptimizeLimits and provider policy, Algorithm 1 produces a byte-identical R and τ . Proof. The algorithm has no randomness: the sort key is a total order, tier selection is a pure function of pressure and limits, and marker placement follows a deterministic policy. Statistics are read-only during the turn. Feedback writes only after Execute (Section 3.8), so the snapshot read at Plan time is immutable throughout. Serialization is a function of (π, µ, M, Π). □ Property 3 (Failure isolation). If Execute of turn N fails, the persistent state, consisting of PipelineStats, the spill store, and the EmergentContext queue for turn N + 1, is unchanged except for an explicit failure record. Proof. Feedback is the only writer of usage statistics and runs only after a successful Execute; on failure it writes a single diagnostic record and no usage sample, so percentile buckets are not poisoned by a non-response. Spill writes are atomic, and EmergentContext for N + 1 is populated only on success. □",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "AlayaDB does not provide any quantitative performance numbers in the excerpt that is available — it only states the experimental setup (hardware, model, latency target ≤ 0.24 s) and that it is compared against “Full Attention” (see ).",
+    "sources": [
+     7
+    ],
+    "citations": [
+     {
+      "source": 7,
+      "status": "partial",
+      "lexical": 0.458,
+      "semantic": 0.645,
+      "evidence": "In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB?",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "The original FlashAttention work reports that its implementation is 2–4 × faster than standard attention while also saving memory (see ); later work (FlashAttention‑2) claims an additional ≈2 × speed‑up over FlashAttention (see ).",
+    "sources": [
+     4,
+     6
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.5,
+      "semantic": 0.792,
+      "evidence": "As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention.",
+      "missing_numbers": []
+     },
+     {
+      "source": 6,
+      "status": "partial",
+      "lexical": 0.278,
+      "semantic": 0.749,
+      "evidence": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     7
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     6
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 2,
+   "claims_supported": 1,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 3,
+   "supported": 1,
+   "partial": 2,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 0.75,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 34,
+  "generation_ms": 1642,
+  "verification_ms": 986,
+  "total_ms": 2663
+ },
+ "hits": [
+  {
+   "text": "When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements. All baselines are evaluated against llama.cpp 3 .",
+   "meta": {
+    "sentences_json": "[\"When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements.\", \"All baselines are evaluated against llama.cpp 3 .\"]",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "published": "2026-08-19",
+    "n_words": 29,
+    "section_title": "Experimental Setup",
+    "arxiv_id": "2608.18656v1",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7531518340110779,
+   "via": "semantic"
+  },
+  {
+   "text": "The second difference between the two methods is the way information is summarized from each block to pass to the next block. Rabe and Staats [66] summarizes each block with its temporary output along with the softmax normalization statistics. At the end of the forward pass, the temporary outputs of all the blocks are combined using the statistics to produce the final output. FlashAttention instead incrementally updates the output (Algorithm 1 line 12) after processing each block, so only one copy of the output is needed (instead of copies for blocks). This means that FlashAttention has smaller total memory requirement compared to Rabe and Staats [66] . The final major difference is the way the backward pass is computed. Rabe and Staats [66] uses gradient checkpointing to recompute the attention matrix and the temporary output of each block. FlashAttention instead simplifies the backward pass analytically (Appendices B.2 and B.4). It only recomputes the attention matrix and does not recompute the temporary output of each block. This reduces the memory requirement for the backward pass and yields speedup.",
+   "meta": {
+    "sentences_json": "[\"The second difference between the two methods is the way information is summarized from each block to pass to the next block.\", \"Rabe and Staats [66] summarizes each block with its temporary output along with the softmax normalization statistics.\", \"At the end of the forward pass, the temporary outputs of all the blocks are combined using the statistics to produce the final output.\", \"FlashAttention instead incrementally updates the output (Algorithm 1 line 12) after processing each block, so only one copy of the output is needed (instead of copies for blocks).\", \"This means that FlashAttention has smaller total memory requirement compared to Rabe and Staats [66] .\", \"The final major difference is the way the backward pass is computed.\", \"Rabe and Staats [66] uses gradient checkpointing to recompute the attention matrix and the temporary output of each block.\", \"FlashAttention instead simplifies the backward pass analytically (Appendices B.2 and B.4).\", \"It only recomputes the attention matrix and does not recompute the temporary output of each block.\", \"This reduces the memory requirement for the backward pass and yields speedup.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "published": "2022-05-27",
+    "section_title": "B.5 Comparison with Rabe and Staats [66]",
+    "domain": "efficient_attention",
+    "n_words": 177,
+    "section_type_inherited": false,
+    "arxiv_id": "2205.14135v2",
+    "section_type": "results"
+   },
+   "similarity": 0.7316210269927979,
+   "via": "semantic"
+  },
+  {
+   "text": "As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ). Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors. The primary differences lie in three key areas. First, the division at the output of FlashAttention2 kernel is not required in Flash-D. While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector. Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed. Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed. Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+   "meta": {
+    "domain": "efficient_attention",
+    "n_words": 207,
+    "sentences_json": "[\"As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ).\", \"Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors.\", \"The primary differences lie in three key areas.\", \"First, the division at the output of FlashAttention2 kernel is not required in Flash-D.\", \"While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector.\", \"Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated.\", \"The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed.\", \"Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed.\", \"Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.\"]",
+    "section_type_inherited": true,
+    "section_type": "method",
+    "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "section_title": "A. Overall Organization",
+    "published": "2025-05-20",
+    "arxiv_id": "2505.14201v1"
+   },
+   "similarity": 0.7235379219055176,
+   "via": "semantic"
+  },
+  {
+   "text": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block.",
+   "meta": {
+    "domain": "efficient_attention",
+    "published": "2022-05-27",
+    "n_words": 212,
+    "section_title": "B.5 Comparison with Rabe and Staats [66]",
+    "arxiv_id": "2205.14135v2",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "sentences_json": "[\"We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] .\", \"Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] .\", \"To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass.\", \"The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes).\", \"As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime.\", \"Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ).\", \"As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention.\", \"In terms of total memory required, both methods offer substantial memory saving.\", \"The second difference between the two methods is the way information is summarized from each block to pass to the next block.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
+   },
+   "similarity": 0.7123702764511108,
+   "via": "semantic"
+  },
+  {
+   "text": "FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically improve on HBM accesses over all SRAM sizes. Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses.",
+   "meta": {
+    "published": "2022-05-27",
+    "section_type_inherited": true,
+    "n_words": 68,
+    "domain": "efficient_attention",
+    "arxiv_id": "2205.14135v2",
+    "section_title": "Untitled",
+    "sentences_json": "[\"FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically\", \"improve on HBM accesses over all SRAM sizes.\", \"Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ .\", \"Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "section_type": "results"
+   },
+   "similarity": 0.7093427181243896,
+   "via": "semantic"
+  },
+  {
+   "text": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model. We are excited about how this can",
+   "meta": {
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "published": "2023-07-17",
+    "n_words": 38,
+    "section_title": "Untitled",
+    "sentences_json": "[\"Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model.\", \"We are excited about how this can\"]",
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "arxiv_id": "2307.08691v1"
+   },
+   "similarity": 0.687741219997406,
+   "via": "citation-link from 2608.18656v1"
+  },
+  {
+   "text": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU.",
+   "meta": {
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_type_inherited": false,
+    "published": "2025-04-14",
+    "sentences_json": "[\"In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving.\", \"In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving?\", \"(Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB?\", \"(Section 9.2)\", \"Hardware Configuration.\", \"We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total.\", \"We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference.\", \"We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference.\", \"The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT).\", \"We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] .\", \"Compared Methods.\", \"We compare the following methods:\", \"• Full Attention, which stores the KV cache of full context and computes the full attention on GPU.\"]",
+    "n_words": 201,
+    "section_title": "Empirical Evaluation",
+    "domain": "efficient_attention",
+    "arxiv_id": "2504.10326v1",
+    "section_type": "results"
+   },
+   "similarity": 0.6995574235916138,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Proof. Steps 1-4 write to τ on both the applied and the gated-skip branch; the only unlogged steps (the initial sort key, the identity mask) are deterministic functions of the inputs. □ Property 2 (Replay determinism). Given the same Con-textSources snapshot, the same PipelineStats snapshot, the same OptimizeLimits and provider policy, Algorithm 1 produces a byte-identical R and τ . Proof. The algorithm has no randomness: the sort key is a total order, tier selection is a pure function of pressure and limits, and marker placement follows a deterministic policy. Statistics are read-only during the turn. Feedback writes only after Execute (Section 3.8), so the snapshot read at Plan time is immutable throughout. Serialization is a function of (π, µ, M, Π). □ Property 3 (Failure isolation). If Execute of turn N fails, the persistent state, consisting of PipelineStats, the spill store, and the EmergentContext queue for turn N + 1, is unchanged except for an explicit failure record. Proof. Feedback is the only writer of usage statistics and runs only after a successful Execute; on failure it writes a single diagnostic record and no usage sample, so percentile buckets are not poisoned by a non-response. Spill writes are atomic, and EmergentContext for N + 1 is populated only on success. □",
+   "meta": {
+    "sentences_json": "[\"Proof.\", \"Steps 1-4 write to τ on both the applied and the gated-skip branch; the only unlogged steps (the initial sort key, the identity mask) are deterministic functions of the inputs.\", \"□ Property 2 (Replay determinism).\", \"Given the same Con-textSources snapshot, the same PipelineStats snapshot, the same OptimizeLimits and provider policy, Algorithm 1 produces a byte-identical R and τ .\", \"Proof.\", \"The algorithm has no randomness: the sort key is a total order, tier selection is a pure function of pressure and limits, and marker placement follows a deterministic policy.\", \"Statistics are read-only during the turn.\", \"Feedback writes only after Execute (Section 3.8), so the snapshot read at Plan time is immutable throughout.\", \"Serialization is a function of (π, µ, M, Π). □ Property 3 (Failure isolation).\", \"If Execute of turn N fails, the persistent state, consisting of PipelineStats, the spill store, and the EmergentContext queue for turn N + 1, is unchanged except for an explicit failure record.\", \"Proof.\", \"Feedback is the only writer of usage statistics and runs only after a successful Execute; on failure it writes a single diagnostic record and no usage sample, so percentile buckets are not poisoned by a non-response.\", \"Spill writes are atomic, and EmergentContext for N + 1 is populated only on success.\", \"□\"]",
+    "arxiv_id": "2609.00749v1",
+    "domain": "efficient_attention",
+    "published": "2026-09-01",
+    "section_type": "introduction",
+    "section_title": "Invariants and Guarantees",
+    "section_type_inherited": true,
+    "n_words": 212,
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents"
+   },
+   "similarity": 0.6155174970626831,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

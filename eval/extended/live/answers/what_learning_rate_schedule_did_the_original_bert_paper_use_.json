@@ -1,0 +1,271 @@
+{
+ "query": "what learning rate schedule did the original BERT paper use for pre-training",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "extra",
+ "answer": "The provided excerpts do not contain any information about the learning‑rate schedule used in the original BERT paper for pre‑training. None of the sources mention the schedule (e.g., warm‑up steps, decay strategy, or base learning‑rate) that BERT’s authors employed. Therefore, based on the given material, I cannot answer the question.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what learning rate schedule did the original BERT paper use for pre-training",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Faster Models with FlashAttention",
+   "section_type": "method",
+   "similarity": 0.7444,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "BERT. FlashAttention yields the fastest single-node BERT training speed that we know of. We train a BERT-large [22] model with FlashAttention on Wikipedia. Table 1 compares our training time to the implementation from Nvidia that set the training speed record for MLPerf 1.1 [58] . Our implementation is 15% faster. Table 1 : Training time of BERT-large, starting from the same initialization provided by the MLPerf benchmark, to reach the target accuracy of 72.0% on masked language modeling. Averaged over 10 runs on 8×A100 GPUs.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "E.4 Comparison with Apex FMHA",
+   "section_type": "results",
+   "similarity": 0.7038,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We compare our method/implementation with Apex FMHA (https://github.com/NVIDIA/apex/tree/ master/apex/contrib/csrc/fmha). When we started this project, Apex FMHA was the fastest implementation of attention (that we knew of), tailored for short sequences of length at most 512. In fact, almost all MLPerf submissions for BERT training benchmark running on Nvidia GPUs use FMHA for their model code, as of MLPerf 1.1 [58] . Since FMHA targets BERT models, it only supports head dimension 64, and only runs on A100 GPUs. FMHA fuses the attention computation dropout(softmax(mask(QK )))V into one CUDA kernel. In the forward pass, it stores the attention matrix softmax(mask(QK )) to HBM to be used in gradient computation. As a result, it does not offer substantial memory saving (though for shorter sequences memory footprint is often not a primary concern). We use FMHA code as a starting point, and apply two well-established techniques (tiling and recomputation) to deal with long sequences and to save memory as mentioned in Section 3. As a result, we can support much longer sequences (e.g., up to length 64K). We also support more head dimensions (16, 32, 64, 128) and broader GPU types (all Turing and Ampere GPUs at the time of writing).",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.7014,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) . We train all models on 128 TPUv3 cores. The setup used for PG-19 is described in Section 5.5.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 4,
+   "paper_id": "2006.16236v3",
+   "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+   "year": "2020",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6874,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure5: Training evolution of transformers for all our experiments. It can be observed that linear transformers converge consistently faster than Reformer and in the autoregressive experiments on par with softmax. For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days. In the speech recognition experiments all methods are trained to convergence. The details of the experiments can be found in § 4.2.1, § 4.2.2 and § 4.3 in the main paper.",
+   "url": "https://arxiv.org/abs/2006.16236v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2006.16236v3",
+   "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+   "year": "2020",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6694,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "For details see § 4.2.1. Performance comparison in automatic speech recognition on the WSJ dataset. The results are given in the form of phoneme error rate (PER) and training time per epoch. Our model outperforms the LSTM and Reformer while being faster to train and evaluate. Details of the experiment can be found in § 4.3.",
+   "url": "https://arxiv.org/abs/2006.16236v3"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.6073,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse. We fix the reused prefix length to 40K, and range the reuse ratio from 100% to 20% by varying the length of the stored context, i.e., the index size. This micro-benchmark uses the KV cache generated by all heads in layer 1 during the En.QA task. The 100% reuse ratio means the stored context is fully reused, in other words, the filter-based DIPRS is the same as the original DIPRS without attribute filtering. Figure 12 shows the measured recall and latency. Firstly, the recall of filter-based DIPRS remains high with different reuse ratios, which guarantees the generation quality with partial context reuse in AlayaDB. Secondly, when searching in a larger context with the same prefix length, the latency of filterbased DIPRS increases only slightly . For example, the latency to search in 200K long context is only 1.13 ms higher than it is of 40K long context. Thus, AlayaDB guarantees the inference latency with good generation quality when partial context reuse is enabled.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "8:",
+   "section_type": "method",
+   "similarity": 0.6205,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "For grouped-query attention or multiquery attention, K and V values based on the are loaded and replicated in vector registers using the vslideup vector instruction. If the attention heads to KV head ratio is 4:1, i.e., four attention heads are shared among KV heads, then only a single load instruction is required to load K, after which the vslideup instruction is used to replicate it across the full vector register. A similar packing mechanism is applied when loading . Lines 21-31 implement core attention computation in a fully vectorized manner. The dot product between _ and _ is computed and scaled in lines 21-22. The running maximum is updated in lines 23-25, from which the rescaling factor _ and the softmax weight _ are derived using the vectorized exponential function _ () in lines 26-27. We use _ from SIXTE [36] , modified to handle FP16 data precision, infinity values, and masking. The accumulated output is rescaled and updated using vfmul and vfmacc vector instructions in lines 29-30, and the running softmax sum is updated in line 31. After all tiles are processed, is normalized and written to , completing the attention computation. Tunable parameters in Algorithm 2. The block sizes _ and _ are tuned to better fit within the L2 cache.",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Phase 1: Plan",
+   "section_type": "introduction",
+   "similarity": 0.6371,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Plan is a pure function of the catalog snapshot. Its central quantity is context pressure, where L eff is the model's effective input limit and R o , R t , R s are reserves for the expected model response, extended thinking, and tool-schema growth. The response reserve R o is not an average but a per-bucket percentile (p75 in steady state, p95 after a recovery event) read from PipelineStats buckets keyed by (model, query source); R t and R s are typed reserve slots that the current estimator leaves at zero (Section 3). This is the direct analogue of histogram-based cardinality estimation [22] : averages are too optimistic for long-tail coding turns and invite prompt too long recovery loops, whereas a percentile in a typed bucket is robust to workload mix. P pred drives a compaction tier from Normal to Trim-Schemas, CompactHistory, and AggressivePrune. A gating rule prevents over-compaction: predictive pressure may escalate the tier that raw pressure would select, but never de-escalate. A non-empty RecoveryState (e.g., a recent prompt too long error), however, escalates further. Plan also produces a section manifest: the list of sections, their cache scopes (Global / Session / None), their individual token budgets, and the cache strategy.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [],
+  "markers": [],
+  "summary": {
+   "claims": 0,
+   "claims_supported": 0,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 0,
+   "supported": 0,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": null,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 41,
+  "generation_ms": 2327,
+  "verification_ms": 0,
+  "total_ms": 2369
+ },
+ "hits": [
+  {
+   "text": "BERT. FlashAttention yields the fastest single-node BERT training speed that we know of. We train a BERT-large [22] model with FlashAttention on Wikipedia. Table 1 compares our training time to the implementation from Nvidia that set the training speed record for MLPerf 1.1 [58] . Our implementation is 15% faster. Table 1 : Training time of BERT-large, starting from the same initialization provided by the MLPerf benchmark, to reach the target accuracy of 72.0% on masked language modeling. Averaged over 10 runs on 8×A100 GPUs.",
+   "meta": {
+    "domain": "efficient_attention",
+    "published": "2022-05-27",
+    "n_words": 85,
+    "arxiv_id": "2205.14135v2",
+    "section_title": "Faster Models with FlashAttention",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "section_type_inherited": false,
+    "section_type": "method",
+    "sentences_json": "[\"BERT.\", \"FlashAttention yields the fastest single-node BERT training speed that we know of.\", \"We train a BERT-large [22] model with FlashAttention on Wikipedia.\", \"Table 1 compares our training time to the implementation from Nvidia that set the training speed record for MLPerf 1.1 [58] .\", \"Our implementation is 15% faster.\", \"Table 1 : Training time of BERT-large, starting from the same initialization provided by the MLPerf benchmark, to reach the target accuracy of 72.0% on masked language modeling.\", \"Averaged over 10 runs on 8×A100 GPUs.\"]"
+   },
+   "similarity": 0.7443711757659912,
+   "via": "semantic"
+  },
+  {
+   "text": "We compare our method/implementation with Apex FMHA (https://github.com/NVIDIA/apex/tree/ master/apex/contrib/csrc/fmha). When we started this project, Apex FMHA was the fastest implementation of attention (that we knew of), tailored for short sequences of length at most 512. In fact, almost all MLPerf submissions for BERT training benchmark running on Nvidia GPUs use FMHA for their model code, as of MLPerf 1.1 [58] . Since FMHA targets BERT models, it only supports head dimension 64, and only runs on A100 GPUs. FMHA fuses the attention computation dropout(softmax(mask(QK )))V into one CUDA kernel. In the forward pass, it stores the attention matrix softmax(mask(QK )) to HBM to be used in gradient computation. As a result, it does not offer substantial memory saving (though for shorter sequences memory footprint is often not a primary concern). We use FMHA code as a starting point, and apply two well-established techniques (tiling and recomputation) to deal with long sequences and to save memory as mentioned in Section 3. As a result, we can support much longer sequences (e.g., up to length 64K). We also support more head dimensions (16, 32, 64, 128) and broader GPU types (all Turing and Ampere GPUs at the time of writing).",
+   "meta": {
+    "n_words": 198,
+    "arxiv_id": "2205.14135v2",
+    "section_title": "E.4 Comparison with Apex FMHA",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"We compare our method/implementation with Apex FMHA (https://github.com/NVIDIA/apex/tree/\", \"master/apex/contrib/csrc/fmha).\", \"When we started this project, Apex FMHA was the fastest implementation of attention (that we knew of), tailored for short sequences of length at most 512.\", \"In fact, almost all MLPerf submissions for BERT training benchmark running on Nvidia GPUs use FMHA for their model code, as of MLPerf 1.1 [58] .\", \"Since FMHA targets BERT models, it only supports head dimension 64, and only runs on A100 GPUs.\", \"FMHA fuses the attention computation dropout(softmax(mask(QK )))V into one CUDA kernel.\", \"In the forward pass, it stores the attention matrix softmax(mask(QK )) to HBM to be used in gradient computation.\", \"As a result, it does not offer substantial memory saving (though for shorter sequences memory footprint is often not a primary concern).\", \"We use FMHA code as a starting point, and apply two well-established techniques (tiling and recomputation) to deal with long sequences and to save memory as mentioned in Section 3. As a result, we can support much longer sequences (e.g., up to length 64K).\", \"We also support more head dimensions (16, 32, 64, 128) and broader GPU types (all Turing and Ampere GPUs at the time of writing).\"]",
+    "published": "2022-05-27",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
+   },
+   "similarity": 0.703787088394165,
+   "via": "semantic"
+  },
+  {
+   "text": "For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) . We train all models on 128 TPUv3 cores. The setup used for PG-19 is described in Section 5.5.",
+   "meta": {
+    "section_title": "Experiments",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "n_words": 63,
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "arxiv_id": "2003.05997v5",
+    "sentences_json": "[\"For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) .\", \"We train all models on 128 TPUv3 cores.\", \"The setup used for PG-19 is described in Section 5.5.\"]",
+    "published": "2020-03-12",
+    "section_type": "results"
+   },
+   "similarity": 0.7013708353042603,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure5: Training evolution of transformers for all our experiments. It can be observed that linear transformers converge consistently faster than Reformer and in the autoregressive experiments on par with softmax. For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days. In the speech recognition experiments all methods are trained to convergence. The details of the experiments can be found in § 4.2.1, § 4.2.2 and § 4.3 in the main paper.",
+   "meta": {
+    "section_type_inherited": true,
+    "arxiv_id": "2006.16236v3",
+    "published": "2020-06-29",
+    "section_title": "Untitled",
+    "sentences_json": "[\"Figure5: Training evolution of transformers for all our experiments.\", \"It can be observed that linear transformers converge consistently faster than Reformer and in the autoregressive experiments on par with softmax.\", \"For MNIST all methods are trained for 250 epochs while for CIFAR we train for 7 days.\", \"In the speech recognition experiments all methods are trained to convergence.\", \"The details of the experiments can be found in § 4.2.1, § 4.2.2 and § 4.3 in the main paper.\"]",
+    "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "n_words": 78
+   },
+   "similarity": 0.6873546838760376,
+   "via": "semantic"
+  },
+  {
+   "text": "For details see § 4.2.1. Performance comparison in automatic speech recognition on the WSJ dataset. The results are given in the form of phoneme error rate (PER) and training time per epoch. Our model outperforms the LSTM and Reformer while being faster to train and evaluate. Details of the experiment can be found in § 4.3.",
+   "meta": {
+    "section_title": "Untitled",
+    "domain": "efficient_attention",
+    "arxiv_id": "2006.16236v3",
+    "section_type": "results",
+    "n_words": 56,
+    "section_type_inherited": true,
+    "sentences_json": "[\"For details see § 4.2.1.\", \"Performance comparison in automatic speech recognition on the WSJ dataset.\", \"The results are given in the form of phoneme error rate (PER) and training time per epoch.\", \"Our model outperforms the LSTM and Reformer while being faster to train and evaluate.\", \"Details of the experiment can be found in § 4.3.\"]",
+    "published": "2020-06-29",
+    "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention"
+   },
+   "similarity": 0.6693820357322693,
+   "via": "semantic"
+  },
+  {
+   "text": "In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse. We fix the reused prefix length to 40K, and range the reuse ratio from 100% to 20% by varying the length of the stored context, i.e., the index size. This micro-benchmark uses the KV cache generated by all heads in layer 1 during the En.QA task. The 100% reuse ratio means the stored context is fully reused, in other words, the filter-based DIPRS is the same as the original DIPRS without attribute filtering. Figure 12 shows the measured recall and latency. Firstly, the recall of filter-based DIPRS remains high with different reuse ratios, which guarantees the generation quality with partial context reuse in AlayaDB. Secondly, when searching in a larger context with the same prefix length, the latency of filterbased DIPRS increases only slightly . For example, the latency to search in 200K long context is only 1.13 ms higher than it is of 40K long context. Thus, AlayaDB guarantees the inference latency with good generation quality when partial context reuse is enabled.",
+   "meta": {
+    "domain": "efficient_attention",
+    "arxiv_id": "2504.10326v1",
+    "published": "2025-04-14",
+    "n_words": 186,
+    "section_type_inherited": false,
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_type": "results",
+    "section_title": "Empirical Evaluation",
+    "sentences_json": "[\"In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.\", \"We fix the reused prefix length to 40K, and range the reuse ratio from 100% to 20% by varying the length of the stored context, i.e., the index size.\", \"This micro-benchmark uses the KV cache generated by all heads in layer 1 during the En.QA task.\", \"The 100% reuse ratio means the stored context is fully reused, in other words, the filter-based DIPRS is the same as the original DIPRS without attribute filtering.\", \"Figure 12 shows the measured recall and latency.\", \"Firstly, the recall of filter-based DIPRS remains high with different reuse ratios, which guarantees the generation quality with partial context reuse in AlayaDB.\", \"Secondly, when searching in a larger context with the same prefix length, the latency of filterbased DIPRS increases only slightly .\", \"For example, the latency to search in 200K long context is only 1.13 ms higher than it is of 40K long context.\", \"Thus, AlayaDB guarantees the inference latency with good generation quality when partial context reuse is enabled.\"]"
+   },
+   "similarity": 0.6073434352874756,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "For grouped-query attention or multiquery attention, K and V values based on the are loaded and replicated in vector registers using the vslideup vector instruction. If the attention heads to KV head ratio is 4:1, i.e., four attention heads are shared among KV heads, then only a single load instruction is required to load K, after which the vslideup instruction is used to replicate it across the full vector register. A similar packing mechanism is applied when loading . Lines 21-31 implement core attention computation in a fully vectorized manner. The dot product between _ and _ is computed and scaled in lines 21-22. The running maximum is updated in lines 23-25, from which the rescaling factor _ and the softmax weight _ are derived using the vectorized exponential function _ () in lines 26-27. We use _ from SIXTE [36] , modified to handle FP16 data precision, infinity values, and masking. The accumulated output is rescaled and updated using vfmul and vfmacc vector instructions in lines 29-30, and the running softmax sum is updated in line 31. After all tiles are processed, is normalized and written to , completing the attention computation. Tunable parameters in Algorithm 2. The block sizes _ and _ are tuned to better fit within the L2 cache.",
+   "meta": {
+    "published": "2026-08-19",
+    "n_words": 213,
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "section_type_inherited": true,
+    "sentences_json": "[\"For grouped-query attention or multiquery attention, K and V values based on the are loaded and replicated in vector registers using the vslideup vector instruction.\", \"If the attention heads to KV head ratio is 4:1, i.e., four attention heads are shared among KV heads, then only a single load instruction is required to load K, after which the vslideup instruction is used to replicate it across the full vector register.\", \"A similar packing mechanism is applied when loading .\", \"Lines 21-31 implement core attention computation in a fully vectorized manner.\", \"The dot product between _ and _ is computed and scaled in lines 21-22.\", \"The running maximum is updated in lines 23-25, from which the rescaling factor _ and the softmax weight _ are derived using the vectorized exponential function _ () in lines 26-27.\", \"We use _ from SIXTE [36] , modified to handle FP16 data precision, infinity values, and masking.\", \"The accumulated output is rescaled and updated using vfmul and vfmacc vector instructions in lines 29-30, and the running softmax sum is updated in line 31.\", \"After all tiles are processed, is normalized and written to , completing the attention computation.\", \"Tunable parameters in Algorithm 2. The block sizes _ and _ are tuned to better fit within the L2 cache.\"]",
+    "arxiv_id": "2608.18656v1",
+    "domain": "efficient_attention",
+    "section_type": "method",
+    "section_title": "8:"
+   },
+   "similarity": 0.6205450892448425,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Plan is a pure function of the catalog snapshot. Its central quantity is context pressure, where L eff is the model's effective input limit and R o , R t , R s are reserves for the expected model response, extended thinking, and tool-schema growth. The response reserve R o is not an average but a per-bucket percentile (p75 in steady state, p95 after a recovery event) read from PipelineStats buckets keyed by (model, query source); R t and R s are typed reserve slots that the current estimator leaves at zero (Section 3). This is the direct analogue of histogram-based cardinality estimation [22] : averages are too optimistic for long-tail coding turns and invite prompt too long recovery loops, whereas a percentile in a typed bucket is robust to workload mix. P pred drives a compaction tier from Normal to Trim-Schemas, CompactHistory, and AggressivePrune. A gating rule prevents over-compaction: predictive pressure may escalate the tier that raw pressure would select, but never de-escalate. A non-empty RecoveryState (e.g., a recent prompt too long error), however, escalates further. Plan also produces a section manifest: the list of sections, their cache scopes (Global / Session / None), their individual token budgets, and the cache strategy.",
+   "meta": {
+    "section_type_inherited": true,
+    "arxiv_id": "2609.00749v1",
+    "n_words": 203,
+    "domain": "efficient_attention",
+    "section_title": "Phase 1: Plan",
+    "published": "2026-09-01",
+    "sentences_json": "[\"Plan is a pure function of the catalog snapshot.\", \"Its central quantity is context pressure,\", \"where L eff is the model's effective input limit and R o , R t , R s are reserves for the expected model response, extended thinking, and tool-schema growth.\", \"The response reserve R o is not an average but a per-bucket percentile (p75 in steady state, p95 after a recovery event) read from PipelineStats buckets keyed by (model, query source); R t and R s are typed reserve slots that the current estimator leaves at zero (Section 3).\", \"This is the direct analogue of histogram-based cardinality estimation [22] : averages are too optimistic for long-tail coding turns and invite prompt too long recovery loops, whereas a percentile in a typed bucket is robust to workload mix.\", \"P pred drives a compaction tier from Normal to Trim-Schemas, CompactHistory, and AggressivePrune.\", \"A gating rule prevents over-compaction: predictive pressure may escalate the tier that raw pressure would select, but never de-escalate.\", \"A non-empty RecoveryState (e.g., a recent prompt too long error), however, escalates further.\", \"Plan also produces a section manifest: the list of sections, their cache scopes (Global / Session / None), their individual token budgets, and the cache strategy.\"]",
+    "section_type": "introduction",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents"
+   },
+   "similarity": 0.6371434330940247,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

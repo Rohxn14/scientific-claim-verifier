@@ -1,0 +1,354 @@
+{
+ "query": "how does Focus-dLLM accelerate long-context diffusion LLM inference",
+ "expected_arxiv_id": "2602.02159",
+ "category": "factual",
+ "set": "extra",
+ "answer": "**Focus‑dLLM speeds up long‑context diffusion LLM inference by sparsifying the attention computation while keeping the tokens that matter for accurate generation.**  \n\n- **Confidence‑guided prediction of future queries** – The authors observe that a token’s confidence score is highly correlated across consecutive denoising steps [Source 5]. They therefore use a *past‑confidence indicator* to forecast which positions will become unmasked in the next step, so attention needs to be computed only for those predicted query tokens [Source 4].  \n\n- **Sink‑aware pruning of key‑value pairs** – Once the likely query regions are known, the method removes redundant key‑value tokens from the full attention matrix. It preserves “attention sinks” – tokens that attract a large amount of attention across steps – because they are crucial for preserving context [Source 4].  \n\n- **Cross‑layer reuse of sink locations** – The identified sink positions are found to be consistent across layers, allowing the same sparse pattern to be applied throughout the model and further reducing overhead [Source 4].  \n\n- **Training‑free, dynamic sparsity** – The entire pipeline works without any additional model training; it dynamically adapts the sparsity ratio (α = 0.5 in the experiments) to the current context length and diffusion step [Source 2].  \n\n- **Resulting efficiency gains** – On a 32 K‑token context the framework achieves more than 29× lossless speedup (i.e., no degradation in loss) [Source 4], up to 19.95× speedup while retaining accuracy comparable to the vanilla baseline [Source 3], and a 2.05× speedup over the Fast‑dLLM baseline for UltraLLaDA at the same context length [Source 5].  \n\nTogether, these components replace the costly full‑attention computation of diffusion LLMs with a targeted, confidence‑driven sparse attention that trims unnecessary work and retains the most influential tokens, delivering large speedups without sacrificing performance.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does Focus-dLLM accelerate long-context diffusion LLM inference",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.9131,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We analyzed diffusion inference dynamics and introduced Focus-dLLM, a training-free framework for accelerating long-context dLLM inference. By leveraging a past confidence-guided indicator for query prediction and a sink-aware pruning strategy to retain critical history, our method effectively eliminates redundant computation. Experiments demonstrate that Focus-dLLM achieves over 29× speedup at 32K context length while maintaining superior performance compared to state-of-the-art baselines.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "Experiments Settings",
+   "section_type": "results",
+   "similarity": 0.9032,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Models. We evaluate our method on two representative diffusion LLMs: UltraLLaDA (He et al., 2025) and Dream-7B-Instruct (Ye et al., 2025) . Baselines. We compare Focus-dLLM against standard native inference (Vanilla) and three dLLM acceleration frameworks: Fast-dLLM (Wu et al., 2025) , SparseD (Wang et al., 2025) , and Sparse-dLLM (Song et al., 2025) . Benchmarks. To comprehensively assess longcontext capabilities, we conduct evaluations on LongBench (Bai et al., 2024) , a widely adopted benchmark specifically designed for multi-task long-context understanding. Implementation details. All experiments were conducted on NVIDIA H200 GPUs using Open-Compass (Contributors, 2023). To ensure a fair comparison, all baselines utilize the recommended configurations provided in their official implementations. Specifically, for SparseD, we set skip = 20%, ratio = 30%, and block_size = 128; for Sparse-dLLM, we use retention ratio r = 0.5 and kernel size s = 3. For the Focus-dLLM setup, we adopt identical hyperparameters for both Ul-traLLaDA and Dream: we set prediction expansion factor ρ = 4, window size w = 8, dense layers l dense = 6, and sparsity ratio α = 0.5. Additionally, the number of sink tokens is set to N sinks = 0.01 × M , where M denotes the prompt length, and prompt block size = 64. Additional details for datasets, models, and methods are provided in the Appendix A.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "Main Results",
+   "section_type": "results",
+   "similarity": 0.895,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Accuracy. As presented in Table 1 , Focus-dLLM demonstrates robust performance across both evaluated diffusion models. On UltraLLaDA (He et al., 2025) , our method achieves the highest average score, outperforming the Vanilla baseline and all competing acceleration frameworks. On Dream-7B-Instruct (Ye et al., 2025) , Focus-dLLM again surpasses Spare-dLLM (Song et al., 2025) and Fast-dLLM (Wu et al., 2025) , performing on par with the Vanilla baseline. While its accuracy is marginally lower than SparseD (Wang et al., 2025) , Focus-dLLM offers a compelling advantage in efficiency, achieving up to a 19.95× speedup at a 32K (with 1K denoting 1024 tokens) context length (as shown in Figure 5 ). This highlights our method's superior balance between performance and inference speed, establishing it as a more practical solution. Niah experiments. Figure 4 reports Niah (Kamradt, 2023) results on UltraLLaDA (He et al., 2025) under long-context settings with a maximum context length of 32K. Focus-dLLM achieves overall higher scores than Fast-dLLM (Wu et al., 2025) and Sparse-dLLM (Song et al., 2025) across layers, and attains better accuracy than the vanilla baseline at the deepest layer, demonstrating strong needlein-a-haystack retrieval. Efficiency. We evaluate the scalability of Focus-dLLM by measuring throughput across context lengths from 8K to 32K context length, both the generation length and generation steps are fixed at 256.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "Abstract",
+   "section_type": "abstract",
+   "similarity": 0.8646,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Diffusion Large Language Models (dLLMs) deliver strong long-context processing capability in a non-autoregressive decoding paradigm. However, the considerable computational cost of bidirectional full attention limits the inference efficiency. Although sparse attention is promising, existing methods remain ineffective. This stems from the need to estimate attention importance for tokens yet to be decoded, while the unmasked token positions are unknown during diffusion. In this paper, we present Focus-dLLM, a novel training-free attention sparsification framework tailored for accurate and efficient long-context dLLM inference. Based on the finding that token confidence strongly correlates across adjacent steps, we first design a past confidence-guided indicator to predict unmasked regions. Built upon this, we propose a sink-aware pruning strategy to accurately estimate and remove redundant attention computation, while preserving highly influential attention sinks. To further reduce overhead, this strategy reuses identified sink locations across layers, leveraging the observed crosslayer consistency. Experimental results show that our method offers more than 29× lossless speedup under 32K context length.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8561,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Leveraging these novel techniques, our framework computes attention over the predicted unmasked queries and the selected necessary key-value pairs. As a result, it achieves considerable inference speedups without compromising performance throughout the dynamic decoding process. Our contributions are summarized as follows: • We analyze diffusion inference dynamics and reveal a strong positive correlation of token confidence across adjacent denoising steps, together with dynamic and structured attention patterns in dLLMs. • We propose Focus-dLLM, a novel training-free acceleration framework that consists of a past confidence-guided indicator for predicting the next unmasked positions with a sink-aware dynamic token pruning strategy for efficient sparse attention. • Experiments show that Focus-dLLM achieves substantial speedups over baselines while preserving accuracy. For instance, it attains betterthan-vanilla performance and delivers 2.05× speedup over Fast-dLLM for UltraLLaDA at 32K context length.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Confidence‑guided prediction of future queries – The authors observe that a token’s confidence score is highly correlated across consecutive denoising steps.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.467,
+      "semantic": 0.808,
+      "evidence": "• We analyze diffusion inference dynamics and reveal a strong positive correlation of token confidence across adjacent denoising steps, together with dynamic and structured attention patterns in dLLMs.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "They therefore use a past‑confidence indicator to forecast which positions will become unmasked in the next step, so attention needs to be computed only for those predicted query tokens.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.5,
+      "semantic": 0.764,
+      "evidence": "Based on the finding that token confidence strongly correlates across adjacent steps, we first design a past confidence-guided indicator to predict unmasked regions.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "It preserves “attention sinks” – tokens that attract a large amount of attention across steps – because they are crucial for preserving context.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.615,
+      "semantic": 0.764,
+      "evidence": "Built upon this, we propose a sink-aware pruning strategy to accurately estimate and remove redundant attention computation, while preserving highly influential attention sinks.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Cross‑layer reuse of sink locations – The identified sink positions are found to be consistent across layers, allowing the same sparse pattern to be applied throughout the model and further reducing overhead.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.6,
+      "semantic": 0.885,
+      "evidence": "To further reduce overhead, this strategy reuses identified sink locations across layers, leveraging the observed crosslayer consistency. Experimental results show that our method offers more than 29× lossless speedup under 32K context length.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Training‑free, dynamic sparsity – The entire pipeline works without any additional model training; it dynamically adapts the sparsity ratio (α = 0.5 in the experiments) to the current context length and diffusion step.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "partial",
+      "lexical": 0.429,
+      "semantic": 0.749,
+      "evidence": "We evaluate our method on two representative diffusion LLMs: UltraLLaDA (He et al., 2025) and Dream-7B-Instruct (Ye et al., 2025) . We compare Focus-dLLM against standard native inference (Vanilla) and three dLLM acceleration frameworks: Fast-dLLM (Wu et al., 2025) , SparseD (Wang et al., 2025) , and Sparse-dLLM (Song et al., 2025) .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Resulting efficiency gains – On a 32 K‑token context the framework achieves more than 29× lossless speedup (i.e., no degradation in loss), up to 19.95× speedup while retaining accuracy comparable to the vanilla baseline, and a 2.05× speedup over the Fast‑dLLM baseline for UltraLLaDA at the same context length.",
+    "sources": [
+     4,
+     3,
+     5
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.714,
+      "semantic": 0.852,
+      "evidence": "Experimental results show that our method offers more than 29× lossless speedup under 32K context length.",
+      "missing_numbers": []
+     },
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.63,
+      "semantic": 0.807,
+      "evidence": "While its accuracy is marginally lower than SparseD (Wang et al., 2025) , Focus-dLLM offers a compelling advantage in efficiency, achieving up to a 19.95× speedup at a 32K (with 1K denoting 1024 tokens) context length (as shown in Figure 5 ).",
+      "missing_numbers": []
+     },
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.9,
+      "semantic": 0.861,
+      "evidence": "• Experiments show that Focus-dLLM achieves substantial speedups over baselines while preserving accuracy. For instance, it attains betterthan-vanilla performance and delivers 2.05× speedup over Fast-dLLM for UltraLLaDA at 32K context length.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 6,
+   "claims_supported": 5,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 8,
+   "supported": 7,
+   "partial": 1,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 0.917,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 37,
+  "generation_ms": 1694,
+  "verification_ms": 2499,
+  "total_ms": 4231
+ },
+ "hits": [
+  {
+   "text": "We analyzed diffusion inference dynamics and introduced Focus-dLLM, a training-free framework for accelerating long-context dLLM inference. By leveraging a past confidence-guided indicator for query prediction and a sink-aware pruning strategy to retain critical history, our method effectively eliminates redundant computation. Experiments demonstrate that Focus-dLLM achieves over 29× speedup at 32K context length while maintaining superior performance compared to state-of-the-art baselines.",
+   "meta": {
+    "section_title": "Conclusion",
+    "n_words": 60,
+    "section_type_inherited": false,
+    "section_type": "conclusion",
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+    "arxiv_id": "2602.02159v1",
+    "domain": "efficient_attention",
+    "published": "2026-02-02",
+    "sentences_json": "[\"We analyzed diffusion inference dynamics and introduced Focus-dLLM, a training-free framework for accelerating long-context dLLM inference.\", \"By leveraging a past confidence-guided indicator for query prediction and a sink-aware pruning strategy to retain critical history, our method effectively eliminates redundant computation.\", \"Experiments demonstrate that Focus-dLLM achieves over 29× speedup at 32K context length while maintaining superior performance compared to state-of-the-art baselines.\"]"
+   },
+   "similarity": 0.9130802154541016,
+   "via": "semantic"
+  },
+  {
+   "text": "Models. We evaluate our method on two representative diffusion LLMs: UltraLLaDA (He et al., 2025) and Dream-7B-Instruct (Ye et al., 2025) . Baselines. We compare Focus-dLLM against standard native inference (Vanilla) and three dLLM acceleration frameworks: Fast-dLLM (Wu et al., 2025) , SparseD (Wang et al., 2025) , and Sparse-dLLM (Song et al., 2025) . Benchmarks. To comprehensively assess longcontext capabilities, we conduct evaluations on LongBench (Bai et al., 2024) , a widely adopted benchmark specifically designed for multi-task long-context understanding. Implementation details. All experiments were conducted on NVIDIA H200 GPUs using Open-Compass (Contributors, 2023). To ensure a fair comparison, all baselines utilize the recommended configurations provided in their official implementations. Specifically, for SparseD, we set skip = 20%, ratio = 30%, and block_size = 128; for Sparse-dLLM, we use retention ratio r = 0.5 and kernel size s = 3. For the Focus-dLLM setup, we adopt identical hyperparameters for both Ul-traLLaDA and Dream: we set prediction expansion factor ρ = 4, window size w = 8, dense layers l dense = 6, and sparsity ratio α = 0.5. Additionally, the number of sink tokens is set to N sinks = 0.01 × M , where M denotes the prompt length, and prompt block size = 64. Additional details for datasets, models, and methods are provided in the Appendix A.",
+   "meta": {
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+    "section_type": "results",
+    "published": "2026-02-02",
+    "sentences_json": "[\"Models.\", \"We evaluate our method on two representative diffusion LLMs: UltraLLaDA (He et al., 2025) and Dream-7B-Instruct (Ye et al., 2025) .\", \"Baselines.\", \"We compare Focus-dLLM against standard native inference (Vanilla) and three dLLM acceleration frameworks: Fast-dLLM (Wu et al., 2025) , SparseD (Wang et al., 2025) , and Sparse-dLLM (Song et al., 2025) .\", \"Benchmarks.\", \"To comprehensively assess longcontext capabilities, we conduct evaluations on LongBench (Bai et al., 2024) , a widely adopted benchmark specifically designed for multi-task long-context understanding.\", \"Implementation details.\", \"All experiments were conducted on NVIDIA H200 GPUs using Open-Compass (Contributors, 2023).\", \"To ensure a fair comparison, all baselines utilize the recommended configurations provided in their official implementations.\", \"Specifically, for SparseD, we set skip = 20%, ratio = 30%, and block_size = 128; for Sparse-dLLM, we use retention ratio r = 0.5 and kernel size s = 3.\", \"For the Focus-dLLM setup, we adopt identical hyperparameters for both Ul-traLLaDA and Dream: we set prediction expansion factor ρ = 4, window size w = 8, dense layers l dense = 6, and sparsity ratio α = 0.5.\", \"Additionally, the number of sink tokens is set to N sinks = 0.01 × M , where M denotes the prompt length, and prompt block size = 64.\", \"Additional details for datasets, models, and methods are provided in the Appendix A.\"]",
+    "n_words": 220,
+    "arxiv_id": "2602.02159v1",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "section_title": "Experiments Settings"
+   },
+   "similarity": 0.9032318592071533,
+   "via": "semantic"
+  },
+  {
+   "text": "Accuracy. As presented in Table 1 , Focus-dLLM demonstrates robust performance across both evaluated diffusion models. On UltraLLaDA (He et al., 2025) , our method achieves the highest average score, outperforming the Vanilla baseline and all competing acceleration frameworks. On Dream-7B-Instruct (Ye et al., 2025) , Focus-dLLM again surpasses Spare-dLLM (Song et al., 2025) and Fast-dLLM (Wu et al., 2025) , performing on par with the Vanilla baseline. While its accuracy is marginally lower than SparseD (Wang et al., 2025) , Focus-dLLM offers a compelling advantage in efficiency, achieving up to a 19.95× speedup at a 32K (with 1K denoting 1024 tokens) context length (as shown in Figure 5 ). This highlights our method's superior balance between performance and inference speed, establishing it as a more practical solution. Niah experiments. Figure 4 reports Niah (Kamradt, 2023) results on UltraLLaDA (He et al., 2025) under long-context settings with a maximum context length of 32K. Focus-dLLM achieves overall higher scores than Fast-dLLM (Wu et al., 2025) and Sparse-dLLM (Song et al., 2025) across layers, and attains better accuracy than the vanilla baseline at the deepest layer, demonstrating strong needlein-a-haystack retrieval. Efficiency. We evaluate the scalability of Focus-dLLM by measuring throughput across context lengths from 8K to 32K context length, both the generation length and generation steps are fixed at 256.",
+   "meta": {
+    "section_title": "Main Results",
+    "domain": "efficient_attention",
+    "n_words": 218,
+    "sentences_json": "[\"Accuracy.\", \"As presented in Table 1 , Focus-dLLM demonstrates robust performance across both evaluated diffusion models.\", \"On UltraLLaDA (He et al., 2025) , our method achieves the highest average score, outperforming the Vanilla baseline and all competing acceleration frameworks.\", \"On Dream-7B-Instruct (Ye et al., 2025) , Focus-dLLM again surpasses Spare-dLLM (Song et al., 2025) and Fast-dLLM (Wu et al., 2025) , performing on par with the Vanilla baseline.\", \"While its accuracy is marginally lower than SparseD (Wang et al., 2025) , Focus-dLLM offers a compelling advantage in efficiency, achieving up to a 19.95× speedup at a 32K (with 1K denoting 1024 tokens) context length (as shown in Figure 5 ).\", \"This highlights our method's superior balance between performance and inference speed, establishing it as a more practical solution.\", \"Niah experiments.\", \"Figure 4 reports Niah (Kamradt, 2023) results on UltraLLaDA (He et al., 2025) under long-context settings with a maximum context length of 32K.\", \"Focus-dLLM achieves overall higher scores than Fast-dLLM (Wu et al., 2025) and Sparse-dLLM (Song et al., 2025) across layers, and attains better accuracy than the vanilla baseline at the deepest layer, demonstrating strong needlein-a-haystack retrieval.\", \"Efficiency.\", \"We evaluate the scalability of Focus-dLLM by measuring throughput across context lengths from 8K to 32K context length, both the generation length and generation steps are fixed at 256.\"]",
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+    "published": "2026-02-02",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "arxiv_id": "2602.02159v1"
+   },
+   "similarity": 0.8950062990188599,
+   "via": "semantic"
+  },
+  {
+   "text": "Diffusion Large Language Models (dLLMs) deliver strong long-context processing capability in a non-autoregressive decoding paradigm. However, the considerable computational cost of bidirectional full attention limits the inference efficiency. Although sparse attention is promising, existing methods remain ineffective. This stems from the need to estimate attention importance for tokens yet to be decoded, while the unmasked token positions are unknown during diffusion. In this paper, we present Focus-dLLM, a novel training-free attention sparsification framework tailored for accurate and efficient long-context dLLM inference. Based on the finding that token confidence strongly correlates across adjacent steps, we first design a past confidence-guided indicator to predict unmasked regions. Built upon this, we propose a sink-aware pruning strategy to accurately estimate and remove redundant attention computation, while preserving highly influential attention sinks. To further reduce overhead, this strategy reuses identified sink locations across layers, leveraging the observed crosslayer consistency. Experimental results show that our method offers more than 29× lossless speedup under 32K context length.",
+   "meta": {
+    "sentences_json": "[\"Diffusion Large Language Models (dLLMs) deliver strong long-context processing capability in a non-autoregressive decoding paradigm.\", \"However, the considerable computational cost of bidirectional full attention limits the inference efficiency.\", \"Although sparse attention is promising, existing methods remain ineffective.\", \"This stems from the need to estimate attention importance for tokens yet to be decoded, while the unmasked token positions are unknown during diffusion.\", \"In this paper, we present Focus-dLLM, a novel training-free attention sparsification framework tailored for accurate and efficient long-context dLLM inference.\", \"Based on the finding that token confidence strongly correlates across adjacent steps, we first design a past confidence-guided indicator to predict unmasked regions.\", \"Built upon this, we propose a sink-aware pruning strategy to accurately estimate and remove redundant attention computation, while preserving highly influential attention sinks.\", \"To further reduce overhead, this strategy reuses identified sink locations across layers, leveraging the observed crosslayer consistency.\", \"Experimental results show that our method offers more than 29× lossless speedup under 32K context length.\"]",
+    "n_words": 160,
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "published": "2026-02-02",
+    "arxiv_id": "2602.02159v1",
+    "section_title": "Abstract",
+    "section_type": "abstract",
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing"
+   },
+   "similarity": 0.8646304607391357,
+   "via": "semantic"
+  },
+  {
+   "text": "Leveraging these novel techniques, our framework computes attention over the predicted unmasked queries and the selected necessary key-value pairs. As a result, it achieves considerable inference speedups without compromising performance throughout the dynamic decoding process. Our contributions are summarized as follows: • We analyze diffusion inference dynamics and reveal a strong positive correlation of token confidence across adjacent denoising steps, together with dynamic and structured attention patterns in dLLMs. • We propose Focus-dLLM, a novel training-free acceleration framework that consists of a past confidence-guided indicator for predicting the next unmasked positions with a sink-aware dynamic token pruning strategy for efficient sparse attention. • Experiments show that Focus-dLLM achieves substantial speedups over baselines while preserving accuracy. For instance, it attains betterthan-vanilla performance and delivers 2.05× speedup over Fast-dLLM for UltraLLaDA at 32K context length.",
+   "meta": {
+    "section_type": "introduction",
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+    "section_title": "Introduction",
+    "published": "2026-02-02",
+    "arxiv_id": "2602.02159v1",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Leveraging these novel techniques, our framework computes attention over the predicted unmasked queries and the selected necessary key-value pairs.\", \"As a result, it achieves considerable inference speedups without compromising performance throughout the dynamic decoding process.\", \"Our contributions are summarized as follows:\", \"• We analyze diffusion inference dynamics and reveal a strong positive correlation of token confidence across adjacent denoising steps, together with dynamic and structured attention patterns in dLLMs.\", \"• We propose Focus-dLLM, a novel training-free acceleration framework that consists of a past confidence-guided indicator for predicting the next unmasked positions with a sink-aware dynamic token pruning strategy for efficient sparse attention.\", \"• Experiments show that Focus-dLLM achieves substantial speedups over baselines while preserving accuracy.\", \"For instance, it attains betterthan-vanilla performance and delivers 2.05× speedup over Fast-dLLM for UltraLLaDA at 32K context length.\"]",
+    "n_words": 133
+   },
+   "similarity": 0.8561427593231201,
+   "via": "semantic"
+  }
+ ]
+}

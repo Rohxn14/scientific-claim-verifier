@@ -1,0 +1,311 @@
+{
+ "query": "how much does it cost to train a GPT-4 scale model",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "harness",
+ "answer": "The provided excerpts do not contain any information about the monetary cost of training a model at the scale of GPT‑4. The sources discuss training configurations, hardware, and runtime (e.g., ~20 hours on eight Quadro RTX 5000 GPUs [Source 1] or training times for GPT‑2 with FlashAttention [Source 5]), but none report the financial expense of training a GPT‑4‑scale model. Therefore, the cost cannot be answered from the given sources.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how much does it cost to train a GPT-4 scale model",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2206.03003v2",
+   "paper_title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+   "year": "2022",
+   "section": "Experimental setting",
+   "section_type": "results",
+   "similarity": 0.6711,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "As an optimization method, momentumSGD (nesterov, weight decay=10 -4 ) was employed and the training of the model was performed in nine epochs. Learning rates were determined as 10 -4 for optimizing the parameter θ f , 2 × 10 -4 for the parameters θ enc , θ agg and θ clf , and 4 × 10 -6 for the parameter θ g in which the learning rate was multiplied by 0.1 every three epochs. Random horizontal flip and random rotations (0 • , 90 • , 180 • , 270 • ) were applied to the input image patches as the data augmentation. All the parameters of the model were simultaneously optimized in the above setting. It took about 20 hours to perform five-fold cross-validation by a computer with eight Quadro RTX 5000 (NVIDIA, U.S.). Our source code is available from https://github.com/PersAM-MIL/PersAM.",
+   "url": "https://arxiv.org/abs/2206.03003v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2503.10589v1",
+   "paper_title": "Long Context Tuning for Video Generation",
+   "year": "2025",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.6629,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training Details. We implement LCT on a text-to-video diffusion model that adopts MMDiT [15] architecture and is trained on images and videos in their native resolutions and durations [14] . The parameters scale of the pre-trained model is 3B. We use a context window size of nine shots in maximum, and continue the model training with LCT on",
+   "url": "https://arxiv.org/abs/2503.10589v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2605.26355v1",
+   "paper_title": "Energy-Gated Attention and Wavelet Positional Encoding: Complementary Inductive Biases for Transformer Attention",
+   "year": "2026",
+   "section": "Setup",
+   "section_type": "results",
+   "similarity": 0.653,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Architecture and data. GPT-style decoder, L = 6, H = 8, d = 256, context T = 256, characterlevel TinyShakespeare. All models trained for 5,000 steps with cosine LR decay from 3 × 10 -4 , AdamW, identical mini-batches throughout. Statistical note. All reported results are single-run, single-seed. The primary result (EGA-MORLET +0.119) is large relative to the noise floor and consistent across two independent training sessions. Effect sizes below ±0.02 (convolution +0.007, flux +0.012, phase -0.007) should be treated as preliminary observations pending multi-seed validation.",
+   "url": "https://arxiv.org/abs/2605.26355v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.652,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) . We train all models on 128 TPUv3 cores. The setup used for PG-19 is described in Section 5.5.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "BERT Implementation",
+   "section_type": "method",
+   "similarity": 0.6441,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4 GPT-2. FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations. Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM. FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition. Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves. Long-range Arena. We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark. We measure accuracy, throughput, and training time of all models. Each task has a different sequence length varying between 1024 and 4096. We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3 Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention. Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.5889,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2. In particular, we set the ratio of sampled queries for each index to 40%, which means when building an index, the number of used query vectors is 40% of the key vectors. Figure 11 (a) shows the index construction time under different context lengths. The baseline method follows RetrievalAttention, which builds the index on CPU and builds one index for each query head, see the black curve. Introducing GPU to build kNN and employing CPU-GPU pipeline can gain a speedup from 3× to 15×, see the blue curve. Then, by sharing the index in the same query group, index construction time can be further reduced from 12× to 62× compared to pure CPU baseline, as the red curve shows. Moreover, index sharing also significantly reduces memory consumption by reducing the number of indexes. As depicted in Figure 11 (b), the index size can be 4× smaller than the GPU and CPU baseline without index sharing. In this experiment, we study the effect of this optimization to the generation quality and inference latency. In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.5923,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Loop 1 ← 0 to * _ℎ step 1 //N -sequence length 2: check for causal masking 3: = - //Keep global maximum 4: = 0.0 //keep global sum 5: Loop ← 0 to step 1 6: for ← 0, to do //__ (, &, , ) ← ( - ) _ = [0 : ] _ = [0 : ] = ( ( ( _, _ ) ) ) 10: end for 11: ← * 12: ← //Keep the old maximum in 13: ← 1.0 ← 1.0 14: if > then //check for new maximum 15: = 16: = ( - ) //Calculate rescaling factor 17:",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.6179,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "(i) The experiments cover only 3 of 79 instances in the Qutebrowser subset, which limits broad implications of ContextPipe. (ii) The token cost model per LLM also significantly impacts the cost effectiveness of this work. (iii) Cache counters are provider-normalized. (iv) Mechanism ablations A1-A4 remain open.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "The sources discuss training configurations, hardware, and runtime (e.g., ~20 hours on eight Quadro RTX 5000 GPUs or training times for GPT‑2 with FlashAttention ), but none report the financial expense of training a GPT‑4‑scale model.",
+    "sources": [
+     1,
+     5
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.583,
+      "semantic": 0.781,
+      "evidence": "It took about 20 hours to perform five-fold cross-validation by a computer with eight Quadro RTX 5000 (NVIDIA, U.S.).",
+      "missing_numbers": []
+     },
+     {
+      "source": 5,
+      "status": "partial",
+      "lexical": 0.462,
+      "semantic": 0.652,
+      "evidence": "Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 0,
+    "sources": [
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 1,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 2,
+   "supported": 1,
+   "partial": 1,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": 1.0,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 126,
+  "generation_ms": 1317,
+  "verification_ms": 1374,
+  "total_ms": 2818
+ },
+ "hits": [
+  {
+   "text": "As an optimization method, momentumSGD (nesterov, weight decay=10 -4 ) was employed and the training of the model was performed in nine epochs. Learning rates were determined as 10 -4 for optimizing the parameter θ f , 2 × 10 -4 for the parameters θ enc , θ agg and θ clf , and 4 × 10 -6 for the parameter θ g in which the learning rate was multiplied by 0.1 every three epochs. Random horizontal flip and random rotations (0 • , 90 • , 180 • , 270 • ) were applied to the input image patches as the data augmentation. All the parameters of the model were simultaneously optimized in the above setting. It took about 20 hours to perform five-fold cross-validation by a computer with eight Quadro RTX 5000 (NVIDIA, U.S.). Our source code is available from https://github.com/PersAM-MIL/PersAM.",
+   "meta": {
+    "section_title": "Experimental setting",
+    "paper_title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "arxiv_id": "2206.03003v2",
+    "section_type": "results",
+    "n_words": 143,
+    "published": "2022-06-07",
+    "sentences_json": "[\"As an optimization method, momentumSGD (nesterov, weight decay=10 -4 ) was employed and the training of the model was performed in nine epochs.\", \"Learning rates were determined as 10 -4 for optimizing the parameter θ f , 2 × 10 -4 for the parameters θ enc , θ agg and θ clf , and 4 × 10 -6 for the parameter θ g in which the learning rate was multiplied by 0.1 every three epochs.\", \"Random horizontal flip and random rotations (0 • , 90 • , 180 • , 270 • ) were applied to the input image patches as the data augmentation.\", \"All the parameters of the model were simultaneously optimized in the above setting.\", \"It took about 20 hours to perform five-fold cross-validation by a computer with eight Quadro RTX 5000 (NVIDIA, U.S.).\", \"Our source code is available from https://github.com/PersAM-MIL/PersAM.\"]"
+   },
+   "similarity": 0.6710730791091919,
+   "via": "semantic"
+  },
+  {
+   "text": "Training Details. We implement LCT on a text-to-video diffusion model that adopts MMDiT [15] architecture and is trained on images and videos in their native resolutions and durations [14] . The parameters scale of the pre-trained model is 3B. We use a context window size of nine shots in maximum, and continue the model training with LCT on",
+   "meta": {
+    "arxiv_id": "2503.10589v1",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Training Details.\", \"We implement LCT on a text-to-video diffusion model that adopts MMDiT [15] architecture and is trained on images and videos in their native resolutions and durations [14] .\", \"The parameters scale of the pre-trained model is 3B.\", \"We use a context window size of nine shots in maximum, and continue the model training with LCT on\"]",
+    "section_title": "Experiments",
+    "n_words": 58,
+    "paper_title": "Long Context Tuning for Video Generation",
+    "published": "2025-03-13",
+    "section_type": "results",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.6629306674003601,
+   "via": "semantic"
+  },
+  {
+   "text": "Architecture and data. GPT-style decoder, L = 6, H = 8, d = 256, context T = 256, characterlevel TinyShakespeare. All models trained for 5,000 steps with cosine LR decay from 3 × 10 -4 , AdamW, identical mini-batches throughout. Statistical note. All reported results are single-run, single-seed. The primary result (EGA-MORLET +0.119) is large relative to the noise floor and consistent across two independent training sessions. Effect sizes below ±0.02 (convolution +0.007, flux +0.012, phase -0.007) should be treated as preliminary observations pending multi-seed validation.",
+   "meta": {
+    "sentences_json": "[\"Architecture and data.\", \"GPT-style decoder, L = 6, H = 8, d = 256, context T = 256, characterlevel TinyShakespeare.\", \"All models trained for 5,000 steps with cosine LR decay from 3 × 10 -4 , AdamW, identical mini-batches throughout.\", \"Statistical note.\", \"All reported results are single-run, single-seed.\", \"The primary result (EGA-MORLET +0.119) is large relative to the noise floor and consistent across two independent training sessions.\", \"Effect sizes below ±0.02 (convolution +0.007, flux +0.012, phase -0.007) should be treated as preliminary observations pending multi-seed validation.\"]",
+    "section_type_inherited": false,
+    "section_title": "Setup",
+    "section_type": "results",
+    "arxiv_id": "2605.26355v1",
+    "domain": "efficient_attention",
+    "published": "2026-05-25",
+    "paper_title": "Energy-Gated Attention and Wavelet Positional Encoding: Complementary Inductive Biases for Transformer Attention",
+    "n_words": 86
+   },
+   "similarity": 0.6530038714408875,
+   "via": "semantic"
+  },
+  {
+   "text": "For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) . We train all models on 128 TPUv3 cores. The setup used for PG-19 is described in Section 5.5.",
+   "meta": {
+    "section_title": "Experiments",
+    "n_words": 63,
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "domain": "efficient_attention",
+    "arxiv_id": "2003.05997v5",
+    "section_type_inherited": false,
+    "published": "2020-03-12",
+    "sentences_json": "[\"For all our experiments except for PG-19, we use the Adam optimizer (Kingma and Ba, 2015) with learning rate 2 × 10 -4 with β 1 = 0.9 and β 2 = 0.98 following the learning rate schedule described in Vaswani et al. (2017) .\", \"We train all models on 128 TPUv3 cores.\", \"The setup used for PG-19 is described in Section 5.5.\"]",
+    "section_type": "results"
+   },
+   "similarity": 0.6519641876220703,
+   "via": "semantic"
+  },
+  {
+   "text": "Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4 GPT-2. FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations. Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM. FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition. Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves. Long-range Arena. We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark. We measure accuracy, throughput, and training time of all models. Each task has a different sequence length varying between 1024 and 4096. We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3 Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention. Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested.",
+   "meta": {
+    "published": "2022-05-27",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours)\", \"17.4 ± 1.4\", \"GPT-2.\", \"FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations.\", \"Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM.\", \"FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition.\", \"Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves.\", \"Long-range Arena.\", \"We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark.\", \"We measure accuracy, throughput, and training time of all models.\", \"Each task has a different sequence length varying between 1024 and 4096.\", \"We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3\", \"Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention.\", \"Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested.\"]",
+    "section_title": "BERT Implementation",
+    "section_type_inherited": false,
+    "n_words": 192,
+    "section_type": "method",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "arxiv_id": "2205.14135v2"
+   },
+   "similarity": 0.6441384553909302,
+   "via": "semantic"
+  },
+  {
+   "text": "We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2. In particular, we set the ratio of sampled queries for each index to 40%, which means when building an index, the number of used query vectors is 40% of the key vectors. Figure 11 (a) shows the index construction time under different context lengths. The baseline method follows RetrievalAttention, which builds the index on CPU and builds one index for each query head, see the black curve. Introducing GPU to build kNN and employing CPU-GPU pipeline can gain a speedup from 3× to 15×, see the blue curve. Then, by sharing the index in the same query group, index construction time can be further reduced from 12× to 62× compared to pure CPU baseline, as the red curve shows. Moreover, index sharing also significantly reduces memory consumption by reducing the number of indexes. As depicted in Figure 11 (b), the index size can be 4× smaller than the GPU and CPU baseline without index sharing. In this experiment, we study the effect of this optimization to the generation quality and inference latency. In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.",
+   "meta": {
+    "arxiv_id": "2504.10326v1",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "n_words": 211,
+    "section_title": "Empirical Evaluation",
+    "sentences_json": "[\"We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.\", \"In particular, we set the ratio of sampled queries for each index to 40%, which means when building an index, the number of used query vectors is 40% of the key vectors.\", \"Figure 11 (a) shows the index construction time under different context lengths.\", \"The baseline method follows RetrievalAttention, which builds the index on CPU and builds one index for each query head, see the black curve.\", \"Introducing GPU to build kNN and employing CPU-GPU pipeline can gain a speedup from 3× to 15×, see the blue curve.\", \"Then, by sharing the index in the same query group, index construction time can be further reduced from 12× to 62× compared to pure CPU baseline, as the red curve shows.\", \"Moreover, index sharing also significantly reduces memory consumption by reducing the number of indexes.\", \"As depicted in Figure 11 (b), the index size can be 4× smaller than the GPU and CPU baseline without index sharing.\", \"In this experiment, we study the effect of this optimization to the generation quality and inference latency.\", \"In particular, we conduct a micro-benchmark to evaluate the recall and latency of filter-based DIPRS search in the case of partial context reuse.\"]",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "domain": "efficient_attention",
+    "published": "2025-04-14"
+   },
+   "similarity": 0.5889161825180054,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Loop 1 ← 0 to * _ℎ step 1 //N -sequence length 2: check for causal masking 3: = - //Keep global maximum 4: = 0.0 //keep global sum 5: Loop ← 0 to step 1 6: for ← 0, to do //__ (, &, , ) ← ( - ) _ = [0 : ] _ = [0 : ] = ( ( ( _, _ ) ) ) 10: end for 11: ← * 12: ← //Keep the old maximum in 13: ← 1.0 ← 1.0 14: if > then //check for new maximum 15: = 16: = ( - ) //Calculate rescaling factor 17:",
+   "meta": {
+    "section_type_inherited": true,
+    "arxiv_id": "2608.18656v1",
+    "section_type": "conclusion",
+    "published": "2026-08-19",
+    "section_title": "Untitled",
+    "domain": "efficient_attention",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "n_words": 107,
+    "sentences_json": "[\"Loop 1 ← 0 to * _ℎ step 1 //N -sequence length 2: check for causal masking 3: = - //Keep global maximum 4: = 0.0 //keep global sum 5: Loop ← 0 to step 1 6: for ← 0, to do //__ (, &, , ) ← ( - ) _ = [0 : ] _ = [0 : ] = ( ( ( _, _ ) ) ) 10: end for 11: ← * 12: ← //Keep the old maximum in 13: ← 1.0 ← 1.0 14: if > then //check for new maximum 15: = 16: = ( - ) //Calculate rescaling factor 17:\"]"
+   },
+   "similarity": 0.5923439860343933,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "(i) The experiments cover only 3 of 79 instances in the Qutebrowser subset, which limits broad implications of ContextPipe. (ii) The token cost model per LLM also significantly impacts the cost effectiveness of this work. (iii) Cache counters are provider-normalized. (iv) Mechanism ablations A1-A4 remain open.",
+   "meta": {
+    "domain": "efficient_attention",
+    "section_type": "conclusion",
+    "arxiv_id": "2609.00749v1",
+    "section_title": "Untitled",
+    "section_type_inherited": true,
+    "sentences_json": "[\"(i) The experiments cover only 3 of 79 instances in the Qutebrowser subset, which limits broad implications of ContextPipe.\", \"(ii) The token cost model per LLM also significantly impacts the cost effectiveness of this work.\", \"(iii) Cache counters are provider-normalized.\", \"(iv) Mechanism ablations A1-A4 remain open.\"]",
+    "published": "2026-09-01",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "n_words": 46
+   },
+   "similarity": 0.6179335117340088,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

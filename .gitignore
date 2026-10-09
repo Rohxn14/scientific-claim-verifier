@@ -17,6 +17,7 @@ data/jobs.json.tmp
 src/data/
 
 # Local artifacts
+report/
 debug_output.txt
 .vscode/
 .idea/

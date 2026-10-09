@@ -1,0 +1,301 @@
+{
+ "query": "how does dilated neighborhood attention differ from standard attention",
+ "expected_arxiv_id": "2209.15001",
+ "category": "factual",
+ "set": "harness",
+ "answer": "Dilated Neighborhood Attention (DiNA) changes the pattern of which tokens each query can attend to, while keeping the computational cost of the underlying Neighborhood Attention (NA) mechanism.\n\n* **Neighbour selection** – In NA a query attends only to its *k* nearest neighbours (a contiguous local window). DiNA adds a *dilation* factor δ and forces the neighbour index j to satisfy $j\\;\\bmod\\;\\delta = i\\;\\bmod\\;\\delta$ (i.e., it attends to every δ‑th token in the window) [Source 3]. This yields a sparse set of tokens that are spread over a larger region of the sequence or image.\n\n* **Receptive field** – Because the neighbours are spaced apart, the effective receptive field grows **exponentially** with depth rather than linearly, allowing the model to capture longer‑range dependencies without expanding the window size [Source 4].\n\n* **Computational cost** – The dilation does not increase the number of attended tokens (still k per query), so the amount of matrix multiplication and memory use stays the same as NA, i.e., linear in the number of tokens, unlike dense self‑attention which is quadratic [Source 4].\n\n* **Comparison to standard (global) self‑attention** – Regular self‑attention computes a weight for **every pair** of tokens, giving a dense global view but at $O(N^2)$ cost [Source 2]. Local attention (a constrained version of standard attention) restricts this to a contiguous window, yet still requires separate computation for each window. DiNA, by contrast, retains the locality of a window while sparsifying it through dilation, providing a *sparse global* attention pattern that preserves translational equivariance and symmetry [Source 4].\n\nIn summary, Dilated Neighborhood Attention differs from standard attention by attending to a dilated, sparse set of neighbours rather than all tokens (global) or a contiguous local block, achieving a much larger receptive field without extra computation.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does dilated neighborhood attention differ from standard attention",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Abstract",
+   "section_type": "abstract",
+   "similarity": 0.764,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "NA / DiNA (dilation = 1) DiNA (dilation = 2) DiNA (dilation = 3) DiNA (dilation = 4) Figure 1. An illustration of a single pixel's attention span in Neighborhood Attention (NA) and Dilated Neighborhood Attention (DiNA). NA localizes attention to the pixel's nearest neighbors. DiNA extends NA's local attention to a less constrained sparse global attention without additional computational burden. Transformers comprised of both NA and DiNA are capable of preserving locality, maintaining translational equivariance, expanding the receptive field exponentially, and capturing longer-range inter-dependencies, leading to significant performance boosts in downstream vision tasks.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 2,
+   "paper_id": "1809.04281v3",
+   "paper_title": "Music Transformer",
+   "year": "2018",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.7565,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local). All else being equal, local and global attention perform similarly. Each though local attention does not see all the history at once, it can build up a larger receptive field across layers. This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory.",
+   "url": "https://arxiv.org/abs/1809.04281v3"
+  },
+  {
+   "index": 3,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Dilated Neighborhood Attention",
+   "section_type": "method",
+   "similarity": 0.7533,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "For simplicity, we keep notations limited to singledimensional NA and DiNA. Given input X ∈ R n×d , whose rows are d-dimensional token vectors, and query and key linear projections of X, Q and K, and relative positional biases between any two tokens i and j, B(i, j), we define neighborhood attention weights for the i-th token with neighborhood size k, A k i , as the matrix multiplication of the i-th token's query projection, and its k nearest neighboring tokens' key projections: . . . where ρ j (i) denotes i's j-th nearest neighbor. We similarly define neighboring values, V k i , as a matrix whose rows are the i-th token's k nearest neighboring value projections: where V is a linear projection of X. Neighborhood Attention output for the i-th token with neighborhood size k is then defined as: ConvNeXt. NAT. DiNAT. where √ d is the scaling parameter, and d is the embedding dimension. To extend this definition to DiNA, given a dilation value δ, we simply define ρ δ j (i) as token i's j-th nearest neighbor that satisfies: j mod δ = i mod δ. We can then define δ-dilated neighborhood attention weights for the i-th token with neighborhood size k, A (k,δ) i , as follows: . . .",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 4,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7477,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2605.26355v1",
+   "paper_title": "Energy-Gated Attention and Wavelet Positional Encoding: Complementary Inductive Biases for Transformer Attention",
+   "year": "2026",
+   "section": "The complementarity hypothesis.",
+   "section_type": "introduction",
+   "similarity": 0.741,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "EGA controls what to attend to (salience); MOPE controls where attention is sensitive at each scale (locality). We hypothesize that these are orthogonal properties of attention -neither can substitute for the other -and that their combination provides a more complete attention mechanism than either alone. Main result. The combination EGA-MORLET achieves val = 1.3550 on TinyShakespeare, +0.119 over standard attention. This exceeds the sum of components (+0.092 -0.032 = +0.060) by +0.059, consistent with complementarity rather than simple additivity. The result is observed in two independent training runs with different seeds, providing preliminary evidence for robustness. Supporting findings. Five further experiments test predictions of the spectral filtering interpretation of attention: convolution attention (nonzero lags improve over zero-lag dot product, +0.007); scaleinitialized heads (no benefit, -0.007, a negative result showing gradient descent discovers scale structure without guidance); spectral flux gating (+0.012, suggesting boundary detection as a useful attention signal); phase coherence gating (-0.007, suggesting phase is not informative at character scale); and a spectral cascade analysis showing qualitative coarsening of spectral content across layers. Code available at: https://github.com/AthanasiosZeris/energy-gated-attention.",
+   "url": "https://arxiv.org/abs/2605.26355v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "DiNA adds a dilation factor δ and forces the neighbour index j to satisfy $j\\; \\bmod\\; \\delta = i\\; \\bmod\\; \\delta$ (i.e., it attends to every δ‑th token in the window).",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.286,
+      "semantic": 0.843,
+      "evidence": "To extend this definition to DiNA, given a dilation value δ, we simply define ρ δ j (i) as token i's j-th nearest neighbor that satisfies: j mod δ = i mod δ.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Receptive field – Because the neighbours are spaced apart, the effective receptive field grows exponentially with depth rather than linearly, allowing the model to capture longer‑range dependencies without expanding the window size.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.682,
+      "semantic": 0.776,
+      "evidence": "Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Computational cost – The dilation does not increase the number of attended tokens (still k per query), so the amount of matrix multiplication and memory use stays the same as NA, i.e., linear in the number of tokens, unlike dense self‑attention which is quadratic.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "partial",
+      "lexical": 0.28,
+      "semantic": 0.71,
+      "evidence": "Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Comparison to standard (global) self‑attention – Regular self‑attention computes a weight for every pair of tokens, giving a dense global view but at $O(N^2)$ cost.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "partial",
+      "lexical": 0.235,
+      "semantic": 0.781,
+      "evidence": "Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local). All else being equal, local and global attention perform similarly.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "DiNA, by contrast, retains the locality of a window while sparsifying it through dilation, providing a sparse global attention pattern that preserves translational equivariance and symmetry.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.471,
+      "semantic": 0.805,
+      "evidence": "• Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     4
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 5,
+   "claims_supported": 2,
+   "claims_partial": 3,
+   "claims_unsupported": 0,
+   "citations": 5,
+   "supported": 2,
+   "partial": 3,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 5,
+   "score": 0.7,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 31,
+  "generation_ms": 1961,
+  "verification_ms": 1167,
+  "total_ms": 3160
+ },
+ "hits": [
+  {
+   "text": "NA / DiNA (dilation = 1) DiNA (dilation = 2) DiNA (dilation = 3) DiNA (dilation = 4) Figure 1. An illustration of a single pixel's attention span in Neighborhood Attention (NA) and Dilated Neighborhood Attention (DiNA). NA localizes attention to the pixel's nearest neighbors. DiNA extends NA's local attention to a less constrained sparse global attention without additional computational burden. Transformers comprised of both NA and DiNA are capable of preserving locality, maintaining translational equivariance, expanding the receptive field exponentially, and capturing longer-range inter-dependencies, leading to significant performance boosts in downstream vision tasks.",
+   "meta": {
+    "domain": "efficient_attention",
+    "arxiv_id": "2209.15001v3",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_title": "Abstract",
+    "n_words": 94,
+    "published": "2022-09-29",
+    "section_type_inherited": false,
+    "section_type": "abstract",
+    "sentences_json": "[\"NA / DiNA (dilation = 1) DiNA (dilation = 2) DiNA (dilation = 3) DiNA (dilation = 4) Figure 1.\", \"An illustration of a single pixel's attention span in Neighborhood Attention (NA) and Dilated Neighborhood Attention (DiNA).\", \"NA localizes attention to the pixel's nearest neighbors.\", \"DiNA extends NA's local attention to a less constrained sparse global attention without additional computational burden.\", \"Transformers comprised of both NA and DiNA are capable of preserving locality, maintaining translational equivariance, expanding the receptive field exponentially, and capturing longer-range inter-dependencies, leading to significant performance boosts in downstream vision tasks.\"]"
+   },
+   "similarity": 0.764000415802002,
+   "via": "semantic"
+  },
+  {
+   "text": "Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local). All else being equal, local and global attention perform similarly. Each though local attention does not see all the history at once, it can build up a larger receptive field across layers. This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory.",
+   "meta": {
+    "published": "2018-09-12",
+    "paper_title": "Music Transformer",
+    "arxiv_id": "1809.04281v3",
+    "section_type": "results",
+    "sentences_json": "[\"Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local).\", \"All else being equal, local and global attention perform similarly.\", \"Each though local attention does not see all the history at once, it can build up a larger receptive field across layers.\", \"This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory.\"]",
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "section_title": "Untitled",
+    "n_words": 68
+   },
+   "similarity": 0.7565463781356812,
+   "via": "semantic"
+  },
+  {
+   "text": "For simplicity, we keep notations limited to singledimensional NA and DiNA. Given input X ∈ R n×d , whose rows are d-dimensional token vectors, and query and key linear projections of X, Q and K, and relative positional biases between any two tokens i and j, B(i, j), we define neighborhood attention weights for the i-th token with neighborhood size k, A k i , as the matrix multiplication of the i-th token's query projection, and its k nearest neighboring tokens' key projections: . . . where ρ j (i) denotes i's j-th nearest neighbor. We similarly define neighboring values, V k i , as a matrix whose rows are the i-th token's k nearest neighboring value projections: where V is a linear projection of X. Neighborhood Attention output for the i-th token with neighborhood size k is then defined as: ConvNeXt. NAT. DiNAT. where √ d is the scaling parameter, and d is the embedding dimension. To extend this definition to DiNA, given a dilation value δ, we simply define ρ δ j (i) as token i's j-th nearest neighbor that satisfies: j mod δ = i mod δ. We can then define δ-dilated neighborhood attention weights for the i-th token with neighborhood size k, A (k,δ) i , as follows: . . .",
+   "meta": {
+    "section_title": "Dilated Neighborhood Attention",
+    "sentences_json": "[\"For simplicity, we keep notations limited to singledimensional NA and DiNA.\", \"Given input X ∈ R n×d , whose rows are d-dimensional token vectors, and query and key linear projections of X, Q and K, and relative positional biases between any two tokens i and j, B(i, j), we define neighborhood attention weights for the i-th token with neighborhood size k, A k i , as the matrix multiplication of the i-th token's query projection, and its k nearest neighboring tokens' key projections:\", \". . .\", \"where ρ j (i) denotes i's j-th nearest neighbor.\", \"We similarly define neighboring values, V k i , as a matrix whose rows are the i-th token's k nearest neighboring value projections:\", \"where V is a linear projection of X. Neighborhood Attention output for the i-th token with neighborhood size k is then defined as: ConvNeXt.\", \"NAT.\", \"DiNAT.\", \"where √ d is the scaling parameter, and d is the embedding dimension.\", \"To extend this definition to DiNA, given a dilation value δ, we simply define ρ δ j (i) as token i's j-th nearest neighbor that satisfies: j mod δ = i mod δ.\", \"We can then define δ-dilated neighborhood attention weights for the i-th token with neighborhood size k, A (k,δ) i , as follows:\", \". . .\"]",
+    "section_type_inherited": false,
+    "arxiv_id": "2209.15001v3",
+    "domain": "efficient_attention",
+    "published": "2022-09-29",
+    "section_type": "method",
+    "n_words": 215,
+    "paper_title": "Dilated Neighborhood Attention Transformer"
+   },
+   "similarity": 0.7533034086227417,
+   "via": "semantic"
+  },
+  {
+   "text": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes.",
+   "meta": {
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "n_words": 206,
+    "section_title": "Introduction",
+    "section_type": "introduction",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "sentences_json": "[\"In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention.\", \"In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention.\", \"Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost.\", \"To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin.\", \"Our main contributions can be summarized as follows:\", \"• Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden.\", \"DiNA does so while maintaining the symmetry in neighborhoods introduced in NA.\", \"It can also adapt to larger resolutions without expanding to larger window sizes.\"]",
+    "published": "2022-09-29",
+    "arxiv_id": "2209.15001v3"
+   },
+   "similarity": 0.7476576566696167,
+   "via": "semantic"
+  },
+  {
+   "text": "EGA controls what to attend to (salience); MOPE controls where attention is sensitive at each scale (locality). We hypothesize that these are orthogonal properties of attention -neither can substitute for the other -and that their combination provides a more complete attention mechanism than either alone. Main result. The combination EGA-MORLET achieves val = 1.3550 on TinyShakespeare, +0.119 over standard attention. This exceeds the sum of components (+0.092 -0.032 = +0.060) by +0.059, consistent with complementarity rather than simple additivity. The result is observed in two independent training runs with different seeds, providing preliminary evidence for robustness. Supporting findings. Five further experiments test predictions of the spectral filtering interpretation of attention: convolution attention (nonzero lags improve over zero-lag dot product, +0.007); scaleinitialized heads (no benefit, -0.007, a negative result showing gradient descent discovers scale structure without guidance); spectral flux gating (+0.012, suggesting boundary detection as a useful attention signal); phase coherence gating (-0.007, suggesting phase is not informative at character scale); and a spectral cascade analysis showing qualitative coarsening of spectral content across layers. Code available at: https://github.com/AthanasiosZeris/energy-gated-attention.",
+   "meta": {
+    "sentences_json": "[\"EGA controls what to attend to (salience); MOPE controls where attention is sensitive at each scale (locality).\", \"We hypothesize that these are orthogonal properties of attention -neither can substitute for the other -and that their combination provides a more complete attention mechanism than either alone.\", \"Main result.\", \"The combination EGA-MORLET achieves val = 1.3550 on TinyShakespeare, +0.119 over standard attention.\", \"This exceeds the sum of components (+0.092 -0.032 = +0.060)\", \"by +0.059, consistent with complementarity rather than simple additivity.\", \"The result is observed in two independent training runs with different seeds, providing preliminary evidence for robustness.\", \"Supporting findings.\", \"Five further experiments test predictions of the spectral filtering interpretation of attention: convolution attention (nonzero lags improve over zero-lag dot product, +0.007); scaleinitialized heads (no benefit, -0.007, a negative result showing gradient descent discovers scale structure without guidance); spectral flux gating (+0.012, suggesting boundary detection as a useful attention signal); phase coherence gating (-0.007, suggesting phase is not informative at character scale); and a spectral cascade analysis showing qualitative coarsening of spectral content across layers.\", \"Code available at: https://github.com/AthanasiosZeris/energy-gated-attention.\"]",
+    "n_words": 177,
+    "published": "2026-05-25",
+    "paper_title": "Energy-Gated Attention and Wavelet Positional Encoding: Complementary Inductive Biases for Transformer Attention",
+    "section_title": "The complementarity hypothesis.",
+    "section_type": "introduction",
+    "section_type_inherited": true,
+    "arxiv_id": "2605.26355v1",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7410498261451721,
+   "via": "semantic"
+  }
+ ]
+}

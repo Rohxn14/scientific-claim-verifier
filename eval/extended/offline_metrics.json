@@ -1,0 +1,1231 @@
+{
+ "reproduce": {
+  "questions": 20,
+  "claims": 64,
+  "claims_supported": 48,
+  "claims_partial": 11,
+  "claims_unsupported": 5,
+  "citations": 85,
+  "supported": 55,
+  "partial": 20,
+  "unsupported": 10,
+  "invalid": 0,
+  "uncited_sentences": 57,
+  "supported_pct": 0.75,
+  "partial_pct": 0.172,
+  "unsupported_pct": 0.078,
+  "supported_or_partial_pct": 0.922,
+  "citation_coverage": 0.529,
+  "invalid_citation_rate": 0.0,
+  "per_category": {
+   "factual": {
+    "questions": 8,
+    "claims": 21,
+    "supported": 16,
+    "partial": 4,
+    "unsupported": 1
+   },
+   "comparison": {
+    "questions": 6,
+    "claims": 24,
+    "supported": 18,
+    "partial": 5,
+    "unsupported": 1
+   },
+   "contradiction": {
+    "questions": 4,
+    "claims": 16,
+    "supported": 12,
+    "partial": 2,
+    "unsupported": 2
+   },
+   "out_of_scope": {
+    "questions": 2,
+    "claims": 3,
+    "supported": 2,
+    "partial": 0,
+    "unsupported": 1
+   }
+  }
+ },
+ "verifier_vs_gold": {
+  "pairs": 85,
+  "confusion_gold_rows_verifier_cols": {
+   "supported": {
+    "supported": 39,
+    "partial": 6,
+    "unsupported": 2
+   },
+   "partial": {
+    "supported": 15,
+    "partial": 12,
+    "unsupported": 6
+   },
+   "unsupported": {
+    "supported": 1,
+    "partial": 2,
+    "unsupported": 2
+   }
+  },
+  "accuracy_3class": 0.624,
+  "kappa_3class": 0.308,
+  "accuracy_binary": 0.718,
+  "kappa_binary": 0.417,
+  "precision_supported": 0.709,
+  "recall_supported": 0.83,
+  "recall_not_supported": 0.579,
+  "gold_unsupported_flagged": "4/5",
+  "gold_distribution": {
+   "supported": 47,
+   "partial": 33,
+   "unsupported": 5
+  },
+  "verifier_distribution": {
+   "supported": 55,
+   "partial": 20,
+   "unsupported": 10
+  },
+  "claims": 64,
+  "claim_gold_distribution": {
+   "supported": 43,
+   "partial": 19,
+   "unsupported": 2
+  },
+  "claim_verifier_distribution": {
+   "supported": 48,
+   "partial": 11,
+   "unsupported": 5
+  },
+  "claim_accuracy_3class": 0.688,
+  "claim_kappa_3class": 0.294,
+  "disagreements": [
+   {
+    "pair_id": "q01c00s2",
+    "gold": "unsupported",
+    "verifier": "partial",
+    "semantic": 0.772,
+    "lexical": 0.353,
+    "claim": "Scope of attention – Regular self‑attention computes a dense similarity between every query and all keys, i.e., it is a global operation over the whole sequence"
+   },
+   {
+    "pair_id": "q01c01s3",
+    "gold": "supported",
+    "verifier": "partial",
+    "semantic": 0.781,
+    "lexical": 0.455,
+    "claim": "Local restriction – Neighborhood Attention (NA) limits each query to its k nearest neighbours, reducing the attention to a local window."
+   },
+   {
+    "pair_id": "q01c02s3",
+    "gold": "supported",
+    "verifier": "unsupported",
+    "semantic": 0.718,
+    "lexical": 0.154,
+    "claim": "This picks tokens that are spaced apart, creating a sparse global pattern that still respects a regular neighborhood structure."
+   },
+   {
+    "pair_id": "q01c05s1",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.876,
+    "lexical": 0.6,
+    "claim": "Inductive properties – DiNA preserves locality, translational equivariance, and symmetry of neighborhoods, unlike the unrestricted global attention of standard "
+   },
+   {
+    "pair_id": "q01c05s4",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.851,
+    "lexical": 0.467,
+    "claim": "Inductive properties – DiNA preserves locality, translational equivariance, and symmetry of neighborhoods, unlike the unrestricted global attention of standard "
+   },
+   {
+    "pair_id": "q03c00s1",
+    "gold": "partial",
+    "verifier": "unsupported",
+    "semantic": 0.672,
+    "lexical": 0.2,
+    "claim": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards."
+   },
+   {
+    "pair_id": "q04c00s1",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.906,
+    "lexical": 0.769,
+    "claim": "The original Transformer formulation notes that “the time and space complexity of self‑attention grows quadratically in the sequence length”."
+   },
+   {
+    "pair_id": "q07c01s4",
+    "gold": "partial",
+    "verifier": "unsupported",
+    "semantic": 0.605,
+    "lexical": 0.167,
+    "claim": "which is a linear operation in the sequence length because the inner sum can be computed once and reused for every query."
+   },
+   {
+    "pair_id": "q07c03s3",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.747,
+    "lexical": 0.5,
+    "claim": "An approximation gap that can be analyzed via control‑variate estimators; the gap shrinks when the same coefficient is used for all control variates, or when mo"
+   },
+   {
+    "pair_id": "q07c03s5",
+    "gold": "unsupported",
+    "verifier": "supported",
+    "semantic": 0.728,
+    "lexical": 0.562,
+    "claim": "An approximation gap that can be analyzed via control‑variate estimators; the gap shrinks when the same coefficient is used for all control variates, or when mo"
+   },
+   {
+    "pair_id": "q08c02s3",
+    "gold": "unsupported",
+    "verifier": "partial",
+    "semantic": 0.81,
+    "lexical": 0.136,
+    "claim": "Fixed vs learnable sparsity; Fixed patterns are cheap (no extra parameters, no training) but cannot adapt to data distribution. Learnable patterns can capture d"
+   },
+   {
+    "pair_id": "q08c05s5",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.91,
+    "lexical": 0.68,
+    "claim": "Training‑free calibration; Some recent methods calibrate sparsity thresholds offline on a small dataset, avoiding any model weight updates. This yields a traini"
+   },
+   {
+    "pair_id": "q08c06s5",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.852,
+    "lexical": 0.692,
+    "claim": "Architectural changes; Low‑rank or kernel‑based approximations replace softmax attention and require model redesign, whereas selection‑based sparsity can remain"
+   },
+   {
+    "pair_id": "q08c07s5",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.889,
+    "lexical": 0.739,
+    "claim": "Complexity guarantees; Learned sparsity methods (e.g., SparseK) claim provable linear complexity, but the added scoring network and differentiable top‑$k$ opera"
+   },
+   {
+    "pair_id": "q13c00s3",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.845,
+    "lexical": 0.529,
+    "claim": "Standard local attention: The receptive field grows only slowly—essentially linearly with depth—much like the limited, gradually expanding field of convolutions"
+   },
+   {
+    "pair_id": "q13c02s1",
+    "gold": "supported",
+    "verifier": "partial",
+    "semantic": 0.677,
+    "lexical": 0.375,
+    "claim": "The authors explicitly contrast this exponential growth with the linear growth of ordinary neighborhoods."
+   },
+   {
+    "pair_id": "q14c00s4",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.904,
+    "lexical": 0.722,
+    "claim": "FlashAttention (original) – The original FlashAttention work reports that its algorithm is 2–4 × faster than standard attention and that it achieves substantial"
+   },
+   {
+    "pair_id": "q14c01s5",
+    "gold": "supported",
+    "verifier": "unsupported",
+    "semantic": 0.677,
+    "lexical": 0.333,
+    "claim": "It also gives a theoretical bound on memory‑access reductions."
+   },
+   {
+    "pair_id": "q14c02s7",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.811,
+    "lexical": 0.343,
+    "claim": "AlayaDB – The AlayaDB paper describes an experimental setup (hardware configuration, model used, latency target TPOT ≤ 0.24 s) and states that it evaluates “Ful"
+   },
+   {
+    "pair_id": "q15c01s2",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.845,
+    "lexical": 0.591,
+    "claim": "FlashAttention‑2, in contrast, reports training‑phase throughput in TFLOPs per GPU (up to 225 TFLOPs/s on an A100 GPU, corresponding to ≈73 % of the theoretical"
+   },
+   {
+    "pair_id": "q15c01s5",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.853,
+    "lexical": 0.591,
+    "claim": "FlashAttention‑2, in contrast, reports training‑phase throughput in TFLOPs per GPU (up to 225 TFLOPs/s on an A100 GPU, corresponding to ≈73 % of the theoretical"
+   },
+   {
+    "pair_id": "q16c02s3",
+    "gold": "partial",
+    "verifier": "unsupported",
+    "semantic": 0.509,
+    "lexical": 0.095,
+    "claim": "Both citations report the identical upper‑bound number (225 TFLOPs/s) and no other TFLOPs figures appear elsewhere in the paper (the discussion of a 2× speedup "
+   },
+   {
+    "pair_id": "q17c03s1",
+    "gold": "supported",
+    "verifier": "partial",
+    "semantic": 0.67,
+    "lexical": 0.462,
+    "claim": "By streaming the last column of the tile first and carefully scheduling the operations, the kernel overlaps the two matrix multiplications with the soft‑max red"
+   },
+   {
+    "pair_id": "q17c03s3",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.754,
+    "lexical": 0.538,
+    "claim": "By streaming the last column of the tile first and carefully scheduling the operations, the kernel overlaps the two matrix multiplications with the soft‑max red"
+   },
+   {
+    "pair_id": "q17c05s1",
+    "gold": "supported",
+    "verifier": "partial",
+    "semantic": 0.786,
+    "lexical": 0.357,
+    "claim": "This overlap is achieved while preserving the algorithmic primitives of FlashAttention (tiling, online‑softmax, exp₂ implementation) within the hardware pipelin"
+   },
+   {
+    "pair_id": "q17c05s3",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.853,
+    "lexical": 0.714,
+    "claim": "This overlap is achieved while preserving the algorithmic primitives of FlashAttention (tiling, online‑softmax, exp₂ implementation) within the hardware pipelin"
+   },
+   {
+    "pair_id": "q17c06s4",
+    "gold": "supported",
+    "verifier": "partial",
+    "semantic": 0.743,
+    "lexical": 0.467,
+    "claim": "The result is higher FLOPs/s utilization and reduced memory traffic, directly addressing the inefficiencies highlighted for FlashAttention on conventional systo"
+   },
+   {
+    "pair_id": "q18c01s1",
+    "gold": "partial",
+    "verifier": "unsupported",
+    "semantic": 0.657,
+    "lexical": 0.095,
+    "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide I"
+   },
+   {
+    "pair_id": "q18c01s2",
+    "gold": "partial",
+    "verifier": "unsupported",
+    "semantic": 0.644,
+    "lexical": 0.333,
+    "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide I"
+   },
+   {
+    "pair_id": "q18c01s3",
+    "gold": "partial",
+    "verifier": "unsupported",
+    "semantic": 0.576,
+    "lexical": 0.095,
+    "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide I"
+   },
+   {
+    "pair_id": "q19c00s1",
+    "gold": "supported",
+    "verifier": "partial",
+    "semantic": 0.676,
+    "lexical": 0.474,
+    "claim": "The only cost‑related details are training‑time measurements for much smaller models (e.g., ~20 h on 8 × Quadro RTX 5000 GPUs for a medical‑image transformer an"
+   },
+   {
+    "pair_id": "q19c00s5",
+    "gold": "partial",
+    "verifier": "supported",
+    "semantic": 0.641,
+    "lexical": 0.5,
+    "claim": "The only cost‑related details are training‑time measurements for much smaller models (e.g., ~20 h on 8 × Quadro RTX 5000 GPUs for a medical‑image transformer an"
+   }
+  ]
+ },
+ "discrimination": {
+  "positive_pairs": 85,
+  "negative_pairs": 326,
+  "auc_semantic": 0.743,
+  "auc_lexical": 0.871,
+  "auc_status_rank": 0.833,
+  "cited_status": {
+   "supported": 49,
+   "partial": 25,
+   "unsupported": 11
+  },
+  "not_cited_status": {
+   "unsupported": 211,
+   "partial": 94,
+   "supported": 21
+  },
+  "not_cited_rated_supported": 0.064,
+  "not_cited_semantic_ge_0.80": 0.132,
+  "median_semantic": {
+   "cited": 0.805,
+   "not_cited": 0.714
+  },
+  "median_lexical": {
+   "cited": 0.5,
+   "not_cited": 0.172
+  }
+ },
+ "perturbation": {
+  "unchanged": {
+   "tried": 39,
+   "detected": 0,
+   "missed_examples": [],
+   "caught_examples": [],
+   "detection_rate": 0.0,
+   "note": "unchanged supported claims re-checked in isolation (sanity check)"
+  },
+  "number": {
+   "tried": 18,
+   "detected": 14,
+   "missed_examples": [
+    {
+     "original": "DiNAT’s image‑classification performance is measured on the ImageNet benchmark, using both the standard ImageNet‑1K dataset and the larger ImageNet‑22K dataset for pre‑training.",
+     "perturbed": "DiNAT’s image‑classification performance is measured on the ImageNet benchmark, using both the standard ImageNet‑5K dataset and the larger ImageNet‑22K dataset for pre‑training.",
+     "source": 1,
+     "status": "supported",
+     "semantic": 0.811,
+     "lexical": 0.571,
+     "missing_numbers": []
+    },
+    {
+     "original": "Higher raw speed – Benchmarks across a range of sequence lengths show FlashAttention‑2 is 1.7–3.0 × faster than FlashAttention (and 1.3–2.5 × faster than the Triton implementation).",
+     "perturbed": "Higher raw speed – Benchmarks across a range of sequence lengths show FlashAttention‑7 is 1.7–3.0 × faster than FlashAttention (and 1.3–2.5 × faster than the Triton implementation).",
+     "source": 2,
+     "status": "supported",
+     "semantic": 0.881,
+     "lexical": 0.722,
+     "missing_numbers": []
+    },
+    {
+     "original": "End‑to‑end training acceleration – When training GPT‑style models (1.3 B and 2.7 B parameters) at 2 k or 8 k token lengths, FlashAttention‑2 gives up to 1.3× speedup vs. FlashAttention and 2.8× vs. a baseline without Fla",
+     "perturbed": "End‑to‑end training acceleration – When training GPT‑style models (5 B and 2.7 B parameters) at 2 k or 8 k token lengths, FlashAttention‑2 gives up to 1.3× speedup vs. FlashAttention and 2.8× vs. a baseline without Flash",
+     "source": 2,
+     "status": "supported",
+     "semantic": 0.95,
+     "lexical": 0.762,
+     "missing_numbers": []
+    },
+    {
+     "original": "In the results table the authors state that FlashAttention‑2 reaches up to 225 TFLOPs · s⁻¹ on GPT‑style models running on 8 × A100 GPUs, with 72 % model FLOPs utilization.",
+     "perturbed": "In the results table the authors state that FlashAttention‑7 reaches up to 225 TFLOPs · s⁻¹ on GPT‑style models running on 8 × A100 GPUs, with 72 % model FLOPs utilization.",
+     "source": 1,
+     "status": "supported",
+     "semantic": 0.81,
+     "lexical": 0.737,
+     "missing_numbers": []
+    }
+   ],
+   "caught_examples": [
+    {
+     "original": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards.",
+     "perturbed": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 163 GB SXM cards.",
+     "source": 3,
+     "status": "partial",
+     "semantic": 0.776,
+     "lexical": 0.467,
+     "missing_numbers": [
+      "163"
+     ]
+    },
+    {
+     "original": "In the empirical evaluation the authors report that they “only measure the latency of each token generation (TPOT)” and use a service‑level objective of TPOT ≤ 0.24 s, which corresponds to the typical human reading speed",
+     "perturbed": "In the empirical evaluation the authors report that they “only measure the latency of each token generation (TPOT)” and use a service‑level objective of TPOT ≤ 3.4 s, which corresponds to the typical human reading speed.",
+     "source": 1,
+     "status": "partial",
+     "semantic": 0.815,
+     "lexical": 0.5,
+     "missing_numbers": [
+      "3.4"
+     ]
+    },
+    {
+     "original": "The most common construction uses random features (RF) \\phi(\\cdot) derived from the kernel‑linearization trick of Rahimi & Recht (2008).",
+     "perturbed": "The most common construction uses random features (RF) \\phi(\\cdot) derived from the kernel‑linearization trick of Rahimi & Recht (4019).",
+     "source": 2,
+     "status": "partial",
+     "semantic": 0.81,
+     "lexical": 0.333,
+     "missing_numbers": [
+      "4019"
+     ]
+    },
+    {
+     "original": "Around 2× forward‑pass speedup – In the forward pass FlashAttention‑2 achieves roughly a 2× speedup over FlashAttention, reaching up to 73 % of the theoretical max throughput on an A100 GPU.",
+     "perturbed": "Around 7× forward‑pass speedup – In the forward pass FlashAttention‑2 achieves roughly a 2× speedup over FlashAttention, reaching up to 73 % of the theoretical max throughput on an A100 GPU.",
+     "source": 3,
+     "status": "partial",
+     "semantic": 0.915,
+     "lexical": 0.882,
+     "missing_numbers": [
+      "7"
+     ]
+    }
+   ],
+   "detection_rate": 0.778
+  },
+  "entity": {
+   "tried": 28,
+   "detected": 6,
+   "missed_examples": [
+    {
+     "original": "No full attention matrix in backward – Like the method of Rabe & Staats, FlashAttention recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement.",
+     "perturbed": "No full attention matrix in backward – Like the method of Rabe & Staats, Reformer recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement.",
+     "source": 5,
+     "status": "supported",
+     "semantic": 0.811,
+     "lexical": 0.524,
+     "missing_numbers": []
+    },
+    {
+     "original": "Empirical memory savings – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths.",
+     "perturbed": "Empirical energy savings – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths.",
+     "source": 1,
+     "status": "supported",
+     "semantic": 0.821,
+     "lexical": 0.458,
+     "missing_numbers": []
+    },
+    {
+     "original": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention kernels.",
+     "perturbed": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of Reformer over prior attention kernels.",
+     "source": 3,
+     "status": "supported",
+     "semantic": 0.852,
+     "lexical": 0.45,
+     "missing_numbers": []
+    },
+    {
+     "original": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards.",
+     "perturbed": "The experiments measured per‑GPU performance on single V100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards.",
+     "source": 3,
+     "status": "supported",
+     "semantic": 0.78,
+     "lexical": 0.533,
+     "missing_numbers": []
+    }
+   ],
+   "caught_examples": [
+    {
+     "original": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also shrinks the total memory that must be resident, because each access implicit",
+     "perturbed": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, Reformer also shrinks the total memory that must be resident, because each access implicitly nee",
+     "source": 5,
+     "status": "partial",
+     "semantic": 0.753,
+     "lexical": 0.36,
+     "missing_numbers": []
+    },
+    {
+     "original": "Computational cost – The dilated pattern does not increase the amount of computation or memory relative to NA; it keeps the same linear‑complexity cost while providing a broader context.",
+     "perturbed": "Computational cost – The dilated pattern does not increase the amount of computation or memory relative to NA; it keeps the same cubic‑complexity cost while providing a broader context.",
+     "source": 4,
+     "status": "partial",
+     "semantic": 0.715,
+     "lexical": 0.444,
+     "missing_numbers": []
+    },
+    {
+     "original": "DiNAT’s image‑classification performance is measured on the ImageNet benchmark, using both the standard ImageNet‑1K dataset and the larger ImageNet‑22K dataset for pre‑training.",
+     "perturbed": "DiNAT’s image‑classification performance is measured on the CIFAR-10 benchmark, using both the standard ImageNet‑1K dataset and the larger ImageNet‑22K dataset for pre‑training.",
+     "source": 1,
+     "status": "partial",
+     "semantic": 0.783,
+     "lexical": 0.5,
+     "missing_numbers": [
+      "10"
+     ]
+    },
+    {
+     "original": "The conclusion notes that AlayaDB “guarantee[s] the SLOs for various LLM workloads” but does not define those SLOs.",
+     "perturbed": "The conclusion notes that Pinecone “guarantee[s] the SLOs for various LLM workloads” but does not define those SLOs.",
+     "source": 1,
+     "status": "partial",
+     "semantic": 0.611,
+     "lexical": 0.417,
+     "missing_numbers": []
+    }
+   ],
+   "detection_rate": 0.214
+  },
+  "negation": {
+   "tried": 30,
+   "detected": 2,
+   "missed_examples": [
+    {
+     "original": "No full attention matrix in backward – Like the method of Rabe & Staats, FlashAttention recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement.",
+     "perturbed": "No full attention matrix in backward – Like the method of Rabe & Staats, FlashAttention does not recompute the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requireme",
+     "source": 5,
+     "status": "supported",
+     "semantic": 0.889,
+     "lexical": 0.522,
+     "missing_numbers": []
+    },
+    {
+     "original": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also shrinks the total memory that must be resident, because each access implicit",
+     "perturbed": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also does not shrink the total memory that must be resident, because each access ",
+     "source": 5,
+     "status": "supported",
+     "semantic": 0.815,
+     "lexical": 0.37,
+     "missing_numbers": []
+    },
+    {
+     "original": "Empirical memory savings – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths.",
+     "perturbed": "Empirical memory savings – In practice the redesign does not yield “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengt",
+     "source": 1,
+     "status": "supported",
+     "semantic": 0.845,
+     "lexical": 0.44,
+     "missing_numbers": []
+    },
+    {
+     "original": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention kernels.",
+     "perturbed": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax does not reduce the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention k",
+     "source": 3,
+     "status": "supported",
+     "semantic": 0.876,
+     "lexical": 0.5,
+     "missing_numbers": []
+    }
+   ],
+   "caught_examples": [
+    {
+     "original": "The most common construction uses random features (RF) \\phi(\\cdot) derived from the kernel‑linearization trick of Rahimi & Recht (2008).",
+     "perturbed": "The most common construction does not use random features (RF) \\phi(\\cdot) derived from the kernel‑linearization trick of Rahimi & Recht (2008).",
+     "source": 2,
+     "status": "partial",
+     "semantic": 0.716,
+     "lexical": 0.353,
+     "missing_numbers": []
+    },
+    {
+     "original": "Improved TFLOPs utilisation – The kernel attains up to 230 TFLOPs s⁻¹ (73 % of the A100’s theoretical peak), whereas FlashAttention operates at a lower fraction of the peak.",
+     "perturbed": "Improved TFLOPs utilisation – The kernel does not attain up to 230 TFLOPs s⁻¹ (73 % of the A100’s theoretical peak), whereas FlashAttention operates at a lower fraction of the peak.",
+     "source": 2,
+     "status": "partial",
+     "semantic": 0.79,
+     "lexical": 0.353,
+     "missing_numbers": []
+    }
+   ],
+   "detection_rate": 0.067
+  },
+  "wrong_source": {
+   "tried": 38,
+   "detected": 37,
+   "missed_examples": [
+    {
+     "original": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention kernels.",
+     "perturbed": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention kernels.",
+     "source": 4,
+     "status": "supported",
+     "semantic": 0.873,
+     "lexical": 0.55,
+     "missing_numbers": []
+    }
+   ],
+   "caught_examples": [
+    {
+     "original": "No full attention matrix in backward – Like the method of Rabe & Staats, FlashAttention recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement.",
+     "perturbed": "No full attention matrix in backward – Like the method of Rabe & Staats, FlashAttention recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement.",
+     "source": 6,
+     "status": "partial",
+     "semantic": 0.767,
+     "lexical": 0.286,
+     "missing_numbers": []
+    },
+    {
+     "original": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also shrinks the total memory that must be resident, because each access implicit",
+     "perturbed": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also shrinks the total memory that must be resident, because each access implicit",
+     "source": 7,
+     "status": "partial",
+     "semantic": 0.723,
+     "lexical": 0.24,
+     "missing_numbers": []
+    },
+    {
+     "original": "Empirical memory savings – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths.",
+     "perturbed": "Empirical memory savings – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths.",
+     "source": 5,
+     "status": "unsupported",
+     "semantic": 0.753,
+     "lexical": 0.174,
+     "missing_numbers": []
+    },
+    {
+     "original": "Receptive‑field growth – Because the dilation expands the distance between attended tokens, the receptive field grows exponentially with depth rather than linearly, allowing the model to capture longer‑range dependencies",
+     "perturbed": "Receptive‑field growth – Because the dilation expands the distance between attended tokens, the receptive field grows exponentially with depth rather than linearly, allowing the model to capture longer‑range dependencies",
+     "source": 2,
+     "status": "unsupported",
+     "semantic": 0.758,
+     "lexical": 0.143,
+     "missing_numbers": []
+    }
+   ],
+   "detection_rate": 0.974
+  },
+  "base_pairs": 39
+ },
+ "retrieval": {
+  "harness_expected_paper": {
+   "questions": 9,
+   "ranks": [
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "hit_at_1": 0.889,
+   "hit_at_any": 1.0,
+   "mrr": 0.944
+  },
+  "title_known_item_efficient_attention": {
+   "papers": 25,
+   "hit_at_1": 0.92,
+   "hit_at_3": 1.0,
+   "hit_at_5": 1.0,
+   "mrr": 0.953
+  },
+  "title_known_item_arc_agi": {
+   "papers": 25,
+   "hit_at_1": 0.96,
+   "hit_at_3": 0.96,
+   "hit_at_5": 1.0,
+   "mrr": 0.97
+  }
+ },
+ "relevance_filter": {
+  "topic_text": "Efficient Attention Mechanisms. Transformer efficiency research: FlashAttention, linear attention, sparse attention",
+  "threshold": 0.6,
+  "on_topic": 14,
+  "off_topic": 39,
+  "off_topic_in_collection": 7,
+  "auc_all": 0.951,
+  "auc_within_collection": 0.811,
+  "on_topic_kept_at_threshold": "14/14",
+  "off_topic_rejected_at_threshold": "21/39",
+  "off_topic_in_collection_rejected": "0/7",
+  "precision_at_threshold": 0.438,
+  "best_threshold_on_this_data": 0.69,
+  "median_score": {
+   "on": 0.7155,
+   "off_in_collection": 0.658,
+   "other_collections": 0.5874999999999999
+  },
+  "papers": [
+   {
+    "id": "2505.14201",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.772,
+    "title": "FLASH-D: FlashAttention with Hidden Softmax Division"
+   },
+   {
+    "id": "2003.05997",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.764,
+    "title": "Efficient Content-Based Sparse Attention with Routing Transformers"
+   },
+   {
+    "id": "2205.14135",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.755,
+    "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
+   },
+   {
+    "id": "2307.08691",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.747,
+    "title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning"
+   },
+   {
+    "id": "2302.04542",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.736,
+    "title": "Efficient Attention via Control Variates"
+   },
+   {
+    "id": "2605.26355",
+    "domain": "efficient_attention",
+    "label": "borderline",
+    "score": 0.735,
+    "title": "Energy-Gated Attention and Wavelet Positional Encoding: Complementary Inductive Biases for Transformer Attention"
+   },
+   {
+    "id": "2206.03003",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.719,
+    "title": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records"
+   },
+   {
+    "id": "2006.16236",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.719,
+    "title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention"
+   },
+   {
+    "id": "2601.15305",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.718,
+    "title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models"
+   },
+   {
+    "id": "2209.15001",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.713,
+    "title": "Dilated Neighborhood Attention Transformer"
+   },
+   {
+    "id": "2409.16997",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.712,
+    "title": "INT-FlashAttention: Enabling Flash Attention for INT8 Quantization"
+   },
+   {
+    "id": "2608.18656",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.708,
+    "title": "FlashAttention for Scalable Vector Architectures"
+   },
+   {
+    "id": "2402.04563",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.707,
+    "title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention"
+   },
+   {
+    "id": "2512.07011",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.702,
+    "title": "Block Sparse Flash Attention"
+   },
+   {
+    "id": "1809.04281",
+    "domain": "efficient_attention",
+    "label": "borderline",
+    "score": 0.701,
+    "title": "Music Transformer"
+   },
+   {
+    "id": "2507.11331",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.7,
+    "title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array"
+   },
+   {
+    "id": "2309.01692",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.689,
+    "title": "Mask-Attention-Free Transformer for 3D Instance Segmentation"
+   },
+   {
+    "id": "2602.05463",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.663,
+    "title": "Thermodynamic Limits of Physical Intelligence"
+   },
+   {
+    "id": "2602.02159",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.66,
+    "title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing"
+   },
+   {
+    "id": "2603.24621",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.659,
+    "title": "ARC-AGI-3: A New Challenge for Frontier Agentic Intelligence"
+   },
+   {
+    "id": "2002.00741",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.658,
+    "title": "Déjà vu: A Contextualized Temporal Attention Mechanism for Sequential Recommendation"
+   },
+   {
+    "id": "2305.11403",
+    "domain": "efficient_attention",
+    "label": "borderline",
+    "score": 0.655,
+    "title": "Efficient Mixed Transformer for Single Image Super-Resolution"
+   },
+   {
+    "id": "2503.10589",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.652,
+    "title": "Long Context Tuning for Video Generation"
+   },
+   {
+    "id": "2603.13372",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.649,
+    "title": "The ARC of Progress towards AGI: A Living Survey of Abstraction and Reasoning"
+   },
+   {
+    "id": "2504.16021",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.64,
+    "title": "Navigating the State of Cognitive Flow: Context-Aware AI Interventions for Effective Reasoning Support"
+   },
+   {
+    "id": "2606.31543",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.629,
+    "title": "Modality-Driven Search with Holistic Trace Judging for ARC-AGI-2"
+   },
+   {
+    "id": "2503.11899",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.628,
+    "title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction"
+   },
+   {
+    "id": "2103.06769",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.619,
+    "title": "Intelligent behavior depends on the ecological niche: Scaling up AI to human-like intelligence in socio-cultural environments"
+   },
+   {
+    "id": "1609.04846",
+    "domain": "graph_neural_networks",
+    "label": "off",
+    "score": 0.619,
+    "title": "A Tutorial about Random Neural Networks in Supervised Learning"
+   },
+   {
+    "id": "2605.06924",
+    "domain": "efficient_attention",
+    "label": "off",
+    "score": 0.618,
+    "title": "A$^2$RD: Agentic Autoregressive Diffusion for Long Video Consistency"
+   },
+   {
+    "id": "2504.10326",
+    "domain": "efficient_attention",
+    "label": "on",
+    "score": 0.616,
+    "title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference"
+   },
+   {
+    "id": "1909.10086",
+    "domain": "graph_neural_networks",
+    "label": "off",
+    "score": 0.613,
+    "title": "Learning Universal Graph Neural Network Embeddings With Aid Of Transfer Learning"
+   },
+   {
+    "id": "2304.12479",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.606,
+    "title": "AGI: Artificial General Intelligence for Education"
+   },
+   {
+    "id": "2501.02842",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.606,
+    "title": "Foundations of GenIR"
+   },
+   {
+    "id": "2208.02837",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.604,
+    "title": "Core and Periphery as Closed-System Precepts for Engineering General Intelligence"
+   },
+   {
+    "id": "2110.01835",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.599,
+    "title": "Compression, The Fermi Paradox and Artificial Super-Intelligence"
+   },
+   {
+    "id": "1203.5066",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.598,
+    "title": "A Corpus-based Study of Temporal Signals"
+   },
+   {
+    "id": "2311.02462",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.595,
+    "title": "Levels of AGI for Operationalizing Progress on the Path to AGI"
+   },
+   {
+    "id": "2603.28944",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.595,
+    "title": "Faith in AI can narrow the futures individuals consider"
+   },
+   {
+    "id": "2111.11170",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.589,
+    "title": "Human-Machine Interaction Speech Corpus from the ROBIN project"
+   },
+   {
+    "id": "2507.09854",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.586,
+    "title": "Model-Grounded Symbolic Artificial Intelligence Systems Learning and Reasoning with Model-Grounded Symbolic Artificial Intelligence Systems"
+   },
+   {
+    "id": "2502.01654",
+    "domain": "graph_neural_networks",
+    "label": "off",
+    "score": 0.585,
+    "title": "Predicting concentration levels of air pollutants by transfer learning and recurrent neural network"
+   },
+   {
+    "id": "1508.05013",
+    "domain": "graph_neural_networks",
+    "label": "off",
+    "score": 0.582,
+    "title": "Message Passing and Combinatorial Optimization"
+   },
+   {
+    "id": "2609.00749",
+    "domain": "efficient_attention",
+    "label": "borderline",
+    "score": 0.578,
+    "title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents"
+   },
+   {
+    "id": "2406.18900",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.578,
+    "title": "The Rise of Artificial Intelligence in Educational Measurement: Opportunities and Ethical Challenges"
+   },
+   {
+    "id": "0712.3825",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.577,
+    "title": "Tests of Machine Intelligence"
+   },
+   {
+    "id": "2411.11206",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.576,
+    "title": "Capturing Sparks of Abstraction for the ARC Challenge"
+   },
+   {
+    "id": "2110.01831",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.572,
+    "title": "The Artificial Scientist: Logicist, Emergentist, and Universalist Approaches to Artificial General Intelligence"
+   },
+   {
+    "id": "2601.16513",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.569,
+    "title": "Competing Visions of Ethical AI: A Case Study of OpenAI"
+   },
+   {
+    "id": "up_5ab4c8b91cc9",
+    "domain": "sports_science_test",
+    "label": "off",
+    "score": 0.567,
+    "title": "Soccer Player Tracking in Low Quality Video"
+   },
+   {
+    "id": "2506.13134",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.566,
+    "title": "Quantum AGI: Ontological Foundations"
+   },
+   {
+    "id": "up_f21dc092d5e0",
+    "domain": "sports_science_test",
+    "label": "off",
+    "score": 0.56,
+    "title": "A Machine Learning Approach for Player and Position Adjusted Expected Goals in Football (Soccer)"
+   },
+   {
+    "id": "up_6c91e42842ff",
+    "domain": "sports_science_test",
+    "label": "off",
+    "score": 0.558,
+    "title": "Combining Machine Learning and Human Experts to Predict Match Outcomes in Football: A Baseline Model Challenging Problems Track"
+   },
+   {
+    "id": "2405.19595",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.557,
+    "title": "The RSNA Abdominal Traumatic Injury CT (RATIC) Dataset"
+   },
+   {
+    "id": "1702.00137",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.549,
+    "title": "Blue Sky Ideas in Artificial Intelligence Education from the EAAI 2017 New and Future AI Educator Program"
+   },
+   {
+    "id": "2506.09162",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.541,
+    "title": "The RSNA Lumbar Degenerative Imaging Spine Classification (LumbarDISC) Dataset"
+   },
+   {
+    "id": "1103.3732",
+    "domain": "arc_agi",
+    "label": "off",
+    "score": 0.519,
+    "title": "Subclasses of Normal Helly Circular-Arc Graphs"
+   }
+  ]
+ },
+ "corpus": {
+  "efficient_attention": {
+   "papers": 25,
+   "chunks": 1268,
+   "chunks_per_paper": 50.7,
+   "median_words": 163.5,
+   "p90_words": 215,
+   "max_words": 577,
+   "over_target_220": 6,
+   "section_types": {
+    "abstract": 32,
+    "introduction": 191,
+    "results": 293,
+    "related_work": 67,
+    "method": 491,
+    "conclusion": 194
+   },
+   "section_inherited_pct": 0.507,
+   "references": 1271,
+   "references_with_title_pct": 0.85,
+   "citation_edges": 6
+  },
+  "arc_agi": {
+   "papers": 25,
+   "chunks": 1090,
+   "chunks_per_paper": 43.6,
+   "median_words": 187.0,
+   "p90_words": 215,
+   "max_words": 220,
+   "over_target_220": 0,
+   "section_types": {
+    "abstract": 38,
+    "introduction": 209,
+    "results": 215,
+    "method": 379,
+    "conclusion": 161,
+    "related_work": 88
+   },
+   "section_inherited_pct": 0.686,
+   "references": 1099,
+   "references_with_title_pct": 0.859,
+   "citation_edges": 0
+  },
+  "graph_neural_networks": {
+   "papers": 4,
+   "chunks": 479,
+   "chunks_per_paper": 119.8,
+   "median_words": 189,
+   "p90_words": 216,
+   "max_words": 220,
+   "over_target_220": 0,
+   "section_types": {
+    "abstract": 6,
+    "introduction": 35,
+    "method": 274,
+    "conclusion": 93,
+    "related_work": 3,
+    "results": 68
+   },
+   "section_inherited_pct": 0.756,
+   "references": 532,
+   "references_with_title_pct": 0.955,
+   "citation_edges": 0
+  },
+  "sports_science_test": {
+   "papers": 3,
+   "chunks": 92,
+   "chunks_per_paper": 30.7,
+   "median_words": 181.0,
+   "p90_words": 215,
+   "max_words": 220,
+   "over_target_220": 0,
+   "section_types": {
+    "abstract": 4,
+    "introduction": 27,
+    "method": 14,
+    "results": 46,
+    "conclusion": 1
+   },
+   "section_inherited_pct": 0.446,
+   "references": 35,
+   "references_with_title_pct": 0.829,
+   "citation_edges": 0
+  }
+ },
+ "verification_latency": {
+  "answers": 20,
+  "median_ms": 1155,
+  "max_ms": 3624,
+  "mean_ms": 1260
+ }
+}

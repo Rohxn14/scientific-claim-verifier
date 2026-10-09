@@ -1,0 +1,44 @@
+[
+ {
+  "query": "how does FlashAttention reduce memory usage",
+  "provider": "groq/openai/gpt-oss-120b",
+  "sources_s": 15.68,
+  "first_token_s": 18.87,
+  "done_s": 20.97
+ },
+ {
+  "query": "how does dilated neighborhood attention differ from standard attention",
+  "provider": "groq/openai/gpt-oss-120b",
+  "sources_s": 0.03,
+  "first_token_s": 1.49,
+  "done_s": 3.85
+ },
+ {
+  "query": "what dataset or benchmark does DiNAT evaluate image classification on",
+  "provider": "groq/openai/gpt-oss-120b",
+  "sources_s": 0.03,
+  "first_token_s": 0.64,
+  "done_s": 0.96
+ },
+ {
+  "query": "what GPU hardware was used to benchmark FlashAttention-2's training throughput",
+  "provider": "groq/openai/gpt-oss-120b",
+  "sources_s": 0.04,
+  "first_token_s": 2.12,
+  "done_s": 3.58
+ },
+ {
+  "query": "what is the time complexity of standard self-attention",
+  "provider": "groq/openai/gpt-oss-120b",
+  "sources_s": 0.08,
+  "first_token_s": 1.4,
+  "done_s": 3.14
+ },
+ {
+  "query": "how does AlayaDB measure serving latency",
+  "provider": "groq/openai/gpt-oss-120b",
+  "sources_s": 0.06,
+  "first_token_s": 0.98,
+  "done_s": 1.74
+ }
+]

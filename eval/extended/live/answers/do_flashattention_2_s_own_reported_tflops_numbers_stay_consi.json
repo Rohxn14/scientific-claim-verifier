@@ -1,0 +1,290 @@
+{
+ "query": "do FlashAttention-2's own reported TFLOPs numbers stay consistent across the paper",
+ "expected_arxiv_id": "2307.08691",
+ "category": "contradiction",
+ "set": "harness",
+ "answer": "FlashAttention‑2’s TFLOPs figures are internally consistent.  \n\n* In the “results” section the paper reports a **training speed of up to 225 TFLOPs · s⁻¹ per A100 GPU** (72 % model FLOPs utilization) [Source 1].  \n* The same value appears in the “introduction”, where the authors note that, when used end‑to‑end to train GPT‑style models, they reach **up to 225 TFLOPs · s⁻¹ per A100 GPU** [Source 5].\n\nBoth statements give the identical peak TFLOPs number (225 TFLOPs · s⁻¹) and refer to the same hardware (A100 GPU), so the reported TFLOPs metric does not vary across the sections of the paper. No other TFLOPs numbers are presented elsewhere in the supplied excerpts, and there is no contradictory information.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "do FlashAttention-2's own reported TFLOPs numbers stay consistent across the paper",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.7877,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.7639,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "[37]lexity (↓ lower is better) comparison between FlashAttention with exp2 and PWL approximations.End-to-End Model Accuracy.To assess the impact of PWL on the model accuracy, we compare the word perplexity (PPL) of various models, including Llama[25], Gemma[47], and Qwen[55]families, using the standard exp2 and PWL respectively, with the WikiText2 dataset[37]. Since even our largest FPGA cannot accommodate FSA with the required 128 × 128 systolic array, we model PWL by replacing the exp2f function in the CUDA kernel of FlashAttention with a software PWL implementation. As shown in Table",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 3,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.7626,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model. We are excited about how this can",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2505.14201v1",
+   "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+   "year": "2025",
+   "section": "A. Overall Organization",
+   "section_type": "method",
+   "similarity": 0.7601,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ). Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors. The primary differences lie in three key areas. First, the division at the output of FlashAttention2 kernel is not required in Flash-D. While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector. Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed. Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed. Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+   "url": "https://arxiv.org/abs/2505.14201v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7519,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.6528,
+   "via": "citation",
+   "linked_from": "2307.08691v1",
+   "text": "from transformers.cache_utils import DynamicCache from flash_attn import flash_attn_func def inference(model, prompts): past_key_values = DynamicCache() output = model(prompts, past_key_values) ... class LlamaAttention: def forward(self, ...): ... k, v = past_key_values.update(k, v, self.layer_idx) o = flash_attn_func(q, k, v) ... (a) Original code using flash-attention and transformers from AlayaDB.LLM import DB def inference(model, prompts): session, prompts = DB.CreateSession(prompts) past_key_values = session output = model(prompts, past_key_values) ... class LlamaAttention: def forward(self, ...):",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Experimental Setup",
+   "section_type": "results",
+   "similarity": 0.74,
+   "via": "citation",
+   "linked_from": "2307.08691v1",
+   "text": "When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements. All baselines are evaluated against llama.cpp 3 .",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "In the “results” section the paper reports a training speed of up to 225 TFLOPs · s⁻¹ per A100 GPU (72 % model FLOPs utilization).",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.733,
+      "semantic": 0.774,
+      "evidence": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The same value appears in the “introduction”, where the authors note that, when used end‑to‑end to train GPT‑style models, they reach up to 225 TFLOPs · s⁻¹ per A100 GPU.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.6,
+      "semantic": 0.851,
+      "evidence": "When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 2,
+   "claims_supported": 2,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 2,
+   "supported": 2,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": 1.0,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 50,
+  "generation_ms": 1549,
+  "verification_ms": 709,
+  "total_ms": 2309
+ },
+ "hits": [
+  {
+   "text": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models.",
+   "meta": {
+    "section_type_inherited": true,
+    "n_words": 50,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be\", \"used to understand long books and reports, high resolution images, audio and video.\", \"FlashAttention-2 will also speed up training, finetuning, and inference of existing models.\"]",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "section_title": "Untitled",
+    "published": "2023-07-17",
+    "arxiv_id": "2307.08691v1",
+    "section_type": "results"
+   },
+   "similarity": 0.7876632213592529,
+   "via": "semantic"
+  },
+  {
+   "text": "[37]lexity (↓ lower is better) comparison between FlashAttention with exp2 and PWL approximations.End-to-End Model Accuracy.To assess the impact of PWL on the model accuracy, we compare the word perplexity (PPL) of various models, including Llama[25], Gemma[47], and Qwen[55]families, using the standard exp2 and PWL respectively, with the WikiText2 dataset[37]. Since even our largest FPGA cannot accommodate FSA with the required 128 × 128 systolic array, we model PWL by replacing the exp2f function in the CUDA kernel of FlashAttention with a software PWL implementation. As shown in Table",
+   "meta": {
+    "section_type": "conclusion",
+    "n_words": 88,
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "section_title": "Untitled",
+    "sentences_json": "[\"[37]lexity (↓ lower is better) comparison between FlashAttention with exp2 and PWL approximations.End-to-End Model Accuracy.To assess the impact of PWL on the model accuracy, we compare the word perplexity (PPL) of various models, including Llama[25], Gemma[47], and Qwen[55]families, using the standard exp2 and PWL respectively, with the WikiText2 dataset[37].\", \"Since even our largest FPGA cannot accommodate FSA with the required 128 × 128 systolic array, we model PWL by replacing the exp2f function in the CUDA kernel of FlashAttention with a software PWL implementation.\", \"As shown in Table\"]",
+    "arxiv_id": "2507.11331v4",
+    "published": "2025-07-15",
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array"
+   },
+   "similarity": 0.763892412185669,
+   "via": "semantic"
+  },
+  {
+   "text": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model. We are excited about how this can",
+   "meta": {
+    "section_type_inherited": true,
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "published": "2023-07-17",
+    "section_title": "Untitled",
+    "arxiv_id": "2307.08691v1",
+    "n_words": 38,
+    "sentences_json": "[\"Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model.\", \"We are excited about how this can\"]"
+   },
+   "similarity": 0.7626340389251709,
+   "via": "semantic"
+  },
+  {
+   "text": "As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ). Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors. The primary differences lie in three key areas. First, the division at the output of FlashAttention2 kernel is not required in Flash-D. While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector. Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed. Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed. Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+   "meta": {
+    "domain": "efficient_attention",
+    "n_words": 207,
+    "published": "2025-05-20",
+    "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "section_type_inherited": true,
+    "sentences_json": "[\"As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ).\", \"Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors.\", \"The primary differences lie in three key areas.\", \"First, the division at the output of FlashAttention2 kernel is not required in Flash-D.\", \"While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector.\", \"Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated.\", \"The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed.\", \"Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed.\", \"Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.\"]",
+    "section_title": "A. Overall Organization",
+    "arxiv_id": "2505.14201v1",
+    "section_type": "method"
+   },
+   "similarity": 0.7600672841072083,
+   "via": "semantic"
+  },
+  {
+   "text": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.",
+   "meta": {
+    "published": "2023-07-17",
+    "arxiv_id": "2307.08691v1",
+    "sentences_json": "[\"Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass.\", \"When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.\"]",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "section_title": "Introduction",
+    "section_type": "introduction",
+    "n_words": 66,
+    "section_type_inherited": false,
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7518718242645264,
+   "via": "semantic"
+  },
+  {
+   "text": "from transformers.cache_utils import DynamicCache from flash_attn import flash_attn_func def inference(model, prompts): past_key_values = DynamicCache() output = model(prompts, past_key_values) ... class LlamaAttention: def forward(self, ...): ... k, v = past_key_values.update(k, v, self.layer_idx) o = flash_attn_func(q, k, v) ... (a) Original code using flash-attention and transformers from AlayaDB.LLM import DB def inference(model, prompts): session, prompts = DB.CreateSession(prompts) past_key_values = session output = model(prompts, past_key_values) ... class LlamaAttention: def forward(self, ...):",
+   "meta": {
+    "arxiv_id": "2504.10326v1",
+    "domain": "efficient_attention",
+    "n_words": 68,
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_title": "Untitled",
+    "published": "2025-04-14",
+    "section_type_inherited": true,
+    "sentences_json": "[\"from transformers.cache_utils\", \"import DynamicCache from flash_attn import flash_attn_func def inference(model, prompts): past_key_values = DynamicCache() output = model(prompts, past_key_values) ... class LlamaAttention: def forward(self, ...): ... k, v = past_key_values.update(k,\", \"v, self.layer_idx)\", \"o = flash_attn_func(q, k, v) ... (a) Original code using flash-attention and transformers from AlayaDB.LLM import DB def inference(model, prompts): session, prompts = DB.CreateSession(prompts) past_key_values = session output = model(prompts, past_key_values) ... class LlamaAttention: def forward(self, ...):\"]",
+    "section_type": "conclusion"
+   },
+   "similarity": 0.6528466939926147,
+   "via": "citation-link from 2307.08691v1"
+  },
+  {
+   "text": "When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements. All baselines are evaluated against llama.cpp 3 .",
+   "meta": {
+    "n_words": 29,
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "section_type": "results",
+    "published": "2026-08-19",
+    "arxiv_id": "2608.18656v1",
+    "section_title": "Experimental Setup",
+    "sentences_json": "[\"When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements.\", \"All baselines are evaluated against llama.cpp 3 .\"]"
+   },
+   "similarity": 0.7400232553482056,
+   "via": "citation-link from 2307.08691v1"
+  }
+ ]
+}
