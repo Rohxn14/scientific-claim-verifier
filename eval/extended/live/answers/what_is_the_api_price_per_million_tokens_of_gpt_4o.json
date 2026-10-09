@@ -1,0 +1,242 @@
+{
+ "query": "what is the API price per million tokens of GPT-4o",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "extra",
+ "answer": "I’m sorry, but none of the provided sources contain information about the API price per million tokens for GPT‑4o. The excerpts focus on FlashAttention performance, long‑context models, and ContextPipe evaluations, and do not report any pricing details for GPT‑4o. Consequently, I cannot provide an answer based on the given material.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what is the API price per million tokens of GPT-4o",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6487,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity.Training time on 8×A100 GPUs is reported.Left: runtime of forward pass + backward pass.Right: attention memory usage.European Court of Human Rights, each of which is mapped to articles of the Convention of Human Rights that were allegedly violaged. Both of these datasets contain very long text documents; the average number of tokens in MIMIC is 2,395 tokens, and the longest document contains 14,562 tokens, while the average and longest numbers in ECtHR are 2,197 and 49,392, respectively. We evaluate lift from increasing the sequence length of a pretrained RoBERTa model",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.6437,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "(i) The experiments cover only 3 of 79 instances in the Qutebrowser subset, which limits broad implications of ContextPipe. (ii) The token cost model per LLM also significantly impacts the cost effectiveness of this work. (iii) Cache counters are provider-normalized. (iv) Mechanism ablations A1-A4 remain open.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Evaluation",
+   "section_type": "results",
+   "similarity": 0.639,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Table 4 demonstrates token usage and other metrics between Structured and Flat. Comparing to Flat, Structured reduces 30% total tokens, 39% repeated cache reads, 23.5% completion tokens, 23.1% LLM calls, and 8.7% response time. These reductions come at a cost in lower cache-hit ratio: fresh (uncached) input token doubles, and the per-cell cache-hit median drops from 95.6% to 86.3%, where r is the provider's cached-token price ratio, the break-even is r * = 0.145: at a DeepSeek-like r ≈ 0.1 the Flat baseline incurs approximately 11% lower billed cost despite sending 43% more total context, while Structured incurs the lower billed cost wherever cached tokens cost more than 14.5% of fresh (e.g., -13% at r = 0.25). Structured's advantage in this regime therefore lies in context volume, calls, response time, and window headroom rather than unconditionally in billed cost. A debugging case study, from the same trace. Table 5 is an unedited excerpt of the exported per-session trace of one Structured cell (the highest-pressure instance, repeat 1), and it illustrates the operator-facing diagnosis the trace is designed to support. The cold start is visible (call 1: 24% hit). The TrimSchemas crossing at call 13 appears as a one-call cache-break (8% hit, because schema pruning changed the prefix bytes), followed by immediate recovery to 93-100% for the next ten calls.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Better Models with Longer Sequences",
+   "section_type": "method",
+   "similarity": 0.6075,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Language Modeling with Long Context. The runtime and memory-efficiency of FlashAttention allow us to increase the context length of GPT-2 by 4× while still running faster than the optimized implementation from Megatron-LM. Table 4 shows that that GPT-2 with FlashAttention and context length 4K is still 30% faster than GPT-2 from Megatron with context length 1K, while achieving 0.7 better perplexity. [56] (we repeat the positional embeddings, as in Beltagy et al. [3] ). Table 5 shows that sequence length 16K outperforms length 512 by 4.3 points on MIMIC, and that length 8K outperforms length 512 by 8.5 points on ECtHR. The discrepancies may be due to subtle distribution shifts: MIMIC-III contains specialized medical text and thus may be more susceptible to a distribution shift in the document length, whereas ECtHR contains general language.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6074,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM. Training time reported on 8×A100s GPUs.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.5999,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "For top- = 100 and DIPRS, we use the same settings in Table 5 . As Figure 9 shows, compared to all the other methods, DIPRS achieves the best generation quality and lowest GPU memory consumption while guaranteeing the SLO of TPOT. Regarding the coarse-grained methods InfLLM and StreamingLLM, a large GPU memory is required to achieve higher accuracy, which limits the throughput of online serving and makes them impractical to run on the consumergrade GPU, e.g., NVIDIA GTX4090 (24GB memory). Compared to top-, the generation quality of DIPRS surpasses top- due to its ability to identify the dynamic number of critical tokens for efficient sparse attention. 9.1.2 Time-To-First-Token: TTFT. We compare AlayaDB with the state-of-the-art disaggregated KV cache service LMCache [15, 46] to evaluate its ability to reduce the TTFT by efficiently reusing the stored long context in Figure 10 . LMCache stores the compressed KV cache of the full context, and supports context reusing by loading the KV cache into GPU. In this experiment, we store the context in CPU memory in advance and measure the time of decoding the first token on this offloaded context as TTFT. Figure 10 9.2 Effectiveness of Optimization Techniques 9.2.1 Index construction. We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Scaling FlashAttention-Von different vector lengths",
+   "section_type": "method",
+   "similarity": 0.5875,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "speedup while avoiding the latency penalties that limit performance beyond 4096 bits. Our results also demonstrate that configurations with 64 vector lanes and 4096-bit vector lengths achieve comparable or higher speedups relative to the speedup achieved by constant-latency, indicating that FlashAttention-V is not limited by operation latency (OpLat) in the regime of long vector widths when considering 64 vector lanes. Decode Stage. As discussed earlier, during the decode phase, only one token is generated at a time; thus, the , , and vectors for the new token have a dimension of 1× per head. This inherent lack of parallelism makes it challenging to utilize longer vector lengths. Our FlashAttention-V implementation bypasses this constraint by distributing computation across attention heads, aligning decodestage execution with the only available source of parallelism in single-token generation. Figure 5 shows the performance of FlashAttention-V across vector lengths from 512-bit to 8192-bit on TinyLlama, Llama 3.2, Qwen2.5, and Pythia-410M over ggml-scalar, under a gem5 inorder configuration with constant latency across vector lengths to represent the upper bound of achievable speedup. At 512-bit vector length, FlashAttention-V achieves 8×-11× speedup across all models. Scaling to 4096 bits yields a modest ∼1.2× improvement for TinyLlama and Llama 3.2, while Pythia-410M and Qwen2.5 show no significant additional gains.",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  }
+ ],
+ "verification": {
+  "claims": [],
+  "markers": [],
+  "summary": {
+   "claims": 0,
+   "claims_supported": 0,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 0,
+   "supported": 0,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": null,
+   "declined": false,
+   "verdict": "no_citations"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 29,
+  "generation_ms": 830,
+  "verification_ms": 0,
+  "total_ms": 860
+ },
+ "hits": [
+  {
+   "text": "GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity.Training time on 8×A100 GPUs is reported.Left: runtime of forward pass + backward pass.Right: attention memory usage.European Court of Human Rights, each of which is mapped to articles of the Convention of Human Rights that were allegedly violaged. Both of these datasets contain very long text documents; the average number of tokens in MIMIC is 2,395 tokens, and the longest document contains 14,562 tokens, while the average and longest numbers in ECtHR are 2,197 and 49,392, respectively. We evaluate lift from increasing the sequence length of a pretrained RoBERTa model",
+   "meta": {
+    "sentences_json": "[\"GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity.Training time on 8×A100 GPUs is reported.Left: runtime of forward pass + backward pass.Right: attention memory usage.European Court of Human Rights, each of which is mapped to articles of the Convention of Human Rights that were allegedly violaged.\", \"Both of these datasets contain very long text documents; the average number of tokens in MIMIC is 2,395 tokens, and the longest document contains 14,562 tokens, while the average and longest numbers in ECtHR are 2,197 and 49,392, respectively.\", \"We evaluate lift from increasing the sequence length of a pretrained RoBERTa model\"]",
+    "section_title": "Untitled",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "published": "2022-05-27",
+    "arxiv_id": "2205.14135v2",
+    "n_words": 110,
+    "section_type": "results"
+   },
+   "similarity": 0.6487366557121277,
+   "via": "semantic"
+  },
+  {
+   "text": "(i) The experiments cover only 3 of 79 instances in the Qutebrowser subset, which limits broad implications of ContextPipe. (ii) The token cost model per LLM also significantly impacts the cost effectiveness of this work. (iii) Cache counters are provider-normalized. (iv) Mechanism ablations A1-A4 remain open.",
+   "meta": {
+    "section_type": "conclusion",
+    "sentences_json": "[\"(i) The experiments cover only 3 of 79 instances in the Qutebrowser subset, which limits broad implications of ContextPipe.\", \"(ii) The token cost model per LLM also significantly impacts the cost effectiveness of this work.\", \"(iii) Cache counters are provider-normalized.\", \"(iv) Mechanism ablations A1-A4 remain open.\"]",
+    "published": "2026-09-01",
+    "domain": "efficient_attention",
+    "section_title": "Untitled",
+    "section_type_inherited": true,
+    "arxiv_id": "2609.00749v1",
+    "n_words": 46,
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents"
+   },
+   "similarity": 0.6436870098114014,
+   "via": "semantic"
+  },
+  {
+   "text": "Table 4 demonstrates token usage and other metrics between Structured and Flat. Comparing to Flat, Structured reduces 30% total tokens, 39% repeated cache reads, 23.5% completion tokens, 23.1% LLM calls, and 8.7% response time. These reductions come at a cost in lower cache-hit ratio: fresh (uncached) input token doubles, and the per-cell cache-hit median drops from 95.6% to 86.3%, where r is the provider's cached-token price ratio, the break-even is r * = 0.145: at a DeepSeek-like r ≈ 0.1 the Flat baseline incurs approximately 11% lower billed cost despite sending 43% more total context, while Structured incurs the lower billed cost wherever cached tokens cost more than 14.5% of fresh (e.g., -13% at r = 0.25). Structured's advantage in this regime therefore lies in context volume, calls, response time, and window headroom rather than unconditionally in billed cost. A debugging case study, from the same trace. Table 5 is an unedited excerpt of the exported per-session trace of one Structured cell (the highest-pressure instance, repeat 1), and it illustrates the operator-facing diagnosis the trace is designed to support. The cold start is visible (call 1: 24% hit). The TrimSchemas crossing at call 13 appears as a one-call cache-break (8% hit, because schema pruning changed the prefix bytes), followed by immediate recovery to 93-100% for the next ten calls.",
+   "meta": {
+    "section_type": "results",
+    "published": "2026-09-01",
+    "domain": "efficient_attention",
+    "section_title": "Evaluation",
+    "n_words": 219,
+    "section_type_inherited": false,
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "sentences_json": "[\"Table 4 demonstrates token usage and other metrics between Structured and Flat.\", \"Comparing to Flat, Structured reduces 30% total tokens, 39% repeated cache reads, 23.5% completion tokens, 23.1% LLM calls, and 8.7% response time.\", \"These reductions come at a cost in lower cache-hit ratio: fresh (uncached) input token doubles, and the per-cell cache-hit median drops from 95.6% to 86.3%,\", \"where r is the provider's cached-token price ratio, the break-even is r * = 0.145: at a DeepSeek-like r ≈ 0.1 the Flat baseline incurs approximately 11% lower billed cost despite sending 43% more total context, while Structured incurs the lower billed cost wherever cached tokens cost more than 14.5% of fresh (e.g., -13% at r = 0.25).\", \"Structured's advantage in this regime therefore lies in context volume, calls, response time, and window headroom rather than unconditionally in billed cost.\", \"A debugging case study, from the same trace.\", \"Table 5 is an unedited excerpt of the exported per-session trace of one Structured cell (the highest-pressure instance, repeat 1), and it illustrates the operator-facing diagnosis the trace is designed to support.\", \"The cold start is visible (call 1: 24% hit).\", \"The TrimSchemas crossing at call 13 appears as a one-call cache-break (8% hit, because schema pruning changed the prefix bytes), followed by immediate recovery to 93-100% for the next ten calls.\"]",
+    "arxiv_id": "2609.00749v1"
+   },
+   "similarity": 0.6390298008918762,
+   "via": "semantic"
+  },
+  {
+   "text": "Language Modeling with Long Context. The runtime and memory-efficiency of FlashAttention allow us to increase the context length of GPT-2 by 4× while still running faster than the optimized implementation from Megatron-LM. Table 4 shows that that GPT-2 with FlashAttention and context length 4K is still 30% faster than GPT-2 from Megatron with context length 1K, while achieving 0.7 better perplexity. [56] (we repeat the positional embeddings, as in Beltagy et al. [3] ). Table 5 shows that sequence length 16K outperforms length 512 by 4.3 points on MIMIC, and that length 8K outperforms length 512 by 8.5 points on ECtHR. The discrepancies may be due to subtle distribution shifts: MIMIC-III contains specialized medical text and thus may be more susceptible to a distribution shift in the document length, whereas ECtHR contains general language.",
+   "meta": {
+    "published": "2022-05-27",
+    "section_type": "method",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Language Modeling with Long Context.\", \"The runtime and memory-efficiency of FlashAttention allow us to increase the context length of GPT-2 by 4× while still running faster than the optimized implementation from Megatron-LM.\", \"Table 4 shows that that GPT-2 with FlashAttention and context length 4K is still 30% faster than GPT-2 from Megatron with context length 1K, while achieving 0.7 better perplexity.\", \"[56] (we repeat the positional embeddings, as in Beltagy et al. [3] ).\", \"Table 5 shows that sequence length 16K outperforms length 512 by 4.3 points on MIMIC, and that length 8K outperforms length 512 by 8.5 points on ECtHR.\", \"The discrepancies may be due to subtle distribution shifts: MIMIC-III contains specialized medical text and thus may be more susceptible to a distribution shift in the document length, whereas ECtHR contains general language.\"]",
+    "arxiv_id": "2205.14135v2",
+    "section_title": "Better Models with Longer Sequences",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "n_words": 134,
+    "section_type_inherited": false
+   },
+   "similarity": 0.6074990034103394,
+   "via": "semantic"
+  },
+  {
+   "text": "GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM. Training time reported on 8×A100s GPUs.",
+   "meta": {
+    "section_title": "Untitled",
+    "section_type": "results",
+    "domain": "efficient_attention",
+    "arxiv_id": "2205.14135v2",
+    "sentences_json": "[\"GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM.\", \"Training time reported on 8×A100s GPUs.\"]",
+    "n_words": 29,
+    "published": "2022-05-27",
+    "section_type_inherited": true,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
+   },
+   "similarity": 0.6074144840240479,
+   "via": "semantic"
+  },
+  {
+   "text": "For top- = 100 and DIPRS, we use the same settings in Table 5 . As Figure 9 shows, compared to all the other methods, DIPRS achieves the best generation quality and lowest GPU memory consumption while guaranteeing the SLO of TPOT. Regarding the coarse-grained methods InfLLM and StreamingLLM, a large GPU memory is required to achieve higher accuracy, which limits the throughput of online serving and makes them impractical to run on the consumergrade GPU, e.g., NVIDIA GTX4090 (24GB memory). Compared to top-, the generation quality of DIPRS surpasses top- due to its ability to identify the dynamic number of critical tokens for efficient sparse attention. 9.1.2 Time-To-First-Token: TTFT. We compare AlayaDB with the state-of-the-art disaggregated KV cache service LMCache [15, 46] to evaluate its ability to reduce the TTFT by efficiently reusing the stored long context in Figure 10 . LMCache stores the compressed KV cache of the full context, and supports context reusing by loading the KV cache into GPU. In this experiment, we store the context in CPU memory in advance and measure the time of decoding the first token on this offloaded context as TTFT. Figure 10 9.2 Effectiveness of Optimization Techniques 9.2.1 Index construction. We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.",
+   "meta": {
+    "n_words": 216,
+    "sentences_json": "[\"For top- = 100 and DIPRS, we use the same settings in Table 5 .\", \"As Figure 9 shows, compared to all the other methods, DIPRS achieves the best generation quality and lowest GPU memory consumption while guaranteeing the SLO of TPOT.\", \"Regarding the coarse-grained methods InfLLM and StreamingLLM, a large GPU memory is required to achieve higher accuracy, which limits the throughput of online serving and makes them impractical to run on the consumergrade GPU, e.g., NVIDIA GTX4090 (24GB memory).\", \"Compared to top-, the generation quality of DIPRS surpasses top- due to its ability to identify the dynamic number of critical tokens for efficient sparse attention.\", \"9.1.2\", \"Time-To-First-Token: TTFT.\", \"We compare AlayaDB with the state-of-the-art disaggregated KV cache service LMCache [15, 46] to evaluate its ability to reduce the TTFT by efficiently reusing the stored long context in Figure 10 .\", \"LMCache stores the compressed KV cache of the full context, and supports context reusing by loading the KV cache into GPU.\", \"In this experiment, we store the context in CPU memory in advance and measure the time of decoding the first token on this offloaded context as TTFT. Figure 10 9.2 Effectiveness of Optimization Techniques 9.2.1 Index construction.\", \"We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.\"]",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_type_inherited": false,
+    "section_type": "results",
+    "published": "2025-04-14",
+    "arxiv_id": "2504.10326v1",
+    "section_title": "Empirical Evaluation",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.5998539924621582,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "speedup while avoiding the latency penalties that limit performance beyond 4096 bits. Our results also demonstrate that configurations with 64 vector lanes and 4096-bit vector lengths achieve comparable or higher speedups relative to the speedup achieved by constant-latency, indicating that FlashAttention-V is not limited by operation latency (OpLat) in the regime of long vector widths when considering 64 vector lanes. Decode Stage. As discussed earlier, during the decode phase, only one token is generated at a time; thus, the , , and vectors for the new token have a dimension of 1× per head. This inherent lack of parallelism makes it challenging to utilize longer vector lengths. Our FlashAttention-V implementation bypasses this constraint by distributing computation across attention heads, aligning decodestage execution with the only available source of parallelism in single-token generation. Figure 5 shows the performance of FlashAttention-V across vector lengths from 512-bit to 8192-bit on TinyLlama, Llama 3.2, Qwen2.5, and Pythia-410M over ggml-scalar, under a gem5 inorder configuration with constant latency across vector lengths to represent the upper bound of achievable speedup. At 512-bit vector length, FlashAttention-V achieves 8×-11× speedup across all models. Scaling to 4096 bits yields a modest ∼1.2× improvement for TinyLlama and Llama 3.2, while Pythia-410M and Qwen2.5 show no significant additional gains.",
+   "meta": {
+    "arxiv_id": "2608.18656v1",
+    "section_title": "Scaling FlashAttention-Von different vector lengths",
+    "section_type_inherited": false,
+    "published": "2026-08-19",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"speedup while avoiding the latency penalties that limit performance beyond 4096 bits.\", \"Our results also demonstrate that configurations with 64 vector lanes and 4096-bit vector lengths achieve comparable or higher speedups relative to the speedup achieved by constant-latency, indicating that FlashAttention-V is not limited by operation latency (OpLat) in the regime of long vector widths when considering 64 vector lanes.\", \"Decode Stage.\", \"As discussed earlier, during the decode phase, only one token is generated at a time; thus, the , , and vectors for the new token have a dimension of 1× per head.\", \"This inherent lack of parallelism makes it challenging to utilize longer vector lengths.\", \"Our FlashAttention-V implementation bypasses this constraint by distributing computation across attention heads, aligning decodestage execution with the only available source of parallelism in single-token generation.\", \"Figure 5 shows the performance of FlashAttention-V across vector lengths from 512-bit to 8192-bit on TinyLlama, Llama 3.2, Qwen2.5, and Pythia-410M over ggml-scalar, under a gem5 inorder configuration with constant latency across vector lengths to represent the upper bound of achievable speedup.\", \"At 512-bit vector length, FlashAttention-V achieves 8×-11× speedup across all models.\", \"Scaling to 4096 bits yields a modest ∼1.2× improvement for TinyLlama and Llama 3.2, while Pythia-410M and Qwen2.5 show no significant additional gains.\"]",
+    "section_type": "method",
+    "n_words": 208,
+    "paper_title": "FlashAttention for Scalable Vector Architectures"
+   },
+   "similarity": 0.5874736309051514,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

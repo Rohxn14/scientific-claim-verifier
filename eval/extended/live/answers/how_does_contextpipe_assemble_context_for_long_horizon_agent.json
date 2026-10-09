@@ -1,0 +1,518 @@
+{
+ "query": "how does ContextPipe assemble context for long-horizon agents",
+ "expected_arxiv_id": "2609.00749",
+ "category": "factual",
+ "set": "extra",
+ "answer": "ContextPipe assembles the prompt that a long‑horizon LLM agent receives by treating each turn as a **query‑execution problem** and running it through a deterministic, cache‑aware five‑phase pipeline [Source 2].\n\n| Phase | What happens | Supporting details |\n|------|--------------|--------------------|\n| **Plan** | The system builds a *logical plan* of which memory sources (retrieval results, tool outputs, previous dialogue, etc.) could satisfy the upcoming LLM request. | The plan is drawn from a structured data‑source catalog that enumerates available “tables” of information [Source 2]. |\n| **Bind** | Concrete candidates are *bound* to the logical slots, i.e., actual pieces of text are fetched from the sources identified in the plan. | Retrieval‑oriented components (RAG, long‑context models) can supply these candidates, while ContextPipe records raw signals such as per‑section token usage and cache hit/miss [Source 4]. |\n| **Optimize** | A *deterministic optimizer* decides which bound candidates actually fit inside the hard context‑window and byte‑sensitive prompt cache. It uses heuristics and runtime feedback (because “information value per token” cannot be precisely costed) rather than classic cost‑based Selinger optimization [Source 1]. |\n| **Execute** | The selected pieces are *composed* into a final prompt in a specific order, respecting tiered cache policies and buffer‑pool‑like decisions borrowed from relational databases. The resulting prompt is then sent to the LLM. | ContextPipe “composes selected content onto that priced substrate under a hard window budget, every turn” and can reuse cache entries across agents via ForkPrefix‑style sharing [Source 4]. |\n| **Feedback** | After the LLM returns a response, the system records an **EXPLAIN ANALYZE** trace that logs token usage, cache hits/misses, and any context pressure events. These logs enable auditability, replayability, and future learning‑‑based policy improvements. | The trace makes decisions auditable, reversible, and gated, mirroring relational query tracing [Source 1, Source 2]. |\n\n**Key characteristics of the assembly process**\n\n* **Hard budget enforcement** – Both the context‑window size (token limit) and the byte‑sensitive prompt cache are treated as immutable constraints that the optimizer must respect [Source 2].\n* **Database‑inspired discipline** – Staged planning, statistics collection, buffer‑pool concepts, and an EXPLAIN‑style trace are taken directly from classical query optimization and adaptive execution [Source 1, Source 2, Source 4].\n* **Heuristic, feedback‑driven optimization** – Because the exact “value per token” cannot be quantified, the optimizer relies on runtime signals rather than a fully cost‑based model, yet remains deterministic and auditable [Source 1].\n* **Modular integration** – ContextPipe sits inside any agent loop (e.g., ReAct, Reflexion) or orchestration framework (LangChain, AutoGen) without changing the overall topology; it only replaces the per‑turn request‑assembly layer [Source 3].\n\nIn summary, ContextPipe assembles context by **planning** what memory sources could be useful, **binding** concrete candidates, **optimizing** their selection under strict token and cache budgets using a heuristic, feedback‑driven optimizer, **executing** the composition into a single prompt, and finally **recording** detailed execution traces for auditability and future learning [Source 2, Source 1, Source 4].",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does ContextPipe assemble context for long-horizon agents",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.8616,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Tressoir [18] similarly studies long-running multi-agent systems through an interpretable blueprint for designing and evolving agent architectures, prompts, tools, and knowledge, but leaves the per-turn context-assembly problem implicit: it exposes no database-style catalog, optimizer, provider cache policy, or EXPLAIN trace. ContextPipe occupies that narrower layer instead of proposing a new multi-agent design language. Query optimization. Classical query optimization [10, 22] and adaptive query execution [3, 28] give our pipeline its vocabulary and shape. The context problem differs in two ways: we cannot precisely quantify \"information value per token,\" so the optimizer is heuristic and feedback-driven rather than cost-based in the Selinger sense, and the consumer (the LLM) is intelligent enough to partially compensate for suboptimal context. ContextPipe respects both differences by making decisions auditable, reversible, and gated, while still borrowing staged planning, statistics, buffer pools, and EXPLAIN.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Abstract",
+   "section_type": "abstract",
+   "similarity": 0.8569,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Long-horizon large language model (LLM) agents require context assembly: the runtime must decide what to include in each prompt, in what order, and when to compact history under a hard context-window budget and a byte-sensitive prompt cache. In production agentic systems, this logic is scattered across prompt builders, ad hoc compaction routines, cache-break workarounds, and per-provider shims. We argue that context assembly is structurally isomorphic to query execution in a relational database: both execute under a hard budget, exploit a tiered cache, and leverage statistics. We adopt this discipline in ContextPipe: a five-phase pipeline (Plan → Bind → Optimize → Execute → Feedback) backed by a structured data-source catalog, a deterministic cacheaware optimizer, and an EXPLAIN ANALYZE trace. We show the context in ContextPipe is auditable, replayable, and failure-isolated. A preliminary evaluation using the SWE-bench Pro Qutebrowser subset shows that, compared to the append-only context construction policy, ContextPipe reduces total token volume by 31%, LLM calls by 23%, and response time by 9% at a cost in lower KV cache-hit ratio.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.8414,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Agent loops and benchmarks. ReAct [27] , Reflexion [23] , Toolformer [21] , LATS [30] , and Voyager [24] define what the agent should do; evaluation suites such as SWE-Bench [13] , AgentBench [17] , and SWE-bench Pro [8] drive the tasks these loops are judged on. Both are orthogonal to ContextPipe, which runs inside any such loop on every API call; end-to-end agent-success ablations on these benchmarks are future work (Section 9). Agent frameworks and orchestration. Application toolkits such as LangChain, LlamaIndex, and Haystack make it easy to build an agent quickly, not to optimize the perturn request under a cache and pressure budget; an application built on any of them could adopt ContextPipe as its request-assembly layer without changing its topology. Multi-agent orchestration layers such as AutoGen [25] and CrewAI focus on how agents talk to each other, not on what each agent sees per turn; their abstractions sit above our pipeline, and ForkPrefix-style cache sharing (Section 6) lets participating agents cooperate without O(agents) cache creation. Tressoir [18] similarly studies long-running multi-agent systems through an interpretable blueprint for designing and evolving agent architectures, prompts, tools, and knowledge, but leaves the per-turn context-assembly problem implicit: it exposes no database-style catalog, optimizer, provider cache policy, or EXPLAIN trace.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.8345,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Prior work touches pieces of the context-assembly problem without addressing the composition step directly: retrieval and long-context modeling decide what content is available, prompt caching and serving systems determine what a given byte layout costs, and agent loops and orchestration frameworks generate the state that must be assembled each turn. ContextPipe composes selected content onto that priced substrate under a hard window budget, every turn, and borrows its discipline from relational query evaluation, discussed last. Retrieval-augmented generation and long context. Classical RAG [12, 15] and its learned variants (Self-RAG [4] , adaptive retrieval, FiD, RAG-Token, Gepa [1] ) decide what to retrieve; query-rewriting approaches such as HyDE [9] and Causal Prompt Optimization [6] improve the query itself before dispatch. Long-context models [5] push how much context can be consumed, and recent work explores RL-or RLHF-guided selection of what to include in a long-context window [4, 15] . ContextPipe does not train such a policy; it records the optimizer's raw signals-per-section token usage, per-boundary cache hit/miss, context pressure, and tier decisions-in the perturn trace, so a learned policy could consume them offline without changing the runtime contract. These techniques plug into Bind's memory sources: they decide candidates, while ContextPipe decides how the candidates fit together under a cache budget. Agent memory and compaction.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8198,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Section 2 presents the architecture. Section 3 presents the optimizer, Section 4 describes the catalog design, Section 5 presents the trace format, and Section 6 examines the implementation techniques. Section 7 reports the empirical evaluation between ContextPipe and append-only context construction on long-horizon agent tasks. Section 8 covers previous work on context assembly, and Section 9 concludes.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "E.3 LRA details",
+   "section_type": "method",
+   "similarity": 0.7287,
+   "via": "citation",
+   "linked_from": "2609.00749v1",
+   "text": "We follow the hyperparameters from the Long-range arena paper [80] , the Long-range arena repo (https: //github.com/google-research/long-range-arena), and the Nyströmformer reproduction [90] . To be generous to the baseline methods, if we are unable to reproduce the performance of any baseline for any of the five tasks, we report the better performance from Tay et al. [80] or Xiong et al. [90] for that baseline on that task. After hyperparameter tuning, almost all of the attention methods achieve similar accuracy on all of the five LRA tasks. We run all methods with mixed-precision training, except for Performer (not stable with mixed precision) and Local Attention (implementation does not support FP16). To calculate the overall wallclock-time speedup, we take the geometric mean of the wallclock-time speedup of each of the five tasks. Path-X For Path-X and Path-256, we follow the hyperparameters from the PathFinder-32 experiments from the long-range arena paper [80] . For both, we first pretrain a model on Path-64. We take the checkpoint after 200 epochs, upsample its positional embedding (we duplicate the positional embeddings gridwise in space), and fine-tune it on the downstream task for 200 epochs with one epoch of linear warmup, and cosine decay of the learning rate.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "ContextPipe assembles the prompt that a long‑horizon LLM agent receives by treating each turn as a query‑execution problem and running it through a deterministic, cache‑aware five‑phase pipeline.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.636,
+      "semantic": 0.828,
+      "evidence": "Long-horizon large language model (LLM) agents require context assembly: the runtime must decide what to include in each prompt, in what order, and when to compact history under a hard context-window budget and a byte-sensitive prompt cache. In production agentic systems, this logic is scattered across prompt builders, ad hoc compaction routines, cache-break workarounds, and per-provider shims.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The plan is drawn from a structured data‑source catalog that enumerates available “tables” of information.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "partial",
+      "lexical": 0.444,
+      "semantic": 0.658,
+      "evidence": "We argue that context assembly is structurally isomorphic to query execution in a relational database: both execute under a hard budget, exploit a tiered cache, and leverage statistics.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Retrieval‑oriented components (RAG, long‑context models) can supply these candidates, while ContextPipe records raw signals such as per‑section token usage and cache hit/miss.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.85,
+      "semantic": 0.811,
+      "evidence": "ContextPipe composes selected content onto that priced substrate under a hard window budget, every turn, and borrows its discipline from relational query evaluation, discussed last. Retrieval-augmented generation and long context.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "It uses heuristics and runtime feedback (because “information value per token” cannot be precisely costed) rather than classic cost‑based Selinger optimization.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.765,
+      "semantic": 0.813,
+      "evidence": "The context problem differs in two ways: we cannot precisely quantify \"information value per token,\" so the optimizer is heuristic and feedback-driven rather than cost-based in the Selinger sense, and the consumer (the LLM) is intelligent enough to partially compensate for suboptimal context.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "ContextPipe “composes selected content onto that priced substrate under a hard window budget, every turn” and can reuse cache entries across agents via ForkPrefix‑style sharing.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.682,
+      "semantic": 0.843,
+      "evidence": "ContextPipe composes selected content onto that priced substrate under a hard window budget, every turn, and borrows its discipline from relational query evaluation, discussed last.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The trace makes decisions auditable, reversible, and gated, mirroring relational query tracing.",
+    "sources": [
+     1,
+     2
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.667,
+      "semantic": 0.702,
+      "evidence": "ContextPipe respects both differences by making decisions auditable, reversible, and gated, while still borrowing staged planning, statistics, buffer pools, and EXPLAIN.",
+      "missing_numbers": []
+     },
+     {
+      "source": 2,
+      "status": "partial",
+      "lexical": 0.444,
+      "semantic": 0.706,
+      "evidence": "We argue that context assembly is structurally isomorphic to query execution in a relational database: both execute under a hard budget, exploit a tiered cache, and leverage statistics.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Hard budget enforcement – Both the context‑window size (token limit) and the byte‑sensitive prompt cache are treated as immutable constraints that the optimizer must respect.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.611,
+      "semantic": 0.712,
+      "evidence": "We adopt this discipline in ContextPipe: a five-phase pipeline (Plan → Bind → Optimize → Execute → Feedback) backed by a structured data-source catalog, a deterministic cacheaware optimizer, and an EXPLAIN ANALYZE trace.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Database‑inspired discipline – Staged planning, statistics collection, buffer‑pool concepts, and an EXPLAIN‑style trace are taken directly from classical query optimization and adaptive execution.",
+    "sources": [
+     1,
+     2,
+     4
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.75,
+      "semantic": 0.864,
+      "evidence": "Classical query optimization [10, 22] and adaptive query execution [3, 28] give our pipeline its vocabulary and shape.",
+      "missing_numbers": []
+     },
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.4,
+      "semantic": 0.845,
+      "evidence": "We argue that context assembly is structurally isomorphic to query execution in a relational database: both execute under a hard budget, exploit a tiered cache, and leverage statistics. We adopt this discipline in ContextPipe: a five-phase pipeline (Plan → Bind → Optimize → Execute → Feedback) backed by a structured data-source catalog, a deterministic cacheaware optimizer, and an EXPLAIN ANALYZE trace.",
+      "missing_numbers": []
+     },
+     {
+      "source": 4,
+      "status": "partial",
+      "lexical": 0.45,
+      "semantic": 0.78,
+      "evidence": "Classical RAG [12, 15] and its learned variants (Self-RAG [4] , adaptive retrieval, FiD, RAG-Token, Gepa [1] ) decide what to retrieve; query-rewriting approaches such as HyDE [9] and Causal Prompt Optimization [6] improve the query itself before dispatch. Long-context models [5] push how much context can be consumed, and recent work explores RL-or RLHF-guided selection of what to include in a long-context window [4, 15] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Heuristic, feedback‑driven optimization – Because the exact “value per token” cannot be quantified, the optimizer relies on runtime signals rather than a fully cost‑based model, yet remains deterministic and auditable.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.542,
+      "semantic": 0.826,
+      "evidence": "The context problem differs in two ways: we cannot precisely quantify \"information value per token,\" so the optimizer is heuristic and feedback-driven rather than cost-based in the Selinger sense, and the consumer (the LLM) is intelligent enough to partially compensate for suboptimal context.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Modular integration – ContextPipe sits inside any agent loop (e.g., ReAct, Reflexion) or orchestration framework (LangChain, AutoGen) without changing the overall topology; it only replaces the per‑turn request‑assembly layer.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.76,
+      "semantic": 0.859,
+      "evidence": "Application toolkits such as LangChain, LlamaIndex, and Haystack make it easy to build an agent quickly, not to optimize the perturn request under a cache and pressure budget; an application built on any of them could adopt ContextPipe as its request-assembly layer without changing its topology. Multi-agent orchestration layers such as AutoGen [25] and CrewAI focus on how agents talk to each other, not on what each agent sees per turn; their abstractions sit above our pipeline, and ForkPrefix-style cache sharing (Section 6) lets participating agents cooperate without O(agents) cache creation.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "In summary, ContextPipe assembles context by planning what memory sources could be useful, binding concrete candidates, optimizing their selection under strict token and cache budgets using a heuristic, feedback‑driven optimizer, executing the composition into a single prompt, and finally recording detailed execution traces for auditability and future learning.",
+    "sources": [
+     2,
+     1,
+     4
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.429,
+      "semantic": 0.873,
+      "evidence": "We adopt this discipline in ContextPipe: a five-phase pipeline (Plan → Bind → Optimize → Execute → Feedback) backed by a structured data-source catalog, a deterministic cacheaware optimizer, and an EXPLAIN ANALYZE trace.",
+      "missing_numbers": []
+     },
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.343,
+      "semantic": 0.806,
+      "evidence": "The context problem differs in two ways: we cannot precisely quantify \"information value per token,\" so the optimizer is heuristic and feedback-driven rather than cost-based in the Selinger sense, and the consumer (the LLM) is intelligent enough to partially compensate for suboptimal context. ContextPipe respects both differences by making decisions auditable, reversible, and gated, while still borrowing staged planning, statistics, buffer pools, and EXPLAIN.",
+      "missing_numbers": []
+     },
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.543,
+      "semantic": 0.859,
+      "evidence": "Prior work touches pieces of the context-assembly problem without addressing the composition step directly: retrieval and long-context modeling decide what content is available, prompt caching and serving systems determine what a given byte layout costs, and agent loops and orchestration frameworks generate the state that must be assembled each turn. ContextPipe composes selected content onto that priced substrate under a hard window budget, every turn, and borrows its discipline from relational query evaluation, discussed last.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     1,
+     2
+    ]
+   },
+   {
+    "claim": 6,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 7,
+    "sources": [
+     1,
+     2,
+     4
+    ]
+   },
+   {
+    "claim": 8,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 9,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 10,
+    "sources": [
+     2,
+     1,
+     4
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 11,
+   "claims_supported": 10,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 16,
+   "supported": 13,
+   "partial": 3,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 7,
+   "score": 0.955,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 47,
+  "generation_ms": 3861,
+  "verification_ms": 2280,
+  "total_ms": 6189
+ },
+ "hits": [
+  {
+   "text": "Tressoir [18] similarly studies long-running multi-agent systems through an interpretable blueprint for designing and evolving agent architectures, prompts, tools, and knowledge, but leaves the per-turn context-assembly problem implicit: it exposes no database-style catalog, optimizer, provider cache policy, or EXPLAIN trace. ContextPipe occupies that narrower layer instead of proposing a new multi-agent design language. Query optimization. Classical query optimization [10, 22] and adaptive query execution [3, 28] give our pipeline its vocabulary and shape. The context problem differs in two ways: we cannot precisely quantify \"information value per token,\" so the optimizer is heuristic and feedback-driven rather than cost-based in the Selinger sense, and the consumer (the LLM) is intelligent enough to partially compensate for suboptimal context. ContextPipe respects both differences by making decisions auditable, reversible, and gated, while still borrowing staged planning, statistics, buffer pools, and EXPLAIN.",
+   "meta": {
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Tressoir [18] similarly studies long-running multi-agent systems through an interpretable blueprint for designing and evolving agent architectures, prompts, tools, and knowledge, but leaves the per-turn context-assembly problem implicit: it exposes no database-style catalog, optimizer, provider cache policy, or EXPLAIN trace.\", \"ContextPipe occupies that narrower layer instead of proposing a new multi-agent design language.\", \"Query optimization.\", \"Classical query optimization [10, 22] and adaptive query execution [3, 28] give our pipeline its vocabulary and shape.\", \"The context problem differs in two ways: we cannot precisely quantify \\\"information value per token,\\\" so the optimizer is heuristic and feedback-driven rather than cost-based in the Selinger sense, and the consumer (the LLM) is intelligent enough to partially compensate for suboptimal context.\", \"ContextPipe respects both differences by making decisions auditable, reversible, and gated, while still borrowing staged planning, statistics, buffer pools, and EXPLAIN.\"]",
+    "section_type": "related_work",
+    "section_title": "Related Work",
+    "published": "2026-09-01",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "arxiv_id": "2609.00749v1",
+    "n_words": 137
+   },
+   "similarity": 0.8616009950637817,
+   "via": "semantic"
+  },
+  {
+   "text": "Long-horizon large language model (LLM) agents require context assembly: the runtime must decide what to include in each prompt, in what order, and when to compact history under a hard context-window budget and a byte-sensitive prompt cache. In production agentic systems, this logic is scattered across prompt builders, ad hoc compaction routines, cache-break workarounds, and per-provider shims. We argue that context assembly is structurally isomorphic to query execution in a relational database: both execute under a hard budget, exploit a tiered cache, and leverage statistics. We adopt this discipline in ContextPipe: a five-phase pipeline (Plan → Bind → Optimize → Execute → Feedback) backed by a structured data-source catalog, a deterministic cacheaware optimizer, and an EXPLAIN ANALYZE trace. We show the context in ContextPipe is auditable, replayable, and failure-isolated. A preliminary evaluation using the SWE-bench Pro Qutebrowser subset shows that, compared to the append-only context construction policy, ContextPipe reduces total token volume by 31%, LLM calls by 23%, and response time by 9% at a cost in lower KV cache-hit ratio.",
+   "meta": {
+    "section_type_inherited": false,
+    "section_type": "abstract",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "published": "2026-09-01",
+    "domain": "efficient_attention",
+    "n_words": 171,
+    "section_title": "Abstract",
+    "sentences_json": "[\"Long-horizon large language model (LLM) agents require context assembly: the runtime must decide what to include in each prompt, in what order, and when to compact history under a hard context-window budget and a byte-sensitive prompt cache.\", \"In production agentic systems, this logic is scattered across prompt builders, ad hoc compaction routines, cache-break workarounds, and per-provider shims.\", \"We argue that context assembly is structurally isomorphic to query execution in a relational database: both execute under a hard budget, exploit a tiered cache, and leverage statistics.\", \"We adopt this discipline in ContextPipe: a five-phase pipeline (Plan → Bind → Optimize → Execute → Feedback) backed by a structured data-source catalog, a deterministic cacheaware optimizer, and an EXPLAIN ANALYZE trace.\", \"We show the context in ContextPipe is auditable, replayable, and failure-isolated.\", \"A preliminary evaluation using the SWE-bench Pro Qutebrowser subset shows that, compared to the append-only context construction policy, ContextPipe reduces total token volume by 31%, LLM calls by 23%, and response time by 9% at a cost in lower KV cache-hit ratio.\"]",
+    "arxiv_id": "2609.00749v1"
+   },
+   "similarity": 0.8568994998931885,
+   "via": "semantic"
+  },
+  {
+   "text": "Agent loops and benchmarks. ReAct [27] , Reflexion [23] , Toolformer [21] , LATS [30] , and Voyager [24] define what the agent should do; evaluation suites such as SWE-Bench [13] , AgentBench [17] , and SWE-bench Pro [8] drive the tasks these loops are judged on. Both are orthogonal to ContextPipe, which runs inside any such loop on every API call; end-to-end agent-success ablations on these benchmarks are future work (Section 9). Agent frameworks and orchestration. Application toolkits such as LangChain, LlamaIndex, and Haystack make it easy to build an agent quickly, not to optimize the perturn request under a cache and pressure budget; an application built on any of them could adopt ContextPipe as its request-assembly layer without changing its topology. Multi-agent orchestration layers such as AutoGen [25] and CrewAI focus on how agents talk to each other, not on what each agent sees per turn; their abstractions sit above our pipeline, and ForkPrefix-style cache sharing (Section 6) lets participating agents cooperate without O(agents) cache creation. Tressoir [18] similarly studies long-running multi-agent systems through an interpretable blueprint for designing and evolving agent architectures, prompts, tools, and knowledge, but leaves the per-turn context-assembly problem implicit: it exposes no database-style catalog, optimizer, provider cache policy, or EXPLAIN trace.",
+   "meta": {
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "section_title": "Related Work",
+    "section_type": "related_work",
+    "published": "2026-09-01",
+    "n_words": 208,
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "sentences_json": "[\"Agent loops and benchmarks.\", \"ReAct [27] , Reflexion [23] , Toolformer [21] , LATS [30] , and Voyager [24] define what the agent should do; evaluation suites such as SWE-Bench [13] , AgentBench [17] , and SWE-bench Pro [8] drive the tasks these loops are judged on.\", \"Both are orthogonal to ContextPipe, which runs inside any such loop on every API call; end-to-end agent-success ablations on these benchmarks are future work (Section 9).\", \"Agent frameworks and orchestration.\", \"Application toolkits such as LangChain, LlamaIndex, and Haystack make it easy to build an agent quickly, not to optimize the perturn request under a cache and pressure budget; an application built on any of them could adopt ContextPipe as its request-assembly layer without changing its topology.\", \"Multi-agent orchestration layers such as AutoGen [25] and CrewAI focus on how agents talk to each other, not on what each agent sees per turn; their abstractions sit above our pipeline, and ForkPrefix-style cache sharing (Section 6) lets participating agents cooperate without O(agents) cache creation.\", \"Tressoir [18] similarly studies long-running multi-agent systems through an interpretable blueprint for designing and evolving agent architectures, prompts, tools, and knowledge, but leaves the per-turn context-assembly problem implicit: it exposes no database-style catalog, optimizer, provider cache policy, or EXPLAIN trace.\"]",
+    "arxiv_id": "2609.00749v1"
+   },
+   "similarity": 0.8414180278778076,
+   "via": "semantic"
+  },
+  {
+   "text": "Prior work touches pieces of the context-assembly problem without addressing the composition step directly: retrieval and long-context modeling decide what content is available, prompt caching and serving systems determine what a given byte layout costs, and agent loops and orchestration frameworks generate the state that must be assembled each turn. ContextPipe composes selected content onto that priced substrate under a hard window budget, every turn, and borrows its discipline from relational query evaluation, discussed last. Retrieval-augmented generation and long context. Classical RAG [12, 15] and its learned variants (Self-RAG [4] , adaptive retrieval, FiD, RAG-Token, Gepa [1] ) decide what to retrieve; query-rewriting approaches such as HyDE [9] and Causal Prompt Optimization [6] improve the query itself before dispatch. Long-context models [5] push how much context can be consumed, and recent work explores RL-or RLHF-guided selection of what to include in a long-context window [4, 15] . ContextPipe does not train such a policy; it records the optimizer's raw signals-per-section token usage, per-boundary cache hit/miss, context pressure, and tier decisions-in the perturn trace, so a learned policy could consume them offline without changing the runtime contract. These techniques plug into Bind's memory sources: they decide candidates, while ContextPipe decides how the candidates fit together under a cache budget. Agent memory and compaction.",
+   "meta": {
+    "n_words": 212,
+    "published": "2026-09-01",
+    "sentences_json": "[\"Prior work touches pieces of the context-assembly problem without addressing the composition step directly: retrieval and long-context modeling decide what content is available, prompt caching and serving systems determine what a given byte layout costs, and agent loops and orchestration frameworks generate the state that must be assembled each turn.\", \"ContextPipe composes selected content onto that priced substrate under a hard window budget, every turn, and borrows its discipline from relational query evaluation, discussed last.\", \"Retrieval-augmented generation and long context.\", \"Classical RAG [12, 15] and its learned variants (Self-RAG [4] , adaptive retrieval, FiD, RAG-Token, Gepa [1] ) decide what to retrieve; query-rewriting approaches such as HyDE [9] and Causal Prompt Optimization [6] improve the query itself before dispatch.\", \"Long-context models [5] push how much context can be consumed, and recent work explores RL-or RLHF-guided selection of what to include in a long-context window [4, 15] .\", \"ContextPipe does not train such a policy; it records the optimizer's raw signals-per-section token usage, per-boundary cache hit/miss, context pressure, and tier decisions-in the perturn trace, so a learned policy could consume them offline without changing the runtime contract.\", \"These techniques plug into Bind's memory sources: they decide candidates, while ContextPipe decides how the candidates fit together under a cache budget.\", \"Agent memory and compaction.\"]",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "domain": "efficient_attention",
+    "arxiv_id": "2609.00749v1",
+    "section_type_inherited": false,
+    "section_title": "Related Work",
+    "section_type": "related_work"
+   },
+   "similarity": 0.8344549536705017,
+   "via": "semantic"
+  },
+  {
+   "text": "Section 2 presents the architecture. Section 3 presents the optimizer, Section 4 describes the catalog design, Section 5 presents the trace format, and Section 6 examines the implementation techniques. Section 7 reports the empirical evaluation between ContextPipe and append-only context construction on long-horizon agent tasks. Section 8 covers previous work on context assembly, and Section 9 concludes.",
+   "meta": {
+    "section_type": "introduction",
+    "section_type_inherited": false,
+    "arxiv_id": "2609.00749v1",
+    "n_words": 57,
+    "sentences_json": "[\"Section 2 presents the architecture.\", \"Section 3 presents the optimizer, Section 4 describes the catalog design, Section 5 presents the trace format, and Section 6 examines the implementation techniques.\", \"Section 7 reports the empirical evaluation between ContextPipe and append-only context construction on long-horizon agent tasks.\", \"Section 8 covers previous work on context assembly, and Section 9 concludes.\"]",
+    "section_title": "Introduction",
+    "domain": "efficient_attention",
+    "published": "2026-09-01",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents"
+   },
+   "similarity": 0.8197708129882812,
+   "via": "semantic"
+  },
+  {
+   "text": "We follow the hyperparameters from the Long-range arena paper [80] , the Long-range arena repo (https: //github.com/google-research/long-range-arena), and the Nyströmformer reproduction [90] . To be generous to the baseline methods, if we are unable to reproduce the performance of any baseline for any of the five tasks, we report the better performance from Tay et al. [80] or Xiong et al. [90] for that baseline on that task. After hyperparameter tuning, almost all of the attention methods achieve similar accuracy on all of the five LRA tasks. We run all methods with mixed-precision training, except for Performer (not stable with mixed precision) and Local Attention (implementation does not support FP16). To calculate the overall wallclock-time speedup, we take the geometric mean of the wallclock-time speedup of each of the five tasks. Path-X For Path-X and Path-256, we follow the hyperparameters from the PathFinder-32 experiments from the long-range arena paper [80] . For both, we first pretrain a model on Path-64. We take the checkpoint after 200 epochs, upsample its positional embedding (we duplicate the positional embeddings gridwise in space), and fine-tune it on the downstream task for 200 epochs with one epoch of linear warmup, and cosine decay of the learning rate.",
+   "meta": {
+    "domain": "efficient_attention",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "n_words": 202,
+    "section_type_inherited": true,
+    "published": "2022-05-27",
+    "section_type": "method",
+    "arxiv_id": "2205.14135v2",
+    "section_title": "E.3 LRA details",
+    "sentences_json": "[\"We follow the hyperparameters from the Long-range arena paper [80] , the Long-range arena repo (https: //github.com/google-research/long-range-arena),\", \"and the Nyströmformer reproduction [90] .\", \"To be generous to the baseline methods, if we are unable to reproduce the performance of any baseline for any of the five tasks, we report the better performance from Tay et al. [80] or Xiong et al. [90] for that baseline on that task.\", \"After hyperparameter tuning, almost all of the attention methods achieve similar accuracy on all of the five LRA tasks.\", \"We run all methods with mixed-precision training, except for Performer (not stable with mixed precision) and Local Attention (implementation does not support FP16).\", \"To calculate the overall wallclock-time speedup, we take the geometric mean of the wallclock-time speedup of each of the five tasks.\", \"Path-X For Path-X and Path-256, we follow the hyperparameters from the PathFinder-32 experiments from the long-range arena paper [80] .\", \"For both, we first pretrain a model on Path-64.\", \"We take the checkpoint after 200 epochs, upsample its positional embedding (we duplicate the positional embeddings gridwise in space), and fine-tune it on the downstream task for 200 epochs with one epoch of linear warmup, and cosine decay of the learning rate.\"]"
+   },
+   "similarity": 0.7286794185638428,
+   "via": "citation-link from 2609.00749v1"
+  }
+ ]
+}

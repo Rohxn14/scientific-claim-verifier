@@ -1,0 +1,86 @@
+[
+ {
+  "query": "how does FlashAttention reduce memory usage",
+  "path": "one-shot",
+  "answered": true,
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "seconds": 5.35,
+  "first_token_seconds": null,
+  "errors": []
+ },
+ {
+  "query": "how does FlashAttention reduce memory usage",
+  "path": "stream",
+  "answered": true,
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "seconds": 1.57,
+  "first_token_seconds": 1.11,
+  "errors": []
+ },
+ {
+  "query": "how does dilated neighborhood attention differ from standard attention",
+  "path": "one-shot",
+  "answered": true,
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "seconds": 1.66,
+  "first_token_seconds": null,
+  "errors": []
+ },
+ {
+  "query": "how does dilated neighborhood attention differ from standard attention",
+  "path": "stream",
+  "answered": true,
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "seconds": 2.91,
+  "first_token_seconds": 2.48,
+  "errors": []
+ },
+ {
+  "query": "what dataset or benchmark does DiNAT evaluate image classification on",
+  "path": "one-shot",
+  "answered": false,
+  "provider": null,
+  "model": null,
+  "seconds": 10.65,
+  "first_token_seconds": null,
+  "errors": [
+   "All providers failed. Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_<redacted>` service tier `on_demand` o"
+  ]
+ },
+ {
+  "query": "what dataset or benchmark does DiNAT evaluate image classification on",
+  "path": "stream",
+  "answered": true,
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "seconds": 1.0,
+  "first_token_seconds": 0.97,
+  "errors": []
+ },
+ {
+  "query": "what GPU hardware was used to benchmark FlashAttention-2's training throughput",
+  "path": "one-shot",
+  "answered": false,
+  "provider": null,
+  "model": null,
+  "seconds": 8.56,
+  "first_token_seconds": null,
+  "errors": [
+   "All providers failed. Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in organization `org_<redacted>` service tier `on_demand` o"
+  ]
+ },
+ {
+  "query": "what GPU hardware was used to benchmark FlashAttention-2's training throughput",
+  "path": "stream",
+  "answered": true,
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "seconds": 1.12,
+  "first_token_seconds": 1.07,
+  "errors": []
+ }
+]

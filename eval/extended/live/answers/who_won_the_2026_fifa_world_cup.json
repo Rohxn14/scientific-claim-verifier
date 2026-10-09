@@ -1,0 +1,184 @@
+{
+ "query": "who won the 2026 FIFA World Cup",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "extra",
+ "answer": "I’m sorry, but the provided sources do not contain any information about the winner of the 2026 FIFA World Cup. Consequently, I cannot answer that question based on the given material.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "who won the 2026 FIFA World Cup",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2503.11899v2",
+   "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+   "year": "2025",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.5105,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Quantitative results of our model and baselines in the same autoregressive framework: relative L2 error over three spatiotemporal prediction systems. AR-StFT refers to the deterministic model's results. AR-StFT-F denotes the probabilistic model with residual refinement of StFT. All models have been subjected to hyperparameter tuning to ensure fair and optimal performance comparisons.",
+   "url": "https://arxiv.org/abs/2503.11899v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2503.11899v2",
+   "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+   "year": "2025",
+   "section": "Experimental Setup",
+   "section_type": "results",
+   "similarity": 0.5092,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Long-term multi-physics prediction up to a horizon of 244 timesteps. Our goal is to simulate long-time trajectories given a few initial observations. This task is particularly challenging due to the multiple correlated variables present in the Navier-Stokes and plasma magnetohydrodynamics (MHD), with the test trajectories consisting of snapshots that vary from 71 to 244. We employ an autoregressive framework for all the methods: during training, each model utilizes five historical snapshots to predict the next one in a forward pass. At test time, given the initial five snapshots of a trajectory, all models autoregressively generate the entire trajectories by iteratively predicting future states based on their own previous outputs. Baseline setup. We evaluate these datasets using the following well-known and state-of-the-art methods for comparison: autoregressive AFNO, autoregressive Fourier Neural Operator (AR-FNO), autoregressive U-Net (AR-UNet), and autoregressive vision transformer (AR-ViT). More specifically, for AFNO, we used the latest variant from the DPOT work [17] , which is enhanced with a temporal aggregation layer and improved expressivity through the removal of enforced sparsity. For FNO, we use the authors' open-source implementation. For U-Net, we employ the implementation of the modified U-Net as evaluated in the recent BubbleML work [19] , where the modified U-Net was initially used in PDEBench work [55] , and demonstrated superior performance over their baselines.",
+   "url": "https://arxiv.org/abs/2503.11899v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2503.11899v2",
+   "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+   "year": "2025",
+   "section": "A.2 2D incompressible Navier-Stokes equations",
+   "section_type": "results",
+   "similarity": 0.5057,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We consider the 2D incompressible Navier-Stokes (NS) equation on a rectangular domain (x, y) ∈ where u and v represent the velocity components in the x and y directions, and p represents the pressure. f (x, y) is the source term, and we set it to e -100((x-0.5) 2 +(y-0.5) 2 ) . The Reynolds number is set to 1000. We run a finite difference solver to compute the solutions on a 50 × 50 spatial grid, with the temporal domain discretized into a total of 101 timestamps over T ∈ [0, 20]. We generated a total of 100 trajectories by sampling the four boundary conditions uniformly from (0.1, 0.6).",
+   "url": "https://arxiv.org/abs/2503.11899v2"
+  },
+  {
+   "index": 4,
+   "paper_id": "2503.11899v2",
+   "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+   "year": "2025",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.5052,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure 11: Results of comparing StFT and StFT-F for the autoregressive prediction in L2 relative error across different timestamps for velocity u in Navier-Stokes equation. The shaded region represents the standard deviation distribution of the relative error of StFT-F. However, the uncertainty is negligible that it is not visually discernible. StFT-F demonstrates better performance in the latter stages of the forecasting time horizon compared to StFT.",
+   "url": "https://arxiv.org/abs/2503.11899v2"
+  },
+  {
+   "index": 5,
+   "paper_id": "2503.11899v2",
+   "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+   "year": "2025",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.505,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure 8: Spherical shallow-water equations: pointwise error of the temporal evolution of velocity field predicted by all the autoregressive models: StFT-F, StFT, FNO, ViT and U-Net. The prediction error exhibits a temporal growth trend, with our model StFT and StFT-F consistently demonstrate lower residuals over the forecasting time horizon.",
+   "url": "https://arxiv.org/abs/2503.11899v2"
+  }
+ ],
+ "verification": {
+  "claims": [],
+  "markers": [],
+  "summary": {
+   "claims": 0,
+   "claims_supported": 0,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 0,
+   "supported": 0,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": null,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 29,
+  "generation_ms": 1296,
+  "verification_ms": 0,
+  "total_ms": 1326
+ },
+ "hits": [
+  {
+   "text": "Quantitative results of our model and baselines in the same autoregressive framework: relative L2 error over three spatiotemporal prediction systems. AR-StFT refers to the deterministic model's results. AR-StFT-F denotes the probabilistic model with residual refinement of StFT. All models have been subjected to hyperparameter tuning to ensure fair and optimal performance comparisons.",
+   "meta": {
+    "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+    "published": "2025-03-14",
+    "n_words": 52,
+    "section_title": "Untitled",
+    "arxiv_id": "2503.11899v2",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Quantitative results of our model and baselines in the same autoregressive framework: relative L2 error over three spatiotemporal prediction systems.\", \"AR-StFT refers to the deterministic model's results.\", \"AR-StFT-F denotes the probabilistic model with residual refinement of StFT.\", \"All models have been subjected to hyperparameter tuning to ensure fair and optimal performance comparisons.\"]",
+    "section_type_inherited": true,
+    "section_type": "results"
+   },
+   "similarity": 0.5104849338531494,
+   "via": "semantic"
+  },
+  {
+   "text": "Long-term multi-physics prediction up to a horizon of 244 timesteps. Our goal is to simulate long-time trajectories given a few initial observations. This task is particularly challenging due to the multiple correlated variables present in the Navier-Stokes and plasma magnetohydrodynamics (MHD), with the test trajectories consisting of snapshots that vary from 71 to 244. We employ an autoregressive framework for all the methods: during training, each model utilizes five historical snapshots to predict the next one in a forward pass. At test time, given the initial five snapshots of a trajectory, all models autoregressively generate the entire trajectories by iteratively predicting future states based on their own previous outputs. Baseline setup. We evaluate these datasets using the following well-known and state-of-the-art methods for comparison: autoregressive AFNO, autoregressive Fourier Neural Operator (AR-FNO), autoregressive U-Net (AR-UNet), and autoregressive vision transformer (AR-ViT). More specifically, for AFNO, we used the latest variant from the DPOT work [17] , which is enhanced with a temporal aggregation layer and improved expressivity through the removal of enforced sparsity. For FNO, we use the authors' open-source implementation. For U-Net, we employ the implementation of the modified U-Net as evaluated in the recent BubbleML work [19] , where the modified U-Net was initially used in PDEBench work [55] , and demonstrated superior performance over their baselines.",
+   "meta": {
+    "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+    "arxiv_id": "2503.11899v2",
+    "section_type": "results",
+    "published": "2025-03-14",
+    "n_words": 217,
+    "section_type_inherited": false,
+    "sentences_json": "[\"Long-term multi-physics prediction up to a horizon of 244 timesteps.\", \"Our goal is to simulate long-time trajectories given a few initial observations.\", \"This task is particularly challenging due to the multiple correlated variables present in the Navier-Stokes and plasma magnetohydrodynamics (MHD), with the test trajectories consisting of snapshots that vary from 71 to 244.\", \"We employ an autoregressive framework for all the methods: during training, each model utilizes five historical snapshots to predict the next one in a forward pass.\", \"At test time, given the initial five snapshots of a trajectory, all models autoregressively generate the entire trajectories by iteratively predicting future states based on their own previous outputs.\", \"Baseline setup.\", \"We evaluate these datasets using the following well-known and state-of-the-art methods for comparison: autoregressive AFNO, autoregressive Fourier Neural Operator (AR-FNO), autoregressive U-Net (AR-UNet), and autoregressive vision transformer (AR-ViT).\", \"More specifically, for AFNO, we used the latest variant from the DPOT work [17] , which is enhanced with a temporal aggregation layer and improved expressivity through the removal of enforced sparsity.\", \"For FNO, we use the authors' open-source implementation.\", \"For U-Net, we employ the implementation of the modified U-Net as evaluated in the recent BubbleML work [19] , where the modified U-Net was initially used in PDEBench work [55] , and demonstrated superior performance over their baselines.\"]",
+    "section_title": "Experimental Setup",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.5091991424560547,
+   "via": "semantic"
+  },
+  {
+   "text": "We consider the 2D incompressible Navier-Stokes (NS) equation on a rectangular domain (x, y) ∈ where u and v represent the velocity components in the x and y directions, and p represents the pressure. f (x, y) is the source term, and we set it to e -100((x-0.5) 2 +(y-0.5) 2 ) . The Reynolds number is set to 1000. We run a finite difference solver to compute the solutions on a 50 × 50 spatial grid, with the temporal domain discretized into a total of 101 timestamps over T ∈ [0, 20]. We generated a total of 100 trajectories by sampling the four boundary conditions uniformly from (0.1, 0.6).",
+   "meta": {
+    "domain": "efficient_attention",
+    "n_words": 110,
+    "section_type_inherited": true,
+    "section_title": "A.2 2D incompressible Navier-Stokes equations",
+    "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+    "published": "2025-03-14",
+    "sentences_json": "[\"We consider the 2D incompressible Navier-Stokes (NS) equation on a rectangular domain (x, y) ∈\", \"where u and v represent the velocity components in the x and y directions, and p represents the pressure.\", \"f (x, y) is the source term, and we set it to e -100((x-0.5) 2 +(y-0.5) 2 ) .\", \"The Reynolds number is set to 1000.\", \"We run a finite difference solver to compute the solutions on a 50 × 50 spatial grid, with the temporal domain discretized into a total of 101 timestamps over T ∈ [0, 20].\", \"We generated a total of 100 trajectories by sampling the four boundary conditions uniformly from (0.1, 0.6).\"]",
+    "section_type": "results",
+    "arxiv_id": "2503.11899v2"
+   },
+   "similarity": 0.5056801438331604,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure 11: Results of comparing StFT and StFT-F for the autoregressive prediction in L2 relative error across different timestamps for velocity u in Navier-Stokes equation. The shaded region represents the standard deviation distribution of the relative error of StFT-F. However, the uncertainty is negligible that it is not visually discernible. StFT-F demonstrates better performance in the latter stages of the forecasting time horizon compared to StFT.",
+   "meta": {
+    "section_title": "Untitled",
+    "published": "2025-03-14",
+    "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+    "section_type_inherited": true,
+    "sentences_json": "[\"Figure 11: Results of comparing StFT and StFT-F for the autoregressive prediction in L2 relative error across different timestamps for velocity u in Navier-Stokes equation.\", \"The shaded region represents the standard deviation distribution of the relative error of StFT-F.\", \"However, the uncertainty is negligible that it is not visually discernible.\", \"StFT-F demonstrates better performance in the latter stages of the forecasting time horizon compared to StFT.\"]",
+    "n_words": 66,
+    "domain": "efficient_attention",
+    "arxiv_id": "2503.11899v2",
+    "section_type": "results"
+   },
+   "similarity": 0.505217432975769,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure 8: Spherical shallow-water equations: pointwise error of the temporal evolution of velocity field predicted by all the autoregressive models: StFT-F, StFT, FNO, ViT and U-Net. The prediction error exhibits a temporal growth trend, with our model StFT and StFT-F consistently demonstrate lower residuals over the forecasting time horizon.",
+   "meta": {
+    "published": "2025-03-14",
+    "arxiv_id": "2503.11899v2",
+    "paper_title": "StFT: Spatio-temporal Fourier Transformer for Long-term Dynamics Prediction",
+    "section_title": "Untitled",
+    "domain": "efficient_attention",
+    "n_words": 49,
+    "section_type": "results",
+    "sentences_json": "[\"Figure 8: Spherical shallow-water equations: pointwise error of the temporal evolution of velocity field predicted by all the autoregressive models: StFT-F, StFT, FNO, ViT and U-Net.\", \"The prediction error exhibits a temporal growth trend, with our model StFT and StFT-F consistently demonstrate lower residuals over the forecasting time horizon.\"]",
+    "section_type_inherited": true
+   },
+   "similarity": 0.5049916505813599,
+   "via": "semantic"
+  }
+ ]
+}

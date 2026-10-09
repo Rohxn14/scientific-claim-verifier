@@ -1,0 +1,209 @@
+{
+ "query": "what dataset or benchmark does DiNAT evaluate image classification on",
+ "expected_arxiv_id": "2209.15001",
+ "category": "factual",
+ "set": "harness",
+ "answer": "DiNAT’s image‑classification experiments are carried out on the ImageNet benchmark, specifically the ImageNet‑1K dataset (with additional pre‑training also performed on the larger ImageNet‑22K set) [Source 1].",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what dataset or benchmark does DiNAT evaluate image classification on",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.8019,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We conducted extensive experiments to study the effects of our proposed DiNAT model over existing baselines. Similar to existing methods, we pre-train models on image classification (ImageNet-1K and ImageNet-22K [11] ), and then transfer the learned weights to downstream vision tasks. We compare DiNAT to the original NAT model [15] , Swin [29] , and ConvNeXt [30] . We also pair our model with Mask2Former [5] and perform instance, semantic, and panoptic segmentation experiments.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 2,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Object Detection and Instance Segmentation",
+   "section_type": "results",
+   "similarity": 0.7847,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "To explore DiNAT's effectiveness in object detection and instance segmentation, we used its pre-trained weights as backbones for Mask R-CNN [18] and Cascade Mask R-CNN [2] , and trained those models on MS-COCO [27] . ‡ indicates that the model was pre-trained on ImageNet-22K. Swin-L was not reported with Cascade Mask R-CNN, therefore we trained it with their official checkpoint. Throughput is measured on a single NVIDIA A100 GPU. We followed NAT [15] and Swin [29] 's training settings in mmdetection [4] (Apache License v2), and trained with the same accelerated 3× LR schedule. The results are presented in Tab. 7. We observe that DiNAT consistently shows noticeable improvement over NAT, with little-to-no drop in throughput. There are even instances where DiNAT even surpasses NAT's throughput, but within the margin of error. Additionally, we observe that this improvement over NAT pushes DiNAT ahead of ConvNeXt [30] . At scale, we see DiNAT continues to outperform both Swin and ConvNeXt with ImageNet-22K pre-training.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 3,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "DiNAT",
+   "section_type": "method",
+   "similarity": 0.779,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "For a fair evaluation of DiNA's performance, we design DiNAT to be identical to the original NAT model in terms of architecture and configuration. It uses two 3×3 convolutional layers with 2×2 strides initially, resulting in feature maps that are a quarter of the input resolution. It also uses a single 3×3 convolution with 2×2 strides to downsample between levels, which cut spatial resolution in half and double channels. Details are presented in Tab. 2. The key difference in DiNAT is that every other layer uses DiNA instead of NA. Dilation values for DiNA layers are set based on the task and input resolution. For ImageNet-1k at 224 2 resolution, we set dilation values to 8, 4, 2, and 1 in levels one through four respectively. In downstream tasks, because of their larger resolution, we increase dilation values to beyond that. All dilation values and other relevant architecture details are presented in Tab. II.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 4,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Ablation study",
+   "section_type": "results",
+   "similarity": 0.7598,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In this section, we aim to study DiNAT in more depth by analyzing the effects of: dilation values, NA-DiNA order, kernel sizes, and test-time changes in dilation. Dilation values. In Tab. 9, we present models with different dilation values, and their effect on classification, detection, instance segmentation and semantic segmentation performance levels. Note that the increased dilation (16, 8, 4, 2) is applicable to downstream tasks only, because in theory input feature maps should be larger than or equal to the product of kernel size and dilation. As a result, \"8, 4, 2, 1\" is the maximum applicable dilation to ImageNet at 224 × 224 resolution. Depending on image resolution, even higher dilation values are possible. We explored a \"dynamic\" dilation value, where DiNA layers apply the maximum possible dilation, which is the floor of resolution divided by kernel size (\"Maximum\" in Tab. 9). We finally choose settle on \"gradual\" dilation (see illustration in Fig. 4 ), in which we gradually increase dilation to the maximum level defined. For instance, if maximum dilation for a specific level to 8, its layers will have dilation values 1, 2, 1, 4, 1, 6, 1, 8 (refer to Appendix B for details). NA-DiNA vs. DiNA-NA.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Image segmentation with Mask2Former",
+   "section_type": "results",
+   "similarity": 0.7466,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "To analyze DiNAT's segmentation performance further, we conducted experiments with Mask2Former [5] . Mask2Former is an attention-based segmentation architecture, which can be trained on instance segmentation, semantic segmentation, and panoptic segmentation. It set a new state-of-the-art score for panoptic and instance segmentation on MS-COCO, as well as semantic segmentation on ADE20K. Mask2Former additionally used Swin-Large as the backbone, making it the perfect candidate for this experiment. We trained Mask2Former on MS-COCO [27] , ADE20K [55] , and Cityscapes [8] , on all three segmentation objectives (instance, semantic, and panoptic), by simply replacing the Swin-Large backbone in a fork of their original repository. Following their reported environment, we used PyTorch 1.9 with Detectron2 [47] . We present instance segmentation results in Tab. 13, semantic segmentation results in Tab. 14, and panoptic segmentation results in Tab. 15 . We note that DiNAT-L is using an 11 2 kernel size, instead of Swin-L's 12 2 , since even-sized windows break the symmetry in NA and are therefore not defined. DiNAT-L outperforms Swin-L on all three tasks and datasets. It also sets new state of the art records for image segmentation without using extra data. According to Pa-persWithCode leaderboards, DiNAT-L with Mask2Former is the SOTA panoptic segmentation on ADE20K and MS-COCO, and instance segmentation on ADE20K and Cityscapes.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "DiNAT’s image‑classification experiments are carried out on the ImageNet benchmark, specifically the ImageNet‑1K dataset (with additional pre‑training also performed on the larger ImageNet‑22K set).",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.556,
+      "semantic": 0.828,
+      "evidence": "We conducted extensive experiments to study the effects of our proposed DiNAT model over existing baselines. Similar to existing methods, we pre-train models on image classification (ImageNet-1K and ImageNet-22K [11] ), and then transfer the learned weights to downstream vision tasks.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 1,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 1,
+   "supported": 1,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 0,
+   "score": 1.0,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 32,
+  "generation_ms": 1020,
+  "verification_ms": 159,
+  "total_ms": 1212
+ },
+ "hits": [
+  {
+   "text": "We conducted extensive experiments to study the effects of our proposed DiNAT model over existing baselines. Similar to existing methods, we pre-train models on image classification (ImageNet-1K and ImageNet-22K [11] ), and then transfer the learned weights to downstream vision tasks. We compare DiNAT to the original NAT model [15] , Swin [29] , and ConvNeXt [30] . We also pair our model with Mask2Former [5] and perform instance, semantic, and panoptic segmentation experiments.",
+   "meta": {
+    "n_words": 74,
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "section_title": "Experiments",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_type": "results",
+    "published": "2022-09-29",
+    "sentences_json": "[\"We conducted extensive experiments to study the effects of our proposed DiNAT model over existing baselines.\", \"Similar to existing methods, we pre-train models on image classification (ImageNet-1K and ImageNet-22K [11] ), and then transfer the learned weights to downstream vision tasks.\", \"We compare DiNAT to the original NAT model [15] , Swin [29] , and ConvNeXt [30] .\", \"We also pair our model with Mask2Former [5] and perform instance, semantic, and panoptic segmentation experiments.\"]",
+    "arxiv_id": "2209.15001v3"
+   },
+   "similarity": 0.8018750548362732,
+   "via": "semantic"
+  },
+  {
+   "text": "To explore DiNAT's effectiveness in object detection and instance segmentation, we used its pre-trained weights as backbones for Mask R-CNN [18] and Cascade Mask R-CNN [2] , and trained those models on MS-COCO [27] . ‡ indicates that the model was pre-trained on ImageNet-22K. Swin-L was not reported with Cascade Mask R-CNN, therefore we trained it with their official checkpoint. Throughput is measured on a single NVIDIA A100 GPU. We followed NAT [15] and Swin [29] 's training settings in mmdetection [4] (Apache License v2), and trained with the same accelerated 3× LR schedule. The results are presented in Tab. 7. We observe that DiNAT consistently shows noticeable improvement over NAT, with little-to-no drop in throughput. There are even instances where DiNAT even surpasses NAT's throughput, but within the margin of error. Additionally, we observe that this improvement over NAT pushes DiNAT ahead of ConvNeXt [30] . At scale, we see DiNAT continues to outperform both Swin and ConvNeXt with ImageNet-22K pre-training.",
+   "meta": {
+    "sentences_json": "[\"To explore DiNAT's effectiveness in object detection and instance segmentation, we used its pre-trained weights as backbones for Mask R-CNN [18] and Cascade Mask R-CNN [2] , and trained those models on MS-COCO [27] .\", \"‡ indicates that the model was pre-trained on ImageNet-22K.\", \"Swin-L was not reported with Cascade Mask R-CNN, therefore we trained it with their official checkpoint.\", \"Throughput is measured on a single NVIDIA A100 GPU.\", \"We followed NAT [15] and Swin [29] 's training settings in mmdetection [4] (Apache License v2), and trained with the same accelerated 3× LR schedule.\", \"The results are presented in Tab. 7. We observe that DiNAT consistently shows noticeable improvement over NAT, with little-to-no drop in throughput.\", \"There are even instances where DiNAT even surpasses NAT's throughput, but within the margin of error.\", \"Additionally, we observe that this improvement over NAT pushes DiNAT ahead of ConvNeXt [30] .\", \"At scale, we see DiNAT continues to outperform both Swin and ConvNeXt with ImageNet-22K pre-training.\"]",
+    "n_words": 162,
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "section_title": "Object Detection and Instance Segmentation",
+    "section_type": "results",
+    "published": "2022-09-29",
+    "arxiv_id": "2209.15001v3"
+   },
+   "similarity": 0.784742534160614,
+   "via": "semantic"
+  },
+  {
+   "text": "For a fair evaluation of DiNA's performance, we design DiNAT to be identical to the original NAT model in terms of architecture and configuration. It uses two 3×3 convolutional layers with 2×2 strides initially, resulting in feature maps that are a quarter of the input resolution. It also uses a single 3×3 convolution with 2×2 strides to downsample between levels, which cut spatial resolution in half and double channels. Details are presented in Tab. 2. The key difference in DiNAT is that every other layer uses DiNA instead of NA. Dilation values for DiNA layers are set based on the task and input resolution. For ImageNet-1k at 224 2 resolution, we set dilation values to 8, 4, 2, and 1 in levels one through four respectively. In downstream tasks, because of their larger resolution, we increase dilation values to beyond that. All dilation values and other relevant architecture details are presented in Tab. II.",
+   "meta": {
+    "section_type": "method",
+    "section_type_inherited": true,
+    "arxiv_id": "2209.15001v3",
+    "domain": "efficient_attention",
+    "section_title": "DiNAT",
+    "n_words": 154,
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "sentences_json": "[\"For a fair evaluation of DiNA's performance, we design DiNAT to be identical to the original NAT model in terms of architecture and configuration.\", \"It uses two 3×3 convolutional layers with 2×2 strides initially, resulting in feature maps that are a quarter of the input resolution.\", \"It also uses a single 3×3 convolution with 2×2 strides to downsample between levels, which cut spatial resolution in half and double channels.\", \"Details are presented in Tab. 2. The key difference in DiNAT is that every other layer uses DiNA instead of NA.\", \"Dilation values for DiNA layers are set based on the task and input resolution.\", \"For ImageNet-1k at 224 2 resolution, we set dilation values to 8, 4, 2, and 1 in levels one through four respectively.\", \"In downstream tasks, because of their larger resolution, we increase dilation values to beyond that.\", \"All dilation values and other relevant architecture details are presented in Tab.\", \"II.\"]",
+    "published": "2022-09-29"
+   },
+   "similarity": 0.7790180444717407,
+   "via": "semantic"
+  },
+  {
+   "text": "In this section, we aim to study DiNAT in more depth by analyzing the effects of: dilation values, NA-DiNA order, kernel sizes, and test-time changes in dilation. Dilation values. In Tab. 9, we present models with different dilation values, and their effect on classification, detection, instance segmentation and semantic segmentation performance levels. Note that the increased dilation (16, 8, 4, 2) is applicable to downstream tasks only, because in theory input feature maps should be larger than or equal to the product of kernel size and dilation. As a result, \"8, 4, 2, 1\" is the maximum applicable dilation to ImageNet at 224 × 224 resolution. Depending on image resolution, even higher dilation values are possible. We explored a \"dynamic\" dilation value, where DiNA layers apply the maximum possible dilation, which is the floor of resolution divided by kernel size (\"Maximum\" in Tab. 9). We finally choose settle on \"gradual\" dilation (see illustration in Fig. 4 ), in which we gradually increase dilation to the maximum level defined. For instance, if maximum dilation for a specific level to 8, its layers will have dilation values 1, 2, 1, 4, 1, 6, 1, 8 (refer to Appendix B for details). NA-DiNA vs. DiNA-NA.",
+   "meta": {
+    "section_type": "results",
+    "section_title": "Ablation study",
+    "arxiv_id": "2209.15001v3",
+    "n_words": 202,
+    "sentences_json": "[\"In this section, we aim to study DiNAT in more depth by analyzing the effects of: dilation values, NA-DiNA order, kernel sizes, and test-time changes in dilation.\", \"Dilation values.\", \"In Tab. 9, we present models with different dilation values, and their effect on classification, detection, instance segmentation and semantic segmentation performance levels.\", \"Note that the increased dilation (16, 8, 4, 2) is applicable to downstream tasks only, because in theory input feature maps should be larger than or equal to the product of kernel size and dilation.\", \"As a result, \\\"8, 4, 2, 1\\\" is the maximum applicable dilation to ImageNet at 224 × 224 resolution.\", \"Depending on image resolution, even higher dilation values are possible.\", \"We explored a \\\"dynamic\\\" dilation value, where DiNA layers apply the maximum possible dilation, which is the floor of resolution divided by kernel size (\\\"Maximum\\\" in Tab.\", \"9).\", \"We finally choose settle on \\\"gradual\\\" dilation (see illustration in Fig. 4 ), in which we gradually increase dilation to the maximum level defined.\", \"For instance, if maximum dilation for a specific level to 8, its layers will have dilation values 1, 2, 1, 4, 1, 6, 1, 8 (refer to Appendix B for details).\", \"NA-DiNA vs. DiNA-NA.\"]",
+    "domain": "efficient_attention",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_type_inherited": false,
+    "published": "2022-09-29"
+   },
+   "similarity": 0.7598423957824707,
+   "via": "semantic"
+  },
+  {
+   "text": "To analyze DiNAT's segmentation performance further, we conducted experiments with Mask2Former [5] . Mask2Former is an attention-based segmentation architecture, which can be trained on instance segmentation, semantic segmentation, and panoptic segmentation. It set a new state-of-the-art score for panoptic and instance segmentation on MS-COCO, as well as semantic segmentation on ADE20K. Mask2Former additionally used Swin-Large as the backbone, making it the perfect candidate for this experiment. We trained Mask2Former on MS-COCO [27] , ADE20K [55] , and Cityscapes [8] , on all three segmentation objectives (instance, semantic, and panoptic), by simply replacing the Swin-Large backbone in a fork of their original repository. Following their reported environment, we used PyTorch 1.9 with Detectron2 [47] . We present instance segmentation results in Tab. 13, semantic segmentation results in Tab. 14, and panoptic segmentation results in Tab. 15 . We note that DiNAT-L is using an 11 2 kernel size, instead of Swin-L's 12 2 , since even-sized windows break the symmetry in NA and are therefore not defined. DiNAT-L outperforms Swin-L on all three tasks and datasets. It also sets new state of the art records for image segmentation without using extra data. According to Pa-persWithCode leaderboards, DiNAT-L with Mask2Former is the SOTA panoptic segmentation on ADE20K and MS-COCO, and instance segmentation on ADE20K and Cityscapes.",
+   "meta": {
+    "section_type": "results",
+    "n_words": 214,
+    "section_title": "Image segmentation with Mask2Former",
+    "sentences_json": "[\"To analyze DiNAT's segmentation performance further, we conducted experiments with Mask2Former [5] .\", \"Mask2Former is an attention-based segmentation architecture, which can be trained on instance segmentation, semantic segmentation, and panoptic segmentation.\", \"It set a new state-of-the-art score for panoptic and instance segmentation on MS-COCO, as well as semantic segmentation on ADE20K.\", \"Mask2Former additionally used Swin-Large as the backbone, making it the perfect candidate for this experiment.\", \"We trained Mask2Former on MS-COCO [27] , ADE20K [55] , and Cityscapes [8] , on all three segmentation objectives (instance, semantic, and panoptic), by simply replacing the Swin-Large backbone in a fork of their original repository.\", \"Following their reported environment, we used PyTorch 1.9 with Detectron2 [47] .\", \"We present instance segmentation results in Tab. 13, semantic segmentation results in Tab.\", \"14, and panoptic segmentation results in Tab. 15 .\", \"We note that DiNAT-L is using an 11 2 kernel size, instead of Swin-L's 12 2 , since even-sized windows break the symmetry in NA and are therefore not defined.\", \"DiNAT-L outperforms Swin-L on all three tasks and datasets.\", \"It also sets new state of the art records for image segmentation without using extra data.\", \"According to Pa-persWithCode leaderboards, DiNAT-L with Mask2Former is the SOTA panoptic segmentation on ADE20K and MS-COCO, and instance segmentation on ADE20K and Cityscapes.\"]",
+    "domain": "efficient_attention",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "published": "2022-09-29",
+    "section_type_inherited": true,
+    "arxiv_id": "2209.15001v3"
+   },
+   "similarity": 0.7465760707855225,
+   "via": "semantic"
+  }
+ ]
+}

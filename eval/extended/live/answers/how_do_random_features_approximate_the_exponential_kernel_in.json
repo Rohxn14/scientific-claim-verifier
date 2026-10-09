@@ -1,0 +1,219 @@
+{
+ "query": "how do random features approximate the exponential kernel in linear attention",
+ "expected_arxiv_id": "2302.04542",
+ "category": "factual",
+ "set": "harness",
+ "answer": "Random‑feature‑based linear attention replaces the exact softmax kernel  \n\n\\[\n\\exp (q_n^\\top k_m)\n\\]\n\nby an expectation over a *randomized mapping* \\( \\xi(\\cdot ,\\omega) \\).  \nFor a Gaussian random vector \\( \\omega\\sim\\mathcal N(0,I) \\) one can define  \n\n\\[\n\\xi(x,\\omega)=\\exp \\bigl(\\omega^{\\top}x-\\tfrac12\\|x\\|^{2}\\bigr)\n\\]\n\nso that  \n\n\\[\n\\exp (q_n^\\top k_m)=\\mathbb{E}_{\\omega\\sim\\mathcal N(0,I)}\\bigl[\\xi(q_n,\\omega)\\,\\xi(k_m,\\omega)\\bigr] .\n\\]\n\nBy drawing \\(S\\) independent samples \\(\\omega_{1},\\dots ,\\omega_{S}\\) from this Gaussian and stacking the resulting scalar features, we obtain the *random‑feature embedding*  \n\n\\[\n\\phi(x,\\omega)=\\frac{1}{\\sqrt{S}}\\bigl[\\xi(x,\\omega_{1}),\\dots ,\\xi(x,\\omega_{S})\\bigr] .\n\\]\n\nThe inner product of two such embeddings yields a Monte‑Carlo estimator of the exponential kernel:\n\n\\[\n\\phi(q_n,\\omega)^{\\!\\top}\\phi(k_m,\\omega)\n    =\\frac{1}{S}\\sum_{s=1}^{S}\\xi(q_n,\\omega_{s})\\;\\xi(k_m,\\omega_{s})\n    \\;\\approx\\;\\exp (q_n^\\top k_m) .\n\\]\n\nThus, linear attention computes attention weights by replacing the quadratic‑time softmax operation with a *linear* inner product of random‑feature vectors, whose expectation equals the original exponential kernel. This view can also be interpreted as self‑normalized importance sampling, where the proposal distribution is the standard normal \\( \\mathcal N(0,I) \\) and the estimator uses the same set of samples for every query–key pair [Source 1, Source 5].",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how do random features approximate the exponential kernel in linear attention",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "A A BRIEF REVIEW OF VANILLA RANDOM FEATURE ATTENTION",
+   "section_type": "method",
+   "similarity": 0.8831,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Vanilla random feature attention methods, such as Performer (Choromanski et al., 2021; Peng et al., 2021b) , seek to approximate the softmax attention mechanism through random features (Rahimi & Recht, 2008) φ(x, ω) := 1/ √ S[ξ(x, ω 1 ), . . . , ξ(x, ω S )] . Here, ω 1 , . . . , ω S ∼ N (0, I), and ξ(x, ω) is the randomized mapping such that exp q n k m = E ωs∼N (0,I) ξ(q n , ω s ) ξ(k m , ω s ) . (17) Therefore, we can draw multiple Monte Carlo samples to estimate the exponential kernel, and then approximate the attention mechanism as It is recently generalized as a self-normalized importance sampling estimator to approximate softmax attention (Zheng et al., 2022b) , as described in §2.2. We refer the generalized random feature based approximations as RFA.",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "INTRODUCTION",
+   "section_type": "introduction",
+   "similarity": 0.834,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Random-feature-based attention (RFA, also known as Performer; Choromanski et al., 2021; Peng et al., 2021b) is an established fast approximation to the conventional softmax attention mechanism (Bahdanau et al., 2014; Vaswani et al., 2017) , which successfully scales Transformer models to processing much longer sequences (Choromanski et al., 2021) . At its core is the usage of random features (RF; Rahimi & Recht, 2008) to linearize the exponential kernel in softmax attention, which reduces the computational cost from quadratic to linear runtime and space complexity. Despite its efficiency, recent studies have pointed out that such approximation suffers from substantial performance degeneration (Xiong et al., 2021a; Zheng et al., 2022b) . In this work, we generalize the formulation of RFA via control variates (Owen, 2013) , which characterizes the approximation gap between RFA and softmax attention in theory. We first show that RFA can be decomposed from a global approximation over the whole sequence into a sum of local control variate estimators, each of which is applied to an individual element in the sequence. Under this formulation, RFA is equivalent to employing the same coefficient for all control variate estimators to scale their variance isotropically ( §3.1).",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "RELATED WORK",
+   "section_type": "related_work",
+   "similarity": 0.8268,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Recent work attempts to improve RFA approximation from several aspects, such as designing more accurate random feature maps (Choromanski et al., 2022; Likhosherstov et al., 2022; Chowdhury et al., 2022) , incorporating relative positional or other task-specific biases (Liutkus et al., 2021; Luo et al., 2021; Chen, 2021; Zheng et al., 2022a; Qin et al., 2022b; Wu et al., 2022; Qin et al., 2022a) , or leveraging connections to fast weight programmers (Peng et al., 2021b; Schlag et al., 2021; Irie et al., 2021) . Prior work closely related to ours includes Zheng et al. (2022b) , which reinterprets RFA using self-normalized importance sampling (Hesterberg, 1995) and theoretically extends the random feature approximation from individual exponential kernels to the whole softmax attention. Our work further generalizes this result via control variates and characterizes the approximation gap caused by RFA. Scatterbrain (Chen et al., 2021a) is also similar to our work in that it also refines RF approximation on critical local regions. However, it is developed based on a different motivation that attempts to approximate the attention matrix with a combination of sparse and low-rank matrices. Interestingly, we find that Scatterbrain can be cast as a special case under our framework; see Appendix G for a detailed discussion about connections between EVA and previous attention mechanisms.",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "RELATED WORK",
+   "section_type": "related_work",
+   "similarity": 0.8226,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix. In this way, softmax attention can be computed in linear memory complexity, and the runtime can also be greatly improved by further minimizing memory accesses (Dao et al., 2022) . Random-Feature-based Attention. Random-feature-based methods are a popular alternative that uses random features (Rahimi & Recht, 2008) to linearize exponential kernels in softmax attention (Katharopoulos et al., 2020; Choromanski et al., 2021; Peng et al., 2021b) . Recent work attempts to improve RFA approximation from several aspects, such as designing more accurate random feature maps (Choromanski et al., 2022; Likhosherstov et al., 2022; Chowdhury et al., 2022) , incorporating relative positional or other task-specific biases (Liutkus et al., 2021; Luo et al., 2021; Chen, 2021; Zheng et al., 2022a; Qin et al., 2022b; Wu et al., 2022; Qin et al., 2022a) , or leveraging connections to fast weight programmers (Peng et al., 2021b; Schlag et al., 2021; Irie et al., 2021) .",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "RANDOM-FEATURE-BASED ATTENTION WITH SELF-NORMALIZED IMPORTANCE SAMPLING",
+   "section_type": "method",
+   "similarity": 0.8188,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Recently, Zheng et al. (2022b) identifies that softmax attention (Equation 1 ) can be written as an expectation over an attention-like aggregating function, where , p n (ω) := N (ω; 0, I) Here ξ(•, •) is the randomized mapping defined in such a way that exp q n k m = E ω∼N (0,I) ξ(q n , ω) ξ(k m , ω) , and Z = M m=1 exp q n k m denotes the normalizing constant of distribution p n . Throughout this paper, we consider the positive randomized mapping ξ(x, ω) = exp ω x -1 2 x 2 (Choromanski et al., 2021) unless otherwise specified. Random-Feature-based Attention (RFA) methods (Choromanski et al., 2021; Peng et al., 2021b) can be interpreted as performing self-normalized importance sampling (SNIS; Hesterberg, 1995) to approximate Equation 2 (Zheng et al., 2022b) . In SNIS, one draws Monte Carlo samples from some proposal distribution q(ω) instead of the true distribution p n (ω) and estimates the target expectation as E ω∼pn(ω) [f n (ω)] = E ω∼q(ω) pn(ω) q(ω) f n (ω) ≈ S s=1 pn(ω) q(ω) fn(ωs) S s=1 pn (ωs) q(ωs ) , where ω 1 , . . . , ω S ∼ q(ω). Vanilla RFA amounts to constructing the SNIS estimation with q(ω) = N (ω; 0, I).",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "This view can also be interpreted as self‑normalized importance sampling, where the proposal distribution is the standard normal \\mathcal N(0,I) and the estimator uses the same set of samples for every query–key pair.",
+    "sources": [
+     1,
+     5
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "partial",
+      "lexical": 0.286,
+      "semantic": 0.749,
+      "evidence": "It is recently generalized as a self-normalized importance sampling estimator to approximate softmax attention (Zheng et al., 2022b) , as described in §2.2.",
+      "missing_numbers": []
+     },
+     {
+      "source": 5,
+      "status": "partial",
+      "lexical": 0.429,
+      "semantic": 0.775,
+      "evidence": "Random-Feature-based Attention (RFA) methods (Choromanski et al., 2021; Peng et al., 2021b) can be interpreted as performing self-normalized importance sampling (SNIS; Hesterberg, 1995) to approximate Equation 2 (Zheng et al., 2022b) . In SNIS, one draws Monte Carlo samples from some proposal distribution q(ω) instead of the true distribution p n (ω) and estimates the target expectation as E ω∼pn(ω) [f n (ω)] = E ω∼q(ω) pn(ω) q(ω) f n (ω) ≈ S s=1 pn(ω) q(ω) fn(ωs) S s=1 pn (ωs) q(ωs )",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1,
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 0,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 2,
+   "supported": 0,
+   "partial": 2,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 0.5,
+   "declined": false,
+   "verdict": "weakly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 26,
+  "generation_ms": 2037,
+  "verification_ms": 1339,
+  "total_ms": 3403
+ },
+ "hits": [
+  {
+   "text": "Vanilla random feature attention methods, such as Performer (Choromanski et al., 2021; Peng et al., 2021b) , seek to approximate the softmax attention mechanism through random features (Rahimi & Recht, 2008) φ(x, ω) := 1/ √ S[ξ(x, ω 1 ), . . . , ξ(x, ω S )] . Here, ω 1 , . . . , ω S ∼ N (0, I), and ξ(x, ω) is the randomized mapping such that exp q n k m = E ωs∼N (0,I) ξ(q n , ω s ) ξ(k m , ω s ) . (17) Therefore, we can draw multiple Monte Carlo samples to estimate the exponential kernel, and then approximate the attention mechanism as It is recently generalized as a self-normalized importance sampling estimator to approximate softmax attention (Zheng et al., 2022b) , as described in §2.2. We refer the generalized random feature based approximations as RFA.",
+   "meta": {
+    "domain": "efficient_attention",
+    "paper_title": "Efficient Attention via Control Variates",
+    "section_type": "method",
+    "published": "2023-02-09",
+    "section_title": "A A BRIEF REVIEW OF VANILLA RANDOM FEATURE ATTENTION",
+    "n_words": 148,
+    "section_type_inherited": false,
+    "arxiv_id": "2302.04542v1",
+    "sentences_json": "[\"Vanilla random feature attention methods, such as Performer (Choromanski et al., 2021; Peng et al., 2021b) , seek to approximate the softmax attention mechanism through random features (Rahimi & Recht, 2008) φ(x, ω) := 1/ √ S[ξ(x, ω 1 ), . . .\", \", ξ(x, ω S )] .\", \"Here, ω 1 , . . .\", \", ω S ∼ N (0, I), and ξ(x, ω) is the randomized mapping such that exp q n k m = E ωs∼N (0,I) ξ(q n , ω s ) ξ(k m , ω s ) .\", \"(17)\", \"Therefore, we can draw multiple Monte Carlo samples to estimate the exponential kernel,\", \"and then approximate the attention mechanism as\", \"It is recently generalized as a self-normalized importance sampling estimator to approximate softmax attention (Zheng et al., 2022b) , as described in §2.2.\", \"We refer the generalized random feature based approximations as RFA.\"]"
+   },
+   "similarity": 0.883100152015686,
+   "via": "semantic"
+  },
+  {
+   "text": "Random-feature-based attention (RFA, also known as Performer; Choromanski et al., 2021; Peng et al., 2021b) is an established fast approximation to the conventional softmax attention mechanism (Bahdanau et al., 2014; Vaswani et al., 2017) , which successfully scales Transformer models to processing much longer sequences (Choromanski et al., 2021) . At its core is the usage of random features (RF; Rahimi & Recht, 2008) to linearize the exponential kernel in softmax attention, which reduces the computational cost from quadratic to linear runtime and space complexity. Despite its efficiency, recent studies have pointed out that such approximation suffers from substantial performance degeneration (Xiong et al., 2021a; Zheng et al., 2022b) . In this work, we generalize the formulation of RFA via control variates (Owen, 2013) , which characterizes the approximation gap between RFA and softmax attention in theory. We first show that RFA can be decomposed from a global approximation over the whole sequence into a sum of local control variate estimators, each of which is applied to an individual element in the sequence. Under this formulation, RFA is equivalent to employing the same coefficient for all control variate estimators to scale their variance isotropically ( §3.1).",
+   "meta": {
+    "published": "2023-02-09",
+    "n_words": 196,
+    "section_title": "INTRODUCTION",
+    "sentences_json": "[\"Random-feature-based attention (RFA, also known as Performer; Choromanski et al., 2021; Peng et al., 2021b) is an established fast approximation to the conventional softmax attention mechanism (Bahdanau et al., 2014; Vaswani et al., 2017) , which successfully scales Transformer models to processing much longer sequences (Choromanski et al., 2021) .\", \"At its core is the usage of random features (RF; Rahimi & Recht, 2008) to linearize the exponential kernel in softmax attention, which reduces the computational cost from quadratic to linear runtime and space complexity.\", \"Despite its efficiency, recent studies have pointed out that such approximation suffers from substantial performance degeneration (Xiong et al., 2021a; Zheng et al., 2022b) .\", \"In this work, we generalize the formulation of RFA via control variates (Owen, 2013) , which characterizes the approximation gap between RFA and softmax attention in theory.\", \"We first show that RFA can be decomposed from a global approximation over the whole sequence into a sum of local control variate estimators, each of which is applied to an individual element in the sequence.\", \"Under this formulation, RFA is equivalent to employing the same coefficient for all control variate estimators to scale their variance isotropically ( §3.1).\"]",
+    "arxiv_id": "2302.04542v1",
+    "section_type": "introduction",
+    "section_type_inherited": false,
+    "paper_title": "Efficient Attention via Control Variates",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.8339540362358093,
+   "via": "semantic"
+  },
+  {
+   "text": "Recent work attempts to improve RFA approximation from several aspects, such as designing more accurate random feature maps (Choromanski et al., 2022; Likhosherstov et al., 2022; Chowdhury et al., 2022) , incorporating relative positional or other task-specific biases (Liutkus et al., 2021; Luo et al., 2021; Chen, 2021; Zheng et al., 2022a; Qin et al., 2022b; Wu et al., 2022; Qin et al., 2022a) , or leveraging connections to fast weight programmers (Peng et al., 2021b; Schlag et al., 2021; Irie et al., 2021) . Prior work closely related to ours includes Zheng et al. (2022b) , which reinterprets RFA using self-normalized importance sampling (Hesterberg, 1995) and theoretically extends the random feature approximation from individual exponential kernels to the whole softmax attention. Our work further generalizes this result via control variates and characterizes the approximation gap caused by RFA. Scatterbrain (Chen et al., 2021a) is also similar to our work in that it also refines RF approximation on critical local regions. However, it is developed based on a different motivation that attempts to approximate the attention matrix with a combination of sparse and low-rank matrices. Interestingly, we find that Scatterbrain can be cast as a special case under our framework; see Appendix G for a detailed discussion about connections between EVA and previous attention mechanisms.",
+   "meta": {
+    "arxiv_id": "2302.04542v1",
+    "n_words": 215,
+    "section_type": "related_work",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "section_title": "RELATED WORK",
+    "paper_title": "Efficient Attention via Control Variates",
+    "sentences_json": "[\"Recent work attempts to improve RFA approximation from several aspects, such as designing more accurate random feature maps (Choromanski et al., 2022; Likhosherstov et al., 2022; Chowdhury et al., 2022) , incorporating relative positional or other task-specific biases (Liutkus et al., 2021; Luo et al., 2021; Chen, 2021; Zheng et al., 2022a; Qin et al., 2022b; Wu et al., 2022; Qin et al., 2022a) , or leveraging connections to fast weight programmers (Peng et al., 2021b; Schlag et al., 2021; Irie et al., 2021) .\", \"Prior work closely related to ours includes Zheng et al. (2022b) , which reinterprets RFA using self-normalized importance sampling (Hesterberg, 1995) and theoretically extends the random feature approximation from individual exponential kernels to the whole softmax attention.\", \"Our work further generalizes this result via control variates and characterizes the approximation gap caused by RFA.\", \"Scatterbrain (Chen et al., 2021a) is also similar to our work in that it also refines RF approximation on critical local regions.\", \"However, it is developed based on a different motivation that attempts to approximate the attention matrix with a combination of sparse and low-rank matrices.\", \"Interestingly, we find that Scatterbrain can be cast as a special case under our framework; see Appendix G for a detailed discussion about connections between EVA and previous attention mechanisms.\"]",
+    "published": "2023-02-09"
+   },
+   "similarity": 0.826751172542572,
+   "via": "semantic"
+  },
+  {
+   "text": "Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix. In this way, softmax attention can be computed in linear memory complexity, and the runtime can also be greatly improved by further minimizing memory accesses (Dao et al., 2022) . Random-Feature-based Attention. Random-feature-based methods are a popular alternative that uses random features (Rahimi & Recht, 2008) to linearize exponential kernels in softmax attention (Katharopoulos et al., 2020; Choromanski et al., 2021; Peng et al., 2021b) . Recent work attempts to improve RFA approximation from several aspects, such as designing more accurate random feature maps (Choromanski et al., 2022; Likhosherstov et al., 2022; Chowdhury et al., 2022) , incorporating relative positional or other task-specific biases (Liutkus et al., 2021; Luo et al., 2021; Chen, 2021; Zheng et al., 2022a; Qin et al., 2022b; Wu et al., 2022; Qin et al., 2022a) , or leveraging connections to fast weight programmers (Peng et al., 2021b; Schlag et al., 2021; Irie et al., 2021) .",
+   "meta": {
+    "sentences_json": "[\"Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix.\", \"In this way, softmax attention can be computed in linear memory complexity, and the runtime can also be greatly improved by further minimizing memory accesses (Dao et al., 2022) .\", \"Random-Feature-based Attention.\", \"Random-feature-based methods are a popular alternative that uses random features (Rahimi & Recht, 2008) to linearize exponential kernels in softmax attention (Katharopoulos et al., 2020; Choromanski et al., 2021; Peng et al., 2021b) .\", \"Recent work attempts to improve RFA approximation from several aspects, such as designing more accurate random feature maps (Choromanski et al., 2022; Likhosherstov et al., 2022; Chowdhury et al., 2022) , incorporating relative positional or other task-specific biases (Liutkus et al., 2021; Luo et al., 2021; Chen, 2021; Zheng et al., 2022a; Qin et al., 2022b; Wu et al., 2022; Qin et al., 2022a) , or leveraging connections to fast weight programmers (Peng et al., 2021b; Schlag et al., 2021; Irie et al., 2021) .\"]",
+    "paper_title": "Efficient Attention via Control Variates",
+    "arxiv_id": "2302.04542v1",
+    "published": "2023-02-09",
+    "domain": "efficient_attention",
+    "n_words": 190,
+    "section_title": "RELATED WORK",
+    "section_type_inherited": false,
+    "section_type": "related_work"
+   },
+   "similarity": 0.8226163387298584,
+   "via": "semantic"
+  },
+  {
+   "text": "Recently, Zheng et al. (2022b) identifies that softmax attention (Equation 1 ) can be written as an expectation over an attention-like aggregating function, where , p n (ω) := N (ω; 0, I) Here ξ(•, •) is the randomized mapping defined in such a way that exp q n k m = E ω∼N (0,I) ξ(q n , ω) ξ(k m , ω) , and Z = M m=1 exp q n k m denotes the normalizing constant of distribution p n . Throughout this paper, we consider the positive randomized mapping ξ(x, ω) = exp ω x -1 2 x 2 (Choromanski et al., 2021) unless otherwise specified. Random-Feature-based Attention (RFA) methods (Choromanski et al., 2021; Peng et al., 2021b) can be interpreted as performing self-normalized importance sampling (SNIS; Hesterberg, 1995) to approximate Equation 2 (Zheng et al., 2022b) . In SNIS, one draws Monte Carlo samples from some proposal distribution q(ω) instead of the true distribution p n (ω) and estimates the target expectation as E ω∼pn(ω) [f n (ω)] = E ω∼q(ω) pn(ω) q(ω) f n (ω) ≈ S s=1 pn(ω) q(ω) fn(ωs) S s=1 pn (ωs) q(ωs ) , where ω 1 , . . . , ω S ∼ q(ω). Vanilla RFA amounts to constructing the SNIS estimation with q(ω) = N (ω; 0, I).",
+   "meta": {
+    "paper_title": "Efficient Attention via Control Variates",
+    "published": "2023-02-09",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Recently, Zheng et al. (2022b) identifies that softmax attention (Equation 1 ) can be written as an expectation over an attention-like aggregating function,\", \"where\", \", p n (ω) := N (ω; 0, I)\", \"Here ξ(•, •) is the randomized mapping defined in such a way that exp q n k m = E ω∼N (0,I) ξ(q n , ω) ξ(k m , ω) , and Z = M m=1 exp q n k m denotes the normalizing constant of distribution p n .\", \"Throughout this paper, we consider the positive randomized mapping ξ(x, ω) = exp ω x -1 2 x 2 (Choromanski et al., 2021) unless otherwise specified.\", \"Random-Feature-based Attention (RFA) methods (Choromanski et al., 2021; Peng et al., 2021b) can be interpreted as performing self-normalized importance sampling (SNIS; Hesterberg, 1995) to approximate Equation 2 (Zheng et al., 2022b) .\", \"In SNIS, one draws Monte Carlo samples from some proposal distribution q(ω) instead of the true distribution p n (ω) and estimates the target expectation as E ω∼pn(ω) [f n (ω)] = E ω∼q(ω) pn(ω) q(ω) f n (ω) ≈ S s=1 pn(ω) q(ω) fn(ωs) S s=1 pn (ωs) q(ωs )\", \", where ω 1 , . . .\", \", ω S ∼ q(ω).\", \"Vanilla RFA amounts to constructing the SNIS estimation with q(ω) = N (ω; 0, I).\"]",
+    "section_title": "RANDOM-FEATURE-BASED ATTENTION WITH SELF-NORMALIZED IMPORTANCE SAMPLING",
+    "n_words": 220,
+    "arxiv_id": "2302.04542v1",
+    "section_type": "method",
+    "section_type_inherited": false
+   },
+   "similarity": 0.8188150525093079,
+   "via": "semantic"
+  }
+ ]
+}

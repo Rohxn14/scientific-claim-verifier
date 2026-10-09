@@ -1,0 +1,388 @@
+{
+ "query": "how does FLASH-D hide the softmax division inside FlashAttention",
+ "expected_arxiv_id": "2505.14201",
+ "category": "factual",
+ "set": "extra",
+ "answer": "FLASH‑D eliminates the explicit soft‑max division by **embedding it inside the sigmoid non‑linear function that computes each attention weight**.  \n\n* The method starts from the baseline FlashAttention formulation, where the softmax division is performed incrementally during output accumulation, and from FlashAttention2, which postpones that division to the end of the computation【Source 5】.  \n* FLASH‑D rewrites the algorithm so that the division is **hidden inside the evaluation of a sigmoid** (the “hidden softmax division”), preserving numerical stability while removing the need for a separate division step【Source 1】.  \n* In hardware, this means that the **running sum‑of‑exponents ℓᵢ and the maximum attention score mᵢ used in FlashAttention2 are no longer computed explicitly**; ℓᵢ is implicitly incorporated into each weight’s computation, and mᵢ is unnecessary because the attention‑score differences are kept within the sigmoid’s stable region (‑6 to 11)【Source 3】.  \n* Consequently, the output‑computation module of FLASH‑D requires only **one vector adder, one subtractor and one multiplier**, instead of the two multipliers and one adder needed by FlashAttention2, reflecting the removal of the explicit division operation【Source 3】.  \n\nThus, FLASH‑D “hides” the softmax division by reformulating the weight computation so that the division is performed implicitly inside the sigmoid, eliminating separate division, sum‑of‑exponents, and max‑value calculations while retaining exact numerical results【Source 2】.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does FLASH-D hide the softmax division inside FlashAttention",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2505.14201v1",
+   "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+   "year": "2025",
+   "section": "IV. HARDWARE ARCHITECTURE OF FLASH-D",
+   "section_type": "method",
+   "similarity": 0.8534,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Flash-D preserves all the characteristics of FlashAttention variants while embedding the softmax division within the sigmoid non-linear function, ensuring numerical stability is maintained. This transformation greatly simplifies the hardware implementation of FLASH-D.",
+   "url": "https://arxiv.org/abs/2505.14201v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2505.14201v1",
+   "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+   "year": "2025",
+   "section": "VI. CONCLUSIONS",
+   "section_type": "conclusion",
+   "similarity": 0.8108,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In this work, our target was to simplify the computational kernel of FlashAttention by hiding softmax division inside sigmoid non-linear function evaluation and reduce unnecessary multiplications in output computation. This reformulation achieved these goals without compromising numerical stability and without negatively affecting the favorable IO and memoryaccess properties of FlashAttention algorithm. The proposed approach reduces the area and power of the hardware computational kernel by 22.8% and 20.3%, on average, respectively, when compared to the parallel hardware implementation of FlashAttention2 state-of-the-art algorithm. Any other approach that simplifies attention mechanism is orthogonal to FLASH-D and can be applied for increasing efficiency further.",
+   "url": "https://arxiv.org/abs/2505.14201v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2505.14201v1",
+   "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+   "year": "2025",
+   "section": "A. Overall Organization",
+   "section_type": "method",
+   "similarity": 0.7949,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ). Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors. The primary differences lie in three key areas. First, the division at the output of FlashAttention2 kernel is not required in Flash-D. While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector. Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed. Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed. Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+   "url": "https://arxiv.org/abs/2505.14201v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "14:",
+   "section_type": "method",
+   "similarity": 0.7944,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "end for 15: end for 16: Return O. We show FlashAttention's correctness, runtime, and memory requirement (proof in Appendix C). Theorem 1. Algorithm 1 returns O = softmax(QK )V with ( 2 ) FLOPs and requires () additional memory beyond inputs and output.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 5,
+   "paper_id": "2505.14201v1",
+   "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+   "year": "2025",
+   "section": "III. FLASHATTENTION WITH HIDDEN SOFTMAX DIVISION",
+   "section_type": "method",
+   "similarity": 0.7895,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The two algorithmic variants of FlashAttention perform identical computations. Their sole difference lies in the timing of the softmax division. In baseline FlashAttention, the division is executed incrementally during output accumulation, whereas in FlashAttention2, it is rescheduled to the end of the computation. In this work, we aim at rewriting baseline FlashAttention to effectively hide the softmax division within non-linear function evaluations, without resorting to any approximations. By doing so, we intend to introduce a novel, yet equivalent, algorithmic variant of FlashAttention that facilitates energyefficient hardware accelerators. We accomplish this transformation in two steps.",
+   "url": "https://arxiv.org/abs/2505.14201v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Prompt:",
+   "section_type": "introduction",
+   "similarity": 0.6668,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase. Sparse Attention. The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference. To make matters worse, the key and value matrices consume large GPU memory space. The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference. The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] . For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation. The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp. values) in key matrix (resp. value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) . Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Experimental Setup",
+   "section_type": "results",
+   "similarity": 0.7454,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements. All baselines are evaluated against llama.cpp 3 .",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Tier-Gated Compaction",
+   "section_type": "introduction",
+   "similarity": 0.6588,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Predictive pressure selects a discrete compaction tier by three fixed thresholds: 0.00 ≤ P < 0.60 : Normal, 0.60 ≤ P < 0.75 : TrimSchemas, 0.75 ≤ P < 0.90 : CompactHistory, 0.90 ≤ P : AggressivePrune. The tier is selected from both raw and predictive pressure and the more aggressive of the two is taken, so prediction may only escalate the tier, never relax it (select tier gated). A non-empty RecoveryState (e.g., a recent prompt too long) escalates the tier further still. This monotone, escalate-only rule prevents the oscillation an averaging estimator would produce on longtailed coding turns. Each tier unlocks a specific transform, and each transform is additionally guarded by a boolean in Optimize-Limits: • Normal: no compaction. • TrimSchemas: prune tool schemas that the turn is unlikely to use. • CompactHistory: clear the oldest tool results, replacing each with a provider-shaped placeholder, under a max clear tokens circuit breaker that caps how much can be cleared in one turn; spill oversized results to disk (Section 3.5). • AggressivePrune: in addition, drop the oldest whole conversation rounds, with the drop fraction scaling with pressure and a floor of at least four droppable rounds before any drop occurs. System messages are never dropped.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "The method starts from the baseline FlashAttention formulation, where the softmax division is performed incrementally during output accumulation, and from FlashAttention2, which postpones that division to the end of the computation.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.706,
+      "semantic": 0.85,
+      "evidence": "In baseline FlashAttention, the division is executed incrementally during output accumulation, whereas in FlashAttention2, it is rescheduled to the end of the computation.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "FLASH‑D rewrites the algorithm so that the division is hidden inside the evaluation of a sigmoid (the “hidden softmax division”), preserving numerical stability while removing the need for a separate division step.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.5,
+      "semantic": 0.839,
+      "evidence": "Flash-D preserves all the characteristics of FlashAttention variants while embedding the softmax division within the sigmoid non-linear function, ensuring numerical stability is maintained.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "In hardware, this means that the running sum‑of‑exponents ℓᵢ and the maximum attention score mᵢ used in FlashAttention2 are no longer computed explicitly; ℓᵢ is implicitly incorporated into each weight’s computation, and mᵢ is unnecessary because the attention‑score differences are kept within the sigmoid’s stable region (‑6 to 11).",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.786,
+      "semantic": 0.873,
+      "evidence": "Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Consequently, the output‑computation module of FLASH‑D requires only one vector adder, one subtractor and one multiplier, instead of the two multipliers and one adder needed by FlashAttention2, reflecting the removal of the explicit division operation.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.727,
+      "semantic": 0.898,
+      "evidence": "Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Thus, FLASH‑D “hides” the softmax division by reformulating the weight computation so that the division is performed implicitly inside the sigmoid, eliminating separate division, sum‑of‑exponents, and max‑value calculations while retaining exact numerical results.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.304,
+      "semantic": 0.835,
+      "evidence": "In this work, our target was to simplify the computational kernel of FlashAttention by hiding softmax division inside sigmoid non-linear function evaluation and reduce unnecessary multiplications in output computation.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     2
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 5,
+   "claims_supported": 5,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 5,
+   "supported": 5,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 1,
+   "score": 1.0,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 70,
+  "generation_ms": 1907,
+  "verification_ms": 1441,
+  "total_ms": 3419
+ },
+ "hits": [
+  {
+   "text": "Flash-D preserves all the characteristics of FlashAttention variants while embedding the softmax division within the sigmoid non-linear function, ensuring numerical stability is maintained. This transformation greatly simplifies the hardware implementation of FLASH-D.",
+   "meta": {
+    "n_words": 32,
+    "domain": "efficient_attention",
+    "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "section_type": "method",
+    "section_type_inherited": false,
+    "published": "2025-05-20",
+    "arxiv_id": "2505.14201v1",
+    "sentences_json": "[\"Flash-D preserves all the characteristics of FlashAttention variants while embedding the softmax division within the sigmoid non-linear function, ensuring numerical stability is maintained.\", \"This transformation greatly simplifies the hardware implementation of FLASH-D.\"]",
+    "section_title": "IV. HARDWARE ARCHITECTURE OF FLASH-D"
+   },
+   "similarity": 0.8534237146377563,
+   "via": "semantic"
+  },
+  {
+   "text": "In this work, our target was to simplify the computational kernel of FlashAttention by hiding softmax division inside sigmoid non-linear function evaluation and reduce unnecessary multiplications in output computation. This reformulation achieved these goals without compromising numerical stability and without negatively affecting the favorable IO and memoryaccess properties of FlashAttention algorithm. The proposed approach reduces the area and power of the hardware computational kernel by 22.8% and 20.3%, on average, respectively, when compared to the parallel hardware implementation of FlashAttention2 state-of-the-art algorithm. Any other approach that simplifies attention mechanism is orthogonal to FLASH-D and can be applied for increasing efficiency further.",
+   "meta": {
+    "sentences_json": "[\"In this work, our target was to simplify the computational kernel of FlashAttention by hiding softmax division inside sigmoid non-linear function evaluation and reduce unnecessary multiplications in output computation.\", \"This reformulation achieved these goals without compromising numerical stability and without negatively affecting the favorable IO and memoryaccess properties of FlashAttention algorithm.\", \"The proposed approach reduces the area and power of the hardware computational kernel by 22.8% and 20.3%, on average, respectively, when compared to the parallel hardware implementation of FlashAttention2 state-of-the-art algorithm.\", \"Any other approach that simplifies attention mechanism is orthogonal to FLASH-D and can be applied for increasing efficiency further.\"]",
+    "section_type": "conclusion",
+    "section_title": "VI. CONCLUSIONS",
+    "n_words": 101,
+    "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "section_type_inherited": false,
+    "arxiv_id": "2505.14201v1",
+    "published": "2025-05-20",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.8108094334602356,
+   "via": "semantic"
+  },
+  {
+   "text": "As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ). Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors. The primary differences lie in three key areas. First, the division at the output of FlashAttention2 kernel is not required in Flash-D. While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector. Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated. The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed. Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed. Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.",
+   "meta": {
+    "published": "2025-05-20",
+    "section_title": "A. Overall Organization",
+    "n_words": 207,
+    "section_type_inherited": true,
+    "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "section_type": "method",
+    "sentences_json": "[\"As illustrated in Fig. 3 , the hardware design of FLASH-D follows the same overall architecture of FlashAttention2 (Fig. 1 ).\", \"Both approaches share the same dataflow, processing multiple query vectors in parallel in an unrolled manner, driven by the same key and value vectors.\", \"The primary differences lie in three key areas.\", \"First, the division at the output of FlashAttention2 kernel is not required in Flash-D.\", \"While division is neither removed nor approximated, it is implemented incrementally during the computation of each weight w i for each query vector.\", \"Second, the running sum-of-exponents ℓ i and the maximum attention score m i used in FlashAttention2, as shown in Fig. 1 , are eliminated.\", \"The running sum-of-exponents ℓ i is implicitly embedded in the computation of each weight (see Eq. ( 3 )), so it does not need to be explicitly computed.\", \"Additionally, the maximum value is no longer necessary, as numerical stability is maintained by ensuring that the attention score difference remains within the active region of [-6,11] , where the sigmoid function can be effectively computed.\", \"Third, the output computation module in the FLASH-D hardware requires one vector adder, one subtractor, and one multiplier, compared to the two multipliers and one adder found in FlashAttention2.\"]",
+    "arxiv_id": "2505.14201v1",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7949123978614807,
+   "via": "semantic"
+  },
+  {
+   "text": "end for 15: end for 16: Return O. We show FlashAttention's correctness, runtime, and memory requirement (proof in Appendix C). Theorem 1. Algorithm 1 returns O = softmax(QK )V with ( 2 ) FLOPs and requires () additional memory beyond inputs and output.",
+   "meta": {
+    "arxiv_id": "2205.14135v2",
+    "published": "2022-05-27",
+    "section_type_inherited": true,
+    "section_title": "14:",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "section_type": "method",
+    "n_words": 43,
+    "sentences_json": "[\"end for 15: end for 16: Return O.\", \"We show FlashAttention's correctness, runtime, and memory requirement (proof in Appendix C).\", \"Theorem 1. Algorithm 1 returns O = softmax(QK )V with ( 2 ) FLOPs and requires () additional memory beyond inputs and output.\"]",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7943628430366516,
+   "via": "semantic"
+  },
+  {
+   "text": "The two algorithmic variants of FlashAttention perform identical computations. Their sole difference lies in the timing of the softmax division. In baseline FlashAttention, the division is executed incrementally during output accumulation, whereas in FlashAttention2, it is rescheduled to the end of the computation. In this work, we aim at rewriting baseline FlashAttention to effectively hide the softmax division within non-linear function evaluations, without resorting to any approximations. By doing so, we intend to introduce a novel, yet equivalent, algorithmic variant of FlashAttention that facilitates energyefficient hardware accelerators. We accomplish this transformation in two steps.",
+   "meta": {
+    "arxiv_id": "2505.14201v1",
+    "n_words": 94,
+    "sentences_json": "[\"The two algorithmic variants of FlashAttention perform identical computations.\", \"Their sole difference lies in the timing of the softmax division.\", \"In baseline FlashAttention, the division is executed incrementally during output accumulation, whereas in FlashAttention2, it is rescheduled to the end of the computation.\", \"In this work, we aim at rewriting baseline FlashAttention to effectively hide the softmax division within non-linear function evaluations, without resorting to any approximations.\", \"By doing so, we intend to introduce a novel, yet equivalent, algorithmic variant of FlashAttention that facilitates energyefficient hardware accelerators.\", \"We accomplish this transformation in two steps.\"]",
+    "published": "2025-05-20",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "paper_title": "FLASH-D: FlashAttention with Hidden Softmax Division",
+    "section_type": "method",
+    "section_title": "III. FLASHATTENTION WITH HIDDEN SOFTMAX DIVISION"
+   },
+   "similarity": 0.7895158529281616,
+   "via": "semantic"
+  },
+  {
+   "text": "The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase. Sparse Attention. The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference. To make matters worse, the key and value matrices consume large GPU memory space. The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference. The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] . For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation. The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp. values) in key matrix (resp. value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) . Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.",
+   "meta": {
+    "section_title": "Prompt:",
+    "section_type_inherited": true,
+    "n_words": 210,
+    "sentences_json": "[\"The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase.\", \"Sparse Attention.\", \"The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference.\", \"To make matters worse, the key and value matrices consume large GPU memory space.\", \"The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference.\", \"The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] .\", \"For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation.\", \"The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp.\", \"values) in key matrix (resp.\", \"value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) .\", \"Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.\"]",
+    "arxiv_id": "2504.10326v1",
+    "domain": "efficient_attention",
+    "section_type": "introduction",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "published": "2025-04-14"
+   },
+   "similarity": 0.6667702794075012,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements. All baselines are evaluated against llama.cpp 3 .",
+   "meta": {
+    "section_title": "Experimental Setup",
+    "published": "2026-08-19",
+    "sentences_json": "[\"When reporting FlashAttention performance, we report results for the attention module only; preprocessing and feed-forward modules are excluded from these measurements.\", \"All baselines are evaluated against llama.cpp 3 .\"]",
+    "n_words": 29,
+    "section_type_inherited": false,
+    "arxiv_id": "2608.18656v1",
+    "section_type": "results",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7454482913017273,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Predictive pressure selects a discrete compaction tier by three fixed thresholds: 0.00 ≤ P < 0.60 : Normal, 0.60 ≤ P < 0.75 : TrimSchemas, 0.75 ≤ P < 0.90 : CompactHistory, 0.90 ≤ P : AggressivePrune. The tier is selected from both raw and predictive pressure and the more aggressive of the two is taken, so prediction may only escalate the tier, never relax it (select tier gated). A non-empty RecoveryState (e.g., a recent prompt too long) escalates the tier further still. This monotone, escalate-only rule prevents the oscillation an averaging estimator would produce on longtailed coding turns. Each tier unlocks a specific transform, and each transform is additionally guarded by a boolean in Optimize-Limits: • Normal: no compaction. • TrimSchemas: prune tool schemas that the turn is unlikely to use. • CompactHistory: clear the oldest tool results, replacing each with a provider-shaped placeholder, under a max clear tokens circuit breaker that caps how much can be cleared in one turn; spill oversized results to disk (Section 3.5). • AggressivePrune: in addition, drop the oldest whole conversation rounds, with the drop fraction scaling with pressure and a floor of at least four droppable rounds before any drop occurs. System messages are never dropped.",
+   "meta": {
+    "section_title": "Tier-Gated Compaction",
+    "domain": "efficient_attention",
+    "arxiv_id": "2609.00749v1",
+    "section_type": "introduction",
+    "n_words": 204,
+    "section_type_inherited": true,
+    "published": "2026-09-01",
+    "sentences_json": "[\"Predictive pressure selects a discrete compaction tier by three fixed thresholds: 0.00 ≤ P < 0.60 : Normal, 0.60 ≤ P < 0.75 : TrimSchemas, 0.75 ≤ P < 0.90 : CompactHistory, 0.90 ≤ P : AggressivePrune.\", \"The tier is selected from both raw and predictive pressure and the more aggressive of the two is taken, so prediction may only escalate the tier, never relax it (select tier gated).\", \"A non-empty RecoveryState (e.g., a recent prompt too long) escalates the tier further still.\", \"This monotone, escalate-only rule prevents the oscillation an averaging estimator would produce on longtailed coding turns.\", \"Each tier unlocks a specific transform, and each transform is additionally guarded by a boolean in Optimize-Limits:\", \"• Normal: no compaction.\", \"• TrimSchemas: prune tool schemas that the turn is unlikely to use.\", \"• CompactHistory: clear the oldest tool results, replacing each with a provider-shaped placeholder, under a max clear tokens circuit breaker that caps how much can be cleared in one turn; spill oversized results to disk (Section 3.5).\", \"• AggressivePrune: in addition, drop the oldest whole conversation rounds, with the drop fraction scaling with pressure and a floor of at least four droppable rounds before any drop occurs.\", \"System messages are never dropped.\"]",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents"
+   },
+   "similarity": 0.6587787866592407,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

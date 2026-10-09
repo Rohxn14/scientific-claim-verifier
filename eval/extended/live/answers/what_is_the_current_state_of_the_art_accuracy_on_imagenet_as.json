@@ -1,0 +1,209 @@
+{
+ "query": "what is the current state-of-the-art accuracy on ImageNet as of 2026",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "harness",
+ "answer": "The provided excerpts do not contain a numeric value for the latest ImageNet top‑1 accuracy achieved by any model as of 2026.  \n\n- The papers on Dilated Neighborhood Attention Transformers (DiNAT) mention that the large variant “can successfully outperform Swin‑Large and match ConvNeXt‑Large's accuracy at 224² resolution” and “exceeds its Swin counterpart's reported accuracy at 384² resolution,” but they do not state the exact percentage [Source 4].  \n- No other source gives a concrete top‑1 or top‑5 accuracy figure for ImageNet in 2026.  \n\nTherefore, the current state‑of‑the‑art ImageNet accuracy cannot be reported from the supplied material; the necessary numeric results are missing.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what is the current state-of-the-art accuracy on ImageNet as of 2026",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Method",
+   "section_type": "method",
+   "similarity": 0.7212,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Test time dilation change and its impact on performance. Dilation values larger than 8, 4, 2, 1 are inapplicable to ImageNet at 224 2 .",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 2,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "ImageNet 64 × 64",
+   "section_type": "results",
+   "similarity": 0.7128,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In order to evaluate the ability of our model to capture long term dependencies on a modality other than text, we report results on the ImageNet 64×64 data-set as used in Child et al. (2019) . For autoregressive image generation, this data-set consists of images of 64 × 64 × 3 bytes represented as long sequences of length 12, 288 presented in raster scan, red-green-blue order. We train a 24 layer model with 16 attention heads, with half the heads performing local attention, and the other half routing attention as in Section 3. For routing attention we set k = 8, attention window 2048, batch size 1 and train our model for roughly 70 epochs as in Child et al. (2019) . We compare our model to a scaledup ImageTransformer model with local attention (Parmar et al., 2018) and the SparseTransformer model of Child et al. (2019) . We find that local attention (Parmar et al., 2018 ) is a strong baseline for image generation, obtaining 3.48 bits/dim when scaled up to 24 layers and 16 heads, compared to later work like Sub-scale Pixel Networks (SPN) (Menick and Kalchbrenner, 2018) .",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 3,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Semantic Segmentation",
+   "section_type": "results",
+   "similarity": 0.7064,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We also trained UPerNet [48] with our DiNAT as the backbone on ADE20K [55] , with ImageNet-pre-trained backbones. We followed NAT's mmsegmentation [7] (Apache License v2) configurations, itself following Swin's configuration for training ADE20K. The results are presented in Tab. 8. We find that DiNAT exhibits a noticeable improvement over the original NAT model. DiNAT also maintains its place ahead of both models at scale with ImageNet-22K pre-training. † indicates increased window size from the default 7 2 to 12 2 . Throughput is measured on a single NVIDIA A100 GPU.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 4,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Method",
+   "section_type": "method",
+   "similarity": 0.7051,
+   "via": "semantic",
+   "linked_from": null,
+   "text": ". Models trained practice with each method's available implementation. This is especially important in this case because NA and DiNA are based on from scratch implementations of the algorithms (N AT T EN ), and are not as well-optimized as ConvNeXt or Swin, which mostly run on native NVIDIA libraries designed for optimal throughput. We pre-trained our Large variant on ImageNet-22K, and fine-tuned it to ImageNet-1K at both 224 2 and 384 2 resolutions. We found that our large variant can successfully outperform Swin-Large and match ConvNeXt-Large's accuracy at 224 2 resolution. At 384 2 , our large variant exceeds its Swin counterpart's reported accuracy without increasing its kernel size from 7 2 to 12 2 .",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2402.04563v1",
+   "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+   "year": "2024",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.7037,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Figure 5: The heatmaps on ImageNet ILSVRC 2012, Pascal VOC 2012, and CUB 200 dataset generated by each of the methods. The first images in each dataset demonstrate the peak intensities generated on a homogeneous non-object background in Attention Rollout and LRP-based method and the reduced peak intensities in our method. The second and third images in ILSVRC 2012 and PASCAL VOC show the localization performance of each method on single-instance and multiple-instance images, respectively. CUB200 consists of single-instance images only and its second and third images include one object instance per image.",
+   "url": "https://arxiv.org/abs/2402.04563v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "The papers on Dilated Neighborhood Attention Transformers (DiNAT) mention that the large variant “can successfully outperform Swin‑Large and match ConvNeXt‑Large's accuracy at 224² resolution” and “exceeds its Swin counterpart's reported accuracy at 384² resolution,” but they do not state the exact percentage.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.704,
+      "semantic": 0.802,
+      "evidence": "We found that our large variant can successfully outperform Swin-Large and match ConvNeXt-Large's accuracy at 224 2 resolution. At 384 2 , our large variant exceeds its Swin counterpart's reported accuracy without increasing its kernel size from 7 2 to 12 2 .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     4
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 1,
+   "claims_supported": 1,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 1,
+   "supported": 1,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 1.0,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 27,
+  "generation_ms": 1505,
+  "verification_ms": 346,
+  "total_ms": 1878
+ },
+ "hits": [
+  {
+   "text": "Test time dilation change and its impact on performance. Dilation values larger than 8, 4, 2, 1 are inapplicable to ImageNet at 224 2 .",
+   "meta": {
+    "n_words": 25,
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "arxiv_id": "2209.15001v3",
+    "section_type": "method",
+    "section_title": "Untitled",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "sentences_json": "[\"Test time dilation change and its impact on performance.\", \"Dilation values larger than 8, 4, 2, 1 are inapplicable to ImageNet at 224 2 .\"]",
+    "published": "2022-09-29"
+   },
+   "similarity": 0.7212268114089966,
+   "via": "semantic"
+  },
+  {
+   "text": "In order to evaluate the ability of our model to capture long term dependencies on a modality other than text, we report results on the ImageNet 64×64 data-set as used in Child et al. (2019) . For autoregressive image generation, this data-set consists of images of 64 × 64 × 3 bytes represented as long sequences of length 12, 288 presented in raster scan, red-green-blue order. We train a 24 layer model with 16 attention heads, with half the heads performing local attention, and the other half routing attention as in Section 3. For routing attention we set k = 8, attention window 2048, batch size 1 and train our model for roughly 70 epochs as in Child et al. (2019) . We compare our model to a scaledup ImageTransformer model with local attention (Parmar et al., 2018) and the SparseTransformer model of Child et al. (2019) . We find that local attention (Parmar et al., 2018 ) is a strong baseline for image generation, obtaining 3.48 bits/dim when scaled up to 24 layers and 16 heads, compared to later work like Sub-scale Pixel Networks (SPN) (Menick and Kalchbrenner, 2018) .",
+   "meta": {
+    "n_words": 191,
+    "section_type": "results",
+    "section_type_inherited": true,
+    "section_title": "ImageNet 64 × 64",
+    "published": "2020-03-12",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"In order to evaluate the ability of our model to capture long term dependencies on a modality other than text, we report results on the ImageNet 64×64 data-set as used in Child et al. (2019) .\", \"For autoregressive image generation, this data-set consists of images of 64 × 64 × 3 bytes represented as long sequences of length 12, 288 presented in raster scan, red-green-blue order.\", \"We train a 24 layer model with 16 attention heads, with half the heads performing local attention, and the other half routing attention as in Section 3.\", \"For routing attention we set k = 8, attention window 2048, batch size 1 and train our model for roughly 70 epochs as in Child et al. (2019) .\", \"We compare our model to a scaledup ImageTransformer model with local attention (Parmar et al., 2018) and the SparseTransformer model of Child et al. (2019) .\", \"We find that local attention (Parmar et al., 2018 ) is a strong baseline for image generation, obtaining 3.48 bits/dim when scaled up to 24 layers and 16 heads, compared to later work like Sub-scale Pixel Networks (SPN) (Menick and Kalchbrenner, 2018) .\"]",
+    "arxiv_id": "2003.05997v5",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers"
+   },
+   "similarity": 0.7128137350082397,
+   "via": "semantic"
+  },
+  {
+   "text": "We also trained UPerNet [48] with our DiNAT as the backbone on ADE20K [55] , with ImageNet-pre-trained backbones. We followed NAT's mmsegmentation [7] (Apache License v2) configurations, itself following Swin's configuration for training ADE20K. The results are presented in Tab. 8. We find that DiNAT exhibits a noticeable improvement over the original NAT model. DiNAT also maintains its place ahead of both models at scale with ImageNet-22K pre-training. † indicates increased window size from the default 7 2 to 12 2 . Throughput is measured on a single NVIDIA A100 GPU.",
+   "meta": {
+    "domain": "efficient_attention",
+    "section_type": "results",
+    "n_words": 91,
+    "section_title": "Semantic Segmentation",
+    "sentences_json": "[\"We also trained UPerNet [48] with our DiNAT as the backbone on ADE20K [55] , with ImageNet-pre-trained backbones.\", \"We followed NAT's mmsegmentation [7] (Apache License v2) configurations, itself following Swin's configuration for training ADE20K.\", \"The results are presented in Tab. 8. We find that DiNAT exhibits a noticeable improvement over the original NAT model.\", \"DiNAT also maintains its place ahead of both models at scale with ImageNet-22K pre-training.\", \"† indicates increased window size from the default 7 2 to 12 2 .\", \"Throughput is measured on a single NVIDIA A100 GPU.\"]",
+    "arxiv_id": "2209.15001v3",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_type_inherited": true,
+    "published": "2022-09-29"
+   },
+   "similarity": 0.7063579559326172,
+   "via": "semantic"
+  },
+  {
+   "text": ". Models trained practice with each method's available implementation. This is especially important in this case because NA and DiNA are based on from scratch implementations of the algorithms (N AT T EN ), and are not as well-optimized as ConvNeXt or Swin, which mostly run on native NVIDIA libraries designed for optimal throughput. We pre-trained our Large variant on ImageNet-22K, and fine-tuned it to ImageNet-1K at both 224 2 and 384 2 resolutions. We found that our large variant can successfully outperform Swin-Large and match ConvNeXt-Large's accuracy at 224 2 resolution. At 384 2 , our large variant exceeds its Swin counterpart's reported accuracy without increasing its kernel size from 7 2 to 12 2 .",
+   "meta": {
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "n_words": 117,
+    "sentences_json": "[\". Models trained practice with each method's available implementation.\", \"This is especially important in this case because NA and DiNA are based on from scratch implementations of the algorithms (N AT T EN ), and are not as well-optimized as ConvNeXt or Swin, which mostly run on native NVIDIA libraries designed for optimal throughput.\", \"We pre-trained our Large variant on ImageNet-22K, and fine-tuned it to ImageNet-1K at both 224 2 and 384 2 resolutions.\", \"We found that our large variant can successfully outperform Swin-Large and match ConvNeXt-Large's accuracy at 224 2 resolution.\", \"At 384 2 , our large variant exceeds its Swin counterpart's reported accuracy without increasing its kernel size from 7 2 to 12 2 .\"]",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "arxiv_id": "2209.15001v3",
+    "section_title": "Untitled",
+    "section_type": "method",
+    "published": "2022-09-29"
+   },
+   "similarity": 0.7050768136978149,
+   "via": "semantic"
+  },
+  {
+   "text": "Figure 5: The heatmaps on ImageNet ILSVRC 2012, Pascal VOC 2012, and CUB 200 dataset generated by each of the methods. The first images in each dataset demonstrate the peak intensities generated on a homogeneous non-object background in Attention Rollout and LRP-based method and the reduced peak intensities in our method. The second and third images in ILSVRC 2012 and PASCAL VOC show the localization performance of each method on single-instance and multiple-instance images, respectively. CUB200 consists of single-instance images only and its second and third images include one object instance per image.",
+   "meta": {
+    "sentences_json": "[\"Figure 5: The heatmaps on ImageNet ILSVRC 2012, Pascal VOC 2012, and CUB 200 dataset generated by each of the methods.\", \"The first images in each dataset demonstrate the peak intensities generated on a homogeneous non-object background in Attention Rollout and LRP-based method and the reduced peak intensities in our method.\", \"The second and third images in ILSVRC 2012 and PASCAL VOC show the localization performance of each method on single-instance and multiple-instance images, respectively.\", \"CUB200 consists of single-instance images only and its second and third images include one object instance per image.\"]",
+    "section_type": "results",
+    "n_words": 93,
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "published": "2024-02-07",
+    "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+    "section_title": "Untitled",
+    "arxiv_id": "2402.04563v1"
+   },
+   "similarity": 0.7036930918693542,
+   "via": "semantic"
+  }
+ ]
+}

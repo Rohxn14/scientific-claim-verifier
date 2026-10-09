@@ -1,0 +1,411 @@
+{
+ "query": "how does Block Sparse Flash Attention skip computation",
+ "expected_arxiv_id": "2512.07011",
+ "category": "factual",
+ "set": "extra",
+ "answer": "Block‑Sparse FlashAttention reduces work by **not materialising attention for blocks that are known to be irrelevant**.  \nTwo complementary skipping mechanisms are described in the literature:\n\n* **Mask‑driven block skipping** – The algorithm receives a binary block‑sparsity mask  \\(M\\in\\{0,1\\}^{B_Q\\times B_K}\\) that marks which query‑key block pairs may contain non‑zero attention (Source 2).  \n  * The kernel is otherwise identical to the exact FlashAttention implementation; during the tiled QK and PV phases it simply **jumps over any block for which \\(M_{ij}=0\\)**, avoiding the computation of the corresponding dot‑products and the subsequent value‑aggregation (Source 2).  \n  * Because only a fraction \\( \\rho\\) of blocks are kept, the I/O term in the complexity drops from \\(\\Theta(N^2 d)\\) to \\(\\Theta(\\rho N^2 d)\\) (Source 2).\n\n* **PV‑skipping based on negligible scores** – In the 2025 “Block Sparse Flash Attention” paper, the authors observe that after the softmax scaling many blocks receive scores that are effectively zero (the exponential makes them negligible) (Source 4).  \n  * When the running output accumulator satisfies \\(O_{i,j}\\approx O_{i,j-1}\\), the algorithm **omits loading the value block \\(V_j\\) and skips the PV multiplication for that block**, saving memory bandwidth and compute (Source 4).  \n  * The decision which blocks to prune is taken **before softmax**, by selecting the top‑k blocks with the largest pre‑softmax scores (i.e., maximum attention scores within each block) (Source 4).  \n\nThus, Block‑Sparse FlashAttention skips computation either **explicitly via a pre‑defined sparsity mask** (mask‑driven skipping) or **implicitly by detecting blocks whose contribution becomes vanishing after scaling and therefore bypassing the value‑lookup and PV step** (PV‑skipping). Both strategies avoid the \\(O(N^2)\\) work of dense attention while preserving the exact‑attention kernel for the retained blocks.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does Block Sparse Flash Attention skip computation",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2512.07011v1",
+   "paper_title": "Block Sparse Flash Attention",
+   "year": "2025",
+   "section": "FlashAttention-2: Tiled Computation",
+   "section_type": "method",
+   "similarity": 0.8616,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Since FlashAttention processes M Q × M KV total tiles (approximately half for causal attention), and the QK and PV operations equally dominate the computational cost, each contributes roughly 2N 2 d FLOPs to the total complexity. The key limitation is that while FlashAttention optimizes memory access patterns, it still computes the full dense attention, processing all O(N 2 ) interactions. This motivates block-sparse approaches that selectively skip blocks with negligible contribution.",
+   "url": "https://arxiv.org/abs/2512.07011v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Extension: Block-Sparse FlashAttention",
+   "section_type": "method",
+   "similarity": 0.8497,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We extend FlashAttention to approximate attention: we propose block-sparse FlashAttention, whose IO complexity is smaller than FlashAttention by a factor proportional to the sparsity. Given inputs Q, K, V ∈ R × and a mask matrix M ∈ {0, 1} × , we want to compute: where We require M to have block form: for some block sizes , , for all , , M, = M with = / , = / for some M ∈ {0, 1} / × / . Given a predefined block sparsity mask M ∈ {0, 1} / × / we can easily adapt Algorithm 1 to only compute the nonzero blocks of the attention matrix. The algorithm is identical to Algorithm 1, except we skip zero blocks. We reproduce the algorithm description in Algorithm 5 in Appendix B. We also analyze the IO complexity of block-sparse FlashAttention. Proposition 4. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Block-sparse FlashAttention (Algorithm 5) requires Θ( + 2 2 -1 ) HBM accesses where is the fraction of nonzero blocks in the block-sparsity mask. We see that applying block-sparsity yields a direct improvement by the sparsity to the larger term in the IO complexity.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Experiments",
+   "section_type": "results",
+   "similarity": 0.844,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We confirm that runtime of block-sparse FlashAttention scales linearly in seq. length and is faster than all existing approximate attention baselines. Additional experiment details are in Appendix E.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 4,
+   "paper_id": "2512.07011v1",
+   "paper_title": "Block Sparse Flash Attention",
+   "year": "2025",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.8366,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Under these conditions, the contribution of the current block becomes negligible, meaning the output accumulator remains virtually unchanged (O ij ≈ O i,j-1 ). Based on this logic, the method skips loading the value block V j and the subsequent PV computation to save memory bandwidth and compute. This PV-skipping mechanism has a fundamentally different motivation from ours: it targets blocks whose scores become effectively zero after exponential scaling, while our approach directly selects the top-k most important blocks based on their maximum attention scores before softmax normalization. This approach faces several limitations. First, the global filtering stage must commit to pruning decisions based on approximate, compressed scores, potentially missing sparse but critical interactions. Second, the PV-skipping logic relies on comparison with the running maximum, which varies unpredictably across sequences and positions. Most critically, this creates variable sparsity where different query positions and attention heads may process vastly different numbers of V blocks. Since GPU kernel performance is determined by the slowest thread, positions that retain many blocks become bottlenecks, limiting overall speedup. This explains why SpargeAttention often achieves minimal or even negative speedups (0.86-0.99×) in our experiments despite its aggressive optimizations including INT8 quantization. Gating after scoring. Some methods make sparsity decisions after computing attention scores, but still face limitations.",
+   "url": "https://arxiv.org/abs/2512.07011v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8365,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We also show that FlashAttention can serve as a useful primitive for realizing the potential of approximate attention algorithms by overcoming their issues with memory access overhead. As a proof of concept, we implement block-sparse FlashAttention, a sparse attention algorithm that is 2-4× faster than even FlashAttention, scaling up to sequence length of 64k. We prove that block-sparse FlashAttention has better IO complexity than FlashAttention by a factor proportional to the sparsity ratio. We discuss further extensions to other operations (attention on multi-GPU, kernel regression, block-sparse matrix multiply) in Section 5. We open-source FlashAttention to make it easier to build on this primitive. 1 e empirically validate that FlashAttention speeds up model training and improves model quality by modeling longer context. We also benchmark the runtime and memory footprint of FlashAttention and block-sparse FlashAttention compared to prior attention implementations. • Faster Model Training. FlashAttention trains Transformer models faster in wall-clock time. We train BERT-large (seq. length 512) 15% faster than the training speed record in MLPerf 1.1 [58] , GPT2 (seq. length 1K) 3× faster than baseline implementations from HuggingFace [87] and Megatron-LM [77] , and long-range arena (seq. length 1K-4K) 2.4× faster than baselines. • Higher Quality Models. FlashAttention scales Transformers to longer sequences, which improves their quality and enables new capabilities.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Prompt:",
+   "section_type": "introduction",
+   "similarity": 0.7831,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase. Sparse Attention. The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference. To make matters worse, the key and value matrices consume large GPU memory space. The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference. The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] . For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation. The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp. values) in key matrix (resp. value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) . Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.7823,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Several works have focused on optimizing attention mechanisms. We first discuss algorithmic improvements to self-attention, followed by FlashAttention variants. Rabe and Staats [34] introduce a memory-efficient self-attention algorithm that avoids ( 2 ) memory usage. The FlashAttention algorithm [12] follows similar principles: it is an optimized implementation of the self-attention to reduce the memory bandwidth. It was further optimized by Dao et al. [11] , who proposed FlashAttention-2. We next discuss CPU-specific implementations of self-attention and FlashAttention. Zhang et al. [45] propose NIOT, a framework for efficient inference using kernel fusion and tiling, evaluated on BERT and ViT on Xeon 6226R with AVX-512. XNNPACK [16] is a hand-tuned library for ARM and x86 CPUs that provides a fused SDPA operator with thread-level parallelism. Fu et al. [13] propose MEATTEN, a memory-efficient attention scheme for ARM NEONbased multi-core CPUs. Martínez et al. [25] optimize self-attention on ARM and RISC-V CPUs for encoder-only models such as BERT. Rodrigo et al. [30] optimize LLM inference in llama.cpp for the many-core RISC-V Sophon SG2042 [9] . Garcia et al. [24] benchmark LLM inference on the same platform using PyTorch with OpenBLAS and BLIS backends. Liu et al. [22] optimize key kernels (vector dot product and layer normalization) in llama.cpp on the Banana Pi BPI-F3 RISC-V platform.",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Context Optimization",
+   "section_type": "introduction",
+   "similarity": 0.6968,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "This section states the placement problem that the optimizer solves, the deterministic heuristic ContextPipe actually runs, and the invariants that make the output safe for serialization and replay. We deliberately describe the mechanism here rather than an idealized objective, as the optimizer is not a utility-maximizing search but a sequence of gated, order-preserving transforms where every decision, applied or skipped, is recorded in the trace.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Mask‑driven block skipping – The algorithm receives a binary block‑sparsity mask M\\in\\{0,1\\}^{B_Q\\times B_K} that marks which query‑key block pairs may contain non‑zero attention.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.4,
+      "semantic": 0.881,
+      "evidence": "Given a predefined block sparsity mask M ∈ {0, 1} / × / we can easily adapt Algorithm 1 to only compute the nonzero blocks of the attention matrix. The algorithm is identical to Algorithm 1, except we skip zero blocks.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The kernel is otherwise identical to the exact FlashAttention implementation; during the tiled QK and PV phases it simply jumps over any block for which M_{ij}=0, avoiding the computation of the corresponding dot‑products and the subsequent value‑aggregation.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "partial",
+      "lexical": 0.217,
+      "semantic": 0.738,
+      "evidence": "The algorithm is identical to Algorithm 1, except we skip zero blocks.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Because only a fraction \\rho of blocks are kept, the I/O term in the complexity drops from \\Theta(N^2 d) to \\Theta(\\rho N^2 d).",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.545,
+      "semantic": 0.777,
+      "evidence": "We see that applying block-sparsity yields a direct improvement by the sparsity to the larger term in the IO complexity.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "PV‑skipping based on negligible scores – In the 2025 “Block Sparse Flash Attention” paper, the authors observe that after the softmax scaling many blocks receive scores that are effectively zero (the exponential makes them negligible).",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.773,
+      "semantic": 0.888,
+      "evidence": "This PV-skipping mechanism has a fundamentally different motivation from ours: it targets blocks whose scores become effectively zero after exponential scaling, while our approach directly selects the top-k most important blocks based on their maximum attention scores before softmax normalization. This approach faces several limitations.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "When the running output accumulator satisfies O_{i,j}\\approx O_{i,j-1}, the algorithm omits loading the value block V_j and skips the PV multiplication for that block, saving memory bandwidth and compute.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.611,
+      "semantic": 0.909,
+      "evidence": "Under these conditions, the contribution of the current block becomes negligible, meaning the output accumulator remains virtually unchanged (O ij ≈ O i,j-1 ). Based on this logic, the method skips loading the value block V j and the subsequent PV computation to save memory bandwidth and compute.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The decision which blocks to prune is taken before softmax, by selecting the top‑k blocks with the largest pre‑softmax scores (i.e., maximum attention scores within each block).",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.667,
+      "semantic": 0.683,
+      "evidence": "This PV-skipping mechanism has a fundamentally different motivation from ours: it targets blocks whose scores become effectively zero after exponential scaling, while our approach directly selects the top-k most important blocks based on their maximum attention scores before softmax normalization.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     4
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 6,
+   "claims_supported": 5,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 6,
+   "supported": 5,
+   "partial": 1,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 0.917,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 47,
+  "generation_ms": 2120,
+  "verification_ms": 975,
+  "total_ms": 3144
+ },
+ "hits": [
+  {
+   "text": "Since FlashAttention processes M Q × M KV total tiles (approximately half for causal attention), and the QK and PV operations equally dominate the computational cost, each contributes roughly 2N 2 d FLOPs to the total complexity. The key limitation is that while FlashAttention optimizes memory access patterns, it still computes the full dense attention, processing all O(N 2 ) interactions. This motivates block-sparse approaches that selectively skip blocks with negligible contribution.",
+   "meta": {
+    "section_title": "FlashAttention-2: Tiled Computation",
+    "n_words": 72,
+    "domain": "efficient_attention",
+    "arxiv_id": "2512.07011v1",
+    "paper_title": "Block Sparse Flash Attention",
+    "sentences_json": "[\"Since FlashAttention processes M Q × M KV total tiles (approximately half for causal attention), and the QK and PV operations equally dominate the computational cost, each contributes roughly 2N 2 d FLOPs to the total complexity.\", \"The key limitation is that while FlashAttention optimizes memory access patterns, it still computes the full dense attention, processing all O(N 2 ) interactions.\", \"This motivates block-sparse approaches that selectively skip blocks with negligible contribution.\"]",
+    "section_type": "method",
+    "section_type_inherited": false,
+    "published": "2025-12-07"
+   },
+   "similarity": 0.861606240272522,
+   "via": "semantic"
+  },
+  {
+   "text": "We extend FlashAttention to approximate attention: we propose block-sparse FlashAttention, whose IO complexity is smaller than FlashAttention by a factor proportional to the sparsity. Given inputs Q, K, V ∈ R × and a mask matrix M ∈ {0, 1} × , we want to compute: where We require M to have block form: for some block sizes , , for all , , M, = M with = / , = / for some M ∈ {0, 1} / × / . Given a predefined block sparsity mask M ∈ {0, 1} / × / we can easily adapt Algorithm 1 to only compute the nonzero blocks of the attention matrix. The algorithm is identical to Algorithm 1, except we skip zero blocks. We reproduce the algorithm description in Algorithm 5 in Appendix B. We also analyze the IO complexity of block-sparse FlashAttention. Proposition 4. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Block-sparse FlashAttention (Algorithm 5) requires Θ( + 2 2 -1 ) HBM accesses where is the fraction of nonzero blocks in the block-sparsity mask. We see that applying block-sparsity yields a direct improvement by the sparsity to the larger term in the IO complexity.",
+   "meta": {
+    "domain": "efficient_attention",
+    "section_type": "method",
+    "arxiv_id": "2205.14135v2",
+    "section_type_inherited": false,
+    "sentences_json": "[\"We extend FlashAttention to approximate attention: we propose block-sparse FlashAttention, whose IO complexity is smaller than FlashAttention by a factor proportional to the sparsity.\", \"Given inputs Q, K, V ∈ R × and a mask matrix M ∈ {0, 1} × , we want to compute:\", \"where\", \"We require M to have block form: for some block sizes , , for all , , M, = M with = / , = / for some M ∈ {0, 1} / × / .\", \"Given a predefined block sparsity mask M ∈ {0, 1} / × / we can easily adapt Algorithm 1 to only compute the nonzero blocks of the attention matrix.\", \"The algorithm is identical to Algorithm 1, except we skip zero blocks.\", \"We reproduce the algorithm description in Algorithm 5 in Appendix B.\", \"We also analyze the IO complexity of block-sparse FlashAttention.\", \"Proposition 4. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ .\", \"Block-sparse FlashAttention (Algorithm 5) requires Θ( + 2 2 -1 ) HBM accesses where is the fraction of nonzero blocks in the block-sparsity mask.\", \"We see that applying block-sparsity yields a direct improvement by the sparsity to the larger term in the IO complexity.\"]",
+    "n_words": 208,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "published": "2022-05-27",
+    "section_title": "Extension: Block-Sparse FlashAttention"
+   },
+   "similarity": 0.8496829271316528,
+   "via": "semantic"
+  },
+  {
+   "text": "We confirm that runtime of block-sparse FlashAttention scales linearly in seq. length and is faster than all existing approximate attention baselines. Additional experiment details are in Appendix E.",
+   "meta": {
+    "arxiv_id": "2205.14135v2",
+    "n_words": 28,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"We confirm that runtime of block-sparse FlashAttention scales linearly in seq.\", \"length and is faster than all existing approximate attention baselines.\", \"Additional experiment details are in Appendix E.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "published": "2022-05-27",
+    "section_title": "Experiments",
+    "section_type": "results",
+    "section_type_inherited": false
+   },
+   "similarity": 0.8440225720405579,
+   "via": "semantic"
+  },
+  {
+   "text": "Under these conditions, the contribution of the current block becomes negligible, meaning the output accumulator remains virtually unchanged (O ij ≈ O i,j-1 ). Based on this logic, the method skips loading the value block V j and the subsequent PV computation to save memory bandwidth and compute. This PV-skipping mechanism has a fundamentally different motivation from ours: it targets blocks whose scores become effectively zero after exponential scaling, while our approach directly selects the top-k most important blocks based on their maximum attention scores before softmax normalization. This approach faces several limitations. First, the global filtering stage must commit to pruning decisions based on approximate, compressed scores, potentially missing sparse but critical interactions. Second, the PV-skipping logic relies on comparison with the running maximum, which varies unpredictably across sequences and positions. Most critically, this creates variable sparsity where different query positions and attention heads may process vastly different numbers of V blocks. Since GPU kernel performance is determined by the slowest thread, positions that retain many blocks become bottlenecks, limiting overall speedup. This explains why SpargeAttention often achieves minimal or even negative speedups (0.86-0.99×) in our experiments despite its aggressive optimizations including INT8 quantization. Gating after scoring. Some methods make sparsity decisions after computing attention scores, but still face limitations.",
+   "meta": {
+    "n_words": 211,
+    "section_type": "related_work",
+    "sentences_json": "[\"Under these conditions, the contribution of the current block becomes negligible, meaning the output accumulator remains virtually unchanged (O ij ≈ O i,j-1 ).\", \"Based on this logic, the method skips loading the value block V j and the subsequent PV computation to save memory bandwidth and compute.\", \"This PV-skipping mechanism has a fundamentally different motivation from ours: it targets blocks whose scores become effectively zero after exponential scaling, while our approach directly selects the top-k most important blocks based on their maximum attention scores before softmax normalization.\", \"This approach faces several limitations.\", \"First, the global filtering stage must commit to pruning decisions based on approximate, compressed scores, potentially missing sparse but critical interactions.\", \"Second, the PV-skipping logic relies on comparison with the running maximum, which varies unpredictably across sequences and positions.\", \"Most critically, this creates variable sparsity where different query positions and attention heads may process vastly different numbers of V blocks.\", \"Since GPU kernel performance is determined by the slowest thread, positions that retain many blocks become bottlenecks, limiting overall speedup.\", \"This explains why SpargeAttention often achieves minimal or even negative speedups (0.86-0.99×) in our experiments despite its aggressive optimizations including INT8 quantization.\", \"Gating after scoring.\", \"Some methods make sparsity decisions after computing attention scores, but still face limitations.\"]",
+    "arxiv_id": "2512.07011v1",
+    "domain": "efficient_attention",
+    "section_title": "Related Work",
+    "published": "2025-12-07",
+    "section_type_inherited": false,
+    "paper_title": "Block Sparse Flash Attention"
+   },
+   "similarity": 0.8366490006446838,
+   "via": "semantic"
+  },
+  {
+   "text": "We also show that FlashAttention can serve as a useful primitive for realizing the potential of approximate attention algorithms by overcoming their issues with memory access overhead. As a proof of concept, we implement block-sparse FlashAttention, a sparse attention algorithm that is 2-4× faster than even FlashAttention, scaling up to sequence length of 64k. We prove that block-sparse FlashAttention has better IO complexity than FlashAttention by a factor proportional to the sparsity ratio. We discuss further extensions to other operations (attention on multi-GPU, kernel regression, block-sparse matrix multiply) in Section 5. We open-source FlashAttention to make it easier to build on this primitive. 1 e empirically validate that FlashAttention speeds up model training and improves model quality by modeling longer context. We also benchmark the runtime and memory footprint of FlashAttention and block-sparse FlashAttention compared to prior attention implementations. • Faster Model Training. FlashAttention trains Transformer models faster in wall-clock time. We train BERT-large (seq. length 512) 15% faster than the training speed record in MLPerf 1.1 [58] , GPT2 (seq. length 1K) 3× faster than baseline implementations from HuggingFace [87] and Megatron-LM [77] , and long-range arena (seq. length 1K-4K) 2.4× faster than baselines. • Higher Quality Models. FlashAttention scales Transformers to longer sequences, which improves their quality and enables new capabilities.",
+   "meta": {
+    "section_title": "Introduction",
+    "section_type_inherited": false,
+    "sentences_json": "[\"We also show that FlashAttention can serve as a useful primitive for realizing the potential of approximate attention algorithms by overcoming their issues with memory access overhead.\", \"As a proof of concept, we implement block-sparse FlashAttention, a sparse attention algorithm that is 2-4× faster than even FlashAttention, scaling up to sequence length of 64k.\", \"We prove that block-sparse FlashAttention has better IO complexity than FlashAttention by a factor proportional to the sparsity ratio.\", \"We discuss further extensions to other operations (attention on multi-GPU, kernel regression, block-sparse matrix multiply) in Section 5. We open-source FlashAttention to make it easier to build on this primitive. 1\", \"e empirically validate that FlashAttention speeds up model training and improves model quality by modeling longer context.\", \"We also benchmark the runtime and memory footprint of FlashAttention and block-sparse FlashAttention compared to prior attention implementations.\", \"• Faster Model Training.\", \"FlashAttention trains Transformer models faster in wall-clock time.\", \"We train BERT-large (seq.\", \"length 512) 15% faster than the training speed record in MLPerf 1.1 [58] , GPT2 (seq.\", \"length 1K) 3× faster than baseline implementations from HuggingFace [87] and Megatron-LM [77] , and long-range arena (seq.\", \"length 1K-4K) 2.4× faster than baselines.\", \"• Higher Quality Models.\", \"FlashAttention scales Transformers to longer sequences, which improves their quality and enables new capabilities.\"]",
+    "domain": "efficient_attention",
+    "published": "2022-05-27",
+    "n_words": 213,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "arxiv_id": "2205.14135v2",
+    "section_type": "introduction"
+   },
+   "similarity": 0.8365159034729004,
+   "via": "semantic"
+  },
+  {
+   "text": "The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase. Sparse Attention. The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference. To make matters worse, the key and value matrices consume large GPU memory space. The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference. The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] . For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation. The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp. values) in key matrix (resp. value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) . Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.",
+   "meta": {
+    "arxiv_id": "2504.10326v1",
+    "section_type_inherited": true,
+    "n_words": 210,
+    "published": "2025-04-14",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "domain": "efficient_attention",
+    "section_title": "Prompt:",
+    "section_type": "introduction",
+    "sentences_json": "[\"The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase.\", \"Sparse Attention.\", \"The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference.\", \"To make matters worse, the key and value matrices consume large GPU memory space.\", \"The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference.\", \"The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] .\", \"For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation.\", \"The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp.\", \"values) in key matrix (resp.\", \"value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) .\", \"Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.\"]"
+   },
+   "similarity": 0.7830660939216614,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Several works have focused on optimizing attention mechanisms. We first discuss algorithmic improvements to self-attention, followed by FlashAttention variants. Rabe and Staats [34] introduce a memory-efficient self-attention algorithm that avoids ( 2 ) memory usage. The FlashAttention algorithm [12] follows similar principles: it is an optimized implementation of the self-attention to reduce the memory bandwidth. It was further optimized by Dao et al. [11] , who proposed FlashAttention-2. We next discuss CPU-specific implementations of self-attention and FlashAttention. Zhang et al. [45] propose NIOT, a framework for efficient inference using kernel fusion and tiling, evaluated on BERT and ViT on Xeon 6226R with AVX-512. XNNPACK [16] is a hand-tuned library for ARM and x86 CPUs that provides a fused SDPA operator with thread-level parallelism. Fu et al. [13] propose MEATTEN, a memory-efficient attention scheme for ARM NEONbased multi-core CPUs. Martínez et al. [25] optimize self-attention on ARM and RISC-V CPUs for encoder-only models such as BERT. Rodrigo et al. [30] optimize LLM inference in llama.cpp for the many-core RISC-V Sophon SG2042 [9] . Garcia et al. [24] benchmark LLM inference on the same platform using PyTorch with OpenBLAS and BLIS backends. Liu et al. [22] optimize key kernels (vector dot product and layer normalization) in llama.cpp on the Banana Pi BPI-F3 RISC-V platform.",
+   "meta": {
+    "n_words": 212,
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"Several works have focused on optimizing attention mechanisms.\", \"We first discuss algorithmic improvements to self-attention, followed by FlashAttention variants.\", \"Rabe and Staats [34] introduce a memory-efficient self-attention algorithm that avoids ( 2 ) memory usage.\", \"The FlashAttention algorithm [12] follows similar principles: it is an optimized implementation of the self-attention to reduce the memory bandwidth.\", \"It was further optimized by Dao et al. [11] , who proposed FlashAttention-2.\", \"We next discuss CPU-specific implementations of self-attention and FlashAttention.\", \"Zhang et al. [45] propose NIOT, a framework for efficient inference using kernel fusion and tiling, evaluated on BERT and ViT on Xeon 6226R with AVX-512.\", \"XNNPACK [16] is a hand-tuned library for ARM and x86 CPUs that provides a fused SDPA operator with thread-level parallelism.\", \"Fu et al. [13] propose MEATTEN, a memory-efficient attention scheme for ARM NEONbased multi-core CPUs.\", \"Martínez et al. [25] optimize self-attention on ARM and RISC-V CPUs for encoder-only models such as BERT.\", \"Rodrigo et al. [30] optimize LLM inference in llama.cpp\", \"for the many-core RISC-V Sophon SG2042 [9] .\", \"Garcia et al. [24] benchmark LLM inference on the same platform using PyTorch with OpenBLAS and BLIS backends.\", \"Liu et al. [22] optimize key kernels (vector dot product and layer normalization) in llama.cpp on the Banana Pi BPI-F3 RISC-V platform.\"]",
+    "published": "2026-08-19",
+    "section_title": "Related Work",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "arxiv_id": "2608.18656v1",
+    "section_type": "related_work"
+   },
+   "similarity": 0.7822600603103638,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "This section states the placement problem that the optimizer solves, the deterministic heuristic ContextPipe actually runs, and the invariants that make the output safe for serialization and replay. We deliberately describe the mechanism here rather than an idealized objective, as the optimizer is not a utility-maximizing search but a sequence of gated, order-preserving transforms where every decision, applied or skipped, is recorded in the trace.",
+   "meta": {
+    "published": "2026-09-01",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "n_words": 65,
+    "section_type": "introduction",
+    "domain": "efficient_attention",
+    "arxiv_id": "2609.00749v1",
+    "section_type_inherited": true,
+    "section_title": "Context Optimization",
+    "sentences_json": "[\"This section states the placement problem that the optimizer solves, the deterministic heuristic ContextPipe actually runs, and the invariants that make the output safe for serialization and replay.\", \"We deliberately describe the mechanism here rather than an idealized objective, as the optimizer is not a utility-maximizing search but a sequence of gated, order-preserving transforms where every decision, applied or skipped, is recorded in the trace.\"]"
+   },
+   "similarity": 0.6968204975128174,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

@@ -1,0 +1,498 @@
+{
+ "query": "how does SystolicAttention's hardware approach relate to the original FlashAttention algorithm",
+ "expected_arxiv_id": "",
+ "category": "contradiction",
+ "set": "harness",
+ "answer": "SystolicAttention builds a **hardware‐centric implementation of the original FlashAttention algorithm** by keeping **all of its computational steps inside a single systolic array** instead of the conventional split between the array (for the two matrix multiplications) and external vector/scalar units (for the soft‑max‑related reductions and element‑wise ops) [Source 3].\n\n**Original FlashAttention (algorithmic view)**  \n* FlashAttention reformulates attention with **tiling and online‑softmax** to avoid the quadratic memory cost of classic attention [Source 3].  \n* The algorithm consists of **two matrix multiplications** (the $QK^{\\top}$ and $AV$ products) **plus a set of non‑matrix‑multiplication operations** (row‑max, exponentiation, row‑sum, element‑wise scaling) that are performed between the two multiplications [Source 3].  \n* On typical systolic‑array accelerators these non‑matrix ops are **offloaded to external vector or scalar units**, causing intermediate results to be shuffled through local SRAM and destroying overlap between the two multiplications [Source 3].\n\n**SystolicAttention’s hardware approach**  \n* Introduces **FSA (Flash‑Systolic‑Array)**, a modified systolic array that can execute **both matrix multiplications and the intervening soft‑max‑related operations on‑chip** [Source 2].  \n* The **SystolicAttention kernel** schedules the FlashAttention inner loop so that the last column of $Q$ is streamed first, allowing the **row‑max, exponentiation (exp2), and row‑sum** to be performed **concurrently with the matrix multiplications** [Source 1].  \n* Because all steps share the same dataflow, the design achieves **continuous data reuse** and eliminates the costly back‑and‑forth SRAM transfers that plagued the naïve mapping [Source 3].  \n* The overlapping execution reduces the cycle count for a tile to **$5 + 10$ cycles for the two multiplications** plus a negligible **$2 + 20$‑cycle rescaling step**, far fewer than the up‑to $8\\!-\\!2$ cycles required by a naïve systolic array without reuse [Source 1].\n\n**Relation between the two**  \n| Aspect | Original FlashAttention (algorithm) | SystolicAttention hardware |\n|--------|--------------------------------------|----------------------------|\n| Core computation | Two mat‑muls + soft‑max ops (row‑max, exp2, row‑sum, scaling) | Same two mat‑muls + same soft‑max ops |\n| Execution venue | Mat‑muls on systolic array; soft‑max ops on external units → data shuttling | All ops inside a **single** systolic array (FSA) → full overlap |\n| Data movement | Intermediate tensors moved through SRAM, causing contention | Static dataflow; intermediate results stay on‑chip |\n| Performance implication | Limited overlap; high SRAM port contention [Source 3] | Higher FLOPs/s utilization, negligible extra latency [Source 1, Source 4] |\n\nIn summary, SystolicAttention **realizes the algorithmic structure of FlashAttention in hardware** by extending the systolic array (FSA) to host **both matrix multiplications and the soft‑max‑related reductions**, thereby preserving FlashAttention’s memory‑efficient tiling while removing the inter‑unit data‑movement bottlenecks of the original implementation [Source 2, Source 3, Source 1].",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does SystolicAttention's hardware approach relate to the original FlashAttention algorithm",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "Overlapping Computations with",
+   "section_type": "method",
+   "similarity": 0.8325,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop. After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = . It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile. In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop. It is executed using the accumulator after the second matrix multiplication completes. In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 2,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "SystolicAttention over FSA",
+   "section_type": "method",
+   "similarity": 0.8118,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Facing the high computational demand of attention kernels, we propose FSA, a novel and hardware-efficient systolic array architecture that unlocks new capabilities of systolic arrays for FlashAttention. Building on FSA, we introduce SystolicAttention, an optimized kernel that maximizes hardware utilization by overlapping FlashAttention operations within a single iteration. In this section, we first present an overview of FSA design, followed by detailed descriptions of how non-matrix-multiplication operations are implemented on FSA. We then elaborate on how SystolicAttention leverages FSA to efficiently overlap FlashAttention operations.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 3,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "FlashAttention on Systolic Arrays",
+   "section_type": "method",
+   "similarity": 0.8098,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 4,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.8029,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We present FSA, an enhanced systolic array architecture that enables the entire FlashAttention computation within a single systolic array. Building on FSA, we introduce Sys-tolicAttention, an optimized kernel that efficiently overlaps all FlashAttention operations through careful scheduling and static dataflow management. The experimental results validate our approach, demonstrating significantly higher FLOPs/s utilization than state-of-the-art accelerators, with negligible accuracy loss and area overhead.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 5,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "Background and Motivation",
+   "section_type": "introduction",
+   "similarity": 0.8003,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In this section, we first briefly introduce baseline systolic arrays and how they perform matrix multiplications. We then present the FlashAttention algorithm and discuss inefficiencies of running it on systolic arrays. Finally, we motivate the approach of fusing the entire FlashAttention on a single systolic array.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 6,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Empirical Validation",
+   "section_type": "results",
+   "similarity": 0.7723,
+   "via": "citation",
+   "linked_from": "2507.11331v4",
+   "text": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "SystolicAttention builds a hardware‐centric implementation of the original FlashAttention algorithm by keeping all of its computational steps inside a single systolic array instead of the conventional split between the array (for the two matrix multiplications) and external vector/scalar units (for the soft‑max‑related reductions and element‑wise ops).",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.588,
+      "semantic": 0.869,
+      "evidence": "When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "FlashAttention reformulates attention with tiling and online‑softmax to avoid the quadratic memory cost of classic attention.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.727,
+      "semantic": 0.902,
+      "evidence": "FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The algorithm consists of two matrix multiplications (the $QK^{\\top}$ and $AV$ products) plus a set of non‑matrix‑multiplication operations (row‑max, exponentiation, row‑sum, element‑wise scaling) that are performed between the two multiplications.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.45,
+      "semantic": 0.782,
+      "evidence": "FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue).",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "On typical systolic‑array accelerators these non‑matrix ops are offloaded to external vector or scalar units, causing intermediate results to be shuffled through local SRAM and destroying overlap between the two multiplications.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.833,
+      "semantic": 0.851,
+      "evidence": "This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Introduces FSA (Flash‑Systolic‑Array), a modified systolic array that can execute both matrix multiplications and the intervening soft‑max‑related operations on‑chip.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.467,
+      "semantic": 0.868,
+      "evidence": "Facing the high computational demand of attention kernels, we propose FSA, a novel and hardware-efficient systolic array architecture that unlocks new capabilities of systolic arrays for FlashAttention. Building on FSA, we introduce SystolicAttention, an optimized kernel that maximizes hardware utilization by overlapping FlashAttention operations within a single iteration.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The SystolicAttention kernel schedules the FlashAttention inner loop so that the last column of $Q$ is streamed first, allowing the row‑max, exponentiation (exp2), and row‑sum to be performed concurrently with the matrix multiplications.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.714,
+      "semantic": 0.865,
+      "evidence": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Because all steps share the same dataflow, the design achieves continuous data reuse and eliminates the costly back‑and‑forth SRAM transfers that plagued the naïve mapping.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.368,
+      "semantic": 0.734,
+      "evidence": "This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "The overlapping execution reduces the cycle count for a tile to $5 + 10$ cycles for the two multiplications plus a negligible $2 + 20$‑cycle rescaling step, far fewer than the up‑to $8\\!-\\!2$ cycles required by a naïve systolic array without reuse.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.792,
+      "semantic": 0.819,
+      "evidence": "In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Limited overlap; high SRAM port contention",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.833,
+      "semantic": 0.759,
+      "evidence": "When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Higher FLOPs/s utilization, negligible extra latency",
+    "sources": [
+     1,
+     4
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "unsupported",
+      "lexical": 0.167,
+      "semantic": 0.664,
+      "evidence": "In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop.",
+      "missing_numbers": []
+     },
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.667,
+      "semantic": 0.742,
+      "evidence": "The experimental results validate our approach, demonstrating significantly higher FLOPs/s utilization than state-of-the-art accelerators, with negligible accuracy loss and area overhead.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "In summary, SystolicAttention realizes the algorithmic structure of FlashAttention in hardware by extending the systolic array (FSA) to host both matrix multiplications and the soft‑max‑related reductions, thereby preserving FlashAttention’s memory‑efficient tiling while removing the inter‑unit data‑movement bottlenecks of the original implementation.",
+    "sources": [
+     2,
+     3,
+     1
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "partial",
+      "lexical": 0.29,
+      "semantic": 0.935,
+      "evidence": "Building on FSA, we introduce SystolicAttention, an optimized kernel that maximizes hardware utilization by overlapping FlashAttention operations within a single iteration. In this section, we first present an overview of FSA design, followed by detailed descriptions of how non-matrix-multiplication operations are implemented on FSA.",
+      "missing_numbers": []
+     },
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.548,
+      "semantic": 0.901,
+      "evidence": "When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] .",
+      "missing_numbers": []
+     },
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.323,
+      "semantic": 0.91,
+      "evidence": "We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 6,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 7,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 8,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 9,
+    "sources": [
+     1,
+     4
+    ]
+   },
+   {
+    "claim": 10,
+    "sources": [
+     2,
+     3,
+     1
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 11,
+   "claims_supported": 9,
+   "claims_partial": 2,
+   "claims_unsupported": 0,
+   "citations": 14,
+   "supported": 10,
+   "partial": 3,
+   "unsupported": 1,
+   "invalid": 0,
+   "uncited_sentences": 4,
+   "score": 0.909,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 28,
+  "generation_ms": 2733,
+  "verification_ms": 1565,
+  "total_ms": 4327
+ },
+ "hits": [
+  {
+   "text": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop. After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = . It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile. In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop. It is executed using the accumulator after the second matrix multiplication completes. In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time.",
+   "meta": {
+    "published": "2025-07-15",
+    "section_type_inherited": true,
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "section_type": "method",
+    "sentences_json": "[\"SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum.\", \"We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration.\", \"Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop.\", \"After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = .\", \"It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile.\", \"In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1.\", \"The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop.\", \"It is executed using the accumulator after the second matrix multiplication completes.\", \"In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time.\"]",
+    "section_title": "Overlapping Computations with",
+    "arxiv_id": "2507.11331v4",
+    "domain": "efficient_attention",
+    "n_words": 189
+   },
+   "similarity": 0.8324742317199707,
+   "via": "semantic"
+  },
+  {
+   "text": "Facing the high computational demand of attention kernels, we propose FSA, a novel and hardware-efficient systolic array architecture that unlocks new capabilities of systolic arrays for FlashAttention. Building on FSA, we introduce SystolicAttention, an optimized kernel that maximizes hardware utilization by overlapping FlashAttention operations within a single iteration. In this section, we first present an overview of FSA design, followed by detailed descriptions of how non-matrix-multiplication operations are implemented on FSA. We then elaborate on how SystolicAttention leverages FSA to efficiently overlap FlashAttention operations.",
+   "meta": {
+    "section_title": "SystolicAttention over FSA",
+    "domain": "efficient_attention",
+    "n_words": 84,
+    "published": "2025-07-15",
+    "sentences_json": "[\"Facing the high computational demand of attention kernels, we propose FSA, a novel and hardware-efficient systolic array architecture that unlocks new capabilities of systolic arrays for FlashAttention.\", \"Building on FSA, we introduce SystolicAttention, an optimized kernel that maximizes hardware utilization by overlapping FlashAttention operations within a single iteration.\", \"In this section, we first present an overview of FSA design, followed by detailed descriptions of how non-matrix-multiplication operations are implemented on FSA.\", \"We then elaborate on how SystolicAttention leverages FSA to efficiently overlap FlashAttention operations.\"]",
+    "section_type_inherited": false,
+    "section_type": "method",
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "arxiv_id": "2507.11331v4"
+   },
+   "similarity": 0.8118182420730591,
+   "via": "semantic"
+  },
+  {
+   "text": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.",
+   "meta": {
+    "arxiv_id": "2507.11331v4",
+    "n_words": 218,
+    "published": "2025-07-15",
+    "section_type_inherited": false,
+    "section_title": "FlashAttention on Systolic Arrays",
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "sentences_json": "[\"FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms.\", \"FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage.\", \"The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] .\", \"FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue).\", \"When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] .\", \"This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] .\", \"To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.\"]",
+    "domain": "efficient_attention",
+    "section_type": "method"
+   },
+   "similarity": 0.8097913265228271,
+   "via": "semantic"
+  },
+  {
+   "text": "We present FSA, an enhanced systolic array architecture that enables the entire FlashAttention computation within a single systolic array. Building on FSA, we introduce Sys-tolicAttention, an optimized kernel that efficiently overlaps all FlashAttention operations through careful scheduling and static dataflow management. The experimental results validate our approach, demonstrating significantly higher FLOPs/s utilization than state-of-the-art accelerators, with negligible accuracy loss and area overhead.",
+   "meta": {
+    "published": "2025-07-15",
+    "section_title": "Conclusion",
+    "section_type": "conclusion",
+    "sentences_json": "[\"We present FSA, an enhanced systolic array architecture that enables the entire FlashAttention computation within a single systolic array.\", \"Building on FSA, we introduce Sys-tolicAttention, an optimized kernel that efficiently overlaps all FlashAttention operations through careful scheduling and static dataflow management.\", \"The experimental results validate our approach, demonstrating significantly higher FLOPs/s utilization than state-of-the-art accelerators, with negligible accuracy loss and area overhead.\"]",
+    "section_type_inherited": false,
+    "arxiv_id": "2507.11331v4",
+    "n_words": 62,
+    "domain": "efficient_attention",
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array"
+   },
+   "similarity": 0.8028889298439026,
+   "via": "semantic"
+  },
+  {
+   "text": "In this section, we first briefly introduce baseline systolic arrays and how they perform matrix multiplications. We then present the FlashAttention algorithm and discuss inefficiencies of running it on systolic arrays. Finally, we motivate the approach of fusing the entire FlashAttention on a single systolic array.",
+   "meta": {
+    "sentences_json": "[\"In this section, we first briefly introduce baseline systolic arrays and how they perform matrix multiplications.\", \"We then present the FlashAttention algorithm and discuss inefficiencies of running it on systolic arrays.\", \"Finally, we motivate the approach of fusing the entire FlashAttention on a single systolic array.\"]",
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "section_type_inherited": false,
+    "section_type": "introduction",
+    "n_words": 46,
+    "section_title": "Background and Motivation",
+    "domain": "efficient_attention",
+    "published": "2025-07-15",
+    "arxiv_id": "2507.11331v4"
+   },
+   "similarity": 0.8002880215644836,
+   "via": "semantic"
+  },
+  {
+   "text": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU.",
+   "meta": {
+    "section_title": "Empirical Validation",
+    "published": "2023-07-17",
+    "section_type": "results",
+    "sentences_json": "[\"We evaluate the impact of using FlashAttention-2 to train Transformer models.\", \"• Benchmarking attention.\", \"We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton.\", \"We confirm that FlashAttention-2 is 1.7-3.0×\", \"faster than FlashAttention, 1.3-2.5×\", \"faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation.\", \"FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs.\", \"• End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention.\", \"FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU.\"]",
+    "section_type_inherited": false,
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "n_words": 130,
+    "domain": "efficient_attention",
+    "arxiv_id": "2307.08691v1"
+   },
+   "similarity": 0.772307276725769,
+   "via": "citation-link from 2507.11331v4"
+  }
+ ]
+}

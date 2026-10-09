@@ -1,0 +1,569 @@
+{
+ "query": "what are the tradeoffs of sparse attention patterns",
+ "expected_arxiv_id": "",
+ "category": "comparison",
+ "set": "harness",
+ "answer": "Sparse‑attention mechanisms trade off **computational / memory efficiency** against **expressiveness and implementation complexity**. The main dimensions of the trade‑off are:\n\n| Aspect | Benefit of sparsity | Cost / limitation |\n|--------|--------------------|--------------------|\n| **Memory / runtime** | Reduces the $n\\times n$ attention matrix to a much smaller set of key‑query pairs, making long‑sequence processing feasible [Source 4] | Requires a mechanism to avoid ever materialising the full matrix; naïve approaches (e.g., Correia et al. 2019) still instantiate it before pruning [Source 1] |\n| **Pattern definition** | • Fixed patterns (e.g., causal, local windows) are simple to implement and incur no extra training [Source 4] <br>• Content‑based (MIPS‑inspired) patterns can focus on the most relevant keys for each query, improving relevance [Source 1] | Fixed patterns ignore the actual content of queries/keys, potentially missing important long‑range dependencies [Source 4] |\n| **Quality vs speed** | Some methods keep full attention for the most critical steps and switch to sparse patterns later, preserving generation quality while gaining speed [Source 2] | The early full‑attention phase adds overhead, and the switch to a pre‑computed sparse pattern may degrade quality if the pattern is not well‑matched to later steps [Source 2] |\n| **Learnability** | Learnable sparsity (e.g., SparseK) can adaptively select keys, offering content‑aware linear‑complexity attention [Source 5] | Requires modifying the model architecture and fine‑tuning, increasing training cost and implementation complexity [Source 5] |\n| **Recoverability** | Methods that pre‑compute sparse patterns reuse the same structure across steps, simplifying bookkeeping [Source 2] | Approaches that evict low‑scoring KV entries (e.g., H2O) cannot recover tokens that become important later, risking loss of essential context [Source 5] |\n| **Training‑free vs training‑required** | Training‑free thresholds (as in the present work) avoid any weight updates and keep the original model intact [Source 5] | May be sub‑optimal compared to fully learned sparsity, which can achieve better accuracy at the price of extra training [Source 5] |\n| **Approximation vs exactness** | Some recent lines compute exact softmax attention online without materialising the matrix, sidestepping sparsity altogether [Source 3] | These methods still need to process all keys, so they do not obtain the same asymptotic speed‑up as true sparse patterns [Source 3] |\n| **Implementation overhead** | Fixed sparse patterns (e.g., block‑sparse, sliding windows) are easy to code and integrate with existing libraries [Source 5] | Content‑based selection (e.g., MIPS‑driven routing) demands extra data structures and lookup mechanisms, adding engineering complexity [Source 1] |\n\n**Summary:** Sparse attention reduces the quadratic cost of full attention and enables longer contexts, but the gains depend on how the sparsity pattern is chosen. Fixed, position‑based patterns are cheap but may miss important content; content‑based or learnable patterns are more expressive but require extra computation, model changes, or training. Some hybrid schemes keep full attention early on to protect quality, incurring extra cost at the start. Methods that discard tokens irrevocably risk losing information, while training‑free thresholds avoid extra learning but may be less optimal than fully learned sparsity.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what are the tradeoffs of sparse attention patterns",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Efficient Content-Dependent Sparse Attention",
+   "section_type": "method",
+   "similarity": 0.8322,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Content-based sparse attention should however be carefully implemented if we need to avoid instantiating full attention matrices at any point in time. For instance, Correia et al. (2019) infer sparsity from data but their formulation instantiates a full attention matrix before finding its sparse counterpart. The next section explains how a natively sparse approach can actually be devised inspired by the Maximum Inner Product Search (MIPS) problem.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 2,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "Limitations",
+   "section_type": "conclusion",
+   "similarity": 0.8099,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "SparseD. As a pure sparse attention baseline, SparseD (Wang et al., 2025) is tailored for the unique attention patterns in dLLMs. Its core strategy involves pre-computing head-specific sparse patterns once and reusing them across subsequent denoising steps. To preserve generation quality, it applies full attention during the critical early steps before switching to the pre-computed sparse patterns for the remainder of the inference process. To ensure a fair comparison, all methods uniformly employ the semi-autoregressive remasking strategy, with the block length set to 32 across all experiments.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "RELATED WORK",
+   "section_type": "related_work",
+   "similarity": 0.8097,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The sparse pattern could be either learnable (Kitaev et al., 2020; Vyas et al., 2020; Tay et al., 2020; Roy et al., 2021; Madaan et al., 2022) or simply fixed (Liu et al., 2018; Parmar et al., 2018; Child et al., 2019; Beltagy et al., 2020; Ainslie et al., 2020; Zaheer et al., 2020; Liu et al., 2021; Xiong et al., 2021a; Wang et al., 2022; Chen et al., 2022; Hutchins et al., 2022) . Another paradigm is to adopt low-rank approximations, including via the Nyström method (Xiong et al., 2021b) , down-sampling with learnable projections (Wang et al., 2020; Peng et al., 2021a) , or explicitly compressing sequences (Rae et al., 2020; Dai et al., 2020; Ma et al., 2021; Jaegle et al., 2021) . There are also studies improving both sparse and low-rank methods for better attention matrix approximation (Nguyen et al., 2021; Zhu et al., 2021; Chen et al., 2021a; Ren et al., 2021; Zhu & Soricut, 2021; Hua et al., 2022; Zeng et al., 2022) . Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix.",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Efficient Content-Dependent Sparse Attention",
+   "section_type": "method",
+   "similarity": 0.8084,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Attention-based models can be problematic for long sequences. For a sequence of length n, the full attention matrix A, as introduced in Section 3, is n × n-dimensional and can be prohibitive to instantiate. This motivates sparse attention models, i.e. models relying on attention matrices which have a majority of zero entries. For each query, a sparse attention model defines a set of keys which can be attended to. In the following, we introduce the set S i as the set of key positions that the query at position i can attend to, i.e. The set of all such key positions defines a sparsity pattern S = {S i | 1 ≤ i ≤ n} for the entire sequence. For example, classical causal self attention can attend to every key prior to the current query, which translates to S i = {j | j < i} for every i. Most previous work on attention sparsity defined such sets purely based on positions, independently of actual query and key vectors. For example, local attention (Luong et al., 2015) considers attending only to a k-long time window prior to the current query, S i = {j | i-k ≤ j < i} for every i.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 5,
+   "paper_id": "2512.07011v1",
+   "paper_title": "Block Sparse Flash Attention",
+   "year": "2025",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.806,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Some methods make sparsity decisions after computing attention scores, but still face limitations. H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation. StreamingLLM (Xiao et al., 2024) retains initial \"attention sink\" tokens plus a sliding window. While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency. Learned sparsity. SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Approximation methods. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations. While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes.",
+   "url": "https://arxiv.org/abs/2512.07011v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Reduces the $n\\times n$ attention matrix to a much smaller set of key‑query pairs, making long‑sequence processing feasible",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.533,
+      "semantic": 0.831,
+      "evidence": "Attention-based models can be problematic for long sequences.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Requires a mechanism to avoid ever materialising the full matrix; naïve approaches (e.g., Correia et al. 2019) still instantiate it before pruning",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.571,
+      "semantic": 0.748,
+      "evidence": "Content-based sparse attention should however be carefully implemented if we need to avoid instantiating full attention matrices at any point in time.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Fixed patterns (e.g., causal, local windows) are simple to implement and incur no extra training <br>• Content‑based (MIPS‑inspired) patterns can focus on the most relevant keys for each query, improving relevance",
+    "sources": [
+     4,
+     1
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "partial",
+      "lexical": 0.455,
+      "semantic": 0.728,
+      "evidence": "The set of all such key positions defines a sparsity pattern S = {S i | 1 ≤ i ≤ n} for the entire sequence. For example, classical causal self attention can attend to every key prior to the current query, which translates to S i = {j | j < i} for every i.",
+      "missing_numbers": []
+     },
+     {
+      "source": 1,
+      "status": "partial",
+      "lexical": 0.308,
+      "semantic": 0.749,
+      "evidence": "The next section explains how a natively sparse approach can actually be devised inspired by the Maximum Inner Product Search (MIPS) problem.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Fixed patterns ignore the actual content of queries/keys, potentially missing important long‑range dependencies",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "partial",
+      "lexical": 0.462,
+      "semantic": 0.644,
+      "evidence": "In the following, we introduce the set S i as the set of key positions that the query at position i can attend to, i.e. The set of all such key positions defines a sparsity pattern S = {S i | 1 ≤ i ≤ n} for the entire sequence.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Some methods keep full attention for the most critical steps and switch to sparse patterns later, preserving generation quality while gaining speed",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.647,
+      "semantic": 0.873,
+      "evidence": "To preserve generation quality, it applies full attention during the critical early steps before switching to the pre-computed sparse patterns for the remainder of the inference process.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The early full‑attention phase adds overhead, and the switch to a pre‑computed sparse pattern may degrade quality if the pattern is not well‑matched to later steps",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.526,
+      "semantic": 0.826,
+      "evidence": "As a pure sparse attention baseline, SparseD (Wang et al., 2025) is tailored for the unique attention patterns in dLLMs.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Learnable sparsity (e.g., SparseK) can adaptively select keys, offering content‑aware linear‑complexity attention",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.917,
+      "semantic": 0.904,
+      "evidence": "SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Requires modifying the model architecture and fine‑tuning, increasing training cost and implementation complexity",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.727,
+      "semantic": 0.782,
+      "evidence": "While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Methods that pre‑compute sparse patterns reuse the same structure across steps, simplifying bookkeeping",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.667,
+      "semantic": 0.814,
+      "evidence": "As a pure sparse attention baseline, SparseD (Wang et al., 2025) is tailored for the unique attention patterns in dLLMs. Its core strategy involves pre-computing head-specific sparse patterns once and reusing them across subsequent denoising steps.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Approaches that evict low‑scoring KV entries (e.g., H2O) cannot recover tokens that become important later, risking loss of essential context",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.625,
+      "semantic": 0.823,
+      "evidence": "H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Training‑free thresholds (as in the present work) avoid any weight updates and keep the original model intact",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.538,
+      "semantic": 0.862,
+      "evidence": "In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "May be sub‑optimal compared to fully learned sparsity, which can achieve better accuracy at the price of extra training",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "partial",
+      "lexical": 0.231,
+      "semantic": 0.795,
+      "evidence": "While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Some recent lines compute exact softmax attention online without materialising the matrix, sidestepping sparsity altogether",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.643,
+      "semantic": 0.845,
+      "evidence": "There are also studies improving both sparse and low-rank methods for better attention matrix approximation (Nguyen et al., 2021; Zhu et al., 2021; Chen et al., 2021a; Ren et al., 2021; Zhu & Soricut, 2021; Hua et al., 2022; Zeng et al., 2022) . Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "These methods still need to process all keys, so they do not obtain the same asymptotic speed‑up as true sparse patterns",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.2,
+      "semantic": 0.754,
+      "evidence": "The sparse pattern could be either learnable (Kitaev et al., 2020; Vyas et al., 2020; Tay et al., 2020; Roy et al., 2021; Madaan et al., 2022) or simply fixed (Liu et al., 2018; Parmar et al., 2018; Child et al., 2019; Beltagy et al., 2020; Ainslie et al., 2020; Zaheer et al., 2020; Liu et al., 2021; Xiong et al., 2021a; Wang et al., 2022; Chen et al., 2022; Hutchins et al., 2022) . Another paradigm is to adopt low-rank approximations, including via the Nyström method (Xiong et al., 2021b) , down-sampling with learnable projections (Wang et al., 2020; Peng et al., 2021a) , or explicitly compressing sequences (Rae et al., 2020; Dai et al., 2020; Ma et al., 2021; Jaegle et al., 2021) .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Fixed sparse patterns (e.g., block‑sparse, sliding windows) are easy to code and integrate with existing libraries",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.545,
+      "semantic": 0.728,
+      "evidence": "SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Content‑based selection (e.g., MIPS‑driven routing) demands extra data structures and lookup mechanisms, adding engineering complexity",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "partial",
+      "lexical": 0.333,
+      "semantic": 0.754,
+      "evidence": "The next section explains how a natively sparse approach can actually be devised inspired by the Maximum Inner Product Search (MIPS) problem.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 6,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 7,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 8,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 9,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 10,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 11,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 12,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 13,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 14,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 15,
+    "sources": [
+     1
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 16,
+   "claims_supported": 11,
+   "claims_partial": 5,
+   "claims_unsupported": 0,
+   "citations": 17,
+   "supported": 11,
+   "partial": 6,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 5,
+   "score": 0.844,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 22,
+  "generation_ms": 2781,
+  "verification_ms": 3528,
+  "total_ms": 6333
+ },
+ "hits": [
+  {
+   "text": "Content-based sparse attention should however be carefully implemented if we need to avoid instantiating full attention matrices at any point in time. For instance, Correia et al. (2019) infer sparsity from data but their formulation instantiates a full attention matrix before finding its sparse counterpart. The next section explains how a natively sparse approach can actually be devised inspired by the Maximum Inner Product Search (MIPS) problem.",
+   "meta": {
+    "published": "2020-03-12",
+    "section_type": "method",
+    "domain": "efficient_attention",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "section_title": "Efficient Content-Dependent Sparse Attention",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Content-based sparse attention should however be carefully implemented if we need to avoid instantiating full attention matrices at any point in time.\", \"For instance, Correia et al. (2019) infer sparsity from data but their formulation instantiates a full attention matrix before finding its sparse counterpart.\", \"The next section explains how a natively sparse approach can actually be devised inspired by the Maximum Inner Product Search (MIPS) problem.\"]",
+    "n_words": 67,
+    "arxiv_id": "2003.05997v5"
+   },
+   "similarity": 0.8322049379348755,
+   "via": "semantic"
+  },
+  {
+   "text": "SparseD. As a pure sparse attention baseline, SparseD (Wang et al., 2025) is tailored for the unique attention patterns in dLLMs. Its core strategy involves pre-computing head-specific sparse patterns once and reusing them across subsequent denoising steps. To preserve generation quality, it applies full attention during the critical early steps before switching to the pre-computed sparse patterns for the remainder of the inference process. To ensure a fair comparison, all methods uniformly employ the semi-autoregressive remasking strategy, with the block length set to 32 across all experiments.",
+   "meta": {
+    "published": "2026-02-02",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "arxiv_id": "2602.02159v1",
+    "n_words": 87,
+    "section_title": "Limitations",
+    "sentences_json": "[\"SparseD.\", \"As a pure sparse attention baseline, SparseD (Wang et al., 2025) is tailored for the unique attention patterns in dLLMs.\", \"Its core strategy involves pre-computing head-specific sparse patterns once and reusing them across subsequent denoising steps.\", \"To preserve generation quality, it applies full attention during the critical early steps before switching to the pre-computed sparse patterns for the remainder of the inference process.\", \"To ensure a fair comparison, all methods uniformly employ the semi-autoregressive remasking strategy, with the block length set to 32 across all experiments.\"]",
+    "section_type": "conclusion",
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing"
+   },
+   "similarity": 0.8099493980407715,
+   "via": "semantic"
+  },
+  {
+   "text": "The sparse pattern could be either learnable (Kitaev et al., 2020; Vyas et al., 2020; Tay et al., 2020; Roy et al., 2021; Madaan et al., 2022) or simply fixed (Liu et al., 2018; Parmar et al., 2018; Child et al., 2019; Beltagy et al., 2020; Ainslie et al., 2020; Zaheer et al., 2020; Liu et al., 2021; Xiong et al., 2021a; Wang et al., 2022; Chen et al., 2022; Hutchins et al., 2022) . Another paradigm is to adopt low-rank approximations, including via the Nyström method (Xiong et al., 2021b) , down-sampling with learnable projections (Wang et al., 2020; Peng et al., 2021a) , or explicitly compressing sequences (Rae et al., 2020; Dai et al., 2020; Ma et al., 2021; Jaegle et al., 2021) . There are also studies improving both sparse and low-rank methods for better attention matrix approximation (Nguyen et al., 2021; Zhu et al., 2021; Chen et al., 2021a; Ren et al., 2021; Zhu & Soricut, 2021; Hua et al., 2022; Zeng et al., 2022) . Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix.",
+   "meta": {
+    "section_type": "related_work",
+    "domain": "efficient_attention",
+    "published": "2023-02-09",
+    "sentences_json": "[\"The sparse pattern could be either learnable (Kitaev et al., 2020; Vyas et al., 2020; Tay et al., 2020; Roy et al., 2021; Madaan et al., 2022) or simply fixed (Liu et al., 2018; Parmar et al., 2018; Child et al., 2019; Beltagy et al., 2020; Ainslie et al., 2020; Zaheer et al., 2020; Liu et al., 2021; Xiong et al., 2021a; Wang et al., 2022; Chen et al., 2022; Hutchins et al., 2022) .\", \"Another paradigm is to adopt low-rank approximations, including via the Nyström method (Xiong et al., 2021b) , down-sampling with learnable projections (Wang et al., 2020; Peng et al., 2021a) , or explicitly compressing sequences (Rae et al., 2020; Dai et al., 2020; Ma et al., 2021; Jaegle et al., 2021) .\", \"There are also studies improving both sparse and low-rank methods for better attention matrix approximation (Nguyen et al., 2021; Zhu et al., 2021; Chen et al., 2021a; Ren et al., 2021; Zhu & Soricut, 2021; Hua et al., 2022; Zeng et al., 2022) .\", \"Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix.\"]",
+    "section_title": "RELATED WORK",
+    "section_type_inherited": false,
+    "paper_title": "Efficient Attention via Control Variates",
+    "n_words": 209,
+    "arxiv_id": "2302.04542v1"
+   },
+   "similarity": 0.8096678256988525,
+   "via": "semantic"
+  },
+  {
+   "text": "Attention-based models can be problematic for long sequences. For a sequence of length n, the full attention matrix A, as introduced in Section 3, is n × n-dimensional and can be prohibitive to instantiate. This motivates sparse attention models, i.e. models relying on attention matrices which have a majority of zero entries. For each query, a sparse attention model defines a set of keys which can be attended to. In the following, we introduce the set S i as the set of key positions that the query at position i can attend to, i.e. The set of all such key positions defines a sparsity pattern S = {S i | 1 ≤ i ≤ n} for the entire sequence. For example, classical causal self attention can attend to every key prior to the current query, which translates to S i = {j | j < i} for every i. Most previous work on attention sparsity defined such sets purely based on positions, independently of actual query and key vectors. For example, local attention (Luong et al., 2015) considers attending only to a k-long time window prior to the current query, S i = {j | i-k ≤ j < i} for every i.",
+   "meta": {
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "domain": "efficient_attention",
+    "arxiv_id": "2003.05997v5",
+    "sentences_json": "[\"Attention-based models can be problematic for long sequences.\", \"For a sequence of length n, the full attention matrix A, as introduced in Section 3, is n × n-dimensional and can be prohibitive to instantiate.\", \"This motivates sparse attention models, i.e. models relying on attention matrices which have a majority of zero entries.\", \"For each query, a sparse attention model defines a set of keys which can be attended to.\", \"In the following, we introduce the set S i as the set of key positions that the query at position i can attend to, i.e.\", \"The set of all such key positions defines a sparsity pattern S = {S i | 1 ≤ i ≤ n} for the entire sequence.\", \"For example, classical causal self attention can attend to every key prior to the current query, which translates to S i = {j | j < i} for every i.\", \"Most previous work on attention sparsity defined such sets purely based on positions, independently of actual query and key vectors.\", \"For example, local attention (Luong et al., 2015) considers attending only to a k-long time window prior to the current query, S i = {j | i-k ≤ j < i} for every i.\"]",
+    "n_words": 203,
+    "section_type": "method",
+    "section_type_inherited": false,
+    "section_title": "Efficient Content-Dependent Sparse Attention",
+    "published": "2020-03-12"
+   },
+   "similarity": 0.808429479598999,
+   "via": "semantic"
+  },
+  {
+   "text": "Some methods make sparsity decisions after computing attention scores, but still face limitations. H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation. StreamingLLM (Xiao et al., 2024) retains initial \"attention sink\" tokens plus a sliding window. While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency. Learned sparsity. SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Approximation methods. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations. While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes.",
+   "meta": {
+    "section_type_inherited": false,
+    "section_type": "related_work",
+    "arxiv_id": "2512.07011v1",
+    "n_words": 199,
+    "sentences_json": "[\"Some methods make sparsity decisions after computing attention scores, but still face limitations.\", \"H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries.\", \"However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation.\", \"StreamingLLM (Xiao et al., 2024) retains initial \\\"attention sink\\\" tokens plus a sliding window.\", \"While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency.\", \"Learned sparsity.\", \"SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection.\", \"While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning.\", \"In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components.\", \"Approximation methods.\", \"Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations.\", \"While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes.\"]",
+    "paper_title": "Block Sparse Flash Attention",
+    "domain": "efficient_attention",
+    "published": "2025-12-07",
+    "section_title": "Related Work"
+   },
+   "similarity": 0.8059923052787781,
+   "via": "semantic"
+  }
+ ]
+}

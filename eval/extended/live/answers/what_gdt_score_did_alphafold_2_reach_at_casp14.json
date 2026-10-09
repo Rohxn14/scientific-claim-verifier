@@ -1,0 +1,271 @@
+{
+ "query": "what GDT score did AlphaFold 2 reach at CASP14",
+ "expected_arxiv_id": "",
+ "category": "out_of_scope",
+ "set": "extra",
+ "answer": "The provided sources do not contain any information about AlphaFold 2’s performance at CASP‑14, nor do they report a GDT (Global Distance Test) score for that benchmark. Consequently, I cannot answer the question with the available references. Additional sources that specifically discuss AlphaFold 2’s CASP‑14 results would be needed.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what GDT score did AlphaFold 2 reach at CASP14",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6222,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity.Training time on 8×A100 GPUs is reported.Left: runtime of forward pass + backward pass.Right: attention memory usage.European Court of Human Rights, each of which is mapped to articles of the Convention of Human Rights that were allegedly violaged. Both of these datasets contain very long text documents; the average number of tokens in MIMIC is 2,395 tokens, and the longest document contains 14,562 tokens, while the average and longest numbers in ECtHR are 2,197 and 49,392, respectively. We evaluate lift from increasing the sequence length of a pretrained RoBERTa model",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 2,
+   "paper_id": "2402.04563v1",
+   "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+   "year": "2024",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.616,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "They, then, extend LRP to the renormalization layer (Binder et al. 2016b) . Finally, Chefer et al., (Chefer, Gur, and Wolf 2021) introduced the LRP-based method applied to ViT by proposing the method to apply LRP to the GELU (Hendrycks and Gimpel 2016) layer, skip connections, and matrix multiplication, which are the major operations of ViT and calculates the relevancy score of each image patch. These methods capture the contribution of each independent and discrete unit of the model and provide a precise explanation. However, they often result in scattered contributions which only highlight a partial area of the target class object because of approximation error in relevancy calculation and incomplete attention scores as shown in Figure 1 .",
+   "url": "https://arxiv.org/abs/2402.04563v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2605.06924v1",
+   "paper_title": "A$^2$RD: Agentic Autoregressive Diffusion for Long Video Consistency",
+   "year": "2026",
+   "section": "Human Evaluations",
+   "section_type": "results",
+   "similarity": 0.6152,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "It excels in character consistency (4.89) and narrative coherence (4.75), confirming strong identity preservation with strong story progression in 1-min. It also scores 4.34 in transition smoothness, significantly higher than the best baseline of 3.34. Reference consistency reaches 4.91, showing potentially strong alignment when users provide reference images. While A 2 RD-Par maintains good character consistency, it shows notable drops in environment consistency and transition smoothness due to parallel generation from predefined frames. This confirms the benefits of autoregressive generation for both visual and temporal coherence.",
+   "url": "https://arxiv.org/abs/2605.06924v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2512.07011v1",
+   "paper_title": "Block Sparse Flash Attention",
+   "year": "2025",
+   "section": "Experimental Setup",
+   "section_type": "results",
+   "similarity": 0.6148,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Metrics. We measure two primary metrics: Time-to-firsttoken (TTFT): Wall-clock time for the prefill phase, averaged over 10 runs after warmup. Task accuracy: Taskspecific metrics as defined by each benchmark, evaluated using the lm-evaluation-harness framework (Gao et al., 2024) . Additionally, we validate threshold effectiveness by comparing predicted density and measured density. Predicted density represents the ideal fraction of causally reachable blocks we target: min(k, A) off-diagonal plus diagonal blocks, where A is the number of available non-diagonal blocks for a given query position. Measured density is the actual fraction retained when applying thresholds to validation data. To ensure rigorous evaluation, we measure both accuracy and latency on the same sequence lengths and samples for each sparsity configuration. This provides a direct comparison of the accuracy-speedup trade-off, as both metrics reflect performance on identical inputs rather than extrapolating from different sequence lengths.",
+   "url": "https://arxiv.org/abs/2512.07011v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2402.04563v1",
+   "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+   "year": "2024",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.6102,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The ABPC is the area between these two curves, which is obtained by subtracting the AUC of the MoRF curve from that of the LeRF curve. Our method achieves a better LeRF score and MoRF score and therefore a higher ABPC score compared to the LRP-based method (36.91 % vs 34.04 %). This guarantees the better faithfulness and reliability of the explanations that our method provides. Additional evaluation results of the object localization task and the pixel perturbation test are presented in the supplementary materials.",
+   "url": "https://arxiv.org/abs/2402.04563v1"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Computation Optimization",
+   "section_type": "method",
+   "similarity": 0.5765,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Index Construction Acceleration. In AlayaDB, the index of a long context is constructed when a context is imported by DB.store() and DB.import(). Although this procedure is usually offline, e.g., the book is pre-loaded before the service is launched, the cost is still not negligible. We first analyze the overhead of index construction and then show how to optimize it. The fine-grained index used in AlayaDB is RoarGraph [28] , a state-of-the-art index for sparse attention [45] due to its ability to handle vector search on Out-Of-Distribution (OOD) data. Following RetrievalAttention [45] , a RoarGraph is constructed for each query head, and the procedure can be divided into two stages: (i) to kNN construction, which constructs a graph that links each query vector to its exact nearest key vectors, and (ii) connectivity enhancement, which links each vector to its approximate nearest vectors that are produced by an ANNS search on the graph. We observe that the overhead comes from the large number of indices and the slow kNN construction. We devise the following optimizations to reduce the overhead. GQA-based index sharing: GQA is commonly used in state-ofthe-art LLMs [56] to reduce KV cache size. It splits the ℎ query heads into ℎ groups, where ℎ is the number of key-value heads and ℎ < ℎ .",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.5767,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Loop 1 ← 0 to * _ℎ step 1 //N -sequence length 2: check for causal masking 3: = - //Keep global maximum 4: = 0.0 //keep global sum 5: Loop ← 0 to step 1 6: for ← 0, to do //__ (, &, , ) ← ( - ) _ = [0 : ] _ = [0 : ] = ( ( ( _, _ ) ) ) 10: end for 11: ← * 12: ← //Keep the old maximum in 13: ← 1.0 ← 1.0 14: if > then //check for new maximum 15: = 16: = ( - ) //Calculate rescaling factor 17:",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Evaluation",
+   "section_type": "results",
+   "similarity": 0.587,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "The TrimSchemas crossing at call 13 appears as a one-call cache-break (8% hit, because schema pruning changed the prefix bytes), followed by immediate recovery to 93-100% for the next ten calls. The CompactHistory escalation at call 24 shows the same signature (11%), recovering to 99% on the very next call, while P raw stays bounded at 0.33 through the end of the session. Every dip is attributable to a specific, logged optimizer decision; in Flat's trace of the same instance the hit column stays at 77-100% after the cold start and the pressure column climbs monotonically until the run hits the max-turn limit. Metrics. We report quality as resolve rate with evaluator validity gates (patch applies, tests complete, no test files modified); cost as prompt/completion tokens, providernormalized fresh/miss and cache-read tokens, API-call counts, and wall-clock duration; and mechanism as percall tier decisions, schema prunes, message compactions, spills, and per-call cache-hit from post-response feedback, all exported from the session trace (Section 5). Cache fields are provider-normalized because protocols differ; cross-provider counters are comparable diagnostics, not accounting identities.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [],
+  "markers": [],
+  "summary": {
+   "claims": 0,
+   "claims_supported": 0,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 0,
+   "supported": 0,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": null,
+   "declined": true,
+   "verdict": "not_covered"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 36,
+  "generation_ms": 810,
+  "verification_ms": 0,
+  "total_ms": 847
+ },
+ "hits": [
+  {
+   "text": "GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity.Training time on 8×A100 GPUs is reported.Left: runtime of forward pass + backward pass.Right: attention memory usage.European Court of Human Rights, each of which is mapped to articles of the Convention of Human Rights that were allegedly violaged. Both of these datasets contain very long text documents; the average number of tokens in MIMIC is 2,395 tokens, and the longest document contains 14,562 tokens, while the average and longest numbers in ECtHR are 2,197 and 49,392, respectively. We evaluate lift from increasing the sequence length of a pretrained RoBERTa model",
+   "meta": {
+    "published": "2022-05-27",
+    "section_title": "Untitled",
+    "sentences_json": "[\"GPT-2 small with FlashAttention, with 4× larger context length compared to Megatron-LM, is still 30% faster while achieving 0.7 better perplexity.Training time on 8×A100 GPUs is reported.Left: runtime of forward pass + backward pass.Right: attention memory usage.European Court of Human Rights, each of which is mapped to articles of the Convention of Human Rights that were allegedly violaged.\", \"Both of these datasets contain very long text documents; the average number of tokens in MIMIC is 2,395 tokens, and the longest document contains 14,562 tokens, while the average and longest numbers in ECtHR are 2,197 and 49,392, respectively.\", \"We evaluate lift from increasing the sequence length of a pretrained RoBERTa model\"]",
+    "arxiv_id": "2205.14135v2",
+    "n_words": 110,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "domain": "efficient_attention",
+    "section_type": "results",
+    "section_type_inherited": true
+   },
+   "similarity": 0.6222367286682129,
+   "via": "semantic"
+  },
+  {
+   "text": "They, then, extend LRP to the renormalization layer (Binder et al. 2016b) . Finally, Chefer et al., (Chefer, Gur, and Wolf 2021) introduced the LRP-based method applied to ViT by proposing the method to apply LRP to the GELU (Hendrycks and Gimpel 2016) layer, skip connections, and matrix multiplication, which are the major operations of ViT and calculates the relevancy score of each image patch. These methods capture the contribution of each independent and discrete unit of the model and provide a precise explanation. However, they often result in scattered contributions which only highlight a partial area of the target class object because of approximation error in relevancy calculation and incomplete attention scores as shown in Figure 1 .",
+   "meta": {
+    "sentences_json": "[\"They, then, extend LRP to the renormalization layer (Binder et al. 2016b) .\", \"Finally, Chefer et al., (Chefer, Gur, and Wolf 2021) introduced the LRP-based method applied to ViT by proposing the method to apply LRP to the GELU (Hendrycks and Gimpel 2016) layer, skip connections, and matrix multiplication, which are the major operations of ViT and calculates the relevancy score of each image patch.\", \"These methods capture the contribution of each independent and discrete unit of the model and provide a precise explanation.\", \"However, they often result in scattered contributions which only highlight a partial area of the target class object because of approximation error in relevancy calculation and incomplete attention scores as shown in Figure 1 .\"]",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "section_title": "Introduction",
+    "section_type": "introduction",
+    "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+    "n_words": 119,
+    "published": "2024-02-07",
+    "arxiv_id": "2402.04563v1"
+   },
+   "similarity": 0.6159590482711792,
+   "via": "semantic"
+  },
+  {
+   "text": "It excels in character consistency (4.89) and narrative coherence (4.75), confirming strong identity preservation with strong story progression in 1-min. It also scores 4.34 in transition smoothness, significantly higher than the best baseline of 3.34. Reference consistency reaches 4.91, showing potentially strong alignment when users provide reference images. While A 2 RD-Par maintains good character consistency, it shows notable drops in environment consistency and transition smoothness due to parallel generation from predefined frames. This confirms the benefits of autoregressive generation for both visual and temporal coherence.",
+   "meta": {
+    "published": "2026-05-07",
+    "sentences_json": "[\"It excels in character consistency (4.89) and narrative coherence (4.75), confirming strong identity preservation with strong story progression in 1-min.\", \"It also scores 4.34 in transition smoothness, significantly higher than the best baseline of 3.34.\", \"Reference consistency reaches 4.91, showing potentially strong alignment when users provide reference images.\", \"While A 2 RD-Par maintains good character consistency, it shows notable drops in environment consistency and transition smoothness due to parallel generation from predefined frames.\", \"This confirms the benefits of autoregressive generation for both visual and temporal coherence.\"]",
+    "arxiv_id": "2605.06924v1",
+    "section_type_inherited": false,
+    "paper_title": "A$^2$RD: Agentic Autoregressive Diffusion for Long Video Consistency",
+    "section_title": "Human Evaluations",
+    "section_type": "results",
+    "n_words": 86,
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.615210771560669,
+   "via": "semantic"
+  },
+  {
+   "text": "Metrics. We measure two primary metrics: Time-to-firsttoken (TTFT): Wall-clock time for the prefill phase, averaged over 10 runs after warmup. Task accuracy: Taskspecific metrics as defined by each benchmark, evaluated using the lm-evaluation-harness framework (Gao et al., 2024) . Additionally, we validate threshold effectiveness by comparing predicted density and measured density. Predicted density represents the ideal fraction of causally reachable blocks we target: min(k, A) off-diagonal plus diagonal blocks, where A is the number of available non-diagonal blocks for a given query position. Measured density is the actual fraction retained when applying thresholds to validation data. To ensure rigorous evaluation, we measure both accuracy and latency on the same sequence lengths and samples for each sparsity configuration. This provides a direct comparison of the accuracy-speedup trade-off, as both metrics reflect performance on identical inputs rather than extrapolating from different sequence lengths.",
+   "meta": {
+    "sentences_json": "[\"Metrics.\", \"We measure two primary metrics: Time-to-firsttoken (TTFT): Wall-clock time for the prefill phase, averaged over 10 runs after warmup.\", \"Task accuracy: Taskspecific metrics as defined by each benchmark, evaluated using the lm-evaluation-harness framework (Gao et al., 2024) .\", \"Additionally, we validate threshold effectiveness by comparing predicted density and measured density.\", \"Predicted density represents the ideal fraction of causally reachable blocks we target: min(k, A) off-diagonal plus diagonal blocks, where A is the number of available non-diagonal blocks for a given query position.\", \"Measured density is the actual fraction retained when applying thresholds to validation data.\", \"To ensure rigorous evaluation, we measure both accuracy and latency on the same sequence lengths and samples for each sparsity configuration.\", \"This provides a direct comparison of the accuracy-speedup trade-off, as both metrics reflect performance on identical inputs rather than extrapolating from different sequence lengths.\"]",
+    "section_title": "Experimental Setup",
+    "paper_title": "Block Sparse Flash Attention",
+    "n_words": 141,
+    "published": "2025-12-07",
+    "arxiv_id": "2512.07011v1",
+    "section_type": "results",
+    "section_type_inherited": false,
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.6148499846458435,
+   "via": "semantic"
+  },
+  {
+   "text": "The ABPC is the area between these two curves, which is obtained by subtracting the AUC of the MoRF curve from that of the LeRF curve. Our method achieves a better LeRF score and MoRF score and therefore a higher ABPC score compared to the LRP-based method (36.91 % vs 34.04 %). This guarantees the better faithfulness and reliability of the explanations that our method provides. Additional evaluation results of the object localization task and the pixel perturbation test are presented in the supplementary materials.",
+   "meta": {
+    "paper_title": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+    "sentences_json": "[\"The ABPC is the area between these two curves, which is obtained by subtracting the AUC of the MoRF curve from that of the LeRF curve.\", \"Our method achieves a better LeRF score and MoRF score and therefore a higher ABPC score compared to the LRP-based method (36.91 % vs 34.04 %).\", \"This guarantees the better faithfulness and reliability of the explanations that our method provides.\", \"Additional evaluation results of the object localization task and the pixel perturbation test are presented in the supplementary materials.\"]",
+    "n_words": 85,
+    "arxiv_id": "2402.04563v1",
+    "section_title": "Results",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "section_type": "results",
+    "published": "2024-02-07"
+   },
+   "similarity": 0.6102055907249451,
+   "via": "semantic"
+  },
+  {
+   "text": "Index Construction Acceleration. In AlayaDB, the index of a long context is constructed when a context is imported by DB.store() and DB.import(). Although this procedure is usually offline, e.g., the book is pre-loaded before the service is launched, the cost is still not negligible. We first analyze the overhead of index construction and then show how to optimize it. The fine-grained index used in AlayaDB is RoarGraph [28] , a state-of-the-art index for sparse attention [45] due to its ability to handle vector search on Out-Of-Distribution (OOD) data. Following RetrievalAttention [45] , a RoarGraph is constructed for each query head, and the procedure can be divided into two stages: (i) to kNN construction, which constructs a graph that links each query vector to its exact nearest key vectors, and (ii) connectivity enhancement, which links each vector to its approximate nearest vectors that are produced by an ANNS search on the graph. We observe that the overhead comes from the large number of indices and the slow kNN construction. We devise the following optimizations to reduce the overhead. GQA-based index sharing: GQA is commonly used in state-ofthe-art LLMs [56] to reduce KV cache size. It splits the ℎ query heads into ℎ groups, where ℎ is the number of key-value heads and ℎ < ℎ .",
+   "meta": {
+    "section_title": "Computation Optimization",
+    "sentences_json": "[\"Index Construction Acceleration.\", \"In AlayaDB, the index of a long context is constructed when a context is imported by DB.store() and DB.import().\", \"Although this procedure is usually offline, e.g., the book is pre-loaded before the service is launched, the cost is still not negligible.\", \"We first analyze the overhead of index construction and then show how to optimize it.\", \"The fine-grained index used in AlayaDB is RoarGraph [28] , a state-of-the-art index for sparse attention [45] due to its ability to handle vector search on Out-Of-Distribution (OOD) data.\", \"Following RetrievalAttention [45] , a RoarGraph is constructed for each query head, and the procedure can be divided into two stages: (i) to kNN construction, which constructs a graph that links each query vector to its exact nearest key vectors, and (ii) connectivity enhancement, which links each vector to its approximate nearest vectors that are produced by an ANNS search on the graph.\", \"We observe that the overhead comes from the large number of indices and the slow kNN construction.\", \"We devise the following optimizations to reduce the overhead.\", \"GQA-based index sharing: GQA is commonly used in state-ofthe-art LLMs [56] to reduce KV cache size.\", \"It splits the ℎ query heads into ℎ groups, where ℎ is the number of key-value heads and ℎ < ℎ .\"]",
+    "domain": "efficient_attention",
+    "published": "2025-04-14",
+    "n_words": 215,
+    "arxiv_id": "2504.10326v1",
+    "section_type": "method",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_type_inherited": true
+   },
+   "similarity": 0.5764527320861816,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Loop 1 ← 0 to * _ℎ step 1 //N -sequence length 2: check for causal masking 3: = - //Keep global maximum 4: = 0.0 //keep global sum 5: Loop ← 0 to step 1 6: for ← 0, to do //__ (, &, , ) ← ( - ) _ = [0 : ] _ = [0 : ] = ( ( ( _, _ ) ) ) 10: end for 11: ← * 12: ← //Keep the old maximum in 13: ← 1.0 ← 1.0 14: if > then //check for new maximum 15: = 16: = ( - ) //Calculate rescaling factor 17:",
+   "meta": {
+    "sentences_json": "[\"Loop 1 ← 0 to * _ℎ step 1 //N -sequence length 2: check for causal masking 3: = - //Keep global maximum 4: = 0.0 //keep global sum 5: Loop ← 0 to step 1 6: for ← 0, to do //__ (, &, , ) ← ( - ) _ = [0 : ] _ = [0 : ] = ( ( ( _, _ ) ) ) 10: end for 11: ← * 12: ← //Keep the old maximum in 13: ← 1.0 ← 1.0 14: if > then //check for new maximum 15: = 16: = ( - ) //Calculate rescaling factor 17:\"]",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "domain": "efficient_attention",
+    "section_title": "Untitled",
+    "n_words": 107,
+    "published": "2026-08-19",
+    "arxiv_id": "2608.18656v1",
+    "section_type": "conclusion",
+    "section_type_inherited": true
+   },
+   "similarity": 0.5767248868942261,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "The TrimSchemas crossing at call 13 appears as a one-call cache-break (8% hit, because schema pruning changed the prefix bytes), followed by immediate recovery to 93-100% for the next ten calls. The CompactHistory escalation at call 24 shows the same signature (11%), recovering to 99% on the very next call, while P raw stays bounded at 0.33 through the end of the session. Every dip is attributable to a specific, logged optimizer decision; in Flat's trace of the same instance the hit column stays at 77-100% after the cold start and the pressure column climbs monotonically until the run hits the max-turn limit. Metrics. We report quality as resolve rate with evaluator validity gates (patch applies, tests complete, no test files modified); cost as prompt/completion tokens, providernormalized fresh/miss and cache-read tokens, API-call counts, and wall-clock duration; and mechanism as percall tier decisions, schema prunes, message compactions, spills, and per-call cache-hit from post-response feedback, all exported from the session trace (Section 5). Cache fields are provider-normalized because protocols differ; cross-provider counters are comparable diagnostics, not accounting identities.",
+   "meta": {
+    "section_type_inherited": false,
+    "section_type": "results",
+    "section_title": "Evaluation",
+    "domain": "efficient_attention",
+    "arxiv_id": "2609.00749v1",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "n_words": 176,
+    "published": "2026-09-01",
+    "sentences_json": "[\"The TrimSchemas crossing at call 13 appears as a one-call cache-break (8% hit, because schema pruning changed the prefix bytes), followed by immediate recovery to 93-100% for the next ten calls.\", \"The CompactHistory escalation at call 24 shows the same signature (11%), recovering to 99% on the very next call, while P raw stays bounded at 0.33 through the end of the session.\", \"Every dip is attributable to a specific, logged optimizer decision; in Flat's trace of the same instance the hit column stays at 77-100% after the cold start and the pressure column climbs monotonically until the run hits the max-turn limit.\", \"Metrics.\", \"We report quality as resolve rate with evaluator validity gates (patch applies, tests complete, no test files modified); cost as prompt/completion tokens, providernormalized fresh/miss and cache-read tokens, API-call counts, and wall-clock duration; and mechanism as percall tier decisions, schema prunes, message compactions, spills, and per-call cache-hit from post-response feedback, all exported from the session trace (Section 5).\", \"Cache fields are provider-normalized because protocols differ; cross-provider counters are comparable diagnostics, not accounting identities.\"]"
+   },
+   "similarity": 0.5869799256324768,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

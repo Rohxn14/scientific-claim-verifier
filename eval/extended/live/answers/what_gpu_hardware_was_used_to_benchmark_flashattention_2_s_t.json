@@ -1,0 +1,331 @@
+{
+ "query": "what GPU hardware was used to benchmark FlashAttention-2's training throughput",
+ "expected_arxiv_id": "2307.08691",
+ "category": "factual",
+ "set": "harness",
+ "answer": "The training‑throughput benchmarks for FlashAttention‑2 were run on **NVIDIA A100 GPUs**.  \n\n- All reported TFLOPs/s numbers are given “per A100 GPU” (e.g., up to 225 TFLOPs/s per A100) [Source 1].  \n- The end‑to‑end experiments used an **8‑GPU configuration of A100 80 GB SXM** cards (8 × A100) [Source 3, Source 4].  \n\nThus, the hardware platform for the throughput measurements was a cluster of NVIDIA A100 GPUs, specifically the 80‑GB SXM variant in an 8‑GPU setup.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what GPU hardware was used to benchmark FlashAttention-2's training throughput",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8342,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Empirical Validation",
+   "section_type": "results",
+   "similarity": 0.8213,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "End-to-end Performance",
+   "section_type": "results",
+   "similarity": 0.8191,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM. As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU. Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries): The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention. However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention. We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency. In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8. As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8). Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.8152,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.798,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM. Training time reported on 8×A100s GPUs.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Empirical Evaluation",
+   "section_type": "results",
+   "similarity": 0.7122,
+   "via": "citation",
+   "linked_from": "2307.08691v1",
+   "text": "For top- = 100 and DIPRS, we use the same settings in Table 5 . As Figure 9 shows, compared to all the other methods, DIPRS achieves the best generation quality and lowest GPU memory consumption while guaranteeing the SLO of TPOT. Regarding the coarse-grained methods InfLLM and StreamingLLM, a large GPU memory is required to achieve higher accuracy, which limits the throughput of online serving and makes them impractical to run on the consumergrade GPU, e.g., NVIDIA GTX4090 (24GB memory). Compared to top-, the generation quality of DIPRS surpasses top- due to its ability to identify the dynamic number of critical tokens for efficient sparse attention. 9.1.2 Time-To-First-Token: TTFT. We compare AlayaDB with the state-of-the-art disaggregated KV cache service LMCache [15, 46] to evaluate its ability to reduce the TTFT by efficiently reusing the stored long context in Figure 10 . LMCache stores the compressed KV cache of the full context, and supports context reusing by loading the KV cache into GPU. In this experiment, we store the context in CPU memory in advance and measure the time of decoding the first token on this offloaded context as TTFT. Figure 10 9.2 Effectiveness of Optimization Techniques 9.2.1 Index construction. We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7573,
+   "via": "citation",
+   "linked_from": "2307.08691v1",
+   "text": "When running FlashAttention on systolic-array-based accelerators, matrix multiplications are executed on the systolic array, while softmax operations are offloaded to external vector and scalar units. The reliance on this simplistic division of labor forces vector/scalar units to supply adequate floating-point operations per second (FLOPs/s) for softmax, failing to do so causes them to bottleneck the overall pipeline. As shown in Figure 1 , when running FlashAttention on AWS NeuronCore-v2, the systolic array (tensor engine) is only active for about 45% of the time, while the scalar units remain active for 80% of the time. The simplistic mapping of computation also creates another source of low hardware utilization: as FlashAttention computes softmax between two matrix multiplications, data must be transferred back and forth frequently between the systolic array and vector/scalar units through a local SRAM, thereby preventing reuse of any matrix data across iterations, increasing preloading overhead, and exacerbating SRAM port contention [32, 54] . As shown in our experiments in subsection 6.1, the systolic array of AWS NeuronCore-v2 only achieves 25% of the theoretical FLOPs/s utilization, even though it is active for 45% of the time.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 8,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7506,
+   "via": "citation",
+   "linked_from": "2307.08691v1",
+   "text": "Attention implementations have been optimized for GPUs [15, 20, 32, 42] and dedicated AI accelerators [17, 18, 42] to maximize throughput for both training and inference. They have also been explored on CPUs to improve transformers inference due to the CPUs' high availability, low latency, and portability across edge devices and data centers [15, 40, 42] . Although these variants differ in how queries, keys, and values are organized, they all rely on the same underlying self-attention computation. Self-attention requires computing and storing large intermediate matrices, such as score matrix = , where and represent Queries and Keys, as well as the resulting softmax attention weights. This leads to significant memory capacity and bandwidth overhead, which becomes particularly pronounced as the sequence length grows. To address this memory bottleneck, Rabe and Staats [34] introduced a memory-efficient attention algorithm with online softmax, enabling exact self-attention without storing the full intermediate score matrix S. Building on this foundation, FlashAttention [11, 12] further optimizes execution by using tiling and fused kernels to keep intermediate data in on-chip GPU memory. While originally optimized for GPUs, recent work has explored FlashAttention on CPUs with vector units to improve transformer inference [15, 39] .",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "All reported TFLOPs/s numbers are given “per A100 GPU” (e.g., up to 225 TFLOPs/s per A100).",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.556,
+      "semantic": 0.76,
+      "evidence": "When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The end‑to‑end experiments used an 8‑GPU configuration of A100 80 GB SXM cards (8 × A100).",
+    "sources": [
+     3,
+     4
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.556,
+      "semantic": 0.715,
+      "evidence": "We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM. As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU.",
+      "missing_numbers": []
+     },
+     {
+      "source": 4,
+      "status": "unsupported",
+      "lexical": 0.333,
+      "semantic": 0.635,
+      "evidence": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be",
+      "missing_numbers": [
+       "80"
+      ]
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     3,
+     4
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 2,
+   "claims_supported": 2,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 3,
+   "supported": 2,
+   "partial": 0,
+   "unsupported": 1,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": 1.0,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 43,
+  "generation_ms": 1110,
+  "verification_ms": 736,
+  "total_ms": 1890
+ },
+ "hits": [
+  {
+   "text": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.",
+   "meta": {
+    "section_type_inherited": false,
+    "n_words": 66,
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "sentences_json": "[\"Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass.\", \"When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU.\"]",
+    "published": "2023-07-17",
+    "section_title": "Introduction",
+    "domain": "efficient_attention",
+    "section_type": "introduction",
+    "arxiv_id": "2307.08691v1"
+   },
+   "similarity": 0.8342411518096924,
+   "via": "semantic"
+  },
+  {
+   "text": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU.",
+   "meta": {
+    "arxiv_id": "2307.08691v1",
+    "sentences_json": "[\"We evaluate the impact of using FlashAttention-2 to train Transformer models.\", \"• Benchmarking attention.\", \"We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton.\", \"We confirm that FlashAttention-2 is 1.7-3.0×\", \"faster than FlashAttention, 1.3-2.5×\", \"faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation.\", \"FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs.\", \"• End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention.\", \"FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU.\"]",
+    "published": "2023-07-17",
+    "section_type": "results",
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "domain": "efficient_attention",
+    "section_type_inherited": false,
+    "section_title": "Empirical Validation",
+    "n_words": 130
+   },
+   "similarity": 0.8212599754333496,
+   "via": "semantic"
+  },
+  {
+   "text": "We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM. As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU. Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries): The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention. However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention. We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency. In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8. As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8). Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context.",
+   "meta": {
+    "section_type": "results",
+    "arxiv_id": "2307.08691v1",
+    "section_type_inherited": false,
+    "published": "2023-07-17",
+    "domain": "efficient_attention",
+    "n_words": 219,
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "sentences_json": "[\"We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM.\", \"As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU.\", \"Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries):\", \"The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention.\", \"However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention.\", \"We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency.\", \"In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8.\", \"As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8).\", \"Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context.\"]",
+    "section_title": "End-to-end Performance"
+   },
+   "similarity": 0.8191432952880859,
+   "via": "semantic"
+  },
+  {
+   "text": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models.",
+   "meta": {
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "sentences_json": "[\"Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be\", \"used to understand long books and reports, high resolution images, audio and video.\", \"FlashAttention-2 will also speed up training, finetuning, and inference of existing models.\"]",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "section_title": "Untitled",
+    "section_type": "results",
+    "arxiv_id": "2307.08691v1",
+    "published": "2023-07-17",
+    "n_words": 50
+   },
+   "similarity": 0.8151618242263794,
+   "via": "semantic"
+  },
+  {
+   "text": "GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM. Training time reported on 8×A100s GPUs.",
+   "meta": {
+    "domain": "efficient_attention",
+    "published": "2022-05-27",
+    "section_type_inherited": true,
+    "section_title": "Untitled",
+    "section_type": "results",
+    "arxiv_id": "2205.14135v2",
+    "sentences_json": "[\"GPT-2 small and medium using FlashAttention achieve up to 3× speed up compared to Huggingface implementation and up to 1.7× compared to Megatron-LM.\", \"Training time reported on 8×A100s GPUs.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "n_words": 29
+   },
+   "similarity": 0.7979947328567505,
+   "via": "semantic"
+  },
+  {
+   "text": "For top- = 100 and DIPRS, we use the same settings in Table 5 . As Figure 9 shows, compared to all the other methods, DIPRS achieves the best generation quality and lowest GPU memory consumption while guaranteeing the SLO of TPOT. Regarding the coarse-grained methods InfLLM and StreamingLLM, a large GPU memory is required to achieve higher accuracy, which limits the throughput of online serving and makes them impractical to run on the consumergrade GPU, e.g., NVIDIA GTX4090 (24GB memory). Compared to top-, the generation quality of DIPRS surpasses top- due to its ability to identify the dynamic number of critical tokens for efficient sparse attention. 9.1.2 Time-To-First-Token: TTFT. We compare AlayaDB with the state-of-the-art disaggregated KV cache service LMCache [15, 46] to evaluate its ability to reduce the TTFT by efficiently reusing the stored long context in Figure 10 . LMCache stores the compressed KV cache of the full context, and supports context reusing by loading the KV cache into GPU. In this experiment, we store the context in CPU memory in advance and measure the time of decoding the first token on this offloaded context as TTFT. Figure 10 9.2 Effectiveness of Optimization Techniques 9.2.1 Index construction. We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.",
+   "meta": {
+    "section_type_inherited": false,
+    "section_title": "Empirical Evaluation",
+    "published": "2025-04-14",
+    "section_type": "results",
+    "arxiv_id": "2504.10326v1",
+    "domain": "efficient_attention",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "sentences_json": "[\"For top- = 100 and DIPRS, we use the same settings in Table 5 .\", \"As Figure 9 shows, compared to all the other methods, DIPRS achieves the best generation quality and lowest GPU memory consumption while guaranteeing the SLO of TPOT.\", \"Regarding the coarse-grained methods InfLLM and StreamingLLM, a large GPU memory is required to achieve higher accuracy, which limits the throughput of online serving and makes them impractical to run on the consumergrade GPU, e.g., NVIDIA GTX4090 (24GB memory).\", \"Compared to top-, the generation quality of DIPRS surpasses top- due to its ability to identify the dynamic number of critical tokens for efficient sparse attention.\", \"9.1.2\", \"Time-To-First-Token: TTFT.\", \"We compare AlayaDB with the state-of-the-art disaggregated KV cache service LMCache [15, 46] to evaluate its ability to reduce the TTFT by efficiently reusing the stored long context in Figure 10 .\", \"LMCache stores the compressed KV cache of the full context, and supports context reusing by loading the KV cache into GPU.\", \"In this experiment, we store the context in CPU memory in advance and measure the time of decoding the first token on this offloaded context as TTFT. Figure 10 9.2 Effectiveness of Optimization Techniques 9.2.1 Index construction.\", \"We conduct an ablation study of our proposed optimizations for the RoarGraph construction in Section 7.2.\"]",
+    "n_words": 216
+   },
+   "similarity": 0.7122352123260498,
+   "via": "citation-link from 2307.08691v1"
+  },
+  {
+   "text": "When running FlashAttention on systolic-array-based accelerators, matrix multiplications are executed on the systolic array, while softmax operations are offloaded to external vector and scalar units. The reliance on this simplistic division of labor forces vector/scalar units to supply adequate floating-point operations per second (FLOPs/s) for softmax, failing to do so causes them to bottleneck the overall pipeline. As shown in Figure 1 , when running FlashAttention on AWS NeuronCore-v2, the systolic array (tensor engine) is only active for about 45% of the time, while the scalar units remain active for 80% of the time. The simplistic mapping of computation also creates another source of low hardware utilization: as FlashAttention computes softmax between two matrix multiplications, data must be transferred back and forth frequently between the systolic array and vector/scalar units through a local SRAM, thereby preventing reuse of any matrix data across iterations, increasing preloading overhead, and exacerbating SRAM port contention [32, 54] . As shown in our experiments in subsection 6.1, the systolic array of AWS NeuronCore-v2 only achieves 25% of the theoretical FLOPs/s utilization, even though it is active for 45% of the time.",
+   "meta": {
+    "section_type": "introduction",
+    "domain": "efficient_attention",
+    "arxiv_id": "2507.11331v4",
+    "section_type_inherited": false,
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "published": "2025-07-15",
+    "n_words": 186,
+    "section_title": "Introduction",
+    "sentences_json": "[\"When running FlashAttention on systolic-array-based accelerators, matrix multiplications are executed on the systolic array, while softmax operations are offloaded to external vector and scalar units.\", \"The reliance on this simplistic division of labor forces vector/scalar units to supply adequate floating-point operations per second (FLOPs/s) for softmax, failing to do so causes them to bottleneck the overall pipeline.\", \"As shown in Figure 1 , when running FlashAttention on AWS NeuronCore-v2, the systolic array (tensor engine) is only active for about 45% of the time, while the scalar units remain active for 80% of the time.\", \"The simplistic mapping of computation also creates another source of low hardware utilization: as FlashAttention computes softmax between two matrix multiplications, data must be transferred back and forth frequently between the systolic array and vector/scalar units through a local SRAM, thereby preventing reuse of any matrix data across iterations, increasing preloading overhead, and exacerbating SRAM port contention [32, 54] .\", \"As shown in our experiments in subsection 6.1, the systolic array of AWS NeuronCore-v2 only achieves 25% of the theoretical FLOPs/s utilization, even though it is active for 45% of the time.\"]"
+   },
+   "similarity": 0.7573041915893555,
+   "via": "citation-link from 2307.08691v1"
+  },
+  {
+   "text": "Attention implementations have been optimized for GPUs [15, 20, 32, 42] and dedicated AI accelerators [17, 18, 42] to maximize throughput for both training and inference. They have also been explored on CPUs to improve transformers inference due to the CPUs' high availability, low latency, and portability across edge devices and data centers [15, 40, 42] . Although these variants differ in how queries, keys, and values are organized, they all rely on the same underlying self-attention computation. Self-attention requires computing and storing large intermediate matrices, such as score matrix = , where and represent Queries and Keys, as well as the resulting softmax attention weights. This leads to significant memory capacity and bandwidth overhead, which becomes particularly pronounced as the sequence length grows. To address this memory bottleneck, Rabe and Staats [34] introduced a memory-efficient attention algorithm with online softmax, enabling exact self-attention without storing the full intermediate score matrix S. Building on this foundation, FlashAttention [11, 12] further optimizes execution by using tiling and fused kernels to keep intermediate data in on-chip GPU memory. While originally optimized for GPUs, recent work has explored FlashAttention on CPUs with vector units to improve transformer inference [15, 39] .",
+   "meta": {
+    "sentences_json": "[\"Attention implementations have been optimized for GPUs [15, 20, 32, 42] and dedicated AI accelerators [17, 18, 42] to maximize throughput for both training and inference.\", \"They have also been explored on CPUs to improve transformers inference due to the CPUs' high availability, low latency, and portability across edge devices and data centers [15, 40, 42] .\", \"Although these variants differ in how queries, keys, and values are organized, they all rely on the same underlying self-attention computation.\", \"Self-attention requires computing and storing large intermediate matrices, such as score matrix = , where and represent Queries and Keys, as well as the resulting softmax attention weights.\", \"This leads to significant memory capacity and bandwidth overhead, which becomes particularly pronounced as the sequence length grows.\", \"To address this memory bottleneck, Rabe and Staats [34] introduced a memory-efficient attention algorithm with online softmax, enabling exact self-attention without storing the full intermediate score matrix S. Building on this foundation, FlashAttention [11, 12] further optimizes execution by using tiling and fused kernels to keep intermediate data in on-chip GPU memory.\", \"While originally optimized for GPUs, recent work has explored FlashAttention on CPUs with vector units to improve transformer inference [15, 39] .\"]",
+    "section_title": "Introduction",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "n_words": 198,
+    "published": "2026-08-19",
+    "arxiv_id": "2608.18656v1",
+    "domain": "efficient_attention",
+    "section_type": "introduction",
+    "section_type_inherited": false
+   },
+   "similarity": 0.7506498098373413,
+   "via": "citation-link from 2307.08691v1"
+  }
+ ]
+}

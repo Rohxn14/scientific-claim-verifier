@@ -1,0 +1,388 @@
+{
+ "query": "how does FlashAttention reduce memory usage",
+ "expected_arxiv_id": "2205.14135",
+ "category": "factual",
+ "set": "harness",
+ "answer": "FlashAttention cuts the memory needed for self‑attention by changing **how the attention matrix is computed and stored**:\n\n* **Tiling + online soft‑max** – The algorithm processes the attention matrix block‑wise (tiling) while computing the soft‑max “on the fly” instead of materialising the full $N\\times N$ matrix. This reformulation eliminates the quadratic‑size intermediate and limits the on‑chip storage to a few tiles, enabling much longer sequences on hardware with limited SRAM [Source 4].\n\n* **No full‑matrix storage** – Both the forward and backward passes avoid keeping the entire attention matrix in GPU memory; the required values are recomputed when needed. By avoiding the $O(N^{2})$ buffer, FlashAttention achieves linear‑in‑$N$ memory consumption [Source 5].\n\n* **Reduced memory accesses** – FlashAttention is designed to minimise the number of reads and writes to high‑bandwidth memory (HBM). Fewer accesses lower the overall memory footprint because the amount of memory that must be resident at any moment is bounded by the tile size rather than the full matrix [Source 5].\n\n* **Empirical memory savings** – Experiments show that FlashAttention uses “significantly less memory than all considered approximate baselines” across all sequence lengths, confirming the practical effect of the tiling + online‑softmax design [Source 1].\n\n* **Quantified gains** – The redesign reduces memory usage from quadratic to linear in the sequence length, delivering “up to 10‑20× memory saving” with no approximation error [Source 3].\n\nTogether, these techniques—tiling, streaming (online) soft‑max computation, and avoiding storage of the full attention matrix—convert the quadratic memory bottleneck of standard soft‑max attention into a linear‑memory algorithm, which both cuts the absolute memory required and improves runtime because fewer memory transfers are needed.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does FlashAttention reduce memory usage",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2302.04542v1",
+   "paper_title": "Efficient Attention via Control Variates",
+   "year": "2023",
+   "section": "E.4 EXPERIMENTAL SETTINGS OF EFFICIENCY COMPARISON",
+   "section_type": "results",
+   "similarity": 0.8146,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths. In terms of runtime, we notice that FlashAttention runs faster than most attention baselines under sequence lengths less than 2048 despite scaling quadratically, but EVA, along with other more efficient approximate variants, begin to catch up at longer sequence lengths. This implies that the quadratic computational costs of softmax attention still bottleneck its runtime performance, aligning with one of the main findings in Dao et al. (2022) . According to this empirical study, we observe that FlashAttention offers a general and effective technique to speed up softmax attention; since many approximate variants (including EVA) exhibit a similar formulation to softmax attention (e.g., Equation 16 ), we expect they can also benefit from the optimized online softmax calculation technique and memory accesses of FlashAttention (Dao et al., 2022) .",
+   "url": "https://arxiv.org/abs/2302.04542v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.8037,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically improve on HBM accesses over all SRAM sizes. Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 3,
+   "paper_id": "2307.08691v1",
+   "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+   "year": "2023",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8031,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Motivated by this, Dao et al. [5] proposed to reorder the attention computation and leverages classical techniques (tiling, recomputation) to significantly speed it up and reduce memory usage from quadratic to linear in sequence length. This yields 2-4× wall-clock time speedup over optimized baselines, up to 10-20× memory saving, with no approximation, and as a result FlashAttention has seen wide adoption in large-scale training and inference of Transformers. However, context length increases even more, FlashAttention is still not nearly as efficient as other primitives such as matrix-multiply (GEMM). In particular, while FlashAttention is already 2-4× faster than a standard attention implementation, the forward pass only reaches 30-50% of the theoretical maximum FLOPs/s of the device (Fig. 5 ), while the backward pass is even more challenging, reaching only 25-35% of maximum throughput on A100 GPU (Fig. 6 ). In contrast, optimized GEMM can reach up to 80-90% of the theoretical maximum device throughput. Through careful profiling, we observe that FlashAttention still has suboptimal work partitioning between different thread blocks and warps on the GPU, causing either low-occupancy or unnecessary shared memory reads/writes. Building on FlashAttention, we propose FlashAttention-2 with better parallelism and work partitioning to address these challenges. 1. In Section 3.1, we tweak the algorithms to reduce the number of non-matmul FLOPs while not changing the output.",
+   "url": "https://arxiv.org/abs/2307.08691v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2507.11331v4",
+   "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+   "year": "2025",
+   "section": "FlashAttention on Systolic Arrays",
+   "section_type": "method",
+   "similarity": 0.7983,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.",
+   "url": "https://arxiv.org/abs/2507.11331v4"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "B.5 Comparison with Rabe and Staats [66]",
+   "section_type": "results",
+   "similarity": 0.7934,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "Prompt:",
+   "section_type": "introduction",
+   "similarity": 0.6775,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase. Sparse Attention. The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference. To make matters worse, the key and value matrices consume large GPU memory space. The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference. The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] . For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation. The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp. values) in key matrix (resp. value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) . Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "FlashAttention-V on Banana Pi BPI-F3",
+   "section_type": "method",
+   "similarity": 0.7787,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Compared to an optimized self-attention, FlashAttention-V achieves a 1.4× speedup for TinyLlama 1.1B, confirming the benefit of the FlashAttention algorithm. Further, our analysis in Figure 2 shows that in the prefill stage, FlashAttention-V with FP16 matches ggml-vec-fp16 at = 512 and outperforms it at shorter sequence lengths ( ≤ 128). For = 512, FlashAttention-V performs comparably to ggml-vec-fp16 on TinyLlama and Llama 3.2; on Qwen2.5, it achieves approximately 5% higher throughput, while on Pythia-410M it yields about 7% lower throughput at the same sequence length. This regression in Pythia-410M arises because it has fewer attention heads (16 vs 32) and uses MHA without key-value sharing, while Qwen2.5 benefits from a larger head dimension (128 vs 64), which provides more elements per head to amortize blocked computation and improve vector utilization. We additionally evaluate different sequence lengths, namely ∈ {64, 128, 256}, and FlashAttention-V achieves an average speedup of 1.2×-1.5× over ggml-vec-fp16, with the largest gains at = 64 and = 128 for TinyLlama, Llama 3.2, and Pythia-410M. For Qwen2.5, FlashAttention-V delivers 1.5×-2× speedup over ggml-vec-fp16 at = 64 and = 128. Overall, FlashAttention-V is most effective at short sequence lengths ( ≤ 128) conditions under which our blocked design maximizes data reuse and reduces memory pressure.",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "Phase 3: Optimize",
+   "section_type": "introduction",
+   "similarity": 0.6404,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Optimize consists of cache alignment, compaction, and spill decisions. It operates on bound artifacts and produces a fully serializable request and a trace. When the compaction tier selected by Plan calls for it, Optimize has several ways to reduce what is sent: dropping stale tool output, pruning unused schemas, summarizing older history with another model call, or spilling large artifacts behind stable references. These actions differ in cost, reversibility, and risk-dropping a tool result is inexpensive but lossy, summarization preserves intent but may erase details, and spilling keeps bytes out of the prompt while adding retrieval obligations-so a robust optimizer needs not only a current token count but a policy for choosing the least damaging tier, which Section 3 formalizes. It is constrained by an OptimizeLimits struct that gates each allowed transformation (reorder, clear, prune, spill, LLM summary, round dropping), caps the number of reorder moves per turn, and sets a circuit-breaker on total tokens cleared. Whenever a gate blocks a transformation, the trace records the missed opportunity with its reason, making the optimizer auditable.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "This reformulation eliminates the quadratic‑size intermediate and limits the on‑chip storage to a few tiles, enabling much longer sequences on hardware with limited SRAM.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.812,
+      "semantic": 0.735,
+      "evidence": "FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "By avoiding the $O(N^{2})$ buffer, FlashAttention achieves linear‑in‑$N$ memory consumption.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.5,
+      "semantic": 0.825,
+      "evidence": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Fewer accesses lower the overall memory footprint because the amount of memory that must be resident at any moment is bounded by the tile size rather than the full matrix.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "partial",
+      "lexical": 0.278,
+      "semantic": 0.784,
+      "evidence": "Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ).",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Empirical memory savings – Experiments show that FlashAttention uses “significantly less memory than all considered approximate baselines” across all sequence lengths, confirming the practical effect of the tiling + online‑softmax design.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.565,
+      "semantic": 0.92,
+      "evidence": "As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths. In terms of runtime, we notice that FlashAttention runs faster than most attention baselines under sequence lengths less than 2048 despite scaling quadratically, but EVA, along with other more efficient approximate variants, begin to catch up at longer sequence lengths.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Quantified gains – The redesign reduces memory usage from quadratic to linear in the sequence length, delivering “up to 10‑20× memory saving” with no approximation error.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.688,
+      "semantic": 0.755,
+      "evidence": "Motivated by this, Dao et al. [5] proposed to reorder the attention computation and leverages classical techniques (tiling, recomputation) to significantly speed it up and reduce memory usage from quadratic to linear in sequence length.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     5
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     3
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 5,
+   "claims_supported": 4,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 5,
+   "supported": 4,
+   "partial": 1,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 4,
+   "score": 0.9,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 13049,
+  "generation_ms": 3425,
+  "verification_ms": 1774,
+  "total_ms": 18250
+ },
+ "hits": [
+  {
+   "text": "As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths. In terms of runtime, we notice that FlashAttention runs faster than most attention baselines under sequence lengths less than 2048 despite scaling quadratically, but EVA, along with other more efficient approximate variants, begin to catch up at longer sequence lengths. This implies that the quadratic computational costs of softmax attention still bottleneck its runtime performance, aligning with one of the main findings in Dao et al. (2022) . According to this empirical study, we observe that FlashAttention offers a general and effective technique to speed up softmax attention; since many approximate variants (including EVA) exhibit a similar formulation to softmax attention (e.g., Equation 16 ), we expect they can also benefit from the optimized online softmax calculation technique and memory accesses of FlashAttention (Dao et al., 2022) .",
+   "meta": {
+    "section_type": "results",
+    "arxiv_id": "2302.04542v1",
+    "section_type_inherited": false,
+    "sentences_json": "[\"As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths.\", \"In terms of runtime, we notice that FlashAttention runs faster than most attention baselines under sequence lengths less than 2048 despite scaling quadratically, but EVA, along with other more efficient approximate variants, begin to catch up at longer sequence lengths.\", \"This implies that the quadratic computational costs of softmax attention still bottleneck its runtime performance, aligning with one of the main findings in Dao et al. (2022) .\", \"According to this empirical study, we observe that FlashAttention offers a general and effective technique to speed up softmax attention; since many approximate variants (including EVA) exhibit a similar formulation to softmax attention (e.g., Equation 16 ), we expect they can also benefit from the optimized online softmax calculation technique and memory accesses of FlashAttention (Dao et al., 2022) .\"]",
+    "published": "2023-02-09",
+    "n_words": 162,
+    "domain": "efficient_attention",
+    "section_title": "E.4 EXPERIMENTAL SETTINGS OF EFFICIENCY COMPARISON",
+    "paper_title": "Efficient Attention via Control Variates"
+   },
+   "similarity": 0.8146157264709473,
+   "via": "semantic"
+  },
+  {
+   "text": "FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically improve on HBM accesses over all SRAM sizes. Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses.",
+   "meta": {
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "section_title": "Untitled",
+    "sentences_json": "[\"FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically\", \"improve on HBM accesses over all SRAM sizes.\", \"Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ .\", \"Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses.\"]",
+    "section_type": "results",
+    "n_words": 68,
+    "published": "2022-05-27",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "arxiv_id": "2205.14135v2"
+   },
+   "similarity": 0.8037261962890625,
+   "via": "semantic"
+  },
+  {
+   "text": "Motivated by this, Dao et al. [5] proposed to reorder the attention computation and leverages classical techniques (tiling, recomputation) to significantly speed it up and reduce memory usage from quadratic to linear in sequence length. This yields 2-4× wall-clock time speedup over optimized baselines, up to 10-20× memory saving, with no approximation, and as a result FlashAttention has seen wide adoption in large-scale training and inference of Transformers. However, context length increases even more, FlashAttention is still not nearly as efficient as other primitives such as matrix-multiply (GEMM). In particular, while FlashAttention is already 2-4× faster than a standard attention implementation, the forward pass only reaches 30-50% of the theoretical maximum FLOPs/s of the device (Fig. 5 ), while the backward pass is even more challenging, reaching only 25-35% of maximum throughput on A100 GPU (Fig. 6 ). In contrast, optimized GEMM can reach up to 80-90% of the theoretical maximum device throughput. Through careful profiling, we observe that FlashAttention still has suboptimal work partitioning between different thread blocks and warps on the GPU, causing either low-occupancy or unnecessary shared memory reads/writes. Building on FlashAttention, we propose FlashAttention-2 with better parallelism and work partitioning to address these challenges. 1. In Section 3.1, we tweak the algorithms to reduce the number of non-matmul FLOPs while not changing the output.",
+   "meta": {
+    "n_words": 218,
+    "domain": "efficient_attention",
+    "arxiv_id": "2307.08691v1",
+    "section_type_inherited": false,
+    "paper_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+    "section_type": "introduction",
+    "sentences_json": "[\"Motivated by this, Dao et al. [5] proposed to reorder the attention computation and leverages classical techniques (tiling, recomputation) to significantly speed it up and reduce memory usage from quadratic to linear in sequence length.\", \"This yields 2-4× wall-clock time speedup over optimized baselines, up to 10-20× memory saving, with no approximation, and as a result FlashAttention has seen wide adoption in large-scale training and inference of Transformers.\", \"However, context length increases even more, FlashAttention is still not nearly as efficient as other primitives such as matrix-multiply (GEMM).\", \"In particular, while FlashAttention is already 2-4× faster than a standard attention implementation, the forward pass only reaches 30-50% of the theoretical maximum FLOPs/s of the device (Fig. 5 ), while the backward pass is even more challenging, reaching only 25-35% of maximum throughput on A100 GPU (Fig. 6 ).\", \"In contrast, optimized GEMM can reach up to 80-90% of the theoretical maximum device throughput.\", \"Through careful profiling, we observe that FlashAttention still has suboptimal work partitioning between different thread blocks and warps on the GPU, causing either low-occupancy or unnecessary shared memory reads/writes.\", \"Building on FlashAttention, we propose FlashAttention-2 with better parallelism and work partitioning to address these challenges.\", \"1.\", \"In Section 3.1, we tweak the algorithms to reduce the number of non-matmul FLOPs while not changing the output.\"]",
+    "published": "2023-07-17",
+    "section_title": "Introduction"
+   },
+   "similarity": 0.8031303286552429,
+   "via": "semantic"
+  },
+  {
+   "text": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.",
+   "meta": {
+    "sentences_json": "[\"FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms.\", \"FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage.\", \"The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] .\", \"FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue).\", \"When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] .\", \"This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] .\", \"To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner.\"]",
+    "paper_title": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+    "section_title": "FlashAttention on Systolic Arrays",
+    "n_words": 218,
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "published": "2025-07-15",
+    "section_type": "method",
+    "arxiv_id": "2507.11331v4"
+   },
+   "similarity": 0.7982968091964722,
+   "via": "semantic"
+  },
+  {
+   "text": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block.",
+   "meta": {
+    "section_type": "results",
+    "sentences_json": "[\"We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] .\", \"Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] .\", \"To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass.\", \"The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes).\", \"As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime.\", \"Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ).\", \"As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention.\", \"In terms of total memory required, both methods offer substantial memory saving.\", \"The second difference between the two methods is the way information is summarized from each block to pass to the next block.\"]",
+    "domain": "efficient_attention",
+    "n_words": 212,
+    "section_type_inherited": false,
+    "published": "2022-05-27",
+    "arxiv_id": "2205.14135v2",
+    "section_title": "B.5 Comparison with Rabe and Staats [66]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
+   },
+   "similarity": 0.7933886647224426,
+   "via": "semantic"
+  },
+  {
+   "text": "The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase. Sparse Attention. The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference. To make matters worse, the key and value matrices consume large GPU memory space. The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference. The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] . For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation. The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp. values) in key matrix (resp. value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) . Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.",
+   "meta": {
+    "sentences_json": "[\"The KV cache is one of the core components in the self-attention mechanism which is widely used in recent LLMs and offers significant speedup of the decode phase.\", \"Sparse Attention.\", \"The attention calculation in Equation ( 1 ) is the computationally expensive part of LLM inference.\", \"To make matters worse, the key and value matrices consume large GPU memory space.\", \"The sparse attention mechanism has been proposed to improve the efficiency of the attention calculation and reduce the GPU memory consumption during the LLM inference.\", \"The intuition of sparse attention is that only a small proportion of tokens, not all tokens in previous context, dominates the generation quality/accuracy [45] .\", \"For example, only the key vectors and value vectors in KV cache with red rectangles in Figure 1 (d) are critical vectors for the high-quality token generation.\", \"The computation cost of the attention calculation is significantly reduced as the sparse attention only calculates a fixed size of keys (resp.\", \"values) in key matrix (resp.\", \"value matrix ), instead of all keys and values in both key and value matrices, see Equation (1) .\", \"Key vectors with high inner product scores relative to the query vector are considered important, as they have high attention scores, significantly contributing to the final output.\"]",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "section_type": "introduction",
+    "arxiv_id": "2504.10326v1",
+    "published": "2025-04-14",
+    "section_title": "Prompt:",
+    "n_words": 210
+   },
+   "similarity": 0.6775060892105103,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Compared to an optimized self-attention, FlashAttention-V achieves a 1.4× speedup for TinyLlama 1.1B, confirming the benefit of the FlashAttention algorithm. Further, our analysis in Figure 2 shows that in the prefill stage, FlashAttention-V with FP16 matches ggml-vec-fp16 at = 512 and outperforms it at shorter sequence lengths ( ≤ 128). For = 512, FlashAttention-V performs comparably to ggml-vec-fp16 on TinyLlama and Llama 3.2; on Qwen2.5, it achieves approximately 5% higher throughput, while on Pythia-410M it yields about 7% lower throughput at the same sequence length. This regression in Pythia-410M arises because it has fewer attention heads (16 vs 32) and uses MHA without key-value sharing, while Qwen2.5 benefits from a larger head dimension (128 vs 64), which provides more elements per head to amortize blocked computation and improve vector utilization. We additionally evaluate different sequence lengths, namely ∈ {64, 128, 256}, and FlashAttention-V achieves an average speedup of 1.2×-1.5× over ggml-vec-fp16, with the largest gains at = 64 and = 128 for TinyLlama, Llama 3.2, and Pythia-410M. For Qwen2.5, FlashAttention-V delivers 1.5×-2× speedup over ggml-vec-fp16 at = 64 and = 128. Overall, FlashAttention-V is most effective at short sequence lengths ( ≤ 128) conditions under which our blocked design maximizes data reuse and reduces memory pressure.",
+   "meta": {
+    "published": "2026-08-19",
+    "sentences_json": "[\"Compared to an optimized self-attention, FlashAttention-V achieves a 1.4× speedup for TinyLlama 1.1B, confirming the benefit of the FlashAttention algorithm.\", \"Further, our analysis in Figure 2 shows that in the prefill stage, FlashAttention-V with FP16 matches ggml-vec-fp16 at = 512 and outperforms it at shorter sequence lengths ( ≤ 128).\", \"For = 512, FlashAttention-V performs comparably to ggml-vec-fp16 on TinyLlama and Llama 3.2; on Qwen2.5, it achieves approximately 5% higher throughput, while on Pythia-410M it yields about 7% lower throughput at the same sequence length.\", \"This regression in Pythia-410M arises because it has fewer attention heads (16 vs 32) and uses MHA without key-value sharing, while Qwen2.5 benefits from a larger head dimension (128 vs 64), which provides more elements per head to amortize blocked computation and improve vector utilization.\", \"We additionally evaluate different sequence lengths, namely ∈ {64, 128, 256}, and FlashAttention-V achieves an average speedup of 1.2×-1.5×\", \"over ggml-vec-fp16, with the largest gains at = 64 and = 128 for TinyLlama, Llama 3.2, and Pythia-410M.\", \"For Qwen2.5, FlashAttention-V delivers 1.5×-2× speedup over ggml-vec-fp16 at = 64 and = 128.\", \"Overall, FlashAttention-V is most effective at short sequence lengths ( ≤ 128) conditions under which our blocked design maximizes data reuse and reduces memory pressure.\"]",
+    "n_words": 206,
+    "arxiv_id": "2608.18656v1",
+    "domain": "efficient_attention",
+    "section_type": "method",
+    "section_title": "FlashAttention-V on Banana Pi BPI-F3",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "section_type_inherited": false
+   },
+   "similarity": 0.778733491897583,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Optimize consists of cache alignment, compaction, and spill decisions. It operates on bound artifacts and produces a fully serializable request and a trace. When the compaction tier selected by Plan calls for it, Optimize has several ways to reduce what is sent: dropping stale tool output, pruning unused schemas, summarizing older history with another model call, or spilling large artifacts behind stable references. These actions differ in cost, reversibility, and risk-dropping a tool result is inexpensive but lossy, summarization preserves intent but may erase details, and spilling keeps bytes out of the prompt while adding retrieval obligations-so a robust optimizer needs not only a current token count but a policy for choosing the least damaging tier, which Section 3 formalizes. It is constrained by an OptimizeLimits struct that gates each allowed transformation (reorder, clear, prune, spill, LLM summary, round dropping), caps the number of reorder moves per turn, and sets a circuit-breaker on total tokens cleared. Whenever a gate blocks a transformation, the trace records the missed opportunity with its reason, making the optimizer auditable.",
+   "meta": {
+    "sentences_json": "[\"Optimize consists of cache alignment, compaction, and spill decisions.\", \"It operates on bound artifacts and produces a fully serializable request and a trace.\", \"When the compaction tier selected by Plan calls for it, Optimize has several ways to reduce what is sent: dropping stale tool output, pruning unused schemas, summarizing older history with another model call, or spilling large artifacts behind stable references.\", \"These actions differ in cost, reversibility, and risk-dropping a tool result is inexpensive but lossy, summarization preserves intent but may erase details, and spilling keeps bytes out of the prompt while adding retrieval obligations-so a robust optimizer needs not only a current token count but a policy for choosing the least damaging tier, which Section 3 formalizes.\", \"It is constrained by an OptimizeLimits struct that gates each allowed transformation (reorder, clear, prune, spill, LLM summary, round dropping), caps the number of reorder moves per turn, and sets a circuit-breaker on total tokens cleared.\", \"Whenever a gate blocks a transformation, the trace records the missed opportunity with its reason, making the optimizer auditable.\"]",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "published": "2026-09-01",
+    "n_words": 175,
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "arxiv_id": "2609.00749v1",
+    "section_title": "Phase 3: Optimize",
+    "section_type": "introduction"
+   },
+   "similarity": 0.6404120922088623,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}

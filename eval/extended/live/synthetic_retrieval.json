@@ -1,0 +1,335 @@
+{
+ "summary": {
+  "questions": 40,
+  "chunk_recall@1": 0.575,
+  "chunk_recall@5": 0.85,
+  "chunk_recall@10": 0.9,
+  "chunk_recall@20": 0.95,
+  "chunk_mrr@20": 0.704,
+  "paper_hit@1": 0.9,
+  "paper_hit@5": 1.0,
+  "target_in_app_context": 0.85
+ },
+ "rows": [
+  {
+   "chunk_id": "2503.10589v1::002",
+   "question": "What limitations do appearance‑conditioned generation and keyframe‑based strategies exhibit when striving for visual and temporal coherence in scene‑level video synthesis?",
+   "section_type": "introduction",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2003.05997v5::064",
+   "question": "What command did the national guard officer issue when the King advanced toward the barricade?",
+   "section_type": "conclusion",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2507.11331v4::044",
+   "question": "How can the model accuracy impact of piecewise-linear exponential approximations in FlashAttention be evaluated when FPGA resources cannot accommodate the required systolic array size?",
+   "section_type": "conclusion",
+   "chunk_rank": 12,
+   "paper_rank": 1,
+   "in_app_context": false
+  },
+  {
+   "chunk_id": "2003.05997v5::055",
+   "question": "According to Martin Luther, what were the primary and secondary objectives of the Reformation?",
+   "section_type": "conclusion",
+   "chunk_rank": 2,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2601.15305v1::031",
+   "question": "How does the output‑gating mechanism in Gated Sparse Attention mitigate the attention‑sink effect that arises from softmax normalization in standard attention, and what quantitative evidence shows a reduction in first‑token attention and increased sparsity?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2503.10589v1::020",
+   "question": "How does varying the conditioning timestep (t<sub>c</sub>) influence the trade‑off between preserving historical details and preventing error accumulation during sequential video generation in an autoregressive setting?",
+   "section_type": "results",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2503.10589v1::001",
+   "question": "What key visual components must be consistently maintained across shots to achieve coherent scene-level video generation?",
+   "section_type": "introduction",
+   "chunk_rank": 8,
+   "paper_rank": 1,
+   "in_app_context": false
+  },
+  {
+   "chunk_id": "2608.18656v1::025",
+   "question": "Which physical development board provides native support for RISC-V Vector specification 1.0 with a 256-bit vector length?",
+   "section_type": "method",
+   "chunk_rank": 18,
+   "paper_rank": 1,
+   "in_app_context": false
+  },
+  {
+   "chunk_id": "2003.05997v5::052",
+   "question": "Which German ruler was notably influenced by the religious ideas of the Reformation before the movement fully reached Germany?",
+   "section_type": "conclusion",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::003",
+   "question": "How does FlashAttention use tiling between GPU high-bandwidth memory and on-chip SRAM to avoid materializing the full attention matrix?",
+   "section_type": "introduction",
+   "chunk_rank": 2,
+   "paper_rank": 2,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2002.00741v1::033",
+   "question": "What interaction count and dwell time thresholds were applied to preprocess the RecSys Challenge 2016 XING dataset?",
+   "section_type": "results",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2002.00741v1::023",
+   "question": "Why are logarithmic, linear, and constant kernels specifically chosen to parameterize temporal decay in attention mechanisms?",
+   "section_type": "introduction",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2512.07011v1::028",
+   "question": "What precision formats does SpargeAttention use for query, key, and value representations in its A100 implementation?",
+   "section_type": "results",
+   "chunk_rank": null,
+   "paper_rank": 1,
+   "in_app_context": false
+  },
+  {
+   "chunk_id": "2608.18656v1::030",
+   "question": "How does FlashAttention‑V’s throughput compare to ggml‑vec‑fp16 across TinyLlama 1.1B, Llama 3.2, Qwen2.5, and Pythia‑410M for sequence lengths 64, 128, 256, and 512, and to what extent do the number of attention heads and head dimension explain the performance variations observed, particularly the 7 % lower throughput on Pythia‑410M and the 5 % higher throughput on Qwen2.5?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2409.16997v2::004",
+   "question": "How does INT‑FlashAttention compute the attention output by processing the Q, K, V tensors in blocks and applying an online softmax to avoid forming the full attention matrix?",
+   "section_type": "method",
+   "chunk_rank": 5,
+   "paper_rank": 2,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::058",
+   "question": "How did the authors modify the Apex FMHA implementation to enable support for sequences up to length 64 K, accommodate head dimensions ranging from 16 to 128, and run on all Turing and Ampere GPUs while improving memory efficiency?",
+   "section_type": "results",
+   "chunk_rank": 2,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::038",
+   "question": "Is it possible to compute the gradients of the query, key, and value matrices for a scalar loss in the attention mechanism with only linear memory, and if so, what explicit formulas enable this computation?",
+   "section_type": "method",
+   "chunk_rank": 2,
+   "paper_rank": 2,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2512.07011v1::015",
+   "question": "What factors make the PV‑skipping strategy in SpargeAttention fail to deliver consistent speedups on GPUs, and how does the resulting variable sparsity across query positions and heads create performance bottlenecks?",
+   "section_type": "related_work",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2002.00741v1::025",
+   "question": "How does the model use the notions of sensitivity and seriousness to determine which temporal dynamics should be applied to each event during the fusion stage?",
+   "section_type": "introduction",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2209.15001v3::012",
+   "question": "How does Swin’s shifted‑window self‑attention mechanism improve out‑of‑window interactions and receptive‑field growth compared to traditional sliding‑window attention, and what computational trade‑offs arise when Swin‑V2 enlarges its window size to boost performance?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2504.10326v1::051",
+   "question": "How does partial context reuse—keeping a fixed 40 K prefix while varying the stored context size to achieve reuse ratios from 100 % to 20 %—affect the recall and latency of filter‑based DIPRS search in AlayaDB during the En.QA task?",
+   "section_type": "results",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2503.11899v2::040",
+   "question": "What components compose the Spatio‑Temporal Fourier Transformer (StFT) block, and how do overlapping tokenization, variable mixing, frequency and spatiotemporal transformation paths, and detokenization collectively produce a refined prediction for the next time step?",
+   "section_type": "results",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "1809.04281v3::027",
+   "question": "After serialization of music into a grid representation with sixteenth‑note resolution, what is the most frequent sequence length observed?",
+   "section_type": "conclusion",
+   "chunk_rank": 2,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2209.15001v3::007",
+   "question": "How does DiNA’s combination of local attention and sparse global attention influence a model’s ability to preserve locality, capture long‑range dependencies, exponentially expand its receptive field, maintain linear computational complexity, improve convergence by avoiding redundant interactions with repetitive or background tokens, and ultimately enhance performance on vision tasks?",
+   "section_type": "introduction",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2507.11331v4::011",
+   "question": "How does the FSA architecture enable efficient implementation of non‑matrix‑multiplication operations and facilitate the overlapping of FlashAttention kernels within a single iteration to achieve high hardware utilization in SystolicAttention?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2512.07011v1::035",
+   "question": "What computational and memory‑bandwidth savings are achieved by omitting the PV multiplication, softmax exponentials, running statistics updates, and normalizer maintenance in Block Sparse Flash Attention, and what proportion of key‑value traffic does this reduction represent?",
+   "section_type": "conclusion",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2003.05997v5::089",
+   "question": "Which bird species is known for living in flocks, remaining constantly wary, producing a loud crow that resembles a Great Horned Owl’s cry, and has a convex upper mandible with a wide, flat ridge and a narrow, elongated lower mandible?",
+   "section_type": "conclusion",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2309.01692v1::013",
+   "question": "How does the model iteratively refine its position queries using the content queries in each decoder layer, and what benefits does Relative Position Encoding provide over hard‑mask attention?",
+   "section_type": "method",
+   "chunk_rank": 3,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::068",
+   "question": "How does GPT‑2 small equipped with FlashAttention compare to Megatron‑LM in terms of training speed, memory usage, and perplexity when the context length is increased four‑fold, as measured on 8 × A100 GPUs?",
+   "section_type": "results",
+   "chunk_rank": null,
+   "paper_rank": 1,
+   "in_app_context": false
+  },
+  {
+   "chunk_id": "2302.04542v1::005",
+   "question": "What proposal distribution is employed in vanilla Random‑Feature‑based Attention when using self‑normalized importance sampling to approximate softmax attention?",
+   "section_type": "method",
+   "chunk_rank": 2,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::012",
+   "question": "How can we compute exact attention with fewer HBM reads and writes while avoiding the need to store large intermediate matrices during the backward pass?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2605.06924v1::128",
+   "question": "What actionable patterns—spanning structural prompt organization, temporal/motion description, continuity instruction, specificity versus abstraction, conflict resolution, domain‑specific vocabulary, and consistently failing negative patterns—can be extracted by comparing successful and failed refinements of video generation prompts?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2307.08691v1::025",
+   "question": "How does FlashAttention‑2 reorder its loops and assign thread blocks in the backward pass to parallelize over sequence length, and what mechanism does it use to update the shared dQ tensor across column blocks?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2006.16236v3::008",
+   "question": "How can the softmax attention mechanism in transformer models be linearized so that the resulting autoregressive transformer achieves linear computational complexity and constant memory usage during both training and inference?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::044",
+   "question": "How can FlashAttention’s backward pass recover the dropout mask without storing the full mask from the forward pass?",
+   "section_type": "method",
+   "chunk_rank": 6,
+   "paper_rank": 1,
+   "in_app_context": false
+  },
+  {
+   "chunk_id": "2307.08691v1::016",
+   "question": "How can the online softmax trick in FlashAttention‑2 be modified to reduce non‑matmul FLOPs while still producing the correctly scaled final output?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2305.11403v5::011",
+   "question": "Which training and test datasets, evaluation metrics, and key training hyperparameters (e.g., channel input size, number of MTBs and their layer composition, SWSA heads, mutual vertical window sizes, and data‑augmentation techniques) are employed in the Efficient Mixed Transformer for single‑image super‑resolution?",
+   "section_type": "method",
+   "chunk_rank": 2,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2205.14135v2::052",
+   "question": "What is the asymptotic number of high‑bandwidth memory accesses performed by the block‑sparse FlashAttention forward pass, expressed in terms of the input matrix dimensions and block sizes?",
+   "section_type": "results",
+   "chunk_rank": 5,
+   "paper_rank": 2,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2206.03003v2::017",
+   "question": "What method is employed to encode each whole‑slide‑image patch into a feature vector for input to the Transformer architecture in the described MIL framework?",
+   "section_type": "method",
+   "chunk_rank": 2,
+   "paper_rank": 1,
+   "in_app_context": true
+  },
+  {
+   "chunk_id": "2003.05997v5::023",
+   "question": "What method does the Routing Transformer employ to enforce balanced cluster sizes, and how does this approach affect the overall computational cost compared to the dominating O(n¹·⁵ d) term?",
+   "section_type": "method",
+   "chunk_rank": 1,
+   "paper_rank": 1,
+   "in_app_context": true
+  }
+ ]
+}

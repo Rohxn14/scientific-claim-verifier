@@ -1,0 +1,184 @@
+{
+ "query": "how does sparse attention compare to linear attention as an efficiency strategy",
+ "expected_arxiv_id": "",
+ "category": "comparison",
+ "set": "harness",
+ "answer": "I’m unable to answer the comparison because none of the provided excerpts contain information about **linear attention**—they discuss various forms of **sparse attention** (local attention, routing transformers, hierarchical attention, gated sparse attention, etc.) but do not describe linear‑attention mechanisms or any direct efficiency comparison between the two approaches. To answer the question, sources that detail linear‑attention methods and their computational or memory characteristics would be needed.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does sparse attention compare to linear attention as an efficiency strategy",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.8071,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures. In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently. Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ? dynamically segment the sequence into variable sized-chunks. Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) . Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction). This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution. This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 2,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Wikitext-103",
+   "section_type": "results",
+   "similarity": 0.8013,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We find that local attention is a great inductive bias for sparse attention and is better than the adaptive methods proposed in Baevski and Auli (2019) ; Sukhbaatar et al. (2019) . Moreover, our Routing Transformer model is able to get a test perplexity of 15.8 improving on the 18.3 obtained by TransformerXL (Dai et al., 2019) while having fewer self-attention layers, and without the need for segment level recurrence.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 3,
+   "paper_id": "2602.02159v1",
+   "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+   "year": "2026",
+   "section": "B Details of Accuracy vs. Efficiency Experiments",
+   "section_type": "results",
+   "similarity": 0.8004,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "This section provides the detailed results underpinning our accuracy vs. efficiency analysis. Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own. For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved. For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r. The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1). As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods.",
+   "url": "https://arxiv.org/abs/2602.02159v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7991,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window. Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens. We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6). Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%. Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Recurrence vs Sparse Attention",
+   "section_type": "method",
+   "similarity": 0.7977,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We also note that sparse attention is an orthogonal approach to that of Transformer-XL and Compressive Transformer, which train on small sequences and by performing careful cross attention over cached previous chunks hope to generalize to longer sequences. By contrast, we directly train on long sequences from the beginning -e.g., the Compressive Transformer trains on chunks of size 512 for PG-19, while we train on sequences of length 8192. The benefit of the Transformer-XL like approach is that it is less memory consuming and thus is able to scale to 36 layers. Sparse attention (including local attention) on the other hand is more memory expensive since it trains directly on long sequences and therefore can scale to fewer layers for the same problem. However, as we demonstrate, it is competitive with the Transformer-XL like approaches even when using fewer layers and is guaranteed to generalize to the long sequence length that it was trained on.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  }
+ ],
+ "verification": {
+  "claims": [],
+  "markers": [],
+  "summary": {
+   "claims": 0,
+   "claims_supported": 0,
+   "claims_partial": 0,
+   "claims_unsupported": 0,
+   "citations": 0,
+   "supported": 0,
+   "partial": 0,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": null,
+   "declined": false,
+   "verdict": "no_citations"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 26,
+  "generation_ms": 944,
+  "verification_ms": 0,
+  "total_ms": 972
+ },
+ "hits": [
+  {
+   "text": "Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures. In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently. Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ? dynamically segment the sequence into variable sized-chunks. Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) . Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction). This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution. This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix.",
+   "meta": {
+    "published": "2020-03-12",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "sentences_json": "[\"Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures.\", \"In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently.\", \"Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ?\", \"dynamically segment the sequence into variable sized-chunks.\", \"Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) .\", \"Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction).\", \"This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution.\", \"This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix.\"]",
+    "n_words": 214,
+    "section_type_inherited": false,
+    "section_type": "related_work",
+    "arxiv_id": "2003.05997v5",
+    "domain": "efficient_attention",
+    "section_title": "Related Work"
+   },
+   "similarity": 0.8071044683456421,
+   "via": "semantic"
+  },
+  {
+   "text": "We find that local attention is a great inductive bias for sparse attention and is better than the adaptive methods proposed in Baevski and Auli (2019) ; Sukhbaatar et al. (2019) . Moreover, our Routing Transformer model is able to get a test perplexity of 15.8 improving on the 18.3 obtained by TransformerXL (Dai et al., 2019) while having fewer self-attention layers, and without the need for segment level recurrence.",
+   "meta": {
+    "n_words": 70,
+    "section_type_inherited": true,
+    "section_title": "Wikitext-103",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "arxiv_id": "2003.05997v5",
+    "section_type": "results",
+    "published": "2020-03-12",
+    "sentences_json": "[\"We find that local attention is a great inductive bias for sparse attention and is better than the adaptive methods proposed in Baevski and Auli (2019) ; Sukhbaatar et al. (2019) .\", \"Moreover, our Routing Transformer model is able to get a test perplexity of 15.8 improving on the 18.3 obtained by TransformerXL (Dai et al., 2019) while having fewer self-attention layers, and without the need for segment level recurrence.\"]",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.80133455991745,
+   "via": "semantic"
+  },
+  {
+   "text": "This section provides the detailed results underpinning our accuracy vs. efficiency analysis. Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own. For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved. For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r. The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1). As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods.",
+   "meta": {
+    "section_title": "B Details of Accuracy vs. Efficiency Experiments",
+    "sentences_json": "[\"This section provides the detailed results underpinning our accuracy vs. efficiency analysis.\", \"Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own.\", \"For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved.\", \"For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r.\", \"The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1).\", \"As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods.\"]",
+    "published": "2026-02-02",
+    "arxiv_id": "2602.02159v1",
+    "section_type_inherited": false,
+    "paper_title": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+    "n_words": 153,
+    "section_type": "results",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.800409197807312,
+   "via": "semantic"
+  },
+  {
+   "text": "Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window. Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens. We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6). Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%. Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.",
+   "meta": {
+    "arxiv_id": "2601.15305v1",
+    "domain": "efficient_attention",
+    "section_type": "introduction",
+    "n_words": 182,
+    "sentences_json": "[\"Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window.\", \"Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens.\", \"We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6).\", \"Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%.\", \"Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.\"]",
+    "section_type_inherited": false,
+    "published": "2026-01-12",
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "section_title": "Introduction"
+   },
+   "similarity": 0.7991423606872559,
+   "via": "semantic"
+  },
+  {
+   "text": "We also note that sparse attention is an orthogonal approach to that of Transformer-XL and Compressive Transformer, which train on small sequences and by performing careful cross attention over cached previous chunks hope to generalize to longer sequences. By contrast, we directly train on long sequences from the beginning -e.g., the Compressive Transformer trains on chunks of size 512 for PG-19, while we train on sequences of length 8192. The benefit of the Transformer-XL like approach is that it is less memory consuming and thus is able to scale to 36 layers. Sparse attention (including local attention) on the other hand is more memory expensive since it trains directly on long sequences and therefore can scale to fewer layers for the same problem. However, as we demonstrate, it is competitive with the Transformer-XL like approaches even when using fewer layers and is guaranteed to generalize to the long sequence length that it was trained on.",
+   "meta": {
+    "arxiv_id": "2003.05997v5",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "published": "2020-03-12",
+    "sentences_json": "[\"We also note that sparse attention is an orthogonal approach to that of Transformer-XL and Compressive Transformer, which train on small sequences and by performing careful cross attention over cached previous chunks hope to generalize to longer sequences.\", \"By contrast, we directly train on long sequences from the beginning -e.g., the Compressive Transformer trains on chunks of size 512 for PG-19, while we train on sequences of length 8192.\", \"The benefit of the Transformer-XL like approach is that it is less memory consuming and thus is able to scale to 36 layers.\", \"Sparse attention (including local attention) on the other hand is more memory expensive since it trains directly on long sequences and therefore can scale to fewer layers for the same problem.\", \"However, as we demonstrate, it is competitive with the Transformer-XL like approaches even when using fewer layers and is guaranteed to generalize to the long sequence length that it was trained on.\"]",
+    "section_type_inherited": false,
+    "domain": "efficient_attention",
+    "section_title": "Recurrence vs Sparse Attention",
+    "n_words": 155,
+    "section_type": "method"
+   },
+   "similarity": 0.7976713180541992,
+   "via": "semantic"
+  }
+ ]
+}

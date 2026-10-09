@@ -1,0 +1,288 @@
+{
+ "query": "how can linear attention be written as a recurrent neural network",
+ "expected_arxiv_id": "2006.16236",
+ "category": "factual",
+ "set": "extra",
+ "answer": "Linear attention can be cast as a recurrent neural network by reorgan the attention computation into a sequential update that maintains a **state** summarising all previously seen tokens and uses this state to produce the representation of the current token.\n\n* The linear transformer replaces the soft‑max attention with a feature‑map‑based dot‑product, which makes the attention operation **associative** (the product of transformed key–value matrices can be grouped in any order) [Source 1].  \n* Because of this associativity, the contribution of each new time‑step can be **accumulated** in a hidden matrix that is updated once per token (e.g., $S_t = S_{t-1} + \\phi(k_t)\\,v_t^{\\top}$), and the output for the current query is obtained by a single dot product with the stored state (e.g., $h_t = \\phi(q_t)^{\\top} S_{t-1}$) [Source 3].  \n* By interpreting the cumulative matrix $S_t$ as the **recurrent hidden state**, the whole transformer layer can be written as a recurrent network that processes the sequence in linear time and memory, while still supporting causal masking [Source 3, Source 1].\n\nThus, linear attention is expressed as an RNN by (1) maintaining a recurrent state that aggregates transformed key‑value pairs, (2) updating this state at each step, and (3) computing the next token’s representation from the query and the stored state, yielding a model whose inference speed is “thousands of times faster” than the original quadratic‑cost transformer [Source 3].",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how can linear attention be written as a recurrent neural network",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2006.16236v3",
+   "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+   "year": "2020",
+   "section": "Linear Transformers",
+   "section_type": "method",
+   "similarity": 0.8226,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In this section, we formalize our proposed linear transformer. We present that changing the attention from the traditional softmax attention to a feature map based dot product attention results in better time and memory complexity as well as a causal model that can perform sequence generation in linear time, similar to a recurrent neural network. Initially, in § 3.1, we introduce a formulation for the transformer architecture introduced in (Vaswani et al., 2017) . Subsequently, in § 3.2 and § 3.3 we present our proposed linear transformer and finally, in § 3.4 we rewrite the transformer as a recurrent neural network.",
+   "url": "https://arxiv.org/abs/2006.16236v3"
+  },
+  {
+   "index": 2,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8064,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Generative models of sequences have witnessed rapid progress driven by the application of attention to neural networks. In particular, Bahdanau et al. (2015) ; Cho et al. (2014) ; Vaswani et al. (2017) relied on attention to drastically improve the state-of-the art in machine translation. Subsequent research (Radford et al., 2018; Devlin et al., 2019; Liu et al., 2019; Yang et al., 2019) demonstrated the power of * https://github.com/google-research/ google-research/tree/master/routing_transformer self-attention in learning powerful representations of language to address several natural language processing tasks. Self-attention also brought impressive progress for generative modeling outside of language, e.g. image (Parmar et al., 2018; Menick and Kalchbrenner, 2018; Child et al., 2019) and music generation (Huang et al., 2018; Child et al., 2019) . Self-attention operates over sequences in a stepwise manner: at every time-step, attention assigns an attention weight to each previous input element (representation of past time-steps) and uses these weights to compute the representation of the current time-step as a weighted sum of the past input elements (Vaswani et al., 2017) . Self-attention (Shaw et al., 2018 ) is a particular case of attention (Bahdanau et al., 2015; Chorowski et al., 2015; Luong et al., 2015) . Self-attention is commonly used in autoregressive generative models.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 3,
+   "paper_id": "2006.16236v3",
+   "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+   "year": "2020",
+   "section": "Conclusions",
+   "section_type": "conclusion",
+   "similarity": 0.7918,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In this work, we presented linear transformer, a model that significantly reduces the memory and computational cost of the original transformers. In particular, by exploiting the associativity property of matrix products we are able to compute the self-attention in time and memory that scales linearly with respect to the sequence length. We show that our model can be used with causal masking and still retain its linear asymptotic complexities. Finally, we express the transformer model as a recurrent neural network, which allows us to perform inference on autoregressive tasks thousands of time faster. This property opens a multitude of directions for future research regarding the storage and retrieval of information in both RNNs and transformers. Another line of research to be explored is related to the choice of feature map for linear attention. For instance, approximating the RBF kernel with random Fourier features could allow us to use models pretrained with softmax attention. In the first section of our supplementary material, we derive in detail the gradients for causally masked linear transformers and show that they can be computed in linear time and constant memory. In particular, we derive the gradients of a scalar loss with respect to the numerator of the following equation, The gradient with respect to the denominator and the fraction are efficiently handled by autograd.",
+   "url": "https://arxiv.org/abs/2006.16236v3"
+  },
+  {
+   "index": 4,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7915,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Self-attention is commonly used in autoregressive generative models. These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones. At every time step, self-attentive generative models can directly focus on any part of the previous context. In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step. This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence. Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2. This makes it difficult to scale attention based models to modeling long sequences. However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation. Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths. Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5 [cs. LG] 24 Oct 2020 dependencies, such as local or strided attention.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 5,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Related Work",
+   "section_type": "related_work",
+   "similarity": 0.7877,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures. In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently. Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ? dynamically segment the sequence into variable sized-chunks. Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) . Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction). This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution. This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "The linear transformer replaces the soft‑max attention with a feature‑map‑based dot‑product, which makes the attention operation associative (the product of transformed key–value matrices can be grouped in any order).",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.381,
+      "semantic": 0.867,
+      "evidence": "In this section, we formalize our proposed linear transformer. We present that changing the attention from the traditional softmax attention to a feature map based dot product attention results in better time and memory complexity as well as a causal model that can perform sequence generation in linear time, similar to a recurrent neural network.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Because of this associativity, the contribution of each new time‑step can be accumulated in a hidden matrix that is updated once per token (e.g., $S_t = S_{t-1} + \\phi(k_t)\\,v_t^{\\top}$), and the output for the current query is obtained by a single dot product with the stored state (e.g., $h_t = \\phi(q_t)^{\\top} S_{t-1}$).",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "unsupported",
+      "lexical": 0.154,
+      "semantic": 0.757,
+      "evidence": "In particular, by exploiting the associativity property of matrix products we are able to compute the self-attention in time and memory that scales linearly with respect to the sequence length. We show that our model can be used with causal masking and still retain its linear asymptotic complexities.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "unsupported"
+   },
+   {
+    "text": "By interpreting the cumulative matrix $S_t$ as the recurrent hidden state, the whole transformer layer can be written as a recurrent network that processes the sequence in linear time and memory, while still supporting causal masking.",
+    "sources": [
+     3,
+     1
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.55,
+      "semantic": 0.888,
+      "evidence": "We show that our model can be used with causal masking and still retain its linear asymptotic complexities. Finally, we express the transformer model as a recurrent neural network, which allows us to perform inference on autoregressive tasks thousands of time faster.",
+      "missing_numbers": []
+     },
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.4,
+      "semantic": 0.829,
+      "evidence": "Initially, in § 3.1, we introduce a formulation for the transformer architecture introduced in (Vaswani et al., 2017) . Subsequently, in § 3.2 and § 3.3 we present our proposed linear transformer and finally, in § 3.4 we rewrite the transformer as a recurrent neural network.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Thus, linear attention is expressed as an RNN by (1) maintaining a recurrent state that aggregates transformed key‑value pairs, (2) updating this state at each step, and (3) computing the next token’s representation from the query and the stored state, yielding a model whose inference speed is “thousands of times faster” than the original quadratic‑cost transformer.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.351,
+      "semantic": 0.783,
+      "evidence": "Finally, we express the transformer model as a recurrent neural network, which allows us to perform inference on autoregressive tasks thousands of time faster.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     3,
+     1
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     3
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 4,
+   "claims_supported": 2,
+   "claims_partial": 1,
+   "claims_unsupported": 1,
+   "citations": 5,
+   "supported": 3,
+   "partial": 1,
+   "unsupported": 1,
+   "invalid": 0,
+   "uncited_sentences": 1,
+   "score": 0.625,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 31,
+  "generation_ms": 2069,
+  "verification_ms": 954,
+  "total_ms": 3055
+ },
+ "hits": [
+  {
+   "text": "In this section, we formalize our proposed linear transformer. We present that changing the attention from the traditional softmax attention to a feature map based dot product attention results in better time and memory complexity as well as a causal model that can perform sequence generation in linear time, similar to a recurrent neural network. Initially, in § 3.1, we introduce a formulation for the transformer architecture introduced in (Vaswani et al., 2017) . Subsequently, in § 3.2 and § 3.3 we present our proposed linear transformer and finally, in § 3.4 we rewrite the transformer as a recurrent neural network.",
+   "meta": {
+    "section_type_inherited": true,
+    "n_words": 101,
+    "section_type": "method",
+    "arxiv_id": "2006.16236v3",
+    "sentences_json": "[\"In this section, we formalize our proposed linear transformer.\", \"We present that changing the attention from the traditional softmax attention to a feature map based dot product attention results in better time and memory complexity as well as a causal model that can perform sequence generation in linear time, similar to a recurrent neural network.\", \"Initially, in § 3.1, we introduce a formulation for the transformer architecture introduced in (Vaswani et al., 2017) .\", \"Subsequently, in § 3.2 and § 3.3 we present our proposed linear transformer and finally, in § 3.4 we rewrite the transformer as a recurrent neural network.\"]",
+    "section_title": "Linear Transformers",
+    "published": "2020-06-29",
+    "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.8226498365402222,
+   "via": "semantic"
+  },
+  {
+   "text": "Generative models of sequences have witnessed rapid progress driven by the application of attention to neural networks. In particular, Bahdanau et al. (2015) ; Cho et al. (2014) ; Vaswani et al. (2017) relied on attention to drastically improve the state-of-the art in machine translation. Subsequent research (Radford et al., 2018; Devlin et al., 2019; Liu et al., 2019; Yang et al., 2019) demonstrated the power of * https://github.com/google-research/ google-research/tree/master/routing_transformer self-attention in learning powerful representations of language to address several natural language processing tasks. Self-attention also brought impressive progress for generative modeling outside of language, e.g. image (Parmar et al., 2018; Menick and Kalchbrenner, 2018; Child et al., 2019) and music generation (Huang et al., 2018; Child et al., 2019) . Self-attention operates over sequences in a stepwise manner: at every time-step, attention assigns an attention weight to each previous input element (representation of past time-steps) and uses these weights to compute the representation of the current time-step as a weighted sum of the past input elements (Vaswani et al., 2017) . Self-attention (Shaw et al., 2018 ) is a particular case of attention (Bahdanau et al., 2015; Chorowski et al., 2015; Luong et al., 2015) . Self-attention is commonly used in autoregressive generative models.",
+   "meta": {
+    "n_words": 205,
+    "arxiv_id": "2003.05997v5",
+    "domain": "efficient_attention",
+    "published": "2020-03-12",
+    "section_title": "Introduction",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "section_type": "introduction",
+    "sentences_json": "[\"Generative models of sequences have witnessed rapid progress driven by the application of attention to neural networks.\", \"In particular, Bahdanau et al. (2015) ; Cho et al. (2014) ; Vaswani et al. (2017) relied on attention to drastically improve the state-of-the art in machine translation.\", \"Subsequent research (Radford et al., 2018; Devlin et al., 2019; Liu et al., 2019; Yang et al., 2019) demonstrated the power of * https://github.com/google-research/\", \"google-research/tree/master/routing_transformer self-attention in learning powerful representations of language to address several natural language processing tasks.\", \"Self-attention also brought impressive progress for generative modeling outside of language, e.g.\", \"image (Parmar et al., 2018; Menick and Kalchbrenner, 2018; Child et al., 2019) and music generation (Huang et al., 2018; Child et al., 2019) .\", \"Self-attention operates over sequences in a stepwise manner: at every time-step, attention assigns an attention weight to each previous input element (representation of past time-steps) and uses these weights to compute the representation of the current time-step as a weighted sum of the past input elements (Vaswani et al., 2017) .\", \"Self-attention (Shaw et al., 2018 ) is a particular case of attention (Bahdanau et al., 2015; Chorowski et al., 2015; Luong et al., 2015) .\", \"Self-attention is commonly used in autoregressive generative models.\"]",
+    "section_type_inherited": false
+   },
+   "similarity": 0.8063887357711792,
+   "via": "semantic"
+  },
+  {
+   "text": "In this work, we presented linear transformer, a model that significantly reduces the memory and computational cost of the original transformers. In particular, by exploiting the associativity property of matrix products we are able to compute the self-attention in time and memory that scales linearly with respect to the sequence length. We show that our model can be used with causal masking and still retain its linear asymptotic complexities. Finally, we express the transformer model as a recurrent neural network, which allows us to perform inference on autoregressive tasks thousands of time faster. This property opens a multitude of directions for future research regarding the storage and retrieval of information in both RNNs and transformers. Another line of research to be explored is related to the choice of feature map for linear attention. For instance, approximating the RBF kernel with random Fourier features could allow us to use models pretrained with softmax attention. In the first section of our supplementary material, we derive in detail the gradients for causally masked linear transformers and show that they can be computed in linear time and constant memory. In particular, we derive the gradients of a scalar loss with respect to the numerator of the following equation, The gradient with respect to the denominator and the fraction are efficiently handled by autograd.",
+   "meta": {
+    "published": "2020-06-29",
+    "section_title": "Conclusions",
+    "sentences_json": "[\"In this work, we presented linear transformer, a model that significantly reduces the memory and computational cost of the original transformers.\", \"In particular, by exploiting the associativity property of matrix products we are able to compute the self-attention in time and memory that scales linearly with respect to the sequence length.\", \"We show that our model can be used with causal masking and still retain its linear asymptotic complexities.\", \"Finally, we express the transformer model as a recurrent neural network, which allows us to perform inference on autoregressive tasks thousands of time faster.\", \"This property opens a multitude of directions for future research regarding the storage and retrieval of information in both RNNs and transformers.\", \"Another line of research to be explored is related to the choice of feature map for linear attention.\", \"For instance, approximating the RBF kernel with random Fourier features could allow us to use models pretrained with softmax attention.\", \"In the first section of our supplementary material, we derive in detail the gradients for causally masked linear transformers and show that they can be computed in linear time and constant memory.\", \"In particular, we derive the gradients of a scalar loss with respect to the numerator of the following equation,\", \"The gradient with respect to the denominator and the fraction are efficiently handled by autograd.\"]",
+    "n_words": 219,
+    "arxiv_id": "2006.16236v3",
+    "domain": "efficient_attention",
+    "section_type": "conclusion",
+    "paper_title": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+    "section_type_inherited": false
+   },
+   "similarity": 0.7918322086334229,
+   "via": "semantic"
+  },
+  {
+   "text": "Self-attention is commonly used in autoregressive generative models. These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones. At every time step, self-attentive generative models can directly focus on any part of the previous context. In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step. This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence. Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2. This makes it difficult to scale attention based models to modeling long sequences. However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation. Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths. Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5 [cs. LG] 24 Oct 2020 dependencies, such as local or strided attention.",
+   "meta": {
+    "n_words": 207,
+    "section_type_inherited": false,
+    "section_type": "introduction",
+    "section_title": "Introduction",
+    "sentences_json": "[\"Self-attention is commonly used in autoregressive generative models.\", \"These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones.\", \"At every time step, self-attentive generative models can directly focus on any part of the previous context.\", \"In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step.\", \"This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence.\", \"Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2.\", \"This makes it difficult to scale attention based models to modeling long sequences.\", \"However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation.\", \"Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths.\", \"Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5\", \"[cs. LG] 24 Oct 2020 dependencies, such as local or strided attention.\"]",
+    "published": "2020-03-12",
+    "arxiv_id": "2003.05997v5",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7915371060371399,
+   "via": "semantic"
+  },
+  {
+   "text": "Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures. In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently. Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ? dynamically segment the sequence into variable sized-chunks. Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) . Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction). This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution. This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix.",
+   "meta": {
+    "published": "2020-03-12",
+    "n_words": 214,
+    "section_type": "related_work",
+    "arxiv_id": "2003.05997v5",
+    "domain": "efficient_attention",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "sentences_json": "[\"Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures.\", \"In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently.\", \"Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ?\", \"dynamically segment the sequence into variable sized-chunks.\", \"Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) .\", \"Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction).\", \"This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution.\", \"This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix.\"]",
+    "section_type_inherited": false,
+    "section_title": "Related Work"
+   },
+   "similarity": 0.7876557111740112,
+   "via": "semantic"
+  }
+ ]
+}

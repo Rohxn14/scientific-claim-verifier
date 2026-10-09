@@ -1,0 +1,341 @@
+{
+ "query": "how does gated sparse attention improve training stability",
+ "expected_arxiv_id": "2601.15305",
+ "category": "factual",
+ "set": "extra",
+ "answer": "Gated Sparse Attention (GSA) improves training stability through several tightly coupled mechanisms introduced by its gated components:\n\n- **Sigmoid gating after SDPA dampens activation magnitudes** – element‑wise sigmoid gates bound the attention scores, which “dampen activation magnitudes and permit higher learning rates”【Source 2】.  \n- **Bounded, interpretable selection scores** – the gated lightning indexer produces scores in a fixed range, giving “bounded activations that stabilize training”【Source 4】.  \n- **Dual gating (value‑gating G2 and output‑gating G1)** creates an alternative pathway for suppressing irrelevant information, “obviating the need for sink tokens” and further controlling signal magnitude【Source 3】.  \n- **Mitigation of attention‑sink phenomenon** – by suppressing the disproportionate focus on the first token (from 47 % to < 4 %), the model avoids pathological gradients that can destabilize learning【Source 1】.  \n- **Empirical reduction of loss spikes and activation extremes** – training with GSA shows “loss spikes reduced by 98 %” and “maximum activations reduced by an order of magnitude,” directly evidencing enhanced stability【Source 1】【Source 3】.  \n- **Theoretical guarantees** – the analysis in the paper establishes “standard convergence guarantees” for GSA, confirming that the gating does not compromise, but rather supports, stable optimization【Source 5】.\n\nTogether, bounded sigmoid gating, dual‑gating pathways, and sink mitigation keep activations well‑behaved, enable higher learning rates, and dramatically curb loss spikes, yielding markedly more stable training dynamics.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does gated sparse attention improve training stability",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Abstract",
+   "section_type": "abstract",
+   "similarity": 0.8724,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "The computational burden of attention in long-context language models has motivated two largely independent lines of work: sparse attention mechanisms that reduce complexity by attending to selected tokens, and gated attention variants that improve training stability while mitigating the attention sink phenomenon. We observe that these approaches address complementary weaknesses and propose Gated Sparse Attention (GSA), an architecture that realizes the benefits of both. GSA incorporates a gated lightning indexer with sigmoid activations that produce bounded, interpretable selection scores, an adaptive sparsity controller that modulates the number of attended tokens based on local uncertainty, and dual gating at the value and output stages. We establish theoretical foundations for the approach, including complexity analysis, expressiveness results, and convergence guarantees. In experiments with 1.7B parameter models trained on 400B tokens, GSA matches the efficiency of sparse-only baselines (12-16× speedup at 128K context) while achieving the quality gains associated with gated attention: perplexity improves from 6.03 to 5.70, RULER scores at 128K context nearly double, and attention to the first token-a proxy for attention sinks-drops from 47% to under 4%. Training stability improves markedly, with loss spikes reduced by 98%.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 2,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8497,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Independently, Qiu et al. [2025] showed that element-wise sigmoid gating after scaled dot-product attention (SDPA) mitigates sinks, dampens activation magnitudes, and permits higher learning rates-benefits compelling enough that the approach earned the NeurIPS 2025 Best Paper Award and has since been adopted in production systems such as Qwen3-Next. The catch is that gated attention retains full quadratic cost. A natural question is whether these techniques can be combined. We argue that they are not merely compatible but mutually reinforcing: gating supplies bounded, well-behaved scores that improve the indexer's token selection, while sparsity frees parameter budget for richer gating without increasing wall-clock cost. This paper introduces Gated Sparse Attention (GSA), an architecture that realizes this synthesis. The design rests on three components. First, a gated lightning indexer replaces the original ReLU scoring with sigmoid units, yielding importance scores in (0, H I ) that admit a probabilistic interpretation and respond smoothly to gradient updates. Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 3,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.8474,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window. Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens. We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6). Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%. Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 4,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Desiderata",
+   "section_type": "method",
+   "similarity": 0.8403,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "An ideal long-context attention mechanism would satisfy four properties: (i) sub-quadratic scaling in sequence length, (ii) immunity to attention sinks, (iii) bounded activations that stabilize training, and (iv) sufficient expressiveness to capture complex token interactions. Existing methods achieve subsets of these goals; our aim is an architecture that realizes all four. 3 Gated Sparse Attention",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  },
+  {
+   "index": 5,
+   "paper_id": "2601.15305v1",
+   "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+   "year": "2026",
+   "section": "Conclusion",
+   "section_type": "conclusion",
+   "similarity": 0.8272,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "We have introduced Gated Sparse Attention, an architecture that marries the efficiency of sparse token selection with the stability and expressiveness of sigmoid gating. Theoretical analysis confirms that GSA retains standard convergence guarantees while offering strictly greater representational capacity than ungated attention. Empirically, the combination delivers on its promise: throughput improves by an order of magnitude at 128K context, perplexity and downstream accuracy match or exceed gated-only baselines, long-context retrieval nearly doubles relative to standard attention, and training stability improves markedly-all without sacrificing wall-clock speed. Looking ahead, natural extensions include hierarchical indexers that achieve sub-quadratic scoring, integration with mixture-of-experts routing, and tighter theoretical bounds on the information lost through sparse selection. We hope GSA provides a useful foundation for scaling attention to ever-longer contexts without abandoning the quality gains that gating affords. A Proof of Theorem 1 (GSA Complexity) Proof. Let L be sequence length, d be model dimension, n h be number of attention heads, d k = d/n h be head dimension. Standard Attention Complexity: GSA Complexity Breakdown: 2. Gated Indexer Computation: For each query token t, compute scores with all L preceding tokens. Per-token cost: Since d I ≪ d and H I ≪ n h : 4. Sparse Attention: For each query, attend to k selected tokens. Per-token cost: 5. Gating Operations: O(L • d) each.",
+   "url": "https://arxiv.org/abs/2601.15305v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Sigmoid gating after SDPA dampens activation magnitudes – element‑wise sigmoid gates bound the attention scores, which “dampen activation magnitudes and permit higher learning rates”.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "supported",
+      "lexical": 0.941,
+      "semantic": 0.903,
+      "evidence": "Independently, Qiu et al. [2025] showed that element-wise sigmoid gating after scaled dot-product attention (SDPA) mitigates sinks, dampens activation magnitudes, and permits higher learning rates-benefits compelling enough that the approach earned the NeurIPS 2025 Best Paper Award and has since been adopted in production systems such as Qwen3-Next. The catch is that gated attention retains full quadratic cost.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Bounded, interpretable selection scores – the gated lightning indexer produces scores in a fixed range, giving “bounded activations that stabilize training”.",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "partial",
+      "lexical": 0.357,
+      "semantic": 0.732,
+      "evidence": "Existing methods achieve subsets of these goals; our aim is an architecture that realizes all four. 3 Gated Sparse Attention",
+      "missing_numbers": []
+     }
+    ],
+    "status": "partial"
+   },
+   {
+    "text": "Dual gating (value‑gating G2 and output‑gating G1) creates an alternative pathway for suppressing irrelevant information, “obviating the need for sink tokens” and further controlling signal magnitude.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.85,
+      "semantic": 0.871,
+      "evidence": "Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Mitigation of attention‑sink phenomenon – by suppressing the disproportionate focus on the first token (from 47 % to < 4 %), the model avoids pathological gradients that can destabilize learning.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.471,
+      "semantic": 0.847,
+      "evidence": "The computational burden of attention in long-context language models has motivated two largely independent lines of work: sparse attention mechanisms that reduce complexity by attending to selected tokens, and gated attention variants that improve training stability while mitigating the attention sink phenomenon.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Empirical reduction of loss spikes and activation extremes – training with GSA shows “loss spikes reduced by 98 %” and “maximum activations reduced by an order of magnitude,” directly evidencing enhanced stability.",
+    "sources": [
+     1,
+     3
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.444,
+      "semantic": 0.805,
+      "evidence": "In experiments with 1.7B parameter models trained on 400B tokens, GSA matches the efficiency of sparse-only baselines (12-16× speedup at 128K context) while achieving the quality gains associated with gated attention: perplexity improves from 6.03 to 5.70, RULER scores at 128K context nearly double, and attention to the first token-a proxy for attention sinks-drops from 47% to under 4%. Training stability improves markedly, with loss spikes reduced by 98%.",
+      "missing_numbers": []
+     },
+     {
+      "source": 3,
+      "status": "partial",
+      "lexical": 0.611,
+      "semantic": 0.813,
+      "evidence": "Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%. Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.",
+      "missing_numbers": [
+       "98"
+      ]
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Theoretical guarantees – the analysis in the paper establishes “standard convergence guarantees” for GSA, confirming that the gating does not compromise, but rather supports, stable optimization.",
+    "sources": [
+     5
+    ],
+    "citations": [
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.444,
+      "semantic": 0.836,
+      "evidence": "Theoretical analysis confirms that GSA retains standard convergence guarantees while offering strictly greater representational capacity than ungated attention.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 3,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 4,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 5,
+    "sources": [
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 6,
+   "claims_supported": 5,
+   "claims_partial": 1,
+   "claims_unsupported": 0,
+   "citations": 7,
+   "supported": 5,
+   "partial": 2,
+   "unsupported": 0,
+   "invalid": 0,
+   "uncited_sentences": 1,
+   "score": 0.917,
+   "declined": false,
+   "verdict": "well_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 26,
+  "generation_ms": 2086,
+  "verification_ms": 2444,
+  "total_ms": 4557
+ },
+ "hits": [
+  {
+   "text": "The computational burden of attention in long-context language models has motivated two largely independent lines of work: sparse attention mechanisms that reduce complexity by attending to selected tokens, and gated attention variants that improve training stability while mitigating the attention sink phenomenon. We observe that these approaches address complementary weaknesses and propose Gated Sparse Attention (GSA), an architecture that realizes the benefits of both. GSA incorporates a gated lightning indexer with sigmoid activations that produce bounded, interpretable selection scores, an adaptive sparsity controller that modulates the number of attended tokens based on local uncertainty, and dual gating at the value and output stages. We establish theoretical foundations for the approach, including complexity analysis, expressiveness results, and convergence guarantees. In experiments with 1.7B parameter models trained on 400B tokens, GSA matches the efficiency of sparse-only baselines (12-16× speedup at 128K context) while achieving the quality gains associated with gated attention: perplexity improves from 6.03 to 5.70, RULER scores at 128K context nearly double, and attention to the first token-a proxy for attention sinks-drops from 47% to under 4%. Training stability improves markedly, with loss spikes reduced by 98%.",
+   "meta": {
+    "section_title": "Abstract",
+    "arxiv_id": "2601.15305v1",
+    "section_type_inherited": false,
+    "published": "2026-01-12",
+    "section_type": "abstract",
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "n_words": 187,
+    "domain": "efficient_attention",
+    "sentences_json": "[\"The computational burden of attention in long-context language models has motivated two largely independent lines of work: sparse attention mechanisms that reduce complexity by attending to selected tokens, and gated attention variants that improve training stability while mitigating the attention sink phenomenon.\", \"We observe that these approaches address complementary weaknesses and propose Gated Sparse Attention (GSA), an architecture that realizes the benefits of both.\", \"GSA incorporates a gated lightning indexer with sigmoid activations that produce bounded, interpretable selection scores, an adaptive sparsity controller that modulates the number of attended tokens based on local uncertainty, and dual gating at the value and output stages.\", \"We establish theoretical foundations for the approach, including complexity analysis, expressiveness results, and convergence guarantees.\", \"In experiments with 1.7B parameter models trained on 400B tokens, GSA matches the efficiency of sparse-only baselines (12-16× speedup at 128K context) while achieving the quality gains associated with gated attention: perplexity improves from 6.03 to 5.70, RULER scores at 128K context nearly double, and attention to the first token-a proxy for attention sinks-drops from 47% to under 4%.\", \"Training stability improves markedly, with loss spikes reduced by 98%.\"]"
+   },
+   "similarity": 0.8724187016487122,
+   "via": "semantic"
+  },
+  {
+   "text": "Independently, Qiu et al. [2025] showed that element-wise sigmoid gating after scaled dot-product attention (SDPA) mitigates sinks, dampens activation magnitudes, and permits higher learning rates-benefits compelling enough that the approach earned the NeurIPS 2025 Best Paper Award and has since been adopted in production systems such as Qwen3-Next. The catch is that gated attention retains full quadratic cost. A natural question is whether these techniques can be combined. We argue that they are not merely compatible but mutually reinforcing: gating supplies bounded, well-behaved scores that improve the indexer's token selection, while sparsity frees parameter budget for richer gating without increasing wall-clock cost. This paper introduces Gated Sparse Attention (GSA), an architecture that realizes this synthesis. The design rests on three components. First, a gated lightning indexer replaces the original ReLU scoring with sigmoid units, yielding importance scores in (0, H I ) that admit a probabilistic interpretation and respond smoothly to gradient updates. Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window.",
+   "meta": {
+    "n_words": 188,
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "section_type": "introduction",
+    "arxiv_id": "2601.15305v1",
+    "sentences_json": "[\"Independently, Qiu et al. [2025] showed that element-wise sigmoid gating after scaled dot-product attention (SDPA) mitigates sinks, dampens activation magnitudes, and permits higher learning rates-benefits compelling enough that the approach earned the NeurIPS 2025 Best Paper Award and has since been adopted in production systems such as Qwen3-Next.\", \"The catch is that gated attention retains full quadratic cost.\", \"A natural question is whether these techniques can be combined.\", \"We argue that they are not merely compatible but mutually reinforcing: gating supplies bounded, well-behaved scores that improve the indexer's token selection, while sparsity frees parameter budget for richer gating without increasing wall-clock cost.\", \"This paper introduces Gated Sparse Attention (GSA), an architecture that realizes this synthesis.\", \"The design rests on three components.\", \"First, a gated lightning indexer replaces the original ReLU scoring with sigmoid units, yielding importance scores in (0, H I ) that admit a probabilistic interpretation and respond smoothly to gradient updates.\", \"Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window.\"]",
+    "domain": "efficient_attention",
+    "published": "2026-01-12",
+    "section_title": "Introduction",
+    "section_type_inherited": false
+   },
+   "similarity": 0.8496901988983154,
+   "via": "semantic"
+  },
+  {
+   "text": "Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window. Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens. We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6). Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%. Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.",
+   "meta": {
+    "published": "2026-01-12",
+    "arxiv_id": "2601.15305v1",
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "section_type": "introduction",
+    "domain": "efficient_attention",
+    "section_title": "Introduction",
+    "sentences_json": "[\"Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window.\", \"Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens.\", \"We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6).\", \"Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%.\", \"Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude.\"]",
+    "section_type_inherited": false,
+    "n_words": 182
+   },
+   "similarity": 0.847443699836731,
+   "via": "semantic"
+  },
+  {
+   "text": "An ideal long-context attention mechanism would satisfy four properties: (i) sub-quadratic scaling in sequence length, (ii) immunity to attention sinks, (iii) bounded activations that stabilize training, and (iv) sufficient expressiveness to capture complex token interactions. Existing methods achieve subsets of these goals; our aim is an architecture that realizes all four. 3 Gated Sparse Attention",
+   "meta": {
+    "n_words": 55,
+    "arxiv_id": "2601.15305v1",
+    "section_type_inherited": true,
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "section_type": "method",
+    "section_title": "Desiderata",
+    "sentences_json": "[\"An ideal long-context attention mechanism would satisfy four properties: (i) sub-quadratic scaling in sequence length, (ii) immunity to attention sinks, (iii) bounded activations that stabilize training, and (iv) sufficient expressiveness to capture complex token interactions.\", \"Existing methods achieve subsets of these goals; our aim is an architecture that realizes all four.\", \"3 Gated Sparse Attention\"]",
+    "published": "2026-01-12",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.8403071165084839,
+   "via": "semantic"
+  },
+  {
+   "text": "We have introduced Gated Sparse Attention, an architecture that marries the efficiency of sparse token selection with the stability and expressiveness of sigmoid gating. Theoretical analysis confirms that GSA retains standard convergence guarantees while offering strictly greater representational capacity than ungated attention. Empirically, the combination delivers on its promise: throughput improves by an order of magnitude at 128K context, perplexity and downstream accuracy match or exceed gated-only baselines, long-context retrieval nearly doubles relative to standard attention, and training stability improves markedly-all without sacrificing wall-clock speed. Looking ahead, natural extensions include hierarchical indexers that achieve sub-quadratic scoring, integration with mixture-of-experts routing, and tighter theoretical bounds on the information lost through sparse selection. We hope GSA provides a useful foundation for scaling attention to ever-longer contexts without abandoning the quality gains that gating affords. A Proof of Theorem 1 (GSA Complexity) Proof. Let L be sequence length, d be model dimension, n h be number of attention heads, d k = d/n h be head dimension. Standard Attention Complexity: GSA Complexity Breakdown: 2. Gated Indexer Computation: For each query token t, compute scores with all L preceding tokens. Per-token cost: Since d I ≪ d and H I ≪ n h : 4. Sparse Attention: For each query, attend to k selected tokens. Per-token cost: 5. Gating Operations: O(L • d) each.",
+   "meta": {
+    "n_words": 220,
+    "section_type": "conclusion",
+    "section_title": "Conclusion",
+    "sentences_json": "[\"We have introduced Gated Sparse Attention, an architecture that marries the efficiency of sparse token selection with the stability and expressiveness of sigmoid gating.\", \"Theoretical analysis confirms that GSA retains standard convergence guarantees while offering strictly greater representational capacity than ungated attention.\", \"Empirically, the combination delivers on its promise: throughput improves by an order of magnitude at 128K context, perplexity and downstream accuracy match or exceed gated-only baselines, long-context retrieval nearly doubles relative to standard attention, and training stability improves markedly-all without sacrificing wall-clock speed.\", \"Looking ahead, natural extensions include hierarchical indexers that achieve sub-quadratic scoring, integration with mixture-of-experts routing, and tighter theoretical bounds on the information lost through sparse selection.\", \"We hope GSA provides a useful foundation for scaling attention to ever-longer contexts without abandoning the quality gains that gating affords.\", \"A Proof of Theorem 1 (GSA Complexity)\", \"Proof.\", \"Let L be sequence length, d be model dimension, n h be number of attention heads, d k = d/n h be head dimension.\", \"Standard Attention Complexity:\", \"GSA Complexity Breakdown:\", \"2. Gated Indexer Computation: For each query token t, compute scores with all L preceding tokens.\", \"Per-token cost:\", \"Since d I ≪ d and H I ≪ n h :\", \"4. Sparse Attention: For each query, attend to k selected tokens.\", \"Per-token cost:\", \"5. Gating Operations: O(L • d) each.\"]",
+    "paper_title": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+    "published": "2026-01-12",
+    "arxiv_id": "2601.15305v1",
+    "domain": "efficient_attention",
+    "section_type_inherited": false
+   },
+   "similarity": 0.8271564841270447,
+   "via": "semantic"
+  }
+ ]
+}

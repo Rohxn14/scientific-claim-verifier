@@ -1,0 +1,682 @@
+[
+ {
+  "pair_id": "q09c01s3",
+  "claim": "Around 2× forward‑pass speedup – In the forward pass FlashAttention‑2 achieves roughly a 2× speedup over FlashAttention, reaching up to 73 % of the theoretical max throughput on an A100 GPU.",
+  "backs": "",
+  "source": 3,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU."
+ },
+ {
+  "pair_id": "q11c00s4",
+  "claim": "The sources describe various forms of sparse attention—including local, hierarchical, routing‑based, and gated sparse mechanisms—and report their efficiency and performance characteristics (e.g., reduced memory use, faster throughput, lower perplexity), but they do not contain any information about linear‑time attention methods.",
+  "backs": "",
+  "source": 4,
+  "paper": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+  "passage": "Second, an adaptive sparsity controller modulates the selection budget k t according to score variance: high variance signals confident discrimination and permits aggressive pruning, whereas low variance suggests ambiguity and warrants a larger context window. Third, dual gating-applied both to values before aggregation (G2) and to outputs after SDPA (G1)-injects non-linearity that breaks the rank bottleneck of standard attention while providing an alternative pathway for suppressing irrelevant information, obviating the need for sink tokens. We ground these design choices in theory, establishing complexity bounds (Theorem 1), an expressiveness separation from ungated attention (Theorem 3), a formal account of sink mitigation (Theorem 4), gradient norm bounds (Theorem 5), and convergence guarantees (Theorem 6). Empirically, GSA matches the throughput of sparse-only baselines-12-16× faster than dense attention at 128K tokens-while delivering quality gains on par with or exceeding gated attention: perplexity drops from 6.03 to 5.70 on WikiText-103, RULER scores at 128K context rise from 32 to 62, and first-token attention falls from 47% to 4%. Training stability improves in lockstep, with loss spikes nearly eliminated and maximum activations reduced by an order of magnitude."
+ },
+ {
+  "pair_id": "q00c00s4",
+  "claim": "This removes the quadratic memory term and leaves only a linear‑in‑$N$ footprint for the intermediate tiles.",
+  "backs": "",
+  "source": 4,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner."
+ },
+ {
+  "pair_id": "q04c00s1",
+  "claim": "The original Transformer formulation notes that “the time and space complexity of self‑attention grows quadratically in the sequence length”.",
+  "backs": "",
+  "source": 1,
+  "paper": "Music Transformer",
+  "passage": "Self-attention can be seen as a generalization of self-similarity; the former maps the input through different projections to queries and keys, and the latter uses the same projection for both. Dot-product self-attention is the mechanism at the core of the Transformer, and several recent works have focused on applying and improving it for image generation, speech, and summarization (Parmar et al., 2018; Povey et al., 2018; Liu et al., 2018) . A key challenge encountered by each of these efforts is scaling attention computationally to long sequences. This is because the time and space complexity of self-attention grows quadratically in the sequence length. For relative self-attention (Shaw et al., 2018) this is particularly problematic as the space complexity also grows linearly in the dimension, or depth, of the per-position representations."
+ },
+ {
+  "pair_id": "q16c00s1",
+  "claim": "In the results table the authors state that FlashAttention‑2 reaches up to 225 TFLOPs · s⁻¹ on GPT‑style models running on 8 × A100 GPUs, with 72 % model FLOPs utilization.",
+  "backs": "",
+  "source": 1,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Training speed (TFLOPs/s/GPU) of GPT-style models on 8×A100 GPUs.FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization).We compare against a baseline running without FlashAttention.be used to understand long books and reports, high resolution images, audio and video. FlashAttention-2 will also speed up training, finetuning, and inference of existing models."
+ },
+ {
+  "pair_id": "q08c03s2",
+  "claim": "Quality preservation vs speed; Methods such as SparseD keep full attention for the early denoising steps (where quality is most sensitive) and switch to pre‑computed sparse patterns later, sacrificing some speed early on to maintain generation quality.",
+  "backs": "",
+  "source": 2,
+  "paper": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+  "passage": "SparseD. As a pure sparse attention baseline, SparseD (Wang et al., 2025) is tailored for the unique attention patterns in dLLMs. Its core strategy involves pre-computing head-specific sparse patterns once and reusing them across subsequent denoising steps. To preserve generation quality, it applies full attention during the critical early steps before switching to the pre-computed sparse patterns for the remainder of the inference process. To ensure a fair comparison, all methods uniformly employ the semi-autoregressive remasking strategy, with the block length set to 32 across all experiments."
+ },
+ {
+  "pair_id": "q16c02s3",
+  "claim": "Both citations report the identical upper‑bound number (225 TFLOPs/s) and no other TFLOPs figures appear elsewhere in the paper (the discussion of a 2× speedup in does not give a separate TFLOPs measurement).",
+  "backs": "",
+  "source": 3,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model. We are excited about how this can"
+ },
+ {
+  "pair_id": "q06c01s3",
+  "claim": "The introduction describes the core challenge as “meet[ing] the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously” without giving quantitative targets.",
+  "backs": "",
+  "source": 3,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "Thus, the core challenge of AlayaDB is solving a bi-objective optimization problem, i.e., meet the SLOs of different workloads by consuming less GPU memory and offering higher generation quality simultaneously. The core idea of AlayaDB is to decouple both KV cache and attention computation and to encapsulate them into a monolithic vector database. The major benefits of the novel disaggregation level are three-fold. • Lightweight LLM Inference System. The cache management and attention computation can be separated from the LLM inference engine, which lightens its burden. • Interface Simplification. It simplifies the interface between LLM inference engine and KV cache service by only returning the attention result, instead of the KV cache content. • Co-optimization Opportunity. It sheds light on co-optimizing attention computation and KV cache management in a monolithic vector database together. At a high level, AlayaDB's role in LLM inference is comparable to the role of traditional databases [21, 30, 40, 47, 53, 57] in web applications. Specifically, the LLM application developers only need to pay attention to the logic of their applications while AlayaDB offers efficient long-context management from their developed LLM applications. This is analogous to web application developers focusing on the logic of their applications and leaving efficient data management to a traditional relational database."
+ },
+ {
+  "pair_id": "q00c01s5",
+  "claim": "No full attention matrix in backward – Like the method of Rabe & Staats, FlashAttention recomputes the attention values in the backward pass instead of keeping them, further lowering the peak GPU memory requirement.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block."
+ },
+ {
+  "pair_id": "q08c04s5",
+  "claim": "Content‑aware selection after scoring; Approaches that decide sparsity after computing attention scores (e.g., H2O) can prune low‑scoring keys, but once a token is evicted it cannot be recovered, risking degradation if the token later becomes important.",
+  "backs": "",
+  "source": 5,
+  "paper": "Block Sparse Flash Attention",
+  "passage": "Some methods make sparsity decisions after computing attention scores, but still face limitations. H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation. StreamingLLM (Xiao et al., 2024) retains initial \"attention sink\" tokens plus a sliding window. While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency. Learned sparsity. SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Approximation methods. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations. While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes."
+ },
+ {
+  "pair_id": "q17c03s3",
+  "claim": "By streaming the last column of the tile first and carefully scheduling the operations, the kernel overlaps the two matrix multiplications with the soft‑max reductions, eliminating the costly data transfers to external units and the associated SRAM‑port contention.",
+  "backs": "",
+  "source": 3,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner."
+ },
+ {
+  "pair_id": "q08c00s1",
+  "claim": "Avoiding full attention matrices; By restricting each query to a limited set of keys, the $n\\times n$ matrix never needs to be materialized, which is crucial for long sequences.",
+  "backs": "",
+  "source": 1,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "Content-based sparse attention should however be carefully implemented if we need to avoid instantiating full attention matrices at any point in time. For instance, Correia et al. (2019) infer sparsity from data but their formulation instantiates a full attention matrix before finding its sparse counterpart. The next section explains how a natively sparse approach can actually be devised inspired by the Maximum Inner Product Search (MIPS) problem."
+ },
+ {
+  "pair_id": "q19c00s5",
+  "claim": "The only cost‑related details are training‑time measurements for much smaller models (e.g., ~20 h on 8 × Quadro RTX 5000 GPUs for a medical‑image transformer and minutes of training for GPT‑2 with FlashAttention ), but no financial estimates for a model of GPT‑4 size are reported.",
+  "backs": "and minutes of training for GPT‑2 with FlashAttention ), but no financial estimates for a model of GPT‑4 size are reported.",
+  "source": 5,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "Training time (minutes) Nvidia MLPerf 1.1 [58] 20.0 ± 1.5 FlashAttention (ours) 17.4 ± 1.4 GPT-2. FlashAttention yields faster training times for GPT-2 [67] on the large OpenWebtext dataset [32] than the widely used HuggingFace [87] and Megatron-LM [77] implementations. Table 2 shows up to 3× endto-end speedup compared to Huggingface and 1.7× speedup compared to Megatron-LM. FlashAttention achieves the same perplexity as the other two implementations, as we do not change the model definition. Appendix E includes plots of the validation perplexity throughout training, confirming that FlashAttention is as numerically stable as the baselines and produces the same training / validation curves. Long-range Arena. We compare vanilla Transformer (with either standard implementation or FlashAttention) on the long-range arena (LRA [80] ) benchmark. We measure accuracy, throughput, and training time of all models. Each task has a different sequence length varying between 1024 and 4096. We follow the implementation and experimental setting in Tay et al. [80] and Xiong et al. [90] . 3 Table 3 shows that FlashAttention achieves up 2.4× speed-up compared to standard attention. Block-sparse FlashAttention is faster than all of the approximate attention methods that we have tested."
+ },
+ {
+  "pair_id": "q07c03s5",
+  "claim": "An approximation gap that can be analyzed via control‑variate estimators; the gap shrinks when the same coefficient is used for all control variates, or when more sophisticated control‑variate forms are introduced.",
+  "backs": "",
+  "source": 5,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "Random-feature-based attention (RFA, also known as Performer; Choromanski et al., 2021; Peng et al., 2021b) is an established fast approximation to the conventional softmax attention mechanism (Bahdanau et al., 2014; Vaswani et al., 2017) , which successfully scales Transformer models to processing much longer sequences (Choromanski et al., 2021) . At its core is the usage of random features (RF; Rahimi & Recht, 2008) to linearize the exponential kernel in softmax attention, which reduces the computational cost from quadratic to linear runtime and space complexity. Despite its efficiency, recent studies have pointed out that such approximation suffers from substantial performance degeneration (Xiong et al., 2021a; Zheng et al., 2022b) . In this work, we generalize the formulation of RFA via control variates (Owen, 2013) , which characterizes the approximation gap between RFA and softmax attention in theory. We first show that RFA can be decomposed from a global approximation over the whole sequence into a sum of local control variate estimators, each of which is applied to an individual element in the sequence. Under this formulation, RFA is equivalent to employing the same coefficient for all control variate estimators to scale their variance isotropically ( §3.1)."
+ },
+ {
+  "pair_id": "q12c01s4",
+  "claim": "LongBench (Bai et al., 2024) is used to compare UltraLLaDA, Sparse‑dLLM and Focus‑dLLM on accuracy vs. efficiency; RULER probes retrieval and reasoning at context lengths up to 128 K tokens, showing that Gated Sparse Attention (GSA) maintains strong scores where standard attention collapses; ∞‑Bench measures generation quality across eight tasks for full‑attention, InfLLM, StreamingLLM, TOP‑query, DIPRS, etc., reporting average quality scores.",
+  "backs": "LongBench (Bai et al., 2024) is used to compare UltraLLaDA, Sparse‑dLLM and Focus‑dLLM on accuracy vs. efficiency",
+  "source": 4,
+  "paper": "Focus-dLLM: Accelerating Long-Context Diffusion LLM Inference via Confidence-Guided Context Focusing",
+  "passage": "This section provides the detailed results underpinning our accuracy vs. efficiency analysis. Table 5 presents a comprehensive performance comparison on the LongBench (Bai et al., 2024) for UltraLLaDA (He et al., 2025) , including various configurations for both baseline methods and our own. For Sparse-dLLM (Song et al., 2025) , we vary the retention ratio r, which determines the percentage of KV cache entries preserved. For SparseD (Wang et al., 2025) , configurations differ in the skip ratio (the initial portion of steps using full attention) and the selection ratio r. The configurations for our method, Focus-dLLM, correspond to different settings of the sparsity ratio α , which controls the amount of prompt context retained for attention computation, while all other hyperparameters remain consistent with the setup described in the main text(section 6.1). As the results consistently demonstrate, Focus-dLLM establishes a better accuracy-efficiency trade-off, achieving superior overall performance compared to prior acceleration methods."
+ },
+ {
+  "pair_id": "q05c00s1",
+  "claim": "In the empirical evaluation the authors report that they “only measure the latency of each token generation (TPOT)” and use a service‑level objective of TPOT ≤ 0.24 s, which corresponds to the typical human reading speed.",
+  "backs": "",
+  "source": 1,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU."
+ },
+ {
+  "pair_id": "q12c01s6",
+  "claim": "LongBench (Bai et al., 2024) is used to compare UltraLLaDA, Sparse‑dLLM and Focus‑dLLM on accuracy vs. efficiency; RULER probes retrieval and reasoning at context lengths up to 128 K tokens, showing that Gated Sparse Attention (GSA) maintains strong scores where standard attention collapses; ∞‑Bench measures generation quality across eight tasks for full‑attention, InfLLM, StreamingLLM, TOP‑query, DIPRS, etc., reporting average quality scores.",
+  "backs": "∞‑Bench measures generation quality across eight tasks for full‑attention, InfLLM, StreamingLLM, TOP‑query, DIPRS, etc., reporting average quality scores",
+  "source": 6,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "• Full Attention, which stores the KV cache of full context and computes the full attention on GPU. • InfLLM [63] , it is a coarse-grained algorithm which selects critical tokens in blocks and computes their attention on GPU. • StreamingLLM [65] , it is an algorithm that keeps a window of tokens in GPU memory for attention computation and simply drops the other tokens. • Top-, it is a fine-grained algorithm which processes the top- similarity search with graph-based index on CPU. We follow the RetrievalAttention [45] to use RoarGraph [28] as the index and align the window size. In particular, the parameter is set as 100 and 2000 to study the performance of difference retrieved critical tokens in our experiments. • DIPRS, our proposed DIPR query processing algorithm for sparse attention. It also uses RoarGraph as the index. The window size of DIPRS is the same as that of the top- query. Result Analysis. Table 5 shows the generation quality of different methods in all 8 tasks of ∞-Bench. The quality score is measured by ∞-Bench. First of all, our proposed DIPRS not only guarantees the SLO, but also achieves the best average generation quality among all the compared methods, as the last column in Table 5 shows."
+ },
+ {
+  "pair_id": "q10c00s5",
+  "claim": "In RFA the function f_n(\\omega)=\\xi(q_n,\\omega)\\xi(k_m,\\omega) and the normalizer cancels, giving the inner‑product form.",
+  "backs": "",
+  "source": 5,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "Recently, Zheng et al. (2022b) identifies that softmax attention (Equation 1 ) can be written as an expectation over an attention-like aggregating function, where , p n (ω) := N (ω; 0, I) Here ξ(•, •) is the randomized mapping defined in such a way that exp q n k m = E ω∼N (0,I) ξ(q n , ω) ξ(k m , ω) , and Z = M m=1 exp q n k m denotes the normalizing constant of distribution p n . Throughout this paper, we consider the positive randomized mapping ξ(x, ω) = exp ω x -1 2 x 2 (Choromanski et al., 2021) unless otherwise specified. Random-Feature-based Attention (RFA) methods (Choromanski et al., 2021; Peng et al., 2021b) can be interpreted as performing self-normalized importance sampling (SNIS; Hesterberg, 1995) to approximate Equation 2 (Zheng et al., 2022b) . In SNIS, one draws Monte Carlo samples from some proposal distribution q(ω) instead of the true distribution p n (ω) and estimates the target expectation as E ω∼pn(ω) [f n (ω)] = E ω∼q(ω) pn(ω) q(ω) f n (ω) ≈ S s=1 pn(ω) q(ω) fn(ωs) S s=1 pn (ωs) q(ωs ) , where ω 1 , . . . , ω S ∼ q(ω). Vanilla RFA amounts to constructing the SNIS estimation with q(ω) = N (ω; 0, I)."
+ },
+ {
+  "pair_id": "q01c00s2",
+  "claim": "Scope of attention – Regular self‑attention computes a dense similarity between every query and all keys, i.e., it is a global operation over the whole sequence.",
+  "backs": "",
+  "source": 2,
+  "paper": "Music Transformer",
+  "passage": "Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local). All else being equal, local and global attention perform similarly. Each though local attention does not see all the history at once, it can build up a larger receptive field across layers. This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory."
+ },
+ {
+  "pair_id": "q11c00s2",
+  "claim": "The sources describe various forms of sparse attention—including local, hierarchical, routing‑based, and gated sparse mechanisms—and report their efficiency and performance characteristics (e.g., reduced memory use, faster throughput, lower perplexity), but they do not contain any information about linear‑time attention methods.",
+  "backs": "",
+  "source": 2,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "We find that local attention is a great inductive bias for sparse attention and is better than the adaptive methods proposed in Baevski and Auli (2019) ; Sukhbaatar et al. (2019) . Moreover, our Routing Transformer model is able to get a test perplexity of 15.8 improving on the 18.3 obtained by TransformerXL (Dai et al., 2019) while having fewer self-attention layers, and without the need for segment level recurrence."
+ },
+ {
+  "pair_id": "q17c06s4",
+  "claim": "The result is higher FLOPs/s utilization and reduced memory traffic, directly addressing the inefficiencies highlighted for FlashAttention on conventional systolic arrays.",
+  "backs": "",
+  "source": 4,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "We present FSA, an enhanced systolic array architecture that enables the entire FlashAttention computation within a single systolic array. Building on FSA, we introduce Sys-tolicAttention, an optimized kernel that efficiently overlaps all FlashAttention operations through careful scheduling and static dataflow management. The experimental results validate our approach, demonstrating significantly higher FLOPs/s utilization than state-of-the-art accelerators, with negligible accuracy loss and area overhead."
+ },
+ {
+  "pair_id": "q15c00s1",
+  "claim": "AlayaDB’s reported serving performance is expressed as a per‑token latency bound (TPOT ≤ 0.24 s) measured on a server equipped with one NVIDIA L20 GPU and two Xeon Gold 6542Y CPUs.",
+  "backs": "",
+  "source": 1,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU."
+ },
+ {
+  "pair_id": "q12c00s1",
+  "claim": "FlashAttention reports full benchmarking on an A100 GPU with random Q/K/V inputs and reports average runtime over 100 runs; EVA compares against FlashAttention on a RTX 3090, measuring both forward and backward pass memory and time for the same block configuration.",
+  "backs": "FlashAttention reports full benchmarking on an A100 GPU with random Q/K/V inputs and reports average runtime over 100 runs",
+  "source": 1,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "We report the full benchmarking results and experimental details on A100. Baselines We compare against reference implementations for exact attention from PyTorch/HuggingFace and Megatron, approximate attention, and sparse attention. For approximate attention, we compare against reference implementations of Reformer [51] , Local Attention [68] , Linformer Attention [84] , Smyrf [19] , and LongShortFormer (LSFormer) [94] . For sparse attention, we compare against reference implementations of Block-Sparse Attention form OpenAI [11] , Longformer [3] , and BigBird Attention [92] . For the approximate and sparse attention, we use a compression ratio of 1/8, or a compressed sequence length of 256, whichever is smaller. Setup We measure runtime and memory usage of the attention computation with 8 heads of dimension 64, and batch size 16 on a machine with one A100 GPU with 40 GB of GPU HBM. We vary sequence length in our experiments. We compute attention on random vectors for Q, K, and V (we do not measure the projection from the hidden layer). For dropout, we use dropout 0.1; for masking, we use a padding mask with uniformly-random mask lengths between the total sequence length and the total sequence length minus 20. To measure runtime, we take the average of 100 measurements of the attention call."
+ },
+ {
+  "pair_id": "q12c00s3",
+  "claim": "FlashAttention reports full benchmarking on an A100 GPU with random Q/K/V inputs and reports average runtime over 100 runs; EVA compares against FlashAttention on a RTX 3090, measuring both forward and backward pass memory and time for the same block configuration.",
+  "backs": "EVA compares against FlashAttention on a RTX 3090, measuring both forward and backward pass memory and time for the same block configuration",
+  "source": 3,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "This implies EVA can achieve a better trade-off between efficiency and quality: for short sequences, EVA is possible to achieve stronger performance competitive with softmax attention (despite in longer running time); while for long sequences, EVA can be run much faster with less memory. Comparison to Memory-efficient Attention Mechanisms. In this section, we conduct an empirical efficiency comparison between efficient approximate attention methods and FlashAttention, one of the memory-efficient attention mechanisms (Rabe & Staats, 2021; Dao et al., 2022) with optimized memory accesses. FlashAttention computes the exact softmax attention in an online manner without materializing the full attention matrix, achieving linear memory complexity with respect to sequence lengths; besides, both runtime and memory usage are further improved by minimizing IO accesses. We benchmark different attention modules on one NVIDIA GeForce RTX 3090 GPU, where we measure the memory usage and runtime of running a single attention block, consisting of 8 attention heads with 512 embedding dimension size, for both a forward and backward pass. As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths."
+ },
+ {
+  "pair_id": "q13c00s3",
+  "claim": "Standard local attention: The receptive field grows only slowly—essentially linearly with depth—much like the limited, gradually expanding field of convolutions.",
+  "backs": "",
+  "source": 3,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "NAT achieves superior results in image classification compared to Swin, and performs competitively on downstream tasks. While local attention based models are able to perform well across different vision tasks due to its preservation of locality and efficiency, they fall short of capturing global context like self attention, which is also crucial to vision. Additionally, localized attention mechanisms utilize a smaller and slowly growing receptive field, similar to that of convolutions, compared to the full-sized receptive field in self attention. Besides self attention, several works also explored global receptive fields in vision, including but not limited to Non-local Neural Networks [45] . However, operations with unrestricted global receptive field usually suffer from high computational complexities compared to restricted ones, which can be local, or sparse."
+ },
+ {
+  "pair_id": "q01c05s1",
+  "claim": "Inductive properties – DiNA preserves locality, translational equivariance, and symmetry of neighborhoods, unlike the unrestricted global attention of standard transformers.",
+  "backs": "",
+  "source": 1,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "NA / DiNA (dilation = 1) DiNA (dilation = 2) DiNA (dilation = 3) DiNA (dilation = 4) Figure 1. An illustration of a single pixel's attention span in Neighborhood Attention (NA) and Dilated Neighborhood Attention (DiNA). NA localizes attention to the pixel's nearest neighbors. DiNA extends NA's local attention to a less constrained sparse global attention without additional computational burden. Transformers comprised of both NA and DiNA are capable of preserving locality, maintaining translational equivariance, expanding the receptive field exponentially, and capturing longer-range inter-dependencies, leading to significant performance boosts in downstream vision tasks."
+ },
+ {
+  "pair_id": "q07c01s2",
+  "claim": "which is a linear operation in the sequence length because the inner sum can be computed once and reused for every query.",
+  "backs": "",
+  "source": 2,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "Vanilla random feature attention methods, such as Performer (Choromanski et al., 2021; Peng et al., 2021b) , seek to approximate the softmax attention mechanism through random features (Rahimi & Recht, 2008) φ(x, ω) := 1/ √ S[ξ(x, ω 1 ), . . . , ξ(x, ω S )] . Here, ω 1 , . . . , ω S ∼ N (0, I), and ξ(x, ω) is the randomized mapping such that exp q n k m = E ωs∼N (0,I) ξ(q n , ω s ) ξ(k m , ω s ) . (17) Therefore, we can draw multiple Monte Carlo samples to estimate the exponential kernel, and then approximate the attention mechanism as It is recently generalized as a self-normalized importance sampling estimator to approximate softmax attention (Zheng et al., 2022b) , as described in §2.2. We refer the generalized random feature based approximations as RFA."
+ },
+ {
+  "pair_id": "q08c02s3",
+  "claim": "Fixed vs learnable sparsity; Fixed patterns are cheap (no extra parameters, no training) but cannot adapt to data distribution. Learnable patterns can capture data‑dependent relevance but need additional parameters, training, and may increase inference latency.",
+  "backs": "",
+  "source": 3,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "The sparse pattern could be either learnable (Kitaev et al., 2020; Vyas et al., 2020; Tay et al., 2020; Roy et al., 2021; Madaan et al., 2022) or simply fixed (Liu et al., 2018; Parmar et al., 2018; Child et al., 2019; Beltagy et al., 2020; Ainslie et al., 2020; Zaheer et al., 2020; Liu et al., 2021; Xiong et al., 2021a; Wang et al., 2022; Chen et al., 2022; Hutchins et al., 2022) . Another paradigm is to adopt low-rank approximations, including via the Nyström method (Xiong et al., 2021b) , down-sampling with learnable projections (Wang et al., 2020; Peng et al., 2021a) , or explicitly compressing sequences (Rae et al., 2020; Dai et al., 2020; Ma et al., 2021; Jaegle et al., 2021) . There are also studies improving both sparse and low-rank methods for better attention matrix approximation (Nguyen et al., 2021; Zhu et al., 2021; Chen et al., 2021a; Ren et al., 2021; Zhu & Soricut, 2021; Hua et al., 2022; Zeng et al., 2022) . Instead of adopting approximate methods, a recent line of work (Rabe & Staats, 2021; Dao et al., 2022) proposes to compute the exact softmax attention in an online manner (Milakov & Gimelshein, 2018) without materializing the full attention matrix."
+ },
+ {
+  "pair_id": "q04c01s2",
+  "claim": "A more explicit derivation shows that for each position $i\\le n$ the model computes attention weights over its whole preceding context, yielding a total of $\\sum_{i=1}^{n} i = n(n-1)/2 = \\Theta(n^{2})$ operations.",
+  "backs": "",
+  "source": 2,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "Self-attention is commonly used in autoregressive generative models. These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones. At every time step, self-attentive generative models can directly focus on any part of the previous context. In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step. This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence. Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2. This makes it difficult to scale attention based models to modeling long sequences. However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation. Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths. Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5 [cs. LG] 24 Oct 2020 dependencies, such as local or strided attention."
+ },
+ {
+  "pair_id": "q06c00s1",
+  "claim": "The conclusion notes that AlayaDB “guarantee[s] the SLOs for various LLM workloads” but does not define those SLOs.",
+  "backs": "",
+  "source": 1,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "We conduct in-depth evaluation of AlayaDB. The results show that it is able to reduce resource consumption and offer better generation quality while guaranteeing the SLOs for various LLM workloads."
+ },
+ {
+  "pair_id": "q15c02s2",
+  "claim": "Because the two works use different performance metrics (latency vs. TFLOPs/s), different hardware (L20 GPU vs. A100 GPU), and different workloads (LLM serving vs. end‑to‑end model training), the sources do not provide a direct quantitative comparison between AlayaDB’s serving speed and FlashAttention‑2’s training throughput.",
+  "backs": "",
+  "source": 2,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU."
+ },
+ {
+  "pair_id": "q03c00s1",
+  "claim": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards.",
+  "backs": "",
+  "source": 1,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU."
+ },
+ {
+  "pair_id": "q17c01s3",
+  "claim": "Consists of two matrix‑multiplication stages separated by reductions and element‑wise soft‑max operations (row‑max, exponent, row‑sum) that are off‑loaded to external vector or scalar units, forcing intermediate results to move through local SRAM and destroying overlap between the two multiplications.",
+  "backs": "",
+  "source": 3,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner."
+ },
+ {
+  "pair_id": "q17c03s1",
+  "claim": "By streaming the last column of the tile first and carefully scheduling the operations, the kernel overlaps the two matrix multiplications with the soft‑max reductions, eliminating the costly data transfers to external units and the associated SRAM‑port contention.",
+  "backs": "",
+  "source": 1,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop. After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = . It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile. In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop. It is executed using the accumulator after the second matrix multiplication completes. In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time."
+ },
+ {
+  "pair_id": "q09c02s2",
+  "claim": "Improved TFLOPs utilisation – The kernel attains up to 230 TFLOPs s⁻¹ (73 % of the A100’s theoretical peak), whereas FlashAttention operates at a lower fraction of the peak.",
+  "backs": "",
+  "source": 2,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU."
+ },
+ {
+  "pair_id": "q07c00s2",
+  "claim": "The most common construction uses random features (RF) \\phi(\\cdot) derived from the kernel‑linearization trick of Rahimi & Recht (2008).",
+  "backs": "",
+  "source": 2,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "Vanilla random feature attention methods, such as Performer (Choromanski et al., 2021; Peng et al., 2021b) , seek to approximate the softmax attention mechanism through random features (Rahimi & Recht, 2008) φ(x, ω) := 1/ √ S[ξ(x, ω 1 ), . . . , ξ(x, ω S )] . Here, ω 1 , . . . , ω S ∼ N (0, I), and ξ(x, ω) is the randomized mapping such that exp q n k m = E ωs∼N (0,I) ξ(q n , ω s ) ξ(k m , ω s ) . (17) Therefore, we can draw multiple Monte Carlo samples to estimate the exponential kernel, and then approximate the attention mechanism as It is recently generalized as a self-normalized importance sampling estimator to approximate softmax attention (Zheng et al., 2022b) , as described in §2.2. We refer the generalized random feature based approximations as RFA."
+ },
+ {
+  "pair_id": "q18c00s4",
+  "claim": "The Dilated Neighborhood Attention Transformer (DiNAT) paper reports that its large variant “outperforms Swin‑Large and matches ConvNeXt‑Large’s accuracy at 224² resolution” and “exceeds its Swin counterpart’s reported accuracy at 384² resolution”, but it does not give the actual accuracy values.",
+  "backs": "",
+  "source": 4,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": ". Models trained practice with each method's available implementation. This is especially important in this case because NA and DiNA are based on from scratch implementations of the algorithms (N AT T EN ), and are not as well-optimized as ConvNeXt or Swin, which mostly run on native NVIDIA libraries designed for optimal throughput. We pre-trained our Large variant on ImageNet-22K, and fine-tuned it to ImageNet-1K at both 224 2 and 384 2 resolutions. We found that our large variant can successfully outperform Swin-Large and match ConvNeXt-Large's accuracy at 224 2 resolution. At 384 2 , our large variant exceeds its Swin counterpart's reported accuracy without increasing its kernel size from 7 2 to 12 2 ."
+ },
+ {
+  "pair_id": "q11c00s1",
+  "claim": "The sources describe various forms of sparse attention—including local, hierarchical, routing‑based, and gated sparse mechanisms—and report their efficiency and performance characteristics (e.g., reduced memory use, faster throughput, lower perplexity), but they do not contain any information about linear‑time attention methods.",
+  "backs": "",
+  "source": 1,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "Attention with Temporal Sparsity: Research on efficient attention neural models parallels the advent of attention-based architectures. In the context of speech recognition, Jaitly et al. (2016) proposed the Neural Transducer which segments sequences in non-overlapping chunks and attention is performed in each chunk independently. Limiting attention to a fixed temporal context around the current prediction has also been explored in Chorowski et al. (2015) , while ? dynamically segment the sequence into variable sized-chunks. Hierarchical attention strategies have also been explored: the model first considers which part of the inputs should be attended to before computing full attention in a contiguous neighborhood of the selected area (Gregor et al., 2015; Xu et al., 2015; Luong et al., 2015) . Later, hierarchical attention has been simplified by Liu et al. (2018) that alternates coarse layers (attending to the whole sequence at a lower temporal resolution) with local layers (attending to a neighborhood of the current prediction). This alternating strategy is also employed by Child et al. (2019) , which introduces bounded and strided attention, i.e. attending to a fixed context in the past at a sub-sampled temporal resolution. This work formalizes such a strategy using a sparse attention formalism, showing how it relates to full attention with a specific sparsity pattern in the attention matrix."
+ },
+ {
+  "pair_id": "q17c02s1",
+  "claim": "Introduces the FSA (Flash‑Systolic Array) architecture, which can execute all FlashAttention steps—both matrix multiplications and the non‑matrix‑multiplication operations (row‑max, exp₂, row‑sum)—inside the same systolic array.",
+  "backs": "",
+  "source": 1,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop. After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = . It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile. In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop. It is executed using the accumulator after the second matrix multiplication completes. In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time."
+ },
+ {
+  "pair_id": "q18c01s3",
+  "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide ImageNet classification accuracy numbers.",
+  "backs": "",
+  "source": 3,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "We also trained UPerNet [48] with our DiNAT as the backbone on ADE20K [55] , with ImageNet-pre-trained backbones. We followed NAT's mmsegmentation [7] (Apache License v2) configurations, itself following Swin's configuration for training ADE20K. The results are presented in Tab. 8. We find that DiNAT exhibits a noticeable improvement over the original NAT model. DiNAT also maintains its place ahead of both models at scale with ImageNet-22K pre-training. † indicates increased window size from the default 7 2 to 12 2 . Throughput is measured on a single NVIDIA A100 GPU."
+ },
+ {
+  "pair_id": "q16c01s5",
+  "claim": "In the introduction the same figure is repeated for end‑to‑end training: “we reach training speed of up to 225 TFLOPs · s⁻¹ per A100 GPU”.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU."
+ },
+ {
+  "pair_id": "q18c01s5",
+  "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide ImageNet classification accuracy numbers.",
+  "backs": "",
+  "source": 5,
+  "paper": "Attention Guided CAM: Visual Explanations of Vision Transformer Guided by Self-Attention",
+  "passage": "Figure 5: The heatmaps on ImageNet ILSVRC 2012, Pascal VOC 2012, and CUB 200 dataset generated by each of the methods. The first images in each dataset demonstrate the peak intensities generated on a homogeneous non-object background in Attention Rollout and LRP-based method and the reduced peak intensities in our method. The second and third images in ILSVRC 2012 and PASCAL VOC show the localization performance of each method on single-instance and multiple-instance images, respectively. CUB200 consists of single-instance images only and its second and third images include one object instance per image."
+ },
+ {
+  "pair_id": "q19c00s1",
+  "claim": "The only cost‑related details are training‑time measurements for much smaller models (e.g., ~20 h on 8 × Quadro RTX 5000 GPUs for a medical‑image transformer and minutes of training for GPT‑2 with FlashAttention ), but no financial estimates for a model of GPT‑4 size are reported.",
+  "backs": "The only cost‑related details are training‑time measurements for much smaller models (e.g., ~20 h on 8 × Quadro RTX 5000 GPUs for a medical‑image transformer",
+  "source": 1,
+  "paper": "Transformer-based Personalized Attention Mechanism for Medical Images with Clinical Records",
+  "passage": "As an optimization method, momentumSGD (nesterov, weight decay=10 -4 ) was employed and the training of the model was performed in nine epochs. Learning rates were determined as 10 -4 for optimizing the parameter θ f , 2 × 10 -4 for the parameters θ enc , θ agg and θ clf , and 4 × 10 -6 for the parameter θ g in which the learning rate was multiplied by 0.1 every three epochs. Random horizontal flip and random rotations (0 • , 90 • , 180 • , 270 • ) were applied to the input image patches as the data augmentation. All the parameters of the model were simultaneously optimized in the above setting. It took about 20 hours to perform five-fold cross-validation by a computer with eight Quadro RTX 5000 (NVIDIA, U.S.). Our source code is available from https://github.com/PersAM-MIL/PersAM."
+ },
+ {
+  "pair_id": "q14c00s4",
+  "claim": "FlashAttention (original) – The original FlashAttention work reports that its algorithm is 2–4 × faster than standard attention and that it achieves substantial memory savings compared with both standard attention and the Rabe‑and‑Staats method.",
+  "backs": "",
+  "source": 4,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block."
+ },
+ {
+  "pair_id": "q17c05s3",
+  "claim": "This overlap is achieved while preserving the algorithmic primitives of FlashAttention (tiling, online‑softmax, exp₂ implementation) within the hardware pipeline.",
+  "backs": "",
+  "source": 3,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner."
+ },
+ {
+  "pair_id": "q08c05s5",
+  "claim": "Training‑free calibration; Some recent methods calibrate sparsity thresholds offline on a small dataset, avoiding any model weight updates. This yields a training‑free pipeline but may be less optimal than fully learned sparsity.",
+  "backs": "",
+  "source": 5,
+  "paper": "Block Sparse Flash Attention",
+  "passage": "Some methods make sparsity decisions after computing attention scores, but still face limitations. H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation. StreamingLLM (Xiao et al., 2024) retains initial \"attention sink\" tokens plus a sliding window. While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency. Learned sparsity. SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Approximation methods. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations. While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes."
+ },
+ {
+  "pair_id": "q18c01s2",
+  "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide ImageNet classification accuracy numbers.",
+  "backs": "",
+  "source": 2,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "In order to evaluate the ability of our model to capture long term dependencies on a modality other than text, we report results on the ImageNet 64×64 data-set as used in Child et al. (2019) . For autoregressive image generation, this data-set consists of images of 64 × 64 × 3 bytes represented as long sequences of length 12, 288 presented in raster scan, red-green-blue order. We train a 24 layer model with 16 attention heads, with half the heads performing local attention, and the other half routing attention as in Section 3. For routing attention we set k = 8, attention window 2048, batch size 1 and train our model for roughly 70 epochs as in Child et al. (2019) . We compare our model to a scaledup ImageTransformer model with local attention (Parmar et al., 2018) and the SparseTransformer model of Child et al. (2019) . We find that local attention (Parmar et al., 2018 ) is a strong baseline for image generation, obtaining 3.48 bits/dim when scaled up to 24 layers and 16 heads, compared to later work like Sub-scale Pixel Networks (SPN) (Menick and Kalchbrenner, 2018) ."
+ },
+ {
+  "pair_id": "q07c02s5",
+  "claim": "Linear runtime and memory ( O(NS) instead of the quadratic O(N^2) of exact softmax).",
+  "backs": "",
+  "source": 5,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "Random-feature-based attention (RFA, also known as Performer; Choromanski et al., 2021; Peng et al., 2021b) is an established fast approximation to the conventional softmax attention mechanism (Bahdanau et al., 2014; Vaswani et al., 2017) , which successfully scales Transformer models to processing much longer sequences (Choromanski et al., 2021) . At its core is the usage of random features (RF; Rahimi & Recht, 2008) to linearize the exponential kernel in softmax attention, which reduces the computational cost from quadratic to linear runtime and space complexity. Despite its efficiency, recent studies have pointed out that such approximation suffers from substantial performance degeneration (Xiong et al., 2021a; Zheng et al., 2022b) . In this work, we generalize the formulation of RFA via control variates (Owen, 2013) , which characterizes the approximation gap between RFA and softmax attention in theory. We first show that RFA can be decomposed from a global approximation over the whole sequence into a sum of local control variate estimators, each of which is applied to an individual element in the sequence. Under this formulation, RFA is equivalent to employing the same coefficient for all control variate estimators to scale their variance isotropically ( §3.1)."
+ },
+ {
+  "pair_id": "q04c02s3",
+  "claim": "Subsequent work also refers to “their quadratic time complexity” when discussing the need to restrict attention span.",
+  "backs": "",
+  "source": 3,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "Follow up works extended the study with minimal changes to training techniques [38] , architectural changes [39] , and applications to small data regimes [16] . Due to their quadratic time complexity, many works attempt to restrict the attention span in order to reduce compute, specifically when scaling to larger inputs, such as long documents in NLP [1] , and large resolutions in vision [29] . Restricting self attention can be done in different patterns, one of which is localization."
+ },
+ {
+  "pair_id": "q18c01s1",
+  "claim": "Other cited works focus on aspects such as dilation settings, bits per dimension for image generation, or semantic‑segmentation results, none of which provide ImageNet classification accuracy numbers.",
+  "backs": "",
+  "source": 1,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "Test time dilation change and its impact on performance. Dilation values larger than 8, 4, 2, 1 are inapplicable to ImageNet at 224 2 ."
+ },
+ {
+  "pair_id": "q08c06s5",
+  "claim": "Architectural changes; Low‑rank or kernel‑based approximations replace softmax attention and require model redesign, whereas selection‑based sparsity can remain training‑free but may need extra runtime logic for key selection.",
+  "backs": "",
+  "source": 5,
+  "paper": "Block Sparse Flash Attention",
+  "passage": "Some methods make sparsity decisions after computing attention scores, but still face limitations. H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation. StreamingLLM (Xiao et al., 2024) retains initial \"attention sink\" tokens plus a sliding window. While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency. Learned sparsity. SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Approximation methods. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations. While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes."
+ },
+ {
+  "pair_id": "q00c02s5",
+  "claim": "Fewer memory accesses – By focusing on reducing the number of HBM reads/writes rather than just the total memory allocated, FlashAttention also shrinks the total memory that must be resident, because each access implicitly needs storage for the data being moved.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "We describe here some similarities and differences between our FlashAttention algorithm and the algorithm of Rabe and Staats [66] . Conceptually, both FlashAttention and Rabe and Staats [66] operate on blocks of the attention matrix using the well-established technique of tiling (or softmax scaling) [51, 60] . To reduce the memory footprint, both methods avoid storing the large attention matrix in the forward pass and recompute it in the backward pass. The first major difference is that Rabe and Staats [66] focuses on the reducing the total memory footprint (maximum amount of GPU memory required) while FlashAttention focuses on reducing memory accesses (the number of memory reads/writes). As mentioned in Section 2, the amount of memory access is the primary determining factor of runtime. Reducing memory accesses also necessarily reduces the total amount of memory required (e.g., if an operation incurs memory accesses, then its total memory requirement is at most ). As a result, FlashAttention is faster than standard attention (2-4×) while Rabe and Staats [66] is around the same speed or slightly slower than standard attention. In terms of total memory required, both methods offer substantial memory saving. The second difference between the two methods is the way information is summarized from each block to pass to the next block."
+ },
+ {
+  "pair_id": "q15c01s5",
+  "claim": "FlashAttention‑2, in contrast, reports training‑phase throughput in TFLOPs per GPU (up to 225 TFLOPs/s on an A100 GPU, corresponding to ≈73 % of the theoretical peak) and speedup factors relative to other attention implementations.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU."
+ },
+ {
+  "pair_id": "q14c01s5",
+  "claim": "It also gives a theoretical bound on memory‑access reductions.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "FlashAttention is faster than FlashAttention by a factor proportional to the sparsity.asymptotically improve on HBM accesses over all SRAM sizes. Proofs are in Appendix C. Theorem 2. Let be the sequence length, be the head dimension, and be size of SRAM with ≤ ≤ . Standard attention (Algorithm 0) requires Θ( + 2 ) HBM accesses, while FlashAttention (Algorithm 1) requires Θ( 2 2 -1 ) HBM accesses."
+ },
+ {
+  "pair_id": "q07c01s4",
+  "claim": "which is a linear operation in the sequence length because the inner sum can be computed once and reused for every query.",
+  "backs": "",
+  "source": 4,
+  "paper": "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+  "passage": "For many years, softmax has been the bottleneck for training classification models with a large number of categories (Goodman, 2001; Morin & Bengio, 2005; Mnih & Hinton, 2009) . Recent works (Blanc & Rendle, 2017; Rawat et al., 2019) , have approximated softmax with a linear dot product of feature maps to speed up the training through sampling. Inspired from these works, we linearize the softmax attention in transformers. Concurrently with this work, Shen et al. (2020) explored the use of linearized attention for the task of object detection in images. In comparison, we do not only linearize the attention computation, but also develop an autoregressive transformer model with linear complexity and constant memory for both inference and training. Moreover, we show that through the lens of kernels, every transformer can be seen as a recurrent neural network."
+ },
+ {
+  "pair_id": "q14c02s7",
+  "claim": "AlayaDB – The AlayaDB paper describes an experimental setup (hardware configuration, model used, latency target TPOT ≤ 0.24 s) and states that it evaluates “Full Attention” as a baseline, but it does not present any concrete speedup factors, latency measurements, or memory‑access figures for AlayaDB itself, nor does it report results for the FlashAttention algorithm.",
+  "backs": "",
+  "source": 7,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU."
+ },
+ {
+  "pair_id": "q08c07s5",
+  "claim": "Complexity guarantees; Learned sparsity methods (e.g., SparseK) claim provable linear complexity, but the added scoring network and differentiable top‑$k$ operation introduce extra compute and memory overhead during inference.",
+  "backs": "",
+  "source": 5,
+  "paper": "Block Sparse Flash Attention",
+  "passage": "Some methods make sparsity decisions after computing attention scores, but still face limitations. H2O (Zhang et al., 2023) tracks cumulative attention weights during decoding and evicts low-scoring KV cache entries. However, it faces two key limitations: (1) tokens deemed unimportant and evicted cannot be recovered if they become critical later, and (2) it targets decode-time memory reduction rather than prefill computation. StreamingLLM (Xiao et al., 2024) retains initial \"attention sink\" tokens plus a sliding window. While effective for infinite-length streaming, it uses fixed patterns rather than content-based selection and does not address prefill latency. Learned sparsity. SparseK (Lou et al., 2024) learns which keys to attend to through a trainable scoring network with differentiable top-k selection. While this yields adaptive, content-aware sparsity with provable linear complexity, it requires modifying the model architecture and fine-tuning. In contrast, our method remains training-free: we calibrate thresholds offline on a small dataset without updating any model weights or introducing learnable components. Approximation methods. Orthogonal to selection-based sparsity, kernel-based (Choromanski et al., 2022) and lowrank (Xiong et al., 2021) methods replace softmax attention with computationally cheaper approximations. While these offer strong asymptotic complexity guarantees, they fundamentally alter the attention mechanism and require architectural changes."
+ },
+ {
+  "pair_id": "q00c03s1",
+  "claim": "Empirical memory savings – In practice the redesign yields “significant memory usage reduction” compared with standard soft‑max attention and all tested approximate baselines across a wide range of sequence lengths.",
+  "backs": "",
+  "source": 1,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "As shown in Figure 2 , we observe that FlashAttention achieves significant memory usage reduction for softmax attention approximation and even consumes much less memory than all considered approximate baselines under all sequence lengths. In terms of runtime, we notice that FlashAttention runs faster than most attention baselines under sequence lengths less than 2048 despite scaling quadratically, but EVA, along with other more efficient approximate variants, begin to catch up at longer sequence lengths. This implies that the quadratic computational costs of softmax attention still bottleneck its runtime performance, aligning with one of the main findings in Dao et al. (2022) . According to this empirical study, we observe that FlashAttention offers a general and effective technique to speed up softmax attention; since many approximate variants (including EVA) exhibit a similar formulation to softmax attention (e.g., Equation 16 ), we expect they can also benefit from the optimized online softmax calculation technique and memory accesses of FlashAttention (Dao et al., 2022) ."
+ },
+ {
+  "pair_id": "q09c00s2",
+  "claim": "Higher raw speed – Benchmarks across a range of sequence lengths show FlashAttention‑2 is 1.7–3.0 × faster than FlashAttention (and 1.3–2.5 × faster than the Triton implementation).",
+  "backs": "",
+  "source": 2,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU."
+ },
+ {
+  "pair_id": "q15c02s1",
+  "claim": "Because the two works use different performance metrics (latency vs. TFLOPs/s), different hardware (L20 GPU vs. A100 GPU), and different workloads (LLM serving vs. end‑to‑end model training), the sources do not provide a direct quantitative comparison between AlayaDB’s serving speed and FlashAttention‑2’s training throughput.",
+  "backs": "",
+  "source": 1,
+  "paper": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+  "passage": "In this section, we conduct experiments to evaluate the end-to-end performance of AlayaDB in long-context LLM serving. In particular, we aim to answer the following two questions: • Q1: Can AlayaDB achieve low latency, high quality, and low resource consumption at the same time for long-context LLM serving? (Section 9.1) • Q2: How is the effectiveness of our proposed performance optimizations in AlayaDB? (Section 9.2) Hardware Configuration. We conduct our experiments on a server with one NVIDIA L20 GPU (48GB memory) and two Intel XEON GOLD 6542Y CPUs with 48 cores, 96 threads and 512 GB DRAM in total. We use AlayaDB together with HuggingFace Transformers [61] to support LLM inference. We use the bfloat16 version of Llama-3-8B-Instruct-262k [12] , the long context variant of a state-of-the-art LLM model Llama [56] for inference. The model In the experiments, the index of the input context is built in advance and we only measure the latency of each token generation (TPOT). We set the SLO of TPOT ≤ 0.24s, which is the reading speed of human [70] . Compared Methods. We compare the following methods: • Full Attention, which stores the KV cache of full context and computes the full attention on GPU."
+ },
+ {
+  "pair_id": "q09c03s2",
+  "claim": "End‑to‑end training acceleration – When training GPT‑style models (1.3 B and 2.7 B parameters) at 2 k or 8 k token lengths, FlashAttention‑2 gives up to 1.3× speedup vs. FlashAttention and 2.8× vs. a baseline without FlashAttention.",
+  "backs": "",
+  "source": 2,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU."
+ },
+ {
+  "pair_id": "q03c00s2",
+  "claim": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards.",
+  "backs": "",
+  "source": 2,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU."
+ },
+ {
+  "pair_id": "q15c01s2",
+  "claim": "FlashAttention‑2, in contrast, reports training‑phase throughput in TFLOPs per GPU (up to 225 TFLOPs/s on an A100 GPU, corresponding to ≈73 % of the theoretical peak) and speedup factors relative to other attention implementations.",
+  "backs": "",
+  "source": 2,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Benchmarks on different settings (with or without causal mask, different head dimensions) show that FlashAttention-2 achieves around 2× speedup over FlashAttention, reaching up to 73% of the theoretical max throughput in the forward pass, and up to 63% of the theoretical max throughput in the backward pass. When used end-to-end to train GPT-style models, we reach training speed of up to 225 TFLOPs/s per A100 GPU."
+ },
+ {
+  "pair_id": "q03c00s3",
+  "claim": "The experiments measured per‑GPU performance on single A100 devices and on an 8‑GPU configuration composed of eight A100 80 GB SXM cards.",
+  "backs": "",
+  "source": 3,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We measure the training throughput of GPT-style models with either 1.3B or 2.7B parameters, on 8×A100 80GB SXM. As shown in Table 1 , FlashAttention-2 yields 2.8× speedup compared to a baseline without FlashAttention and 1.3× speedup compared to FlashAttention-2, reaching up to 225 TFLOPs/s per A100 GPU. Note that we calculate the FLOPs by the formula, following Megatron-LM [16] (and many other papers and libraries): The first term accounts for the FLOPs due to weight-input multiplication, and the second term accounts for the FLOPs due to attention. However, one can argue that the second term should be halved, as with causal mask we only need to compute approximately half the number of elements in attention. We choose to follow the formula from the literature (without dividing the attention FLOPs by 2) for consistency. In the near future, we plan to collaborate with researchers and engineers to make FlashAttention widely applicable in different kinds of devices (e.g., H100 GPUs, AMD GPUs), as well as new data types such as FP8. As an immediate next step, we plan to optimize FlashAttention-2 for H100 GPUs to use new hardware features (TMA, 4th-gen Tensor Cores, fp8). Combining the low-level optimizations in FlashAttention-2 with high-level algorithmic changes (e.g., local, dilated, block-sparse attention) could allow us to train AI models with much longer context."
+ },
+ {
+  "pair_id": "q17c05s1",
+  "claim": "This overlap is achieved while preserving the algorithmic primitives of FlashAttention (tiling, online‑softmax, exp₂ implementation) within the hardware pipeline.",
+  "backs": "",
+  "source": 1,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop. After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = . It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile. In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop. It is executed using the accumulator after the second matrix multiplication completes. In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time."
+ },
+ {
+  "pair_id": "q13c02s1",
+  "claim": "The authors explicitly contrast this exponential growth with the linear growth of ordinary neighborhoods.",
+  "backs": "",
+  "source": 1,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes."
+ },
+ {
+  "pair_id": "q17c02s2",
+  "claim": "Introduces the FSA (Flash‑Systolic Array) architecture, which can execute all FlashAttention steps—both matrix multiplications and the non‑matrix‑multiplication operations (row‑max, exp₂, row‑sum)—inside the same systolic array.",
+  "backs": "",
+  "source": 2,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "Facing the high computational demand of attention kernels, we propose FSA, a novel and hardware-efficient systolic array architecture that unlocks new capabilities of systolic arrays for FlashAttention. Building on FSA, we introduce SystolicAttention, an optimized kernel that maximizes hardware utilization by overlapping FlashAttention operations within a single iteration. In this section, we first present an overview of FSA design, followed by detailed descriptions of how non-matrix-multiplication operations are implemented on FSA. We then elaborate on how SystolicAttention leverages FSA to efficiently overlap FlashAttention operations."
+ },
+ {
+  "pair_id": "q08c01s4",
+  "claim": "Pattern definition (position‑based vs content‑based); Traditional sparse models use fixed positional rules (e.g., causal or local windows) that are simple to implement but ignore the actual similarity of query–key vectors. Content‑dependent sparsity can be more expressive but requires extra machinery to select keys without building the full matrix.",
+  "backs": "",
+  "source": 4,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "Attention-based models can be problematic for long sequences. For a sequence of length n, the full attention matrix A, as introduced in Section 3, is n × n-dimensional and can be prohibitive to instantiate. This motivates sparse attention models, i.e. models relying on attention matrices which have a majority of zero entries. For each query, a sparse attention model defines a set of keys which can be attended to. In the following, we introduce the set S i as the set of key positions that the query at position i can attend to, i.e. The set of all such key positions defines a sparsity pattern S = {S i | 1 ≤ i ≤ n} for the entire sequence. For example, classical causal self attention can attend to every key prior to the current query, which translates to S i = {j | j < i} for every i. Most previous work on attention sparsity defined such sets purely based on positions, independently of actual query and key vectors. For example, local attention (Luong et al., 2015) considers attending only to a k-long time window prior to the current query, S i = {j | i-k ≤ j < i} for every i."
+ },
+ {
+  "pair_id": "q01c03s4",
+  "claim": "Receptive‑field growth – Because the dilation expands the distance between attended tokens, the receptive field grows exponentially with depth rather than linearly, allowing the model to capture longer‑range dependencies.",
+  "backs": "",
+  "source": 4,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes."
+ },
+ {
+  "pair_id": "q13c01s4",
+  "claim": "The first layer still covers a region of size $k$, but with a sufficiently large dilation the next DiNA layer gives a $k$‑sized field for each of the $k$ positions, resulting in a $k^{2}$ field; stacking such layers yields exponential growth with the number of layers.",
+  "backs": "",
+  "source": 4,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "Regardless of dilation, the first layer always yields a receptive field of size k. Given large enough dilation values, the preceding DiNA layer will yield a k-sized receptive field for each of the k in the DiNA layer, yielding a receptive field of size k 2 . As a result, DiNA and NA combinations with optimal dilation values can potentially increase receptive field exponentially to k . This comes with no surprise, as dilated convolutions have also been known for having an exponentially-growing receptive field size when using exponentially growing dilation values [50] . An illustration of the increased receptive field size is also presented in Fig. 5 ."
+ },
+ {
+  "pair_id": "q13c03s1",
+  "claim": "Implication: DiNA captures much longer‑range context without any extra computational cost, preserving the efficiency of local attention while attaining a globally larger receptive field.",
+  "backs": "",
+  "source": 1,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes."
+ },
+ {
+  "pair_id": "q01c05s4",
+  "claim": "Inductive properties – DiNA preserves locality, translational equivariance, and symmetry of neighborhoods, unlike the unrestricted global attention of standard transformers.",
+  "backs": "",
+  "source": 4,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes."
+ },
+ {
+  "pair_id": "q00c04s3",
+  "claim": "Quadratic‑to‑linear scaling – The combination of tiling and online‑softmax reduces the memory complexity from $O(N^{2})$ to $O(N)$, a claim highlighted as a core advantage of FlashAttention over prior attention kernels.",
+  "backs": "",
+  "source": 3,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Motivated by this, Dao et al. [5] proposed to reorder the attention computation and leverages classical techniques (tiling, recomputation) to significantly speed it up and reduce memory usage from quadratic to linear in sequence length. This yields 2-4× wall-clock time speedup over optimized baselines, up to 10-20× memory saving, with no approximation, and as a result FlashAttention has seen wide adoption in large-scale training and inference of Transformers. However, context length increases even more, FlashAttention is still not nearly as efficient as other primitives such as matrix-multiply (GEMM). In particular, while FlashAttention is already 2-4× faster than a standard attention implementation, the forward pass only reaches 30-50% of the theoretical maximum FLOPs/s of the device (Fig. 5 ), while the backward pass is even more challenging, reaching only 25-35% of maximum throughput on A100 GPU (Fig. 6 ). In contrast, optimized GEMM can reach up to 80-90% of the theoretical maximum device throughput. Through careful profiling, we observe that FlashAttention still has suboptimal work partitioning between different thread blocks and warps on the GPU, causing either low-occupancy or unnecessary shared memory reads/writes. Building on FlashAttention, we propose FlashAttention-2 with better parallelism and work partitioning to address these challenges. 1. In Section 3.1, we tweak the algorithms to reduce the number of non-matmul FLOPs while not changing the output."
+ },
+ {
+  "pair_id": "q07c03s3",
+  "claim": "An approximation gap that can be analyzed via control‑variate estimators; the gap shrinks when the same coefficient is used for all control variates, or when more sophisticated control‑variate forms are introduced.",
+  "backs": "",
+  "source": 3,
+  "paper": "Efficient Attention via Control Variates",
+  "passage": "Random-feature-based attention (RFA) is an efficient approximation of softmax attention with linear runtime and space complexity. However, the approximation gap between RFA and conventional softmax attention is not well studied. Built upon previous progress of RFA, we characterize this gap through the lens of control variates and show that RFA can be decomposed into a sum of multiple control variate estimators for each element in the sequence. This new framework reveals that exact softmax attention can be recovered from RFA by manipulating each control variate. Besides, it allows us to develop a more flexible form of control variates, resulting in a novel attention mechanism that significantly reduces the approximation gap while maintaining linear complexity. Extensive experiments demonstrate that our model outperforms state-of-the-art efficient attention mechanisms on both vision and language tasks."
+ },
+ {
+  "pair_id": "q15c02s5",
+  "claim": "Because the two works use different performance metrics (latency vs. TFLOPs/s), different hardware (L20 GPU vs. A100 GPU), and different workloads (LLM serving vs. end‑to‑end model training), the sources do not provide a direct quantitative comparison between AlayaDB’s serving speed and FlashAttention‑2’s training throughput.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "We evaluate the impact of using FlashAttention-2 to train Transformer models. • Benchmarking attention. We measure the runtime of FlashAttention-2 across different sequence lengths and compare it to a standard implementation in PyTorch, FlashAttention, and FlashAttention in Triton. We confirm that FlashAttention-2 is 1.7-3.0× faster than FlashAttention, 1.3-2.5× faster than FlashAttention in Triton, and 3-10× faster than a standard attention implementation. FlashAttention-2 reaches up to 230 TFLOPs/s, 73% of the theoretical maximum TFLOPs/s on A100 GPUs. • End-to-end training speed When used end-to-end to train GPT-style models of size 1.3B and 2.7B on sequence lengths either 2k or 8k, FlashAttention-2 yields up to 1.3× speedup compared to FlashAttention and 2.8× speedup compared to a baseline without FlashAttention. FlashAttention-2 reaches up to 225 TFLOPs/s (72% model FLOPs utilization) per A100 GPU."
+ },
+ {
+  "pair_id": "q01c02s3",
+  "claim": "This picks tokens that are spaced apart, creating a sparse global pattern that still respects a regular neighborhood structure.",
+  "backs": "",
+  "source": 3,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "For simplicity, we keep notations limited to singledimensional NA and DiNA. Given input X ∈ R n×d , whose rows are d-dimensional token vectors, and query and key linear projections of X, Q and K, and relative positional biases between any two tokens i and j, B(i, j), we define neighborhood attention weights for the i-th token with neighborhood size k, A k i , as the matrix multiplication of the i-th token's query projection, and its k nearest neighboring tokens' key projections: . . . where ρ j (i) denotes i's j-th nearest neighbor. We similarly define neighboring values, V k i , as a matrix whose rows are the i-th token's k nearest neighboring value projections: where V is a linear projection of X. Neighborhood Attention output for the i-th token with neighborhood size k is then defined as: ConvNeXt. NAT. DiNAT. where √ d is the scaling parameter, and d is the embedding dimension. To extend this definition to DiNA, given a dilation value δ, we simply define ρ δ j (i) as token i's j-th nearest neighbor that satisfies: j mod δ = i mod δ. We can then define δ-dilated neighborhood attention weights for the i-th token with neighborhood size k, A (k,δ) i , as follows: . . ."
+ },
+ {
+  "pair_id": "q17c04s1",
+  "claim": "The fused schedule processes an $m\\times n$ FlashAttention tile in 5 + 10 cycles, compared with up to $8m\\!-\\!2$ cycles on a naïve systolic array that treats the two multiplications independently.",
+  "backs": "",
+  "source": 1,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "SystolicAttention So far, we have introduced the key operations required to perform FlashAttention within a systolic array, including rowmax, exp2, and rowsum. We now present SystolicAttention, an optimized kernel that makes the best use of FSA to achieve efficient overlapping of these operations in a single FlashAttention iteration. Figure 7 illustrates how SystolicAttention schedules an iteration of FlashAttention's inner loop. After 1 preloading into the systolic array, SystolicAttention performs 2 the first matrix multiplication = . It specifically streams the last column of into the systolic array first (Figure 4 ) to Cycles: Overall, with SystolicAttention, FSA takes 5 + 10 cycles to process an × FlashAttention tile. In contrast, on a naive × systolic array, the two independent matrix multiplications without any data reuse require up to 8 -2 cycles due to preloading and input/output delaying overheads discussed in subsection 2.1. The re-scaling operation in line 21 of algorithm 1 is only performed once per outer loop. It is executed using the accumulator after the second matrix multiplication completes. In our implementation, this re-scaling step takes 2 + 20 cycles, negligible compared to the inner loop execution time."
+ },
+ {
+  "pair_id": "q11c00s5",
+  "claim": "The sources describe various forms of sparse attention—including local, hierarchical, routing‑based, and gated sparse mechanisms—and report their efficiency and performance characteristics (e.g., reduced memory use, faster throughput, lower perplexity), but they do not contain any information about linear‑time attention methods.",
+  "backs": "",
+  "source": 5,
+  "paper": "Efficient Content-Based Sparse Attention with Routing Transformers",
+  "passage": "We also note that sparse attention is an orthogonal approach to that of Transformer-XL and Compressive Transformer, which train on small sequences and by performing careful cross attention over cached previous chunks hope to generalize to longer sequences. By contrast, we directly train on long sequences from the beginning -e.g., the Compressive Transformer trains on chunks of size 512 for PG-19, while we train on sequences of length 8192. The benefit of the Transformer-XL like approach is that it is less memory consuming and thus is able to scale to 36 layers. Sparse attention (including local attention) on the other hand is more memory expensive since it trains directly on long sequences and therefore can scale to fewer layers for the same problem. However, as we demonstrate, it is competitive with the Transformer-XL like approaches even when using fewer layers and is guaranteed to generalize to the long sequence length that it was trained on."
+ },
+ {
+  "pair_id": "q02c00s1",
+  "claim": "DiNAT’s image‑classification performance is measured on the ImageNet benchmark, using both the standard ImageNet‑1K dataset and the larger ImageNet‑22K dataset for pre‑training.",
+  "backs": "",
+  "source": 1,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "We conducted extensive experiments to study the effects of our proposed DiNAT model over existing baselines. Similar to existing methods, we pre-train models on image classification (ImageNet-1K and ImageNet-22K [11] ), and then transfer the learned weights to downstream vision tasks. We compare DiNAT to the original NAT model [15] , Swin [29] , and ConvNeXt [30] . We also pair our model with Mask2Former [5] and perform instance, semantic, and panoptic segmentation experiments."
+ },
+ {
+  "pair_id": "q17c00s3",
+  "claim": "Reformulates attention with tiling and an online‑softmax to cut the quadratic memory cost of standard attention.",
+  "backs": "",
+  "source": 3,
+  "paper": "SystolicAttention: Fusing FlashAttention within a Single Systolic Array",
+  "passage": "FlashAttention [18, 44] is a memory-efficient attention algorithm that addresses the quadratic memory complexity bottleneck of standard attention mechanisms. FlashAttention reformulates the attention calculation with tiling and online-softmax to reduce memory usage, enabling the process of much longer sequences on hardware accelerators with limited on-chip storage. The FlashAttention algorithm is shown in algorithm 1. Same as the official open-source FlashAttention implementation [18] , the exp function is implemented as exp() = 2 log 2 to benefit from the more efficient exp2 implementation in hardware [26] . FlashAttention contains two matrix multiplications (highlighted in red) and various non-matrix-multiplication operations in between, such as reductions and element-wise computations for softmax (highlighted in blue). When running FlashAttention on systolic-array-based accelerators, the two matrix multiplications are executed on the systolic array, while other softmax-related operations are offloaded to external vector or scalar units [8] . This simplistic mapping of computation forces intermediate results to be transferred back and forth between the systolic array and vector/scalar = ( ) -1 ∈ R × ; 22 end for units through a local SRAM, essentially destroying any overlap and data reuse between the two matrix multiplications and exaggerating SRAM port contention [32, 54] . To amortize this data movement overhead, software usually incorporates large tile sizes and schedules multiple Flash-Attention iterations in a pipelined manner."
+ },
+ {
+  "pair_id": "q01c04s4",
+  "claim": "Computational cost – The dilated pattern does not increase the amount of computation or memory relative to NA; it keeps the same linear‑complexity cost while providing a broader context.",
+  "backs": "",
+  "source": 4,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes."
+ },
+ {
+  "pair_id": "q01c01s3",
+  "claim": "Local restriction – Neighborhood Attention (NA) limits each query to its k nearest neighbours, reducing the attention to a local window.",
+  "backs": "",
+  "source": 3,
+  "paper": "Dilated Neighborhood Attention Transformer",
+  "passage": "For simplicity, we keep notations limited to singledimensional NA and DiNA. Given input X ∈ R n×d , whose rows are d-dimensional token vectors, and query and key linear projections of X, Q and K, and relative positional biases between any two tokens i and j, B(i, j), we define neighborhood attention weights for the i-th token with neighborhood size k, A k i , as the matrix multiplication of the i-th token's query projection, and its k nearest neighboring tokens' key projections: . . . where ρ j (i) denotes i's j-th nearest neighbor. We similarly define neighboring values, V k i , as a matrix whose rows are the i-th token's k nearest neighboring value projections: where V is a linear projection of X. Neighborhood Attention output for the i-th token with neighborhood size k is then defined as: ConvNeXt. NAT. DiNAT. where √ d is the scaling parameter, and d is the embedding dimension. To extend this definition to DiNA, given a dilation value δ, we simply define ρ δ j (i) as token i's j-th nearest neighbor that satisfies: j mod δ = i mod δ. We can then define δ-dilated neighborhood attention weights for the i-th token with neighborhood size k, A (k,δ) i , as follows: . . ."
+ },
+ {
+  "pair_id": "q12c01s5",
+  "claim": "LongBench (Bai et al., 2024) is used to compare UltraLLaDA, Sparse‑dLLM and Focus‑dLLM on accuracy vs. efficiency; RULER probes retrieval and reasoning at context lengths up to 128 K tokens, showing that Gated Sparse Attention (GSA) maintains strong scores where standard attention collapses; ∞‑Bench measures generation quality across eight tasks for full‑attention, InfLLM, StreamingLLM, TOP‑query, DIPRS, etc., reporting average quality scores.",
+  "backs": "RULER probes retrieval and reasoning at context lengths up to 128 K tokens, showing that Gated Sparse Attention (GSA) maintains strong scores where standard attention collapses",
+  "source": 5,
+  "paper": "Gated Sparse Attention: Combining Computational Efficiency with Training Stability for Long-Context Language Models",
+  "passage": "The RULER benchmark (Table 6 ) probes retrieval and reasoning at increasing context lengths. All methods perform comparably up to 32K, but standard attention collapses beyond this point. GSA maintains strong performance even at 128K, nearly doubling the standard baseline score."
+ },
+ {
+  "pair_id": "q04c03s5",
+  "claim": "Implementations of standard attention materialize the full attention matrix, leading to “HBM accesses quadratic in the sequence length”.",
+  "backs": "",
+  "source": 5,
+  "paper": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+  "passage": "Given input sequences Q, K, V ∈ R × where is the sequence length and is the head dimension, we want to compute the attention output O ∈ R × : where softmax is applied row-wise. Standard attention implementations materialize the matrices S and P to HBM, which takes ( 2 ) memory. Often (e.g., for GPT2, = 1024 and = 64). We describe the standard attention implementation in Algorithm 0. As some or most of the operations are memory-bound (e.g., softmax), the large number of memory accesses translates to slow wall-clock time. This problem is exacerbated by other elementwise operations applied to the attention matrix, such as masking applied to S or dropout applied to P. As a result, there have been many attempts to fuse several elementwise operations, such as fusing masking with softmax [77] . In Section 3.2, we will show that the standard attention implementation performs HBM accesses quadratic in the sequence length . We also compare the number of FLOPs and number of HBM accesses of standard attention and of our method (FlashAttention)."
+ },
+ {
+  "pair_id": "q09c04s1",
+  "claim": "Longer context for the same cost – Because of the speed gain, a model can be trained with a 16 k token context for the same price as an 8 k‑token model using the original FlashAttention.",
+  "backs": "",
+  "source": 1,
+  "paper": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+  "passage": "Discussion and Future DirectionsFlashAttention-2 is 2× faster than FlashAttention, which means that we can train models with 16k longer context for the same price as previously training a 8k context model. We are excited about how this can"
+ }
+]

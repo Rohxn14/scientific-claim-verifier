@@ -1,0 +1,255 @@
+{
+ "query": "how does dilated neighborhood attention's receptive field growth compare to standard local attention",
+ "expected_arxiv_id": "2209.15001",
+ "category": "comparison",
+ "set": "harness",
+ "answer": "Dilated Neighborhood Attention (DiNA) expands its receptive field **exponentially** with depth, while standard local attention enlarges its receptive field only **linearly (or slowly)** as more layers are stacked.\n\n* **Standard local attention** – The receptive field of a local‑attention block grows gradually, similar to the slowly expanding receptive field of convolutions, and remains much smaller than the full‑size receptive field of unrestricted self‑attention【Source 3】.  \n\n* **Dilated Neighborhood Attention** – By inserting dilation (i.e., increasing the step size between sampled tokens) the first layer still sees a neighborhood of size $k$, but a subsequent DiNA layer with a large enough dilation yields a receptive field of size $k^2$; stacking layers with optimal dilation values can therefore increase the receptive field **exponentially** (e.g., to $k^{\\ell}$ after $\\ell$ layers)【Source 4】. The authors explicitly note that this exponential growth contrasts with the **linear** growth of conventional neighborhoods【Source 1】.  \n\nThus, compared with ordinary local attention, DiNA achieves a much faster expansion of the area of context that each token can attend to, reaching global‑scale context without extra computational cost.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "how does dilated neighborhood attention's receptive field growth compare to standard local attention",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.7992,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 2,
+   "paper_id": "1809.04281v3",
+   "paper_title": "Music Transformer",
+   "year": "2018",
+   "section": "Results",
+   "section_type": "results",
+   "similarity": 0.797,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local). All else being equal, local and global attention perform similarly. Each though local attention does not see all the history at once, it can build up a larger receptive field across layers. This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory.",
+   "url": "https://arxiv.org/abs/1809.04281v3"
+  },
+  {
+   "index": 3,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Local Attention",
+   "section_type": "method",
+   "similarity": 0.794,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "NAT achieves superior results in image classification compared to Swin, and performs competitively on downstream tasks. While local attention based models are able to perform well across different vision tasks due to its preservation of locality and efficiency, they fall short of capturing global context like self attention, which is also crucial to vision. Additionally, localized attention mechanisms utilize a smaller and slowly growing receptive field, similar to that of convolutions, compared to the full-sized receptive field in self attention. Besides self attention, several works also explored global receptive fields in vision, including but not limited to Non-local Neural Networks [45] . However, operations with unrestricted global receptive field usually suffer from high computational complexities compared to restricted ones, which can be local, or sparse.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 4,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "DiNAT Block",
+   "section_type": "method",
+   "similarity": 0.7783,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Regardless of dilation, the first layer always yields a receptive field of size k. Given large enough dilation values, the preceding DiNA layer will yield a k-sized receptive field for each of the k in the DiNA layer, yielding a receptive field of size k 2 . As a result, DiNA and NA combinations with optimal dilation values can potentially increase receptive field exponentially to k . This comes with no surprise, as dilated convolutions have also been known for having an exponentially-growing receptive field size when using exponentially growing dilation values [50] . An illustration of the increased receptive field size is also presented in Fig. 5 .",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 5,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Sparse Attention",
+   "section_type": "method",
+   "similarity": 0.7774,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Even though such non-local and sparse restrictions of self attention have shown to be promising, they are not well-studied in the scope of hierarchical vision transformers. To expand the local receptive fields, and re-introduce global context into hierarchical vision transformers, we introduce Dilated Neighborhood Attention (DiNA), an extension of NA that spans neighborhoods over longer ranges by increasing the step size, while maintaining the overall attention span. DiNA can serve as a sparse and global operation and works most effectively when used in conjunction with NA as a local-only operation. We present an illustration of receptive fields in Fig. 4 , where we compare fully connected layers to convolutions and dilated convolutions, and similarly self attention, to NA and DiNA. We provide empirical evidence for this claim with our hierarchical vision transformer, Dilated Neighborhood Attention Transformer (DiNAT).",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "Standard local attention – The receptive field of a local‑attention block grows gradually, similar to the slowly expanding receptive field of convolutions, and remains much smaller than the full‑size receptive field of unrestricted self‑attention.",
+    "sources": [
+     3
+    ],
+    "citations": [
+     {
+      "source": 3,
+      "status": "supported",
+      "lexical": 0.632,
+      "semantic": 0.874,
+      "evidence": "Additionally, localized attention mechanisms utilize a smaller and slowly growing receptive field, similar to that of convolutions, compared to the full-sized receptive field in self attention. Besides self attention, several works also explored global receptive fields in vision, including but not limited to Non-local Neural Networks [45] .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "Dilated Neighborhood Attention – By inserting dilation (i.e., increasing the step size between sampled tokens) the first layer still sees a neighborhood of size $k$, but a subsequent DiNA layer with a large enough dilation yields a receptive field of size $k^2$; stacking layers with optimal dilation values can therefore increase the receptive field exponentially (e.g., to $k^{\\ell}$ after $\\ell$ layers).",
+    "sources": [
+     4
+    ],
+    "citations": [
+     {
+      "source": 4,
+      "status": "supported",
+      "lexical": 0.581,
+      "semantic": 0.879,
+      "evidence": "Given large enough dilation values, the preceding DiNA layer will yield a k-sized receptive field for each of the k in the DiNA layer, yielding a receptive field of size k 2 . As a result, DiNA and NA combinations with optimal dilation values can potentially increase receptive field exponentially to k .",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   },
+   {
+    "text": "The authors explicitly note that this exponential growth contrasts with the linear growth of conventional neighborhoods.",
+    "sources": [
+     1
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "unsupported",
+      "lexical": 0.333,
+      "semantic": 0.624,
+      "evidence": "Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "unsupported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     3
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     4
+    ]
+   },
+   {
+    "claim": 2,
+    "sources": [
+     1
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 3,
+   "claims_supported": 2,
+   "claims_partial": 0,
+   "claims_unsupported": 1,
+   "citations": 3,
+   "supported": 2,
+   "partial": 0,
+   "unsupported": 1,
+   "invalid": 0,
+   "uncited_sentences": 2,
+   "score": 0.667,
+   "declined": false,
+   "verdict": "mostly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 28,
+  "generation_ms": 1952,
+  "verification_ms": 1140,
+  "total_ms": 3121
+ },
+ "hits": [
+  {
+   "text": "In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention. In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention. Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost. To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin. Our main contributions can be summarized as follows: • Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden. DiNA does so while maintaining the symmetry in neighborhoods introduced in NA. It can also adapt to larger resolutions without expanding to larger window sizes.",
+   "meta": {
+    "arxiv_id": "2209.15001v3",
+    "sentences_json": "[\"In other words, the optimal scenario is maintaining the linear complexity, while preserving the global receptive field and the ability to model long-range inter-dependencies of self attention.\", \"In this paper, we aim to answer this question and improve hierarchical transformers by extending a simple local attention mechanism, Neighborhood Attention, to Dilated Neighborhood Attention (DiNA): a flexible and powerful sparse global attention.\", \"Dilating neighborhoods in NA into larger sparse regions has multiple advantages: 1. it captures more global context, 2. allows the receptive field to grow exponentially, as opposed to linearly [50] , and 3. comes at no additional computational cost.\", \"To demonstrate the effectiveness of DiNA, we propose Dilated Neighborhood Attention Transformer (DiNAT), which not only improves the existing NAT model in terms of downstream performance, it manages to outperform strong modern CNN baselines, such as ConvNeXt [30] , in downstream tasks with a noticeable margin.\", \"Our main contributions can be summarized as follows:\", \"• Introducing DiNA, a simple and powerful sparse global attention pattern, which allows receptive field to grow exponentially and captures longer-range context without any additional computational burden.\", \"DiNA does so while maintaining the symmetry in neighborhoods introduced in NA.\", \"It can also adapt to larger resolutions without expanding to larger window sizes.\"]",
+    "section_type": "introduction",
+    "section_title": "Introduction",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "published": "2022-09-29",
+    "section_type_inherited": false,
+    "n_words": 206,
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.7991528511047363,
+   "via": "semantic"
+  },
+  {
+   "text": "Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local). All else being equal, local and global attention perform similarly. Each though local attention does not see all the history at once, it can build up a larger receptive field across layers. This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory.",
+   "meta": {
+    "arxiv_id": "1809.04281v3",
+    "sentences_json": "[\"Table 3 show that relative attention (global or local) outperforms regular self-attention (global or local).\", \"All else being equal, local and global attention perform similarly.\", \"Each though local attention does not see all the history at once, it can build up a larger receptive field across layers.\", \"This can be an advantage in the future for training on much longer sequences, as local attention requires much less memory.\"]",
+    "published": "2018-09-12",
+    "domain": "efficient_attention",
+    "section_type": "results",
+    "section_title": "Untitled",
+    "n_words": 68,
+    "section_type_inherited": true,
+    "paper_title": "Music Transformer"
+   },
+   "similarity": 0.7969867587089539,
+   "via": "semantic"
+  },
+  {
+   "text": "NAT achieves superior results in image classification compared to Swin, and performs competitively on downstream tasks. While local attention based models are able to perform well across different vision tasks due to its preservation of locality and efficiency, they fall short of capturing global context like self attention, which is also crucial to vision. Additionally, localized attention mechanisms utilize a smaller and slowly growing receptive field, similar to that of convolutions, compared to the full-sized receptive field in self attention. Besides self attention, several works also explored global receptive fields in vision, including but not limited to Non-local Neural Networks [45] . However, operations with unrestricted global receptive field usually suffer from high computational complexities compared to restricted ones, which can be local, or sparse.",
+   "meta": {
+    "published": "2022-09-29",
+    "arxiv_id": "2209.15001v3",
+    "domain": "efficient_attention",
+    "sentences_json": "[\"NAT achieves superior results in image classification compared to Swin, and performs competitively on downstream tasks.\", \"While local attention based models are able to perform well across different vision tasks due to its preservation of locality and efficiency, they fall short of capturing global context like self attention, which is also crucial to vision.\", \"Additionally, localized attention mechanisms utilize a smaller and slowly growing receptive field, similar to that of convolutions, compared to the full-sized receptive field in self attention.\", \"Besides self attention, several works also explored global receptive fields in vision, including but not limited to Non-local Neural Networks [45] .\", \"However, operations with unrestricted global receptive field usually suffer from high computational complexities compared to restricted ones, which can be local, or sparse.\"]",
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_title": "Local Attention",
+    "section_type": "method",
+    "section_type_inherited": false,
+    "n_words": 125
+   },
+   "similarity": 0.7940376996994019,
+   "via": "semantic"
+  },
+  {
+   "text": "Regardless of dilation, the first layer always yields a receptive field of size k. Given large enough dilation values, the preceding DiNA layer will yield a k-sized receptive field for each of the k in the DiNA layer, yielding a receptive field of size k 2 . As a result, DiNA and NA combinations with optimal dilation values can potentially increase receptive field exponentially to k . This comes with no surprise, as dilated convolutions have also been known for having an exponentially-growing receptive field size when using exponentially growing dilation values [50] . An illustration of the increased receptive field size is also presented in Fig. 5 .",
+   "meta": {
+    "section_type": "method",
+    "published": "2022-09-29",
+    "domain": "efficient_attention",
+    "section_type_inherited": true,
+    "arxiv_id": "2209.15001v3",
+    "n_words": 109,
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "section_title": "DiNAT Block",
+    "sentences_json": "[\"Regardless of dilation, the first layer always yields a receptive field of size k.\", \"Given large enough dilation values, the preceding DiNA layer will yield a k-sized receptive field for each of the k in the DiNA layer, yielding a receptive field of size k 2 .\", \"As a result, DiNA and NA combinations with optimal dilation values can potentially increase receptive field exponentially to k .\", \"This comes with no surprise, as dilated convolutions have also been known for having an exponentially-growing receptive field size when using exponentially growing dilation values [50] .\", \"An illustration of the increased receptive field size is also presented in Fig. 5 .\"]"
+   },
+   "similarity": 0.7782756090164185,
+   "via": "semantic"
+  },
+  {
+   "text": "Even though such non-local and sparse restrictions of self attention have shown to be promising, they are not well-studied in the scope of hierarchical vision transformers. To expand the local receptive fields, and re-introduce global context into hierarchical vision transformers, we introduce Dilated Neighborhood Attention (DiNA), an extension of NA that spans neighborhoods over longer ranges by increasing the step size, while maintaining the overall attention span. DiNA can serve as a sparse and global operation and works most effectively when used in conjunction with NA as a local-only operation. We present an illustration of receptive fields in Fig. 4 , where we compare fully connected layers to convolutions and dilated convolutions, and similarly self attention, to NA and DiNA. We provide empirical evidence for this claim with our hierarchical vision transformer, Dilated Neighborhood Attention Transformer (DiNAT).",
+   "meta": {
+    "paper_title": "Dilated Neighborhood Attention Transformer",
+    "published": "2022-09-29",
+    "section_type_inherited": false,
+    "arxiv_id": "2209.15001v3",
+    "domain": "efficient_attention",
+    "section_title": "Sparse Attention",
+    "n_words": 137,
+    "sentences_json": "[\"Even though such non-local and sparse restrictions of self attention have shown to be promising, they are not well-studied in the scope of hierarchical vision transformers.\", \"To expand the local receptive fields, and re-introduce global context into hierarchical vision transformers, we introduce Dilated Neighborhood Attention (DiNA), an extension of NA that spans neighborhoods over longer ranges by increasing the step size, while maintaining the overall attention span.\", \"DiNA can serve as a sparse and global operation and works most effectively when used in conjunction with NA as a local-only operation.\", \"We present an illustration of receptive fields in Fig. 4 , where we compare fully connected layers to convolutions and dilated convolutions, and similarly self attention, to NA and DiNA.\", \"We provide empirical evidence for this claim with our hierarchical vision transformer, Dilated Neighborhood Attention Transformer (DiNAT).\"]",
+    "section_type": "method"
+   },
+   "similarity": 0.7773913145065308,
+   "via": "semantic"
+  }
+ ]
+}

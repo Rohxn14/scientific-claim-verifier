@@ -1,0 +1,35 @@
+query,category,set,expected_rank,n_sources,n_graph_sources,graph_sources_cited,n_claims,claims_supported,claims_partial,claims_unsupported,citations,invalid,uncited_sentences,support_score,verdict,declined,provider,model,retrieval_ms,generation_ms,verification_ms,total_ms
+how does FlashAttention reduce memory usage,factual,harness,2,8,3,0,5,4,1,0,5,0,4,0.9,well_supported,False,groq,openai/gpt-oss-120b,13049,3425,1774,18250
+how does dilated neighborhood attention differ from standard attention,factual,harness,1,5,0,0,5,2,3,0,5,0,5,0.7,mostly_supported,False,groq,openai/gpt-oss-120b,31,1961,1167,3160
+what dataset or benchmark does DiNAT evaluate image classification on,factual,harness,1,5,0,0,1,1,0,0,1,0,0,1.0,well_supported,False,groq,openai/gpt-oss-120b,32,1020,159,1212
+what GPU hardware was used to benchmark FlashAttention-2's training throughput,factual,harness,1,8,3,0,2,2,0,0,3,0,2,1.0,well_supported,False,groq,openai/gpt-oss-120b,43,1110,736,1890
+what is the time complexity of standard self-attention,factual,harness,,8,3,0,2,1,0,1,3,0,3,0.5,weakly_supported,False,groq,openai/gpt-oss-120b,40,1361,1301,2702
+how does AlayaDB measure serving latency,factual,harness,1,7,2,0,1,1,0,0,1,0,1,1.0,well_supported,False,groq,openai/gpt-oss-120b,93,965,445,1505
+what is the SLO target used in AlayaDB's evaluation,factual,harness,1,7,2,0,2,1,1,0,2,0,2,0.75,mostly_supported,False,groq,openai/gpt-oss-120b,48,1095,520,1665
+how do random features approximate the exponential kernel in linear attention,factual,harness,1,5,0,0,1,0,1,0,2,0,3,0.5,weakly_supported,False,groq,openai/gpt-oss-120b,26,2037,1339,3403
+how do linear attention methods approximate softmax attention,comparison,harness,,5,0,0,2,1,1,0,2,0,5,0.75,mostly_supported,False,groq,openai/gpt-oss-120b,25,2146,823,2995
+what are the tradeoffs of sparse attention patterns,comparison,harness,,5,0,0,16,11,5,0,17,0,5,0.844,mostly_supported,False,groq,openai/gpt-oss-120b,22,2781,3528,6333
+how does FlashAttention-2 improve on FlashAttention,comparison,harness,,8,3,0,6,3,2,1,8,0,1,0.667,mostly_supported,False,groq,openai/gpt-oss-120b,30,1976,830,2837
+how does sparse attention compare to linear attention as an efficiency strategy,comparison,harness,,5,0,0,0,0,0,0,0,0,2,,no_citations,False,groq,openai/gpt-oss-120b,26,944,0,972
+what evaluation benchmarks are commonly used to compare efficient attention methods,comparison,harness,,8,3,1,3,3,0,0,3,0,1,1.0,well_supported,False,groq,openai/gpt-oss-120b,37,1564,1074,2677
+how does dilated neighborhood attention's receptive field growth compare to standard local attention,comparison,harness,1,5,0,0,3,2,0,1,3,0,2,0.667,mostly_supported,False,groq,openai/gpt-oss-120b,28,1952,1140,3121
+does AlayaDB report different performance numbers than the original FlashAttention paper,contradiction,harness,,8,3,2,2,1,1,0,3,0,3,0.75,mostly_supported,False,groq,openai/gpt-oss-120b,34,1642,986,2663
+does AlayaDB's serving performance compare to the training throughput numbers reported for FlashAttention-2,contradiction,harness,,8,3,0,2,2,0,0,3,0,4,1.0,not_covered,True,groq,openai/gpt-oss-120b,121,2340,1190,3652
+do FlashAttention-2's own reported TFLOPs numbers stay consistent across the paper,contradiction,harness,1,7,2,0,2,2,0,0,2,0,2,1.0,well_supported,False,groq,openai/gpt-oss-120b,50,1549,709,2309
+how does SystolicAttention's hardware approach relate to the original FlashAttention algorithm,contradiction,harness,,6,1,0,11,9,2,0,14,0,4,0.909,well_supported,False,groq,openai/gpt-oss-120b,28,2733,1565,4327
+what is the current state-of-the-art accuracy on ImageNet as of 2026,out_of_scope,harness,,5,0,0,1,1,0,0,1,0,3,1.0,not_covered,True,groq,openai/gpt-oss-120b,27,1505,346,1878
+how much does it cost to train a GPT-4 scale model,out_of_scope,harness,,8,3,0,1,1,0,0,2,0,2,1.0,not_covered,True,groq,openai/gpt-oss-120b,126,1317,1374,2818
+how does INT-FlashAttention quantize attention to INT8,factual,extra,1,5,0,0,6,4,2,0,7,0,0,0.833,mostly_supported,False,groq,openai/gpt-oss-120b,62,1667,2138,3868
+how does FLASH-D hide the softmax division inside FlashAttention,factual,extra,1,8,3,0,5,5,0,0,5,0,1,1.0,well_supported,False,groq,openai/gpt-oss-120b,70,1907,1441,3419
+how does the Routing Transformer decide which keys each query attends to,factual,extra,1,5,0,0,1,0,1,0,1,0,3,0.5,weakly_supported,False,groq,openai/gpt-oss-120b,87,1268,302,1657
+how does Block Sparse Flash Attention skip computation,factual,extra,1,8,3,0,6,5,1,0,6,0,3,0.917,well_supported,False,groq,openai/gpt-oss-120b,47,2120,975,3144
+how can linear attention be written as a recurrent neural network,factual,extra,1,5,0,0,4,2,1,1,5,0,1,0.625,mostly_supported,False,groq,openai/gpt-oss-120b,31,2069,954,3055
+how does gated sparse attention improve training stability,factual,extra,1,5,0,0,6,5,1,0,7,0,1,0.917,well_supported,False,groq,openai/gpt-oss-120b,26,2086,2444,4557
+how does ContextPipe assemble context for long-horizon agents,factual,extra,1,6,1,0,11,10,1,0,16,0,7,0.955,well_supported,False,groq,openai/gpt-oss-120b,47,3861,2280,6189
+how does Focus-dLLM accelerate long-context diffusion LLM inference,factual,extra,1,5,0,0,6,5,1,0,8,0,3,0.917,well_supported,False,groq,openai/gpt-oss-120b,37,1694,2499,4231
+what learning rate schedule did the original BERT paper use for pre-training,out_of_scope,extra,,8,3,0,0,0,0,0,0,0,3,,not_covered,True,groq,openai/gpt-oss-120b,41,2327,0,2369
+how is the reward model trained in InstructGPT,out_of_scope,extra,,5,0,0,1,0,0,1,5,0,1,0.0,not_covered,True,groq,openai/gpt-oss-120b,39,1337,1353,2730
+how many GPU hours did DeepSeek-V3 pre-training take,out_of_scope,extra,,8,3,1,1,1,0,0,1,0,2,1.0,not_covered,True,groq,openai/gpt-oss-120b,40,1497,603,2140
+what GDT score did AlphaFold 2 reach at CASP14,out_of_scope,extra,,8,3,0,0,0,0,0,0,0,3,,not_covered,True,groq,openai/gpt-oss-120b,36,810,0,847
+what is the API price per million tokens of GPT-4o,out_of_scope,extra,,7,2,0,0,0,0,0,0,0,3,,no_citations,False,groq,openai/gpt-oss-120b,29,830,0,860
+who won the 2026 FIFA World Cup,out_of_scope,extra,,5,0,0,0,0,0,0,0,0,2,,not_covered,True,groq,openai/gpt-oss-120b,29,1296,0,1326

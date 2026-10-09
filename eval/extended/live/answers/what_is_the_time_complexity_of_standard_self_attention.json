@@ -1,0 +1,334 @@
+{
+ "query": "what is the time complexity of standard self-attention",
+ "expected_arxiv_id": "",
+ "category": "factual",
+ "set": "harness",
+ "answer": "The time (and space) cost of the standard self‑attention operation grows **quadratically** with the length $n$ of the input sequence. For each position $i\\le n$ the attention weights are computed over the whole preceding context, leading to a total of  \n\n\\[\n\\sum_{i=1}^{n} i = \\frac{n(n-1)}{2}= \\Theta(n^{2})\n\\]\n\noperations [Source 2]. This quadratic scaling is noted generally for self‑attention in Transformers [Source 1] and is reflected in the memory‑access pattern of the standard implementation, which also incurs $\\,\\Theta(n^{2})\\,$ HBM accesses [Source 5].  \n\nHence, the time complexity of standard self‑attention is **$O(n^{2})$**.",
+ "provider": "groq",
+ "model": "openai/gpt-oss-120b",
+ "search_query": "what is the time complexity of standard self-attention",
+ "sources": [
+  {
+   "index": 1,
+   "paper_id": "1809.04281v3",
+   "paper_title": "Music Transformer",
+   "year": "2018",
+   "section": "RELATED WORK",
+   "section_type": "related_work",
+   "similarity": 0.7775,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Self-attention can be seen as a generalization of self-similarity; the former maps the input through different projections to queries and keys, and the latter uses the same projection for both. Dot-product self-attention is the mechanism at the core of the Transformer, and several recent works have focused on applying and improving it for image generation, speech, and summarization (Parmar et al., 2018; Povey et al., 2018; Liu et al., 2018) . A key challenge encountered by each of these efforts is scaling attention computationally to long sequences. This is because the time and space complexity of self-attention grows quadratically in the sequence length. For relative self-attention (Shaw et al., 2018) this is particularly problematic as the space complexity also grows linearly in the dimension, or depth, of the per-position representations.",
+   "url": "https://arxiv.org/abs/1809.04281v3"
+  },
+  {
+   "index": 2,
+   "paper_id": "2003.05997v5",
+   "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+   "year": "2020",
+   "section": "Introduction",
+   "section_type": "introduction",
+   "similarity": 0.755,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Self-attention is commonly used in autoregressive generative models. These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones. At every time step, self-attentive generative models can directly focus on any part of the previous context. In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step. This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence. Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2. This makes it difficult to scale attention based models to modeling long sequences. However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation. Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths. Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5 [cs. LG] 24 Oct 2020 dependencies, such as local or strided attention.",
+   "url": "https://arxiv.org/abs/2003.05997v5"
+  },
+  {
+   "index": 3,
+   "paper_id": "2209.15001v3",
+   "paper_title": "Dilated Neighborhood Attention Transformer",
+   "year": "2022",
+   "section": "Self Attention",
+   "section_type": "method",
+   "similarity": 0.7515,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Follow up works extended the study with minimal changes to training techniques [38] , architectural changes [39] , and applications to small data regimes [16] . Due to their quadratic time complexity, many works attempt to restrict the attention span in order to reduce compute, specifically when scaling to larger inputs, such as long documents in NLP [1] , and large resolutions in vision [29] . Restricting self attention can be done in different patterns, one of which is localization.",
+   "url": "https://arxiv.org/abs/2209.15001v3"
+  },
+  {
+   "index": 4,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "C Proofs",
+   "section_type": "results",
+   "similarity": 0.7423,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "In the regime of = Θ( ), this results in the number of HBM accesses: However, the input to attention (matrices Q, K, V) and the output O have size and they start out being in HBM, so if the algorithm computes exact attention it must incur at least Ω( ) HBM accesses. This is a contradiction. Proof of Theorem 5. The IO complexity of the attention backward is very similar to the IO complexity of the attention forward (Theorem 2). Here we provide a sketch of the proof. We first analyze the IO complexity of standard attention backward pass. The inputs Q, K, V, dO ∈ R × reside in HBM, and the at the end of the algorithm the outputs dQ, dK, dV ∈ R × are written to HBM. At each step of the standard attention backward pass, one needs to load inputs of size or 2 from HBM, and needs to write the outputs of size 2 or to HBM. This incurs Θ( + 2 ) HBM accesses. We now analyze the IO complexity of FlashAttention backward pass. Similar to Theorem 2, we see that each element of K and V is loaded from HBM once. Each element of dK and dV is only written to HBM once.",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 5,
+   "paper_id": "2205.14135v2",
+   "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+   "year": "2022",
+   "section": "Standard Attention Implementation",
+   "section_type": "method",
+   "similarity": 0.7359,
+   "via": "semantic",
+   "linked_from": null,
+   "text": "Given input sequences Q, K, V ∈ R × where is the sequence length and is the head dimension, we want to compute the attention output O ∈ R × : where softmax is applied row-wise. Standard attention implementations materialize the matrices S and P to HBM, which takes ( 2 ) memory. Often (e.g., for GPT2, = 1024 and = 64). We describe the standard attention implementation in Algorithm 0. As some or most of the operations are memory-bound (e.g., softmax), the large number of memory accesses translates to slow wall-clock time. This problem is exacerbated by other elementwise operations applied to the attention matrix, such as masking applied to S or dropout applied to P. As a result, there have been many attempts to fuse several elementwise operations, such as fusing masking with softmax [77] . In Section 3.2, we will show that the standard attention implementation performs HBM accesses quadratic in the sequence length . We also compare the number of FLOPs and number of HBM accesses of standard attention and of our method (FlashAttention).",
+   "url": "https://arxiv.org/abs/2205.14135v2"
+  },
+  {
+   "index": 6,
+   "paper_id": "2504.10326v1",
+   "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+   "year": "2025",
+   "section": "From Attention to DIPR.",
+   "section_type": "method",
+   "similarity": 0.7077,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Thus, it explicitly considers the dynamic nature of sparse attention; (ii) the input parameter of DIPR query directly considers the critical tokens by the attention score of every key, however, the top- query utilizes the absolute rank of every key's attention score; and (iii) the core computation of DIPR is the inner product • , which does not introduce extra overhead and the optimizations for inner product-based top- query can be directly adopted. We demonstrate the effectiveness of our novel DIRP query by the experiments in Figures 5 and 6 . In particular, the blue curve in Figure 5 shows the number of retrieved critical tokens of DIPR query by setting to 110, which is very close to the number of tokens required to achieve 90% recovery ratio. In Figure 6 , we present the obtained results by varying and in DIPR query and top- query for Passage R. and LCC tasks, respectively. It confirms the DIPR query achieves higher accuracy with fewer retrieved tokens when compared with top- query. 6.1.3 DIPR Query Processing. The top- query processing algorithms efficiently return a sized- set of critical tokens for every query vector by exploiting widely used graph indices on key vectors, e.g., HNSW [48] , NSG [37] and RoarGraph [28] .",
+   "url": "https://arxiv.org/abs/2504.10326v1"
+  },
+  {
+   "index": 7,
+   "paper_id": "2608.18656v1",
+   "paper_title": "FlashAttention for Scalable Vector Architectures",
+   "year": "2026",
+   "section": "FlashAttention-V using gem5",
+   "section_type": "method",
+   "similarity": 0.6879,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "For a decode stage, we observe a ∼1.5× speedup with 8192-bit vectors, while only a 7% improvement is seen with 512-bit vectors. For 512-bit vector lengths (VL<=D), algorithmic implementation uses the same unrolling factor in both FP32 and FP16, as no packing across multiple heads is required. FP16 enables performing arithmetic operations on twice the number of elements, but the number of attention scores computed remains unchanged. Consequently, the benefit of FP16 is limited by the softmax bottleneck rather than the arithmetic throughput. Self-attention vs FlashAttention-V. We next evaluate the performance of FlashAttention-V over self-attention, after optimizing self-attention to utilize longer vector lengths, with FP16. We validate that our optimization renders self-attention scalable to longer vectors, yielding a speedup of 1.6× when scaling the vector length from 512 bits to 8192 bits. Our results show that FlashAttention-V gives a speedup of 1.3× and ∼2.4× over the optimized self-attention algorithm with 512-bit and 8192-bit vector lengths, respectively, in the prefill stage, confirming the advantages of FlashAttention-V across vector lengths.",
+   "url": "https://arxiv.org/abs/2608.18656v1"
+  },
+  {
+   "index": 8,
+   "paper_id": "2609.00749v1",
+   "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "year": "2026",
+   "section": "The Heuristic End-to-End",
+   "section_type": "introduction",
+   "similarity": 0.627,
+   "via": "citation",
+   "linked_from": "2205.14135v2",
+   "text": "Algorithm 1 describes how the Optimizer works, where the sort costs O(n log n) and compaction, marking, and serialization O(n); with n ≤ 30 sections and a few dozen messages the optimizer is negligible beside one LLM call. The optimization should be a total, deterministic, fullyaudited function of its inputs, resulting in three properties formalized below.",
+   "url": "https://arxiv.org/abs/2609.00749v1"
+  }
+ ],
+ "verification": {
+  "claims": [
+   {
+    "text": "operations.",
+    "sources": [
+     2
+    ],
+    "citations": [
+     {
+      "source": 2,
+      "status": "unsupported",
+      "lexical": 0.0,
+      "semantic": 0.57,
+      "evidence": "Self-attention is commonly used in autoregressive generative models.",
+      "missing_numbers": []
+     }
+    ],
+    "status": "unsupported"
+   },
+   {
+    "text": "This quadratic scaling is noted generally for self‑attention in Transformers and is reflected in the memory‑access pattern of the standard implementation, which also incurs $\\,\\Theta(n^{2})\\,$ HBM accesses.",
+    "sources": [
+     1,
+     5
+    ],
+    "citations": [
+     {
+      "source": 1,
+      "status": "supported",
+      "lexical": 0.571,
+      "semantic": 0.822,
+      "evidence": "A key challenge encountered by each of these efforts is scaling attention computationally to long sequences. This is because the time and space complexity of self-attention grows quadratically in the sequence length.",
+      "missing_numbers": []
+     },
+     {
+      "source": 5,
+      "status": "supported",
+      "lexical": 0.471,
+      "semantic": 0.826,
+      "evidence": "In Section 3.2, we will show that the standard attention implementation performs HBM accesses quadratic in the sequence length . We also compare the number of FLOPs and number of HBM accesses of standard attention and of our method (FlashAttention).",
+      "missing_numbers": []
+     }
+    ],
+    "status": "supported"
+   }
+  ],
+  "markers": [
+   {
+    "claim": 0,
+    "sources": [
+     2
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     1
+    ]
+   },
+   {
+    "claim": 1,
+    "sources": [
+     5
+    ]
+   }
+  ],
+  "summary": {
+   "claims": 2,
+   "claims_supported": 1,
+   "claims_partial": 0,
+   "claims_unsupported": 1,
+   "citations": 3,
+   "supported": 2,
+   "partial": 0,
+   "unsupported": 1,
+   "invalid": 0,
+   "uncited_sentences": 3,
+   "score": 0.5,
+   "declined": false,
+   "verdict": "weakly_supported"
+  }
+ },
+ "timings": {
+  "retrieval_ms": 40,
+  "generation_ms": 1361,
+  "verification_ms": 1301,
+  "total_ms": 2702
+ },
+ "hits": [
+  {
+   "text": "Self-attention can be seen as a generalization of self-similarity; the former maps the input through different projections to queries and keys, and the latter uses the same projection for both. Dot-product self-attention is the mechanism at the core of the Transformer, and several recent works have focused on applying and improving it for image generation, speech, and summarization (Parmar et al., 2018; Povey et al., 2018; Liu et al., 2018) . A key challenge encountered by each of these efforts is scaling attention computationally to long sequences. This is because the time and space complexity of self-attention grows quadratically in the sequence length. For relative self-attention (Shaw et al., 2018) this is particularly problematic as the space complexity also grows linearly in the dimension, or depth, of the per-position representations.",
+   "meta": {
+    "section_type_inherited": false,
+    "n_words": 130,
+    "section_type": "related_work",
+    "sentences_json": "[\"Self-attention can be seen as a generalization of self-similarity; the former maps the input through different projections to queries and keys, and the latter uses the same projection for both.\", \"Dot-product self-attention is the mechanism at the core of the Transformer, and several recent works have focused on applying and improving it for image generation, speech, and summarization (Parmar et al., 2018; Povey et al., 2018; Liu et al., 2018) .\", \"A key challenge encountered by each of these efforts is scaling attention computationally to long sequences.\", \"This is because the time and space complexity of self-attention grows quadratically in the sequence length.\", \"For relative self-attention (Shaw et al., 2018) this is particularly problematic as the space complexity also grows linearly in the dimension, or depth, of the per-position representations.\"]",
+    "domain": "efficient_attention",
+    "paper_title": "Music Transformer",
+    "section_title": "RELATED WORK",
+    "published": "2018-09-12",
+    "arxiv_id": "1809.04281v3"
+   },
+   "similarity": 0.7775094509124756,
+   "via": "semantic"
+  },
+  {
+   "text": "Self-attention is commonly used in autoregressive generative models. These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones. At every time step, self-attentive generative models can directly focus on any part of the previous context. In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step. This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence. Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2. This makes it difficult to scale attention based models to modeling long sequences. However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation. Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths. Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5 [cs. LG] 24 Oct 2020 dependencies, such as local or strided attention.",
+   "meta": {
+    "arxiv_id": "2003.05997v5",
+    "section_type": "introduction",
+    "n_words": 207,
+    "domain": "efficient_attention",
+    "section_title": "Introduction",
+    "published": "2020-03-12",
+    "paper_title": "Efficient Content-Based Sparse Attention with Routing Transformers",
+    "section_type_inherited": false,
+    "sentences_json": "[\"Self-attention is commonly used in autoregressive generative models.\", \"These models generate observations step-by-step, modeling the probability of the next symbol given the previously generated ones.\", \"At every time step, self-attentive generative models can directly focus on any part of the previous context.\", \"In contrast, recurrent neural networks (RNNs) and convolutional neural networks (CNNs) have direct interactions with only a local neighborhood of context around the current time step.\", \"This advantage however comes at a price: unlike recurrent networks or convolution networks, the time and space complexity of self-attention is quadratic in n, the length of the sequence.\", \"Specifically, for every position i ≤ n, self-attention computes weights for its whole context of length i, which induces a complexity of i≤n i = n(n -1)/2.\", \"This makes it difficult to scale attention based models to modeling long sequences.\", \"However, long sequences are the norm in many domains, including music, image, speech, video generation and document level machine translation.\", \"Therefore, an important research direction is to investigate sparse and memory efficient forms of attention in order to scale to tasks with large sequence lengths.\", \"Previous work has proposed data independent or fixed sparsity patterns bounding temporal arXiv:2003.05997v5\", \"[cs. LG] 24 Oct 2020 dependencies, such as local or strided attention.\"]"
+   },
+   "similarity": 0.7550110816955566,
+   "via": "semantic"
+  },
+  {
+   "text": "Follow up works extended the study with minimal changes to training techniques [38] , architectural changes [39] , and applications to small data regimes [16] . Due to their quadratic time complexity, many works attempt to restrict the attention span in order to reduce compute, specifically when scaling to larger inputs, such as long documents in NLP [1] , and large resolutions in vision [29] . Restricting self attention can be done in different patterns, one of which is localization.",
+   "meta": {
+    "sentences_json": "[\"Follow up works extended the study with minimal changes to training techniques [38] , architectural changes [39] , and applications to small data regimes [16] .\", \"Due to their quadratic time complexity, many works attempt to restrict the attention span in order to reduce compute, specifically when scaling to larger inputs, such as long documents in NLP [1] , and large resolutions in vision [29] .\", \"Restricting self attention can be done in different patterns, one of which is localization.\"]",
+    "domain": "efficient_attention",
+    "section_type": "method",
+    "published": "2022-09-29",
+    "n_words": 80,
+    "section_type_inherited": false,
+    "section_title": "Self Attention",
+    "arxiv_id": "2209.15001v3",
+    "paper_title": "Dilated Neighborhood Attention Transformer"
+   },
+   "similarity": 0.7515430450439453,
+   "via": "semantic"
+  },
+  {
+   "text": "In the regime of = Θ( ), this results in the number of HBM accesses: However, the input to attention (matrices Q, K, V) and the output O have size and they start out being in HBM, so if the algorithm computes exact attention it must incur at least Ω( ) HBM accesses. This is a contradiction. Proof of Theorem 5. The IO complexity of the attention backward is very similar to the IO complexity of the attention forward (Theorem 2). Here we provide a sketch of the proof. We first analyze the IO complexity of standard attention backward pass. The inputs Q, K, V, dO ∈ R × reside in HBM, and the at the end of the algorithm the outputs dQ, dK, dV ∈ R × are written to HBM. At each step of the standard attention backward pass, one needs to load inputs of size or 2 from HBM, and needs to write the outputs of size 2 or to HBM. This incurs Θ( + 2 ) HBM accesses. We now analyze the IO complexity of FlashAttention backward pass. Similar to Theorem 2, we see that each element of K and V is loaded from HBM once. Each element of dK and dV is only written to HBM once.",
+   "meta": {
+    "sentences_json": "[\"In the regime of = Θ( ), this results in the number of HBM accesses:\", \"However, the input to attention (matrices Q, K, V) and the output O have size and they start out being in HBM, so if the algorithm computes exact attention it must incur at least Ω( ) HBM accesses.\", \"This is a contradiction.\", \"Proof of Theorem 5.\", \"The IO complexity of the attention backward is very similar to the IO complexity of the attention forward (Theorem 2).\", \"Here we provide a sketch of the proof.\", \"We first analyze the IO complexity of standard attention backward pass.\", \"The inputs Q, K, V, dO ∈ R × reside in HBM, and the at the end of the algorithm the outputs dQ, dK, dV ∈ R × are written to HBM.\", \"At each step of the standard attention backward pass, one needs to load inputs of size or 2 from HBM, and needs to write the outputs of size 2 or to HBM.\", \"This incurs Θ( + 2 ) HBM accesses.\", \"We now analyze the IO complexity of FlashAttention backward pass.\", \"Similar to Theorem 2, we see that each element of K and V is loaded from HBM once.\", \"Each element of dK and dV is only written to HBM once.\"]",
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "section_title": "C Proofs",
+    "section_type_inherited": true,
+    "domain": "efficient_attention",
+    "arxiv_id": "2205.14135v2",
+    "n_words": 212,
+    "section_type": "results",
+    "published": "2022-05-27"
+   },
+   "similarity": 0.7422722578048706,
+   "via": "semantic"
+  },
+  {
+   "text": "Given input sequences Q, K, V ∈ R × where is the sequence length and is the head dimension, we want to compute the attention output O ∈ R × : where softmax is applied row-wise. Standard attention implementations materialize the matrices S and P to HBM, which takes ( 2 ) memory. Often (e.g., for GPT2, = 1024 and = 64). We describe the standard attention implementation in Algorithm 0. As some or most of the operations are memory-bound (e.g., softmax), the large number of memory accesses translates to slow wall-clock time. This problem is exacerbated by other elementwise operations applied to the attention matrix, such as masking applied to S or dropout applied to P. As a result, there have been many attempts to fuse several elementwise operations, such as fusing masking with softmax [77] . In Section 3.2, we will show that the standard attention implementation performs HBM accesses quadratic in the sequence length . We also compare the number of FLOPs and number of HBM accesses of standard attention and of our method (FlashAttention).",
+   "meta": {
+    "sentences_json": "[\"Given input sequences Q, K, V ∈ R × where is the sequence length and is the head dimension, we want to compute the attention output O ∈ R × :\", \"where softmax is applied row-wise.\", \"Standard attention implementations materialize the matrices S and P to HBM, which takes ( 2 ) memory.\", \"Often (e.g., for GPT2, = 1024 and = 64).\", \"We describe the standard attention implementation in Algorithm 0. As some or most of the operations are memory-bound (e.g., softmax), the large number of memory accesses translates to slow wall-clock time.\", \"This problem is exacerbated by other elementwise operations applied to the attention matrix, such as masking applied to S or dropout applied to P. As a result, there have been many attempts to fuse several elementwise operations, such as fusing masking with softmax [77] .\", \"In Section 3.2, we will show that the standard attention implementation performs HBM accesses quadratic in the sequence length .\", \"We also compare the number of FLOPs and number of HBM accesses of standard attention and of our method (FlashAttention).\"]",
+    "n_words": 178,
+    "paper_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+    "arxiv_id": "2205.14135v2",
+    "section_title": "Standard Attention Implementation",
+    "section_type": "method",
+    "domain": "efficient_attention",
+    "published": "2022-05-27",
+    "section_type_inherited": false
+   },
+   "similarity": 0.7358722686767578,
+   "via": "semantic"
+  },
+  {
+   "text": "Thus, it explicitly considers the dynamic nature of sparse attention; (ii) the input parameter of DIPR query directly considers the critical tokens by the attention score of every key, however, the top- query utilizes the absolute rank of every key's attention score; and (iii) the core computation of DIPR is the inner product • , which does not introduce extra overhead and the optimizations for inner product-based top- query can be directly adopted. We demonstrate the effectiveness of our novel DIRP query by the experiments in Figures 5 and 6 . In particular, the blue curve in Figure 5 shows the number of retrieved critical tokens of DIPR query by setting to 110, which is very close to the number of tokens required to achieve 90% recovery ratio. In Figure 6 , we present the obtained results by varying and in DIPR query and top- query for Passage R. and LCC tasks, respectively. It confirms the DIPR query achieves higher accuracy with fewer retrieved tokens when compared with top- query. 6.1.3 DIPR Query Processing. The top- query processing algorithms efficiently return a sized- set of critical tokens for every query vector by exploiting widely used graph indices on key vectors, e.g., HNSW [48] , NSG [37] and RoarGraph [28] .",
+   "meta": {
+    "section_title": "From Attention to DIPR.",
+    "section_type_inherited": false,
+    "n_words": 210,
+    "published": "2025-04-14",
+    "domain": "efficient_attention",
+    "arxiv_id": "2504.10326v1",
+    "paper_title": "AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference",
+    "sentences_json": "[\"Thus, it explicitly considers the dynamic nature of sparse attention; (ii) the input parameter of DIPR query directly considers the critical tokens by the attention score of every key, however, the top- query utilizes the absolute rank of every key's attention score; and (iii) the core computation of DIPR is the inner product • , which does not introduce extra overhead and the optimizations for inner product-based top- query can be directly adopted.\", \"We demonstrate the effectiveness of our novel DIRP query by the experiments in Figures 5 and 6 .\", \"In particular, the blue curve in Figure 5 shows the number of retrieved critical tokens of DIPR query by setting to 110, which is very close to the number of tokens required to achieve 90% recovery ratio.\", \"In Figure 6 , we present the obtained results by varying and in DIPR query and top- query for Passage R. and LCC tasks, respectively.\", \"It confirms the DIPR query achieves higher accuracy with fewer retrieved tokens when compared with top- query.\", \"6.1.3\", \"DIPR Query Processing.\", \"The top- query processing algorithms efficiently return a sized- set of critical tokens for every query vector by exploiting widely used graph indices on key vectors, e.g., HNSW [48] , NSG [37] and RoarGraph [28] .\"]",
+    "section_type": "method"
+   },
+   "similarity": 0.7076908349990845,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "For a decode stage, we observe a ∼1.5× speedup with 8192-bit vectors, while only a 7% improvement is seen with 512-bit vectors. For 512-bit vector lengths (VL<=D), algorithmic implementation uses the same unrolling factor in both FP32 and FP16, as no packing across multiple heads is required. FP16 enables performing arithmetic operations on twice the number of elements, but the number of attention scores computed remains unchanged. Consequently, the benefit of FP16 is limited by the softmax bottleneck rather than the arithmetic throughput. Self-attention vs FlashAttention-V. We next evaluate the performance of FlashAttention-V over self-attention, after optimizing self-attention to utilize longer vector lengths, with FP16. We validate that our optimization renders self-attention scalable to longer vectors, yielding a speedup of 1.6× when scaling the vector length from 512 bits to 8192 bits. Our results show that FlashAttention-V gives a speedup of 1.3× and ∼2.4× over the optimized self-attention algorithm with 512-bit and 8192-bit vector lengths, respectively, in the prefill stage, confirming the advantages of FlashAttention-V across vector lengths.",
+   "meta": {
+    "arxiv_id": "2608.18656v1",
+    "published": "2026-08-19",
+    "sentences_json": "[\"For a decode stage, we observe a ∼1.5× speedup with 8192-bit vectors, while only a 7% improvement is seen with 512-bit vectors.\", \"For 512-bit vector lengths (VL<=D), algorithmic implementation uses the same unrolling factor in both FP32 and FP16, as no packing across multiple heads is required.\", \"FP16 enables performing arithmetic operations on twice the number of elements, but the number of attention scores computed remains unchanged.\", \"Consequently, the benefit of FP16 is limited by the softmax bottleneck rather than the arithmetic throughput.\", \"Self-attention vs FlashAttention-V.\", \"We next evaluate the performance of FlashAttention-V over self-attention, after optimizing self-attention to utilize longer vector lengths, with FP16.\", \"We validate that our optimization renders self-attention scalable to longer vectors, yielding a speedup of 1.6× when scaling the vector length from 512 bits to 8192 bits.\", \"Our results show that FlashAttention-V gives a speedup of 1.3× and ∼2.4× over the optimized self-attention algorithm with 512-bit and 8192-bit vector lengths, respectively, in the prefill stage, confirming the advantages of FlashAttention-V across vector lengths.\"]",
+    "n_words": 168,
+    "section_title": "FlashAttention-V using gem5",
+    "section_type_inherited": false,
+    "section_type": "method",
+    "paper_title": "FlashAttention for Scalable Vector Architectures",
+    "domain": "efficient_attention"
+   },
+   "similarity": 0.6879495978355408,
+   "via": "citation-link from 2205.14135v2"
+  },
+  {
+   "text": "Algorithm 1 describes how the Optimizer works, where the sort costs O(n log n) and compaction, marking, and serialization O(n); with n ≤ 30 sections and a few dozen messages the optimizer is negligible beside one LLM call. The optimization should be a total, deterministic, fullyaudited function of its inputs, resulting in three properties formalized below.",
+   "meta": {
+    "domain": "efficient_attention",
+    "n_words": 56,
+    "sentences_json": "[\"Algorithm 1 describes how the Optimizer works, where the sort costs O(n log n) and compaction, marking, and serialization O(n); with n ≤ 30 sections and a few dozen messages the optimizer is negligible beside one LLM call.\", \"The optimization should be a total, deterministic, fullyaudited function of its inputs, resulting in three properties formalized below.\"]",
+    "paper_title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+    "section_type_inherited": true,
+    "section_type": "introduction",
+    "published": "2026-09-01",
+    "section_title": "The Heuristic End-to-End",
+    "arxiv_id": "2609.00749v1"
+   },
+   "similarity": 0.6269983053207397,
+   "via": "citation-link from 2205.14135v2"
+  }
+ ]
+}
